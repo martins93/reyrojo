@@ -581,7 +581,7 @@ Public Class frm_Menu
 
    
 
-    Private Sub Button1_Click(sender As System.Object, e As System.EventArgs) Handles cmd_credito_exp.Click
+    Private Sub Button1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
 
     End Sub
 
