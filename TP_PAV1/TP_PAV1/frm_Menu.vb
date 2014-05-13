@@ -185,7 +185,7 @@ Public Class frm_Menu
         Select Case pestaña
             Case 0, 2
                 conexion._borrar(pedir_clave_numerica())
-            Case 1
+            Case 1 'PEDIR ID CREDITO
                 If Me.idSolicitante = -1 Then
                     id_solicitante = pedir_clave_numerica()
                 Else
