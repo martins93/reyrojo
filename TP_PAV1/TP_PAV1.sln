@@ -1,0 +1,20 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "TP_PAV1", "TP_PAV1\TP_PAV1.vbproj", "{E711FB39-A363-4E97-9A32-7AABEEC1BD45}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x86 = Debug|x86
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{E711FB39-A363-4E97-9A32-7AABEEC1BD45}.Debug|x86.ActiveCfg = Debug|x86
+		{E711FB39-A363-4E97-9A32-7AABEEC1BD45}.Debug|x86.Build.0 = Debug|x86
+		{E711FB39-A363-4E97-9A32-7AABEEC1BD45}.Release|x86.ActiveCfg = Release|x86
+		{E711FB39-A363-4E97-9A32-7AABEEC1BD45}.Release|x86.Build.0 = Release|x86
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

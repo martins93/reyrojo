@@ -1,0 +1,68 @@
+C:\PAV1\TP_PAV1\TP_PAV1\bin\Debug\TP_PAV1.exe.config
+C:\PAV1\TP_PAV1\TP_PAV1\bin\Debug\TP_PAV1.exe
+C:\PAV1\TP_PAV1\TP_PAV1\bin\Debug\TP_PAV1.pdb
+C:\PAV1\TP_PAV1\TP_PAV1\bin\Debug\TP_PAV1.xml
+C:\PAV1\TP_PAV1\TP_PAV1\obj\x86\Debug\ResolveAssemblyReference.cache
+C:\PAV1\TP_PAV1\TP_PAV1\obj\x86\Debug\TP_PAV1.frm_Menu.resources
+C:\PAV1\TP_PAV1\TP_PAV1\obj\x86\Debug\TP_PAV1.Resources.resources
+C:\PAV1\TP_PAV1\TP_PAV1\obj\x86\Debug\GenerateResource.read.1.tlog
+C:\PAV1\TP_PAV1\TP_PAV1\obj\x86\Debug\GenerateResource.write.1.tlog
+C:\PAV1\TP_PAV1\TP_PAV1\obj\x86\Debug\TP_PAV1.exe
+C:\PAV1\TP_PAV1\TP_PAV1\obj\x86\Debug\TP_PAV1.xml
+C:\PAV1\TP_PAV1\TP_PAV1\obj\x86\Debug\TP_PAV1.pdb
+C:\PAV1\TP_PAV1\TP_PAV1\obj\x86\Debug\TP_PAV1.buscar_doc_tipoDoc.resources
+E:\Facultad\3º\PAV1\TrabajoPractico-PAV1\TP_PAV1\TP_PAV1\bin\Debug\TP_PAV1.exe.config
+E:\Facultad\3º\PAV1\TrabajoPractico-PAV1\TP_PAV1\TP_PAV1\obj\x86\Debug\TP_PAV1.exe
+E:\Facultad\3º\PAV1\TrabajoPractico-PAV1\TP_PAV1\TP_PAV1\obj\x86\Debug\TP_PAV1.xml
+E:\Facultad\3º\PAV1\TrabajoPractico-PAV1\TP_PAV1\TP_PAV1\obj\x86\Debug\TP_PAV1.pdb
+E:\Facultad\3º\PAV1\TrabajoPractico-PAV1\TP_PAV1\TP_PAV1\bin\Debug\TP_PAV1.exe
+E:\Facultad\3º\PAV1\TrabajoPractico-PAV1\TP_PAV1\TP_PAV1\bin\Debug\TP_PAV1.pdb
+E:\Facultad\3º\PAV1\TrabajoPractico-PAV1\TP_PAV1\TP_PAV1\bin\Debug\TP_PAV1.xml
+E:\Facultad\3º\PAV1\TrabajoPractico-PAV1\TP_PAV1\TP_PAV1\obj\x86\Debug\TP_PAV1.vbprojResolveAssemblyReference.cache
+E:\Facultad\3º\PAV1\TrabajoPractico-PAV1\TP_PAV1\TP_PAV1\obj\x86\Debug\TP_PAV1.buscar_doc_tipoDoc.resources
+E:\Facultad\3º\PAV1\TrabajoPractico-PAV1\TP_PAV1\TP_PAV1\obj\x86\Debug\TP_PAV1.frm_Menu.resources
+E:\Facultad\3º\PAV1\TrabajoPractico-PAV1\TP_PAV1\TP_PAV1\obj\x86\Debug\TP_PAV1.Resources.resources
+E:\Facultad\3º\PAV1\TrabajoPractico-PAV1\TP_PAV1\TP_PAV1\obj\x86\Debug\TP_PAV1.vbproj.GenerateResource.Cache
+C:\Prueba_PAV\CreCORPAV\TP_PAV1\TP_PAV1\bin\Debug\TP_PAV1.exe.config
+C:\Prueba_PAV\CreCORPAV\TP_PAV1\TP_PAV1\obj\x86\Debug\TP_PAV1.exe
+C:\Prueba_PAV\CreCORPAV\TP_PAV1\TP_PAV1\obj\x86\Debug\TP_PAV1.xml
+C:\Prueba_PAV\CreCORPAV\TP_PAV1\TP_PAV1\obj\x86\Debug\TP_PAV1.pdb
+C:\Prueba_PAV\CreCORPAV\TP_PAV1\TP_PAV1\bin\Debug\TP_PAV1.exe
+C:\Prueba_PAV\CreCORPAV\TP_PAV1\TP_PAV1\bin\Debug\TP_PAV1.pdb
+C:\Prueba_PAV\CreCORPAV\TP_PAV1\TP_PAV1\bin\Debug\TP_PAV1.xml
+C:\Prueba_PAV\CreCORPAV\TP_PAV1\TP_PAV1\obj\x86\Debug\ResolveAssemblyReference.cache
+C:\Prueba_PAV\CreCORPAV\TP_PAV1\TP_PAV1\obj\x86\Debug\TP_PAV1.buscar_doc_tipoDoc.resources
+C:\Prueba_PAV\CreCORPAV\TP_PAV1\TP_PAV1\obj\x86\Debug\TP_PAV1.frm_Menu.resources
+C:\Prueba_PAV\CreCORPAV\TP_PAV1\TP_PAV1\obj\x86\Debug\TP_PAV1.Resources.resources
+C:\Prueba_PAV\CreCORPAV\TP_PAV1\TP_PAV1\obj\x86\Debug\GenerateResource.read.1.tlog
+C:\Prueba_PAV\CreCORPAV\TP_PAV1\TP_PAV1\obj\x86\Debug\GenerateResource.write.1.tlog
+E:\PAV\TP_PAV1\TP_PAV1\bin\Debug\TP_PAV1.exe.config
+E:\PAV\TP_PAV1\TP_PAV1\obj\x86\Debug\TP_PAV1.exe
+E:\PAV\TP_PAV1\TP_PAV1\obj\x86\Debug\TP_PAV1.xml
+E:\PAV\TP_PAV1\TP_PAV1\obj\x86\Debug\TP_PAV1.pdb
+E:\PAV\TP_PAV1\TP_PAV1\bin\Debug\TP_PAV1.exe
+E:\PAV\TP_PAV1\TP_PAV1\bin\Debug\TP_PAV1.pdb
+E:\PAV\TP_PAV1\TP_PAV1\bin\Debug\TP_PAV1.xml
+E:\PAV\TP_PAV1\TP_PAV1\obj\x86\Debug\TP_PAV1.vbprojResolveAssemblyReference.cache
+E:\PAV\TP_PAV1\TP_PAV1\obj\x86\Debug\TP_PAV1.buscar_doc_tipoDoc.resources
+E:\PAV\TP_PAV1\TP_PAV1\obj\x86\Debug\TP_PAV1.frm_Menu.resources
+E:\PAV\TP_PAV1\TP_PAV1\obj\x86\Debug\TP_PAV1.Resources.resources
+E:\PAV\TP_PAV1\TP_PAV1\obj\x86\Debug\TP_PAV1.vbproj.GenerateResource.Cache
+E:\PAV\TP_PAV1\TP_PAV1\obj\x86\Debug\TP_PAV1.frm_objeto.resources
+E:\PAV DB\Copia Seguridad\TP_PAV1\TP_PAV1\bin\Debug\TP_PAV1.exe.config
+E:\PAV DB\Copia Seguridad\TP_PAV1\TP_PAV1\obj\x86\Debug\TP_PAV1.exe
+E:\PAV DB\Copia Seguridad\TP_PAV1\TP_PAV1\obj\x86\Debug\TP_PAV1.xml
+E:\PAV DB\Copia Seguridad\TP_PAV1\TP_PAV1\obj\x86\Debug\TP_PAV1.pdb
+E:\PAV DB\Copia Seguridad\TP_PAV1\TP_PAV1\bin\Debug\TP_PAV1.exe
+E:\PAV DB\Copia Seguridad\TP_PAV1\TP_PAV1\bin\Debug\TP_PAV1.pdb
+E:\PAV DB\Copia Seguridad\TP_PAV1\TP_PAV1\bin\Debug\TP_PAV1.xml
+E:\PAV DB\Copia Seguridad\TP_PAV1\TP_PAV1\obj\x86\Debug\TP_PAV1.vbprojResolveAssemblyReference.cache
+E:\PAV DB\Copia Seguridad\TP_PAV1\TP_PAV1\obj\x86\Debug\TP_PAV1.buscar_doc_tipoDoc.resources
+E:\PAV DB\Copia Seguridad\TP_PAV1\TP_PAV1\obj\x86\Debug\TP_PAV1.frm_Menu.resources
+E:\PAV DB\Copia Seguridad\TP_PAV1\TP_PAV1\obj\x86\Debug\TP_PAV1.frm_objeto.resources
+E:\PAV DB\Copia Seguridad\TP_PAV1\TP_PAV1\obj\x86\Debug\TP_PAV1.Resources.resources
+E:\PAV DB\Copia Seguridad\TP_PAV1\TP_PAV1\obj\x86\Debug\TP_PAV1.vbproj.GenerateResource.Cache
+E:\Nueva carpeta\Copia Seguridad\TP_PAV1\TP_PAV1\bin\Debug\TP_PAV1.exe.config
+E:\Nueva carpeta\Copia Seguridad\TP_PAV1\TP_PAV1\obj\x86\Debug\TP_PAV1.exe
+E:\Nueva carpeta\Copia Seguridad\TP_PAV1\TP_PAV1\obj\x86\Debug\TP_PAV1.xml
+E:\Nueva carpeta\Copia Seguridad\TP_PAV1\TP_PAV1\obj\x86\Debug\TP_PAV1.pdb
