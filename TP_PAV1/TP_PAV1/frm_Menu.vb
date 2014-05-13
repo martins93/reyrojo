@@ -56,6 +56,8 @@ Public Class frm_Menu
                 nom_Tabla = "solicitante"
             Case 2
                 nom_Tabla = "empleado"
+            Case 3
+                nom_Tabla = "creditos"
             Case Else
                 nom_Tabla = "ERROR"
         End Select
@@ -156,7 +158,7 @@ Public Class frm_Menu
                         conexion.cambiar_Tabla(Me.nombre_tabla_pestana)
                         Me.limpiar_tab()
                         Me.cargar_Grilla()
-                    Case (2)
+                    Case 2
                         conexion.cambiar_Tabla(Me.nombre_tabla_pestana)
                         Me.limpiar_tab()
                         Me.cargar_Grilla()
@@ -164,6 +166,12 @@ Public Class frm_Menu
                         Me.conexion._tabla = "cargo"
                         Me._combo.cargar(Me.cmb_empleado_cargo, Me.conexion.leo_tabla())
                         txt_empleado_fecha.Text = DateTime.Now().ToString("dd-MM-yyyy")
+                    Case 3
+                        conexion.cambiar_Tabla(Me.nombre_tabla_pestana)
+                        Me.limpiar_tab()
+                        Me.cargar_Grilla()
+                        txt_creditos_fSolicitud.Text = DateTime.Now().ToString("dd-MM-yyyy")
+                        txt_creditos_fSolicitud.Enabled = False
                 End Select
             Case Else
                 Exit Sub

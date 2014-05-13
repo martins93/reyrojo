@@ -71,13 +71,13 @@ Partial Class frm_Menu
         Me.TextBox1 = New System.Windows.Forms.TextBox()
         Me.lbl_creditos_objeto = New System.Windows.Forms.Label()
         Me.cmd_credito_obj = New System.Windows.Forms.Button()
-        Me.mtxt_creditos_fSolicitud = New System.Windows.Forms.MaskedTextBox()
+        Me.mtxt_creditos_fAprobacion = New System.Windows.Forms.MaskedTextBox()
         Me.txt_creditos_legajo = New System.Windows.Forms.TextBox()
         Me.lbl_creditos_legajo = New System.Windows.Forms.Label()
         Me.txt_creditos_idSolicitante = New System.Windows.Forms.TextBox()
         Me.lbl_creditos_idSolicitante = New System.Windows.Forms.Label()
         Me.lbl_creditos_fAprobacion = New System.Windows.Forms.Label()
-        Me.txt_creditos_fAprobacion = New System.Windows.Forms.TextBox()
+        Me.txt_creditos_fSolicitud = New System.Windows.Forms.TextBox()
         Me.lbl_creditos_fSolicitud = New System.Windows.Forms.Label()
         Me.txt_creditos_monto = New System.Windows.Forms.TextBox()
         Me.lbl_creditos_monto = New System.Windows.Forms.Label()
@@ -536,13 +536,13 @@ Partial Class frm_Menu
         Me.tab_control_credito.Controls.Add(Me.TextBox1)
         Me.tab_control_credito.Controls.Add(Me.lbl_creditos_objeto)
         Me.tab_control_credito.Controls.Add(Me.cmd_credito_obj)
-        Me.tab_control_credito.Controls.Add(Me.mtxt_creditos_fSolicitud)
+        Me.tab_control_credito.Controls.Add(Me.mtxt_creditos_fAprobacion)
         Me.tab_control_credito.Controls.Add(Me.txt_creditos_legajo)
         Me.tab_control_credito.Controls.Add(Me.lbl_creditos_legajo)
         Me.tab_control_credito.Controls.Add(Me.txt_creditos_idSolicitante)
         Me.tab_control_credito.Controls.Add(Me.lbl_creditos_idSolicitante)
         Me.tab_control_credito.Controls.Add(Me.lbl_creditos_fAprobacion)
-        Me.tab_control_credito.Controls.Add(Me.txt_creditos_fAprobacion)
+        Me.tab_control_credito.Controls.Add(Me.txt_creditos_fSolicitud)
         Me.tab_control_credito.Controls.Add(Me.lbl_creditos_fSolicitud)
         Me.tab_control_credito.Controls.Add(Me.txt_creditos_monto)
         Me.tab_control_credito.Controls.Add(Me.lbl_creditos_monto)
@@ -578,13 +578,13 @@ Partial Class frm_Menu
         Me.cmd_credito_obj.Text = "Objeto"
         Me.cmd_credito_obj.UseVisualStyleBackColor = True
         '
-        'mtxt_creditos_fSolicitud
+        'mtxt_creditos_fAprobacion
         '
-        Me.mtxt_creditos_fSolicitud.Location = New System.Drawing.Point(194, 68)
-        Me.mtxt_creditos_fSolicitud.Mask = "00-00-0000"
-        Me.mtxt_creditos_fSolicitud.Name = "mtxt_creditos_fSolicitud"
-        Me.mtxt_creditos_fSolicitud.Size = New System.Drawing.Size(100, 20)
-        Me.mtxt_creditos_fSolicitud.TabIndex = 1
+        Me.mtxt_creditos_fAprobacion.Location = New System.Drawing.Point(194, 108)
+        Me.mtxt_creditos_fAprobacion.Mask = "00-00-0000"
+        Me.mtxt_creditos_fAprobacion.Name = "mtxt_creditos_fAprobacion"
+        Me.mtxt_creditos_fAprobacion.Size = New System.Drawing.Size(100, 20)
+        Me.mtxt_creditos_fAprobacion.TabIndex = 1
         '
         'txt_creditos_legajo
         '
@@ -627,12 +627,12 @@ Partial Class frm_Menu
         Me.lbl_creditos_fAprobacion.TabIndex = 0
         Me.lbl_creditos_fAprobacion.Text = "Fecha de Aprobacion"
         '
-        'txt_creditos_fAprobacion
+        'txt_creditos_fSolicitud
         '
-        Me.txt_creditos_fAprobacion.Location = New System.Drawing.Point(194, 104)
-        Me.txt_creditos_fAprobacion.Name = "txt_creditos_fAprobacion"
-        Me.txt_creditos_fAprobacion.Size = New System.Drawing.Size(100, 20)
-        Me.txt_creditos_fAprobacion.TabIndex = 2
+        Me.txt_creditos_fSolicitud.Location = New System.Drawing.Point(194, 73)
+        Me.txt_creditos_fSolicitud.Name = "txt_creditos_fSolicitud"
+        Me.txt_creditos_fSolicitud.Size = New System.Drawing.Size(100, 20)
+        Me.txt_creditos_fSolicitud.TabIndex = 2
         '
         'lbl_creditos_fSolicitud
         '
@@ -1035,13 +1035,13 @@ Partial Class frm_Menu
     Friend WithEvents CargoTableAdapter As TP_PAV1.PAV1DataSetTableAdapters.CargoTableAdapter
     Friend WithEvents btn_empleado_nuevoCargo As System.Windows.Forms.Button
     Friend WithEvents tab_control_credito As System.Windows.Forms.TabPage
-    Friend WithEvents mtxt_creditos_fSolicitud As System.Windows.Forms.MaskedTextBox
+    Friend WithEvents mtxt_creditos_fAprobacion As System.Windows.Forms.MaskedTextBox
     Friend WithEvents txt_creditos_legajo As System.Windows.Forms.TextBox
     Friend WithEvents lbl_creditos_legajo As System.Windows.Forms.Label
     Friend WithEvents txt_creditos_idSolicitante As System.Windows.Forms.TextBox
     Friend WithEvents lbl_creditos_idSolicitante As System.Windows.Forms.Label
     Friend WithEvents lbl_creditos_fAprobacion As System.Windows.Forms.Label
-    Friend WithEvents txt_creditos_fAprobacion As System.Windows.Forms.TextBox
+    Friend WithEvents txt_creditos_fSolicitud As System.Windows.Forms.TextBox
     Friend WithEvents lbl_creditos_fSolicitud As System.Windows.Forms.Label
     Friend WithEvents txt_creditos_monto As System.Windows.Forms.TextBox
     Friend WithEvents lbl_creditos_monto As System.Windows.Forms.Label
