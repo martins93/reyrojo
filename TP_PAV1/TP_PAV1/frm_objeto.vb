@@ -35,11 +35,22 @@
 
     End Sub
 
+    Public Function pasar_descripcion_obj() As String
+
+        Return txt_objeto_descripcion.Text
+
+    End Function
+
     Private Sub cmd_objeto_ok_Click(sender As System.Object, e As System.EventArgs) Handles cmd_objeto_ok.Click
 
         Me.texto_insert()
-
+        MessageBox.Show("Objeto Cargado con Exito", "Exito", MessageBoxButtons.OK)
         Me.Close()
 
+    End Sub
+
+
+    Private Sub cmd_objeto_cancelar_Click(sender As System.Object, e As System.EventArgs) Handles cmd_objeto_cancelar.Click
+        Me.Close()
     End Sub
 End Class
