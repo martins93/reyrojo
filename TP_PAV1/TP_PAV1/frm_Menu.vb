@@ -108,10 +108,17 @@ Public Class frm_Menu
                 Case 3
                     If Me.buscar_en_tabla(Me.txt_creditos_idSolicitante.Text, 2) = -1 Then
                         MsgBox("No existe ningun solicitante con ese codigo")
+                        Me.txt_creditos_idSolicitante.Focus()
                         Exit Sub
                     End If
                     If Me.buscar_en_tabla(Me.txt_creditos_legajo.Text, 1) = -1 Then
                         MsgBox("No existe ningun empleado con ese legajo")
+                        Me.txt_creditos_legajo.Focus()
+                        Exit Sub
+                    End If
+                    If Me.cmb_creditos_estadoCredito.SelectedIndex <> 1 Then
+                        MsgBox("Creditos nuevos solo pueden ser pendientes")
+                        Me.cmb_creditos_estadoCredito.Focus()
                         Exit Sub
                     End If
 
@@ -119,6 +126,7 @@ Public Class frm_Menu
                     texto = "INSERT INTO creditos (monto, fechaSolicitud, Solicitante_idSolicitante, Estado_Credito_idEstado_Credito, Empleado_legajo, Objeto_idObjeto) VALUES ("
                     texto += Me.txt_creditos_monto.Text & ", '" & Me.txt_creditos_fSolicitud.Text & "', " & Me.txt_creditos_idSolicitante.Text & ", " & Me.cmb_creditos_estadoCredito.SelectedIndex & ", " & Me.txt_creditos_legajo.Text & ", " & Me.txt_creditos_idObjeto.Text & ")"
                     conexion._modificar(texto)
+                    Me.txt_creditos_objeto.Enabled = True
                 Case Else
                     Exit Sub
             End Select
@@ -608,7 +616,7 @@ Public Class frm_Menu
         Dim texto As String = ""
         Dim nom_Tabla As String = nombre_tabla_pestana()
         Dim pestaña As Integer = Me.tab_control.SelectedIndex
-        Dim id_solicitante As Integer
+        Dim id_clave As Integer
 
         If validaciones_pestaña() Then
             texto = "UPDATE " & nom_Tabla & " SET "
@@ -618,15 +626,27 @@ Public Class frm_Menu
                     texto += " WHERE matricula= " & Me.txt_abogado_matricula.Text
                 Case 1
                     If Me.idSolicitante = -1 Then
-                        id_solicitante = pedir_clave_numerica()
+                        id_clave = pedir_clave_numerica()
                     Else
-                        id_solicitante = Me.idSolicitante
+                        id_clave = Me.idSolicitante
                     End If
                     texto += "numeroDocumento='" & Me.mtxt_solicitante_nrodoc.Text & "', apellido='" & Me.txt_solicitante_apellido.Text & "', nombre='" & Me.txt_solicitante_nombre.Text & "', telefono='" & Me.mtxt_solicitante_telefono.Text & "', domicilio='" & Me.txt_solicitante_domicilio.Text & "', tipo_Documento_idTipo_Documento='" & Me.cmb_solicitante_tipodoc.SelectedValue & "', fechaNacimiento='" & Me.mtxt_solicitante_fechaNacimiento.Text & "'"
-                    texto += " WHERE idSolicitante= " & id_solicitante
+                    texto += " WHERE idSolicitante= " & id_clave
                 Case 2
                     texto += "Empleado_legajo=" & Me.txt_empleado_legSup.Text & ", Cargo_idCargo=" & Me.cmb_empleado_cargo.SelectedIndex + 1 & ", nombres='" & Me.txt_empleado_nombre.Text & "', apellido='" & Me.txt_empleado_ape.Text & "', fecha_Alta='" & Me.txt_empleado_fecha.Text & "'"
                     texto += " WHERE legajo= " & Me.txt_empleado_legajo.Text
+                Case 3
+                    If Me.idCredito = -1 Then
+                        id_clave = pedir_clave_numerica()
+                    Else
+                        id_clave = Me.idCredito
+                    End If
+                    If validar_estado_credito(id_clave) = True Then
+                        'validar estado no aprobado ni rechazado
+                        texto += "monto= " & Me.txt_creditos_monto.Text & ", Estado_Credito_idEstado_Credito=" & Me.cmb_creditos_estadoCredito.SelectedIndex & ", Objeto_idObjeto=" & Me.txt_creditos_idObjeto.Text
+                        texto += " WHERE idCreditos=" & id_clave
+                        Me.txt_creditos_objeto.Enabled = True
+                    End If
                 Case Else
                     Exit Sub
             End Select
@@ -735,7 +755,6 @@ Public Class frm_Menu
         End Select
     End Function
 
-
     Private Sub cmd_credito_obj_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles txt_creditos_objeto.Enter
 
         Dim tabla As New Data.DataTable
@@ -760,8 +779,6 @@ Public Class frm_Menu
     Private Sub txt_creditos_idSolicitante_TextChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles txt_creditos_idSolicitante.Validated, txt_creditos_legajo.Validated
         Me.cargar_Grilla()
     End Sub
-
-
 
     Private Sub txt_creditos_idSolicitante_Enter(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles txt_creditos_idSolicitante.Enter
         Dim consulta_solicitante As String = "SELECT Solicitante.idSolicitante, Solicitante.numeroDocumento, Solicitante.nombre, Solicitante.apellido, Solicitante.fechaNacimiento, Solicitante.domicilio, Solicitante.telefono, tipo_Documento.nombre AS tipodoc "
@@ -800,7 +817,6 @@ Public Class frm_Menu
         Return resultado
     End Function
 
-
     Private Sub txt_expediente_codCred_Enter(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles txt_expediente_codCred.Enter
 
         Dim consulta_expediente As String = "SELECT Creditos.idCreditos AS [Codigo Credito], Creditos.monto AS [Monto], Creditos.fechaSolicitud AS [Fecha Solicitud], Creditos.fechaAprobacion AS [Fecha Aprobacion], Solicitante.nombre AS [Nombre Solicitante], Solicitante.apellido AS [Apellido Solicitante], tipo_Documento.nombre AS [Tipo Documento], Solicitante.numeroDocumento AS [Documento], Estado_Credito.nombre AS [ESTADO], Objeto.descripcion AS [Objeto] "
@@ -812,12 +828,41 @@ Public Class frm_Menu
 
         Me.grilla.DataSource = conexion._consulta(consulta_expediente)
     End Sub
+
     Private Sub txt_expediente_matAbCre_Enter(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles txt_expediente_matAbCre.Enter, txt_expediente_matAbSol.Enter
         Dim consulta_abogado As String = "SELECT matricula AS [Matricula], nombre AS [Nombre], apellido AS [Apellido], domicilio AS [Domicilio], telefono AS [Telefono] FROM Abogado"
         Me.grilla.DataSource = conexion._consulta(consulta_abogado)
     End Sub
 
+    Private Sub cmb_creditos_estadoCredito_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmb_creditos_estadoCredito.SelectedIndexChanged
 
+        If Me.cmb_creditos_estadoCredito.SelectedIndex = 1 Then
+            Me.mtxt_creditos_fAprobacion.Enabled = True
+        Else
+            Me.mtxt_creditos_fAprobacion.Enabled = False
+        End If
+
+    End Sub
+
+    Private Function validar_estado_credito(ByVal clave As Integer) As Boolean
+
+        Dim consulta As String = ""
+        Dim tabla As New Data.DataTable
+        Dim valor As Integer
+        Dim resultado As Boolean = True
+
+        consulta = "SELECT * FROM creditos WHERE idCreditos=" & clave
+
+        tabla = conexion._consulta(consulta)
+
+        If tabla.Rows.Count = 1 Then
+            valor = tabla.Rows(0)(5)
+            If valor = 1 Or valor = 2 Then
+                resultado = False
+            End If
+        End If
+        Return resultado
+    End Function
 End Class
 
 'Private Sub fecha_Validated(ByVal sender As Object, ByVal e As System.EventArgs) Handles mtxt_solicitante_fechaNacimiento.Validated
