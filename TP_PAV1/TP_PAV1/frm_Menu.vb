@@ -110,6 +110,10 @@ Public Class frm_Menu
                         Exit Sub
                     End If
                     ' texto = "monto= " & Me.txt_creditos_monto.Text & ", fechaSolicitud=" & Me.txt_creditos_fSolicitud.Text & ", Solicitante_idSolicitante=" & Me.txt_creditos_idSolicitante.Text & ", Estado_Credito_idEstado_Credito=" & Me.cmb_creditos_estadoCredito.SelectedIndex & ", Empleado_legajo=" & Me.txt_creditos_legajo.Text & ", Objeto_idObjeto=" & Me.txt_creditos_idObjeto.Text
+                Case 4
+                    
+
+
                 Case Else
                     Exit Sub
             End Select
@@ -153,8 +157,7 @@ Public Class frm_Menu
                 Me.mostrar_Interfaz(False)
             Case 1
                 Me.mostrar_Interfaz(True)
-                'Me.CargoTableAdapter.Fill(Me.PAV1DataSet.Cargo)
-                'Me.Tipo_DocumentoTableAdapter.Fill(Me.PAV1DataSet.tipo_Documento)
+             
                 Select Case pestaña_abm
                     Case 0
                         conexion.cambiar_Tabla(Me.nombre_tabla_pestana)
@@ -184,6 +187,12 @@ Public Class frm_Menu
                         Me._combo.cargar(Me.cmb_creditos_estadoCredito, Me.conexion.leo_tabla())
                         txt_creditos_fSolicitud.Text = DateTime.Now().ToString("dd-MM-yyyy")
                         txt_creditos_fSolicitud.Enabled = False
+                    Case 4
+                        conexion.cambiar_Tabla(Me.nombre_tabla_pestana)
+                        Me.limpiar_tab()
+                        Me.txt_expediente_codCred.Enabled = True
+                        Me.cargar_Grilla()
+                    Case 2
                 End Select
             Case Else
                 Exit Sub
@@ -216,7 +225,13 @@ Public Class frm_Menu
         consulta_solicitante += "FROM Solicitante INNER JOIN tipo_Documento ON Solicitante.tipo_Documento_idTipo_Documento = tipo_Documento.idTipo_Documento"
         Dim consulta_empleado As String = "SELECT Empleado.legajo AS 'Legajo Empleado', Empleado.nombres AS 'Nombres', Empleado.apellido AS 'Apellido', Empleado.fecha_Alta AS 'Fecha Alta', Empleado.Empleado_legajo AS 'Legajo Superior', Cargo.nombre AS 'Cargo' "
         consulta_empleado += "FROM Empleado INNER JOIN Cargo ON Empleado.Cargo_idCargo = Cargo.idCargo"
-        'Dim consulta_credito As String = "SELECT Creditos.idCreditos, Creditos.monto, Creditos.fechaSolicitud, Creditos.fechaAprobacion, Estado_Credito.nombre, Objeto.descripcion, Empleado.nombres, Empleado.apellido, Solicitante.nombre AS Expr1, Solicitante.apellido AS Expr2 FROM Creditos INNER JOIN Empleado ON Creditos.Empleado_legajo = Empleado.legajo INNER JOIN Estado_Credito ON Creditos.Estado_Credito_idEstado_Credito = Estado_Credito.idEstado_Credito INNER JOIN Objeto ON Creditos.Objeto_idObjeto = Objeto.idObjeto INNER JOIN Solicitante ON Creditos.Solicitante_idSolicitante = Solicitante.idSolicitante"
+        Dim consulta_credito As String = "SELECT Creditos.idCreditos, Creditos.monto, Creditos.fechaSolicitud, Creditos.fechaAprobacion, Estado_Credito.nombre, Objeto.descripcion, Empleado.nombres, Empleado.apellido, Solicitante.nombre AS Expr1, Solicitante.apellido AS Expr2 FROM Creditos INNER JOIN Empleado ON Creditos.Empleado_legajo = Empleado.legajo INNER JOIN Estado_Credito ON Creditos.Estado_Credito_idEstado_Credito = Estado_Credito.idEstado_Credito INNER JOIN Objeto ON Creditos.Objeto_idObjeto = Objeto.idObjeto INNER JOIN Solicitante ON Creditos.Solicitante_idSolicitante = Solicitante.idSolicitante"
+
+        Dim consulta_expediente = "SELECT Expediente.idExpediente AS [Número Expediente], Expediente.fechaInicio AS [Fecha Inicio], Expediente.fechaEntrega AS [Fecha Entrega], Expediente.fechaDevolucion AS [Fecha Devolucion], Estado_Credito.nombre AS [Estado Crédito], Abogado.matricula AS [Matricula Abogado], Abogado.nombre AS [Nombre Abogado], Abogado.apellido AS [Apellido Abogado] "
+        consulta_expediente += "FROM Expediente INNER JOIN"
+        consulta_expediente += " Estado_Credito ON Expediente.Estado_Credito_idEstado_Credito = Estado_Credito.idEstado_Credito INNER JOIN"
+        consulta_expediente += " Abogado ON Expediente.abogado_matricula = Abogado.matricula"
+        'Dim consulta_expediente = "SELECT * FROM Expediente"
 
         Dim pestaña_abm As Integer = Me.tab_control.SelectedIndex
         Select Case pestaña_abm
@@ -226,6 +241,8 @@ Public Class frm_Menu
                 Me.grilla.DataSource = conexion._consulta(consulta_solicitante)
             Case 2
                 Me.grilla.DataSource = conexion._consulta(consulta_empleado)
+            Case 4
+                Me.grilla.DataSource = conexion._consulta(consulta_expediente)
         End Select
         nombre_columnas()
     End Sub
@@ -375,7 +392,7 @@ Public Class frm_Menu
         Return True
     End Function
 
-    Private Sub numero_KeyPress(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyPressEventArgs) Handles txt_abogado_matricula.KeyPress, txt_empleado_legajo.KeyPress, txt_empleado_legSup.KeyPress, txt_creditos_idSolicitante.KeyPress, txt_creditos_legajo.KeyPress, txt_creditos_monto.KeyPress
+    Private Sub numero_KeyPress(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyPressEventArgs) Handles txt_abogado_matricula.KeyPress, txt_empleado_legajo.KeyPress, txt_empleado_legSup.KeyPress, txt_creditos_idSolicitante.KeyPress, txt_creditos_legajo.KeyPress, txt_creditos_monto.KeyPress, txt_expediente_codCred.KeyPress, txt_expediente_matAbCre.KeyPress, txt_expediente_numeroExp.KeyPress, txt_expediente_matAbSol.KeyPress
         'Permitimos teclas de desplazamiento en el textbox, entre otras'
         Select Case Asc(e.KeyChar)
             Case 4, 24, 19, 127, 13, 9, 15, 14, 8
@@ -389,6 +406,7 @@ Public Class frm_Menu
     End Sub
 
     Private Sub texto_KeyPress(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyPressEventArgs) Handles txt_solicitante_apellido.KeyPress, txt_solicitante_nombre.KeyPress, txt_solicitante_apellido.KeyPress, txt_solicitante_nombre.KeyPress, txt_empleado_ape.KeyPress, txt_empleado_nombre.KeyPress
+
         'Permitimos teclas de desplazamiento en el textbox, entre otras'
         Select Case Asc(e.KeyChar)
             Case 4, 24, 19, 127, 13, 9, 15, 14, 8
@@ -462,6 +480,9 @@ Public Class frm_Menu
                 Me.txt_empleado_nombre.Text = grilla.Rows(fila).Cells(1).Value
                 Me.txt_empleado_fecha.Text = grilla.Rows(fila).Cells(3).Value
                 Me.txt_empleado_ape.Text = grilla.Rows(fila).Cells(2).Value
+
+
+
         End Select
     End Sub
 
@@ -674,6 +695,24 @@ Public Class frm_Menu
         consulta_empleado += "FROM Empleado INNER JOIN Cargo ON Empleado.Cargo_idCargo = Cargo.idCargo"
         Me.grilla.DataSource = conexion._consulta(consulta_empleado)
     End Sub
+
+    Private Sub txt_expediente_codCred_Enter(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles txt_expediente_codCred.Enter
+
+        Dim consulta_expediente As String = "SELECT Creditos.idCreditos AS [Codigo Credito], Creditos.monto AS [Monto], Creditos.fechaSolicitud AS [Fecha Solicitud], Creditos.fechaAprobacion AS [Fecha Aprobacion], Solicitante.nombre AS [Nombre Solicitante], Solicitante.apellido AS [Apellido Solicitante], tipo_Documento.nombre AS [Tipo Documento], Solicitante.numeroDocumento AS [Documento], Estado_Credito.nombre AS [ESTADO], Objeto.descripcion AS [Objeto] "
+        consulta_expediente += "FROM Creditos INNER JOIN Solicitante ON Creditos.Solicitante_idSolicitante = Solicitante.idSolicitante "
+        consulta_expediente += "INNER JOIN Objeto ON Creditos.Objeto_idObjeto = Objeto.idObjeto "
+        consulta_expediente += "INNER JOIN Estado_Credito ON Creditos.Estado_Credito_idEstado_Credito = Estado_Credito.idEstado_Credito "
+        consulta_expediente += "INNER JOIN tipo_Documento ON Solicitante.tipo_Documento_idTipo_Documento = tipo_Documento.idTipo_Documento "
+        consulta_expediente += "WHERE Estado_Credito.nombre='DEUDA'"
+
+        Me.grilla.DataSource = conexion._consulta(consulta_expediente)
+    End Sub
+    Private Sub txt_expediente_matAbCre_Enter(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles txt_expediente_matAbCre.Enter, txt_expediente_matAbSol.Enter
+        Dim consulta_abogado As String = "SELECT matricula AS [Matricula], nombre AS [Nombre], apellido AS [Apellido], domicilio AS [Domicilio], telefono AS [Telefono] FROM Abogado"
+        Me.grilla.DataSource = conexion._consulta(consulta_abogado)
+    End Sub
+
+
 End Class
 
 'Private Sub fecha_Validated(ByVal sender As Object, ByVal e As System.EventArgs) Handles mtxt_solicitante_fechaNacimiento.Validated

@@ -70,6 +70,7 @@ Partial Class frm_Menu
         Me.tab_control_credito = New System.Windows.Forms.TabPage()
         Me.cmb_creditos_estadoCredito = New System.Windows.Forms.ComboBox()
         Me.lbl_creditos_estadoCredito = New System.Windows.Forms.Label()
+        Me.txt_creditos_idObjeto = New System.Windows.Forms.TextBox()
         Me.txt_creditos_objeto = New System.Windows.Forms.TextBox()
         Me.lbl_creditos_objeto = New System.Windows.Forms.Label()
         Me.cmd_credito_obj = New System.Windows.Forms.Button()
@@ -113,7 +114,6 @@ Partial Class frm_Menu
         Me.tab_menu_abm = New System.Windows.Forms.TabPage()
         Me.TipoDocumentoBindingSource1 = New System.Windows.Forms.BindingSource(Me.components)
         Me.CargoTableAdapter = New TP_PAV1.PAV1DataSetTableAdapters.CargoTableAdapter()
-        Me.txt_creditos_idObjeto = New System.Windows.Forms.TextBox()
         Me.tab_control.SuspendLayout()
         Me.tab_control_abogado.SuspendLayout()
         Me.tab_control_solicitante.SuspendLayout()
@@ -576,6 +576,14 @@ Partial Class frm_Menu
         Me.lbl_creditos_estadoCredito.TabIndex = 9
         Me.lbl_creditos_estadoCredito.Text = "Estado del Credito"
         '
+        'txt_creditos_idObjeto
+        '
+        Me.txt_creditos_idObjeto.Location = New System.Drawing.Point(129, 242)
+        Me.txt_creditos_idObjeto.Name = "txt_creditos_idObjeto"
+        Me.txt_creditos_idObjeto.Size = New System.Drawing.Size(45, 20)
+        Me.txt_creditos_idObjeto.TabIndex = 6
+        Me.txt_creditos_idObjeto.Visible = False
+        '
         'txt_creditos_objeto
         '
         Me.txt_creditos_objeto.Location = New System.Drawing.Point(194, 242)
@@ -960,14 +968,6 @@ Partial Class frm_Menu
         'CargoTableAdapter
         '
         Me.CargoTableAdapter.ClearBeforeFill = True
-        '
-        'txt_creditos_idObjeto
-        '
-        Me.txt_creditos_idObjeto.Location = New System.Drawing.Point(129, 242)
-        Me.txt_creditos_idObjeto.Name = "txt_creditos_idObjeto"
-        Me.txt_creditos_idObjeto.Size = New System.Drawing.Size(45, 20)
-        Me.txt_creditos_idObjeto.TabIndex = 6
-        Me.txt_creditos_idObjeto.Visible = False
         '
         'frm_Menu
         '
