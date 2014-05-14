@@ -68,7 +68,7 @@ Partial Class frm_Menu
         Me.txt_empleado_legajo = New System.Windows.Forms.TextBox()
         Me.txt_empleado_nombre = New System.Windows.Forms.TextBox()
         Me.tab_control_credito = New System.Windows.Forms.TabPage()
-        Me.TextBox1 = New System.Windows.Forms.TextBox()
+        Me.txt_creditos_objeto = New System.Windows.Forms.TextBox()
         Me.lbl_creditos_objeto = New System.Windows.Forms.Label()
         Me.cmd_credito_obj = New System.Windows.Forms.Button()
         Me.mtxt_creditos_fAprobacion = New System.Windows.Forms.MaskedTextBox()
@@ -81,6 +81,19 @@ Partial Class frm_Menu
         Me.lbl_creditos_fSolicitud = New System.Windows.Forms.Label()
         Me.txt_creditos_monto = New System.Windows.Forms.TextBox()
         Me.lbl_creditos_monto = New System.Windows.Forms.Label()
+        Me.tab_control_expediente = New System.Windows.Forms.TabPage()
+        Me.txt_expediente_matAbSol = New System.Windows.Forms.TextBox()
+        Me.txt_expediente_observacion = New System.Windows.Forms.TextBox()
+        Me.txt_expediente_matAbCre = New System.Windows.Forms.TextBox()
+        Me.txt_expediente_fechaInicio = New System.Windows.Forms.TextBox()
+        Me.txt_expediente_codCred = New System.Windows.Forms.TextBox()
+        Me.txt_expediente_numeroExp = New System.Windows.Forms.TextBox()
+        Me.lbl_expediente_matAbSol = New System.Windows.Forms.Label()
+        Me.lbl_expediente_matAbCre = New System.Windows.Forms.Label()
+        Me.lbl_expediente_observacion = New System.Windows.Forms.Label()
+        Me.lbl_expediente_fechaInicio = New System.Windows.Forms.Label()
+        Me.lbl_expediente_codCred = New System.Windows.Forms.Label()
+        Me.lbl_expediente_numeroExp = New System.Windows.Forms.Label()
         Me.btn_salir = New System.Windows.Forms.Button()
         Me.btn_modificar = New System.Windows.Forms.Button()
         Me.btn_buscar = New System.Windows.Forms.Button()
@@ -98,19 +111,6 @@ Partial Class frm_Menu
         Me.tab_menu_abm = New System.Windows.Forms.TabPage()
         Me.TipoDocumentoBindingSource1 = New System.Windows.Forms.BindingSource(Me.components)
         Me.CargoTableAdapter = New TP_PAV1.PAV1DataSetTableAdapters.CargoTableAdapter()
-        Me.tab_control_expediente = New System.Windows.Forms.TabPage()
-        Me.lbl_expediente_numeroExp = New System.Windows.Forms.Label()
-        Me.txt_expediente_numeroExp = New System.Windows.Forms.TextBox()
-        Me.lbl_expediente_codCred = New System.Windows.Forms.Label()
-        Me.txt_expediente_codCred = New System.Windows.Forms.TextBox()
-        Me.lbl_expediente_fechaInicio = New System.Windows.Forms.Label()
-        Me.txt_expediente_fechaInicio = New System.Windows.Forms.TextBox()
-        Me.lbl_expediente_observacion = New System.Windows.Forms.Label()
-        Me.txt_expediente_observacion = New System.Windows.Forms.TextBox()
-        Me.lbl_expediente_matAbCre = New System.Windows.Forms.Label()
-        Me.lbl_expediente_matAbSol = New System.Windows.Forms.Label()
-        Me.txt_expediente_matAbCre = New System.Windows.Forms.TextBox()
-        Me.txt_expediente_matAbSol = New System.Windows.Forms.TextBox()
         Me.tab_control.SuspendLayout()
         Me.tab_control_abogado.SuspendLayout()
         Me.tab_control_solicitante.SuspendLayout()
@@ -119,13 +119,13 @@ Partial Class frm_Menu
         Me.tab_control_empleado.SuspendLayout()
         CType(Me.CargoBindingSource, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.tab_control_credito.SuspendLayout()
+        Me.tab_control_expediente.SuspendLayout()
         CType(Me.grilla, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.grp_controles.SuspendLayout()
         Me.tab_menu.SuspendLayout()
         Me.tab_menu_inicio.SuspendLayout()
         Me.tab_menu_abm.SuspendLayout()
         CType(Me.TipoDocumentoBindingSource1, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.tab_control_expediente.SuspendLayout()
         Me.SuspendLayout()
         '
         'tab_control
@@ -533,7 +533,7 @@ Partial Class frm_Menu
         '
         'tab_control_credito
         '
-        Me.tab_control_credito.Controls.Add(Me.TextBox1)
+        Me.tab_control_credito.Controls.Add(Me.txt_creditos_objeto)
         Me.tab_control_credito.Controls.Add(Me.lbl_creditos_objeto)
         Me.tab_control_credito.Controls.Add(Me.cmd_credito_obj)
         Me.tab_control_credito.Controls.Add(Me.mtxt_creditos_fAprobacion)
@@ -553,12 +553,12 @@ Partial Class frm_Menu
         Me.tab_control_credito.Text = "Creditos"
         Me.tab_control_credito.UseVisualStyleBackColor = True
         '
-        'TextBox1
+        'txt_creditos_objeto
         '
-        Me.TextBox1.Location = New System.Drawing.Point(194, 210)
-        Me.TextBox1.Name = "TextBox1"
-        Me.TextBox1.Size = New System.Drawing.Size(210, 20)
-        Me.TextBox1.TabIndex = 8
+        Me.txt_creditos_objeto.Location = New System.Drawing.Point(194, 210)
+        Me.txt_creditos_objeto.Name = "txt_creditos_objeto"
+        Me.txt_creditos_objeto.Size = New System.Drawing.Size(210, 20)
+        Me.txt_creditos_objeto.TabIndex = 8
         '
         'lbl_creditos_objeto
         '
@@ -658,6 +658,123 @@ Partial Class frm_Menu
         Me.lbl_creditos_monto.Size = New System.Drawing.Size(37, 13)
         Me.lbl_creditos_monto.TabIndex = 0
         Me.lbl_creditos_monto.Text = "Monto"
+        '
+        'tab_control_expediente
+        '
+        Me.tab_control_expediente.Controls.Add(Me.txt_expediente_matAbSol)
+        Me.tab_control_expediente.Controls.Add(Me.txt_expediente_observacion)
+        Me.tab_control_expediente.Controls.Add(Me.txt_expediente_matAbCre)
+        Me.tab_control_expediente.Controls.Add(Me.txt_expediente_fechaInicio)
+        Me.tab_control_expediente.Controls.Add(Me.txt_expediente_codCred)
+        Me.tab_control_expediente.Controls.Add(Me.txt_expediente_numeroExp)
+        Me.tab_control_expediente.Controls.Add(Me.lbl_expediente_matAbSol)
+        Me.tab_control_expediente.Controls.Add(Me.lbl_expediente_matAbCre)
+        Me.tab_control_expediente.Controls.Add(Me.lbl_expediente_observacion)
+        Me.tab_control_expediente.Controls.Add(Me.lbl_expediente_fechaInicio)
+        Me.tab_control_expediente.Controls.Add(Me.lbl_expediente_codCred)
+        Me.tab_control_expediente.Controls.Add(Me.lbl_expediente_numeroExp)
+        Me.tab_control_expediente.Location = New System.Drawing.Point(4, 22)
+        Me.tab_control_expediente.Name = "tab_control_expediente"
+        Me.tab_control_expediente.Size = New System.Drawing.Size(420, 618)
+        Me.tab_control_expediente.TabIndex = 5
+        Me.tab_control_expediente.Text = "Expediente"
+        Me.tab_control_expediente.UseVisualStyleBackColor = True
+        '
+        'txt_expediente_matAbSol
+        '
+        Me.txt_expediente_matAbSol.Location = New System.Drawing.Point(221, 184)
+        Me.txt_expediente_matAbSol.Name = "txt_expediente_matAbSol"
+        Me.txt_expediente_matAbSol.Size = New System.Drawing.Size(100, 20)
+        Me.txt_expediente_matAbSol.TabIndex = 2
+        '
+        'txt_expediente_observacion
+        '
+        Me.txt_expediente_observacion.Location = New System.Drawing.Point(221, 218)
+        Me.txt_expediente_observacion.Name = "txt_expediente_observacion"
+        Me.txt_expediente_observacion.Size = New System.Drawing.Size(186, 20)
+        Me.txt_expediente_observacion.TabIndex = 2
+        '
+        'txt_expediente_matAbCre
+        '
+        Me.txt_expediente_matAbCre.Location = New System.Drawing.Point(221, 149)
+        Me.txt_expediente_matAbCre.Name = "txt_expediente_matAbCre"
+        Me.txt_expediente_matAbCre.Size = New System.Drawing.Size(100, 20)
+        Me.txt_expediente_matAbCre.TabIndex = 2
+        '
+        'txt_expediente_fechaInicio
+        '
+        Me.txt_expediente_fechaInicio.Location = New System.Drawing.Point(221, 110)
+        Me.txt_expediente_fechaInicio.Name = "txt_expediente_fechaInicio"
+        Me.txt_expediente_fechaInicio.Size = New System.Drawing.Size(100, 20)
+        Me.txt_expediente_fechaInicio.TabIndex = 2
+        '
+        'txt_expediente_codCred
+        '
+        Me.txt_expediente_codCred.Location = New System.Drawing.Point(221, 70)
+        Me.txt_expediente_codCred.Name = "txt_expediente_codCred"
+        Me.txt_expediente_codCred.Size = New System.Drawing.Size(100, 20)
+        Me.txt_expediente_codCred.TabIndex = 2
+        '
+        'txt_expediente_numeroExp
+        '
+        Me.txt_expediente_numeroExp.Location = New System.Drawing.Point(221, 35)
+        Me.txt_expediente_numeroExp.Name = "txt_expediente_numeroExp"
+        Me.txt_expediente_numeroExp.Size = New System.Drawing.Size(100, 20)
+        Me.txt_expediente_numeroExp.TabIndex = 2
+        '
+        'lbl_expediente_matAbSol
+        '
+        Me.lbl_expediente_matAbSol.AutoSize = True
+        Me.lbl_expediente_matAbSol.Location = New System.Drawing.Point(31, 187)
+        Me.lbl_expediente_matAbSol.Name = "lbl_expediente_matAbSol"
+        Me.lbl_expediente_matAbSol.Size = New System.Drawing.Size(162, 13)
+        Me.lbl_expediente_matAbSol.TabIndex = 1
+        Me.lbl_expediente_matAbSol.Text = "Matricula abogado de Solicitante"
+        '
+        'lbl_expediente_matAbCre
+        '
+        Me.lbl_expediente_matAbCre.AutoSize = True
+        Me.lbl_expediente_matAbCre.Location = New System.Drawing.Point(31, 152)
+        Me.lbl_expediente_matAbCre.Name = "lbl_expediente_matAbCre"
+        Me.lbl_expediente_matAbCre.Size = New System.Drawing.Size(137, 13)
+        Me.lbl_expediente_matAbCre.TabIndex = 1
+        Me.lbl_expediente_matAbCre.Text = "Matricula abogado CreCOR"
+        '
+        'lbl_expediente_observacion
+        '
+        Me.lbl_expediente_observacion.AutoSize = True
+        Me.lbl_expediente_observacion.Location = New System.Drawing.Point(31, 221)
+        Me.lbl_expediente_observacion.Name = "lbl_expediente_observacion"
+        Me.lbl_expediente_observacion.Size = New System.Drawing.Size(67, 13)
+        Me.lbl_expediente_observacion.TabIndex = 1
+        Me.lbl_expediente_observacion.Text = "Observacion"
+        '
+        'lbl_expediente_fechaInicio
+        '
+        Me.lbl_expediente_fechaInicio.AutoSize = True
+        Me.lbl_expediente_fechaInicio.Location = New System.Drawing.Point(31, 113)
+        Me.lbl_expediente_fechaInicio.Name = "lbl_expediente_fechaInicio"
+        Me.lbl_expediente_fechaInicio.Size = New System.Drawing.Size(79, 13)
+        Me.lbl_expediente_fechaInicio.TabIndex = 1
+        Me.lbl_expediente_fechaInicio.Text = "Fecha de inicio"
+        '
+        'lbl_expediente_codCred
+        '
+        Me.lbl_expediente_codCred.AutoSize = True
+        Me.lbl_expediente_codCred.Location = New System.Drawing.Point(31, 73)
+        Me.lbl_expediente_codCred.Name = "lbl_expediente_codCred"
+        Me.lbl_expediente_codCred.Size = New System.Drawing.Size(91, 13)
+        Me.lbl_expediente_codCred.TabIndex = 1
+        Me.lbl_expediente_codCred.Text = "Codigo de Credito"
+        '
+        'lbl_expediente_numeroExp
+        '
+        Me.lbl_expediente_numeroExp.AutoSize = True
+        Me.lbl_expediente_numeroExp.Location = New System.Drawing.Point(31, 38)
+        Me.lbl_expediente_numeroExp.Name = "lbl_expediente_numeroExp"
+        Me.lbl_expediente_numeroExp.Size = New System.Drawing.Size(115, 13)
+        Me.lbl_expediente_numeroExp.TabIndex = 1
+        Me.lbl_expediente_numeroExp.Text = "Numero de Expediente"
         '
         'btn_salir
         '
@@ -821,123 +938,6 @@ Partial Class frm_Menu
         '
         Me.CargoTableAdapter.ClearBeforeFill = True
         '
-        'tab_control_expediente
-        '
-        Me.tab_control_expediente.Controls.Add(Me.txt_expediente_matAbSol)
-        Me.tab_control_expediente.Controls.Add(Me.txt_expediente_observacion)
-        Me.tab_control_expediente.Controls.Add(Me.txt_expediente_matAbCre)
-        Me.tab_control_expediente.Controls.Add(Me.txt_expediente_fechaInicio)
-        Me.tab_control_expediente.Controls.Add(Me.txt_expediente_codCred)
-        Me.tab_control_expediente.Controls.Add(Me.txt_expediente_numeroExp)
-        Me.tab_control_expediente.Controls.Add(Me.lbl_expediente_matAbSol)
-        Me.tab_control_expediente.Controls.Add(Me.lbl_expediente_matAbCre)
-        Me.tab_control_expediente.Controls.Add(Me.lbl_expediente_observacion)
-        Me.tab_control_expediente.Controls.Add(Me.lbl_expediente_fechaInicio)
-        Me.tab_control_expediente.Controls.Add(Me.lbl_expediente_codCred)
-        Me.tab_control_expediente.Controls.Add(Me.lbl_expediente_numeroExp)
-        Me.tab_control_expediente.Location = New System.Drawing.Point(4, 22)
-        Me.tab_control_expediente.Name = "tab_control_expediente"
-        Me.tab_control_expediente.Size = New System.Drawing.Size(420, 618)
-        Me.tab_control_expediente.TabIndex = 5
-        Me.tab_control_expediente.Text = "Expediente"
-        Me.tab_control_expediente.UseVisualStyleBackColor = True
-        '
-        'lbl_expediente_numeroExp
-        '
-        Me.lbl_expediente_numeroExp.AutoSize = True
-        Me.lbl_expediente_numeroExp.Location = New System.Drawing.Point(31, 38)
-        Me.lbl_expediente_numeroExp.Name = "lbl_expediente_numeroExp"
-        Me.lbl_expediente_numeroExp.Size = New System.Drawing.Size(115, 13)
-        Me.lbl_expediente_numeroExp.TabIndex = 1
-        Me.lbl_expediente_numeroExp.Text = "Numero de Expediente"
-        '
-        'txt_expediente_numeroExp
-        '
-        Me.txt_expediente_numeroExp.Location = New System.Drawing.Point(221, 35)
-        Me.txt_expediente_numeroExp.Name = "txt_expediente_numeroExp"
-        Me.txt_expediente_numeroExp.Size = New System.Drawing.Size(100, 20)
-        Me.txt_expediente_numeroExp.TabIndex = 2
-        '
-        'lbl_expediente_codCred
-        '
-        Me.lbl_expediente_codCred.AutoSize = True
-        Me.lbl_expediente_codCred.Location = New System.Drawing.Point(31, 73)
-        Me.lbl_expediente_codCred.Name = "lbl_expediente_codCred"
-        Me.lbl_expediente_codCred.Size = New System.Drawing.Size(91, 13)
-        Me.lbl_expediente_codCred.TabIndex = 1
-        Me.lbl_expediente_codCred.Text = "Codigo de Credito"
-        '
-        'txt_expediente_codCred
-        '
-        Me.txt_expediente_codCred.Location = New System.Drawing.Point(221, 70)
-        Me.txt_expediente_codCred.Name = "txt_expediente_codCred"
-        Me.txt_expediente_codCred.Size = New System.Drawing.Size(100, 20)
-        Me.txt_expediente_codCred.TabIndex = 2
-        '
-        'lbl_expediente_fechaInicio
-        '
-        Me.lbl_expediente_fechaInicio.AutoSize = True
-        Me.lbl_expediente_fechaInicio.Location = New System.Drawing.Point(31, 113)
-        Me.lbl_expediente_fechaInicio.Name = "lbl_expediente_fechaInicio"
-        Me.lbl_expediente_fechaInicio.Size = New System.Drawing.Size(79, 13)
-        Me.lbl_expediente_fechaInicio.TabIndex = 1
-        Me.lbl_expediente_fechaInicio.Text = "Fecha de inicio"
-        '
-        'txt_expediente_fechaInicio
-        '
-        Me.txt_expediente_fechaInicio.Location = New System.Drawing.Point(221, 110)
-        Me.txt_expediente_fechaInicio.Name = "txt_expediente_fechaInicio"
-        Me.txt_expediente_fechaInicio.Size = New System.Drawing.Size(100, 20)
-        Me.txt_expediente_fechaInicio.TabIndex = 2
-        '
-        'lbl_expediente_observacion
-        '
-        Me.lbl_expediente_observacion.AutoSize = True
-        Me.lbl_expediente_observacion.Location = New System.Drawing.Point(31, 221)
-        Me.lbl_expediente_observacion.Name = "lbl_expediente_observacion"
-        Me.lbl_expediente_observacion.Size = New System.Drawing.Size(67, 13)
-        Me.lbl_expediente_observacion.TabIndex = 1
-        Me.lbl_expediente_observacion.Text = "Observacion"
-        '
-        'txt_expediente_observacion
-        '
-        Me.txt_expediente_observacion.Location = New System.Drawing.Point(221, 218)
-        Me.txt_expediente_observacion.Name = "txt_expediente_observacion"
-        Me.txt_expediente_observacion.Size = New System.Drawing.Size(186, 20)
-        Me.txt_expediente_observacion.TabIndex = 2
-        '
-        'lbl_expediente_matAbCre
-        '
-        Me.lbl_expediente_matAbCre.AutoSize = True
-        Me.lbl_expediente_matAbCre.Location = New System.Drawing.Point(31, 152)
-        Me.lbl_expediente_matAbCre.Name = "lbl_expediente_matAbCre"
-        Me.lbl_expediente_matAbCre.Size = New System.Drawing.Size(137, 13)
-        Me.lbl_expediente_matAbCre.TabIndex = 1
-        Me.lbl_expediente_matAbCre.Text = "Matricula abogado CreCOR"
-        '
-        'lbl_expediente_matAbSol
-        '
-        Me.lbl_expediente_matAbSol.AutoSize = True
-        Me.lbl_expediente_matAbSol.Location = New System.Drawing.Point(31, 187)
-        Me.lbl_expediente_matAbSol.Name = "lbl_expediente_matAbSol"
-        Me.lbl_expediente_matAbSol.Size = New System.Drawing.Size(162, 13)
-        Me.lbl_expediente_matAbSol.TabIndex = 1
-        Me.lbl_expediente_matAbSol.Text = "Matricula abogado de Solicitante"
-        '
-        'txt_expediente_matAbCre
-        '
-        Me.txt_expediente_matAbCre.Location = New System.Drawing.Point(221, 149)
-        Me.txt_expediente_matAbCre.Name = "txt_expediente_matAbCre"
-        Me.txt_expediente_matAbCre.Size = New System.Drawing.Size(100, 20)
-        Me.txt_expediente_matAbCre.TabIndex = 2
-        '
-        'txt_expediente_matAbSol
-        '
-        Me.txt_expediente_matAbSol.Location = New System.Drawing.Point(221, 184)
-        Me.txt_expediente_matAbSol.Name = "txt_expediente_matAbSol"
-        Me.txt_expediente_matAbSol.Size = New System.Drawing.Size(100, 20)
-        Me.txt_expediente_matAbSol.TabIndex = 2
-        '
         'frm_Menu
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -961,6 +961,8 @@ Partial Class frm_Menu
         CType(Me.CargoBindingSource, System.ComponentModel.ISupportInitialize).EndInit()
         Me.tab_control_credito.ResumeLayout(False)
         Me.tab_control_credito.PerformLayout()
+        Me.tab_control_expediente.ResumeLayout(False)
+        Me.tab_control_expediente.PerformLayout()
         CType(Me.grilla, System.ComponentModel.ISupportInitialize).EndInit()
         Me.grp_controles.ResumeLayout(False)
         Me.tab_menu.ResumeLayout(False)
@@ -968,8 +970,6 @@ Partial Class frm_Menu
         Me.tab_menu_inicio.PerformLayout()
         Me.tab_menu_abm.ResumeLayout(False)
         CType(Me.TipoDocumentoBindingSource1, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.tab_control_expediente.ResumeLayout(False)
-        Me.tab_control_expediente.PerformLayout()
         Me.ResumeLayout(False)
 
     End Sub
@@ -1046,7 +1046,7 @@ Partial Class frm_Menu
     Friend WithEvents txt_creditos_monto As System.Windows.Forms.TextBox
     Friend WithEvents lbl_creditos_monto As System.Windows.Forms.Label
     Friend WithEvents cmd_credito_obj As System.Windows.Forms.Button
-    Friend WithEvents TextBox1 As System.Windows.Forms.TextBox
+    Friend WithEvents txt_creditos_objeto As System.Windows.Forms.TextBox
     Friend WithEvents lbl_creditos_objeto As System.Windows.Forms.Label
     Friend WithEvents tab_control_expediente As System.Windows.Forms.TabPage
     Friend WithEvents txt_expediente_matAbSol As System.Windows.Forms.TextBox
