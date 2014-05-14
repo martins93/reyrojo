@@ -66,3 +66,4 @@ E:\Nueva carpeta\Copia Seguridad\TP_PAV1\TP_PAV1\bin\Debug\TP_PAV1.exe.config
 E:\Nueva carpeta\Copia Seguridad\TP_PAV1\TP_PAV1\obj\x86\Debug\TP_PAV1.exe
 E:\Nueva carpeta\Copia Seguridad\TP_PAV1\TP_PAV1\obj\x86\Debug\TP_PAV1.xml
 E:\Nueva carpeta\Copia Seguridad\TP_PAV1\TP_PAV1\obj\x86\Debug\TP_PAV1.pdb
+c:\PAV1\TP_PAV1\TP_PAV1\obj\x86\Debug\TP_PAV1.frm_objeto.resources

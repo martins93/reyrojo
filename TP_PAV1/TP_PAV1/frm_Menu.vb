@@ -2,7 +2,7 @@
 
 Public Class frm_Menu
 
-    Dim cadena_Conexion As String = "Data Source=MARTIN-PC;Initial Catalog=PAV1;Integrated Security=True"
+    Dim cadena_Conexion As String = "Data Source=SALVADOR-PC\PAV1;Initial Catalog=PAV1;Integrated Security=True"
     Dim conexion As New Conexion(cadena_Conexion, conexion.motores.sqlserver)
     Dim buscador As buscar_doc_tipoDoc
     Dim idSolicitante As Integer = -1
@@ -593,7 +593,7 @@ Public Class frm_Menu
 
     End Sub
 
-    Private Sub cmd_credito_obj_Click(sender As System.Object, e As System.EventArgs) Handles cmd_credito_obj.Click
+    Private Sub cmd_credito_obj_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmd_credito_obj.Click
 
         frm_objeto = New frm_objeto
 
