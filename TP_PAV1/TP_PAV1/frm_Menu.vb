@@ -1,7 +1,7 @@
 ﻿Imports System.Text.RegularExpressions
 
 Public Class frm_Menu
-    Dim cadena_Conexion As String = "Data Source=SALVADOR-PC\PAV1;Initial Catalog=PAV1;Integrated Security=True"
+    Dim cadena_Conexion As String = "Data Source=MARTIN-PC;Initial Catalog=PAV1;Integrated Security=True"
     Dim conexion As New Conexion(cadena_Conexion, conexion.motores.sqlserver)
     Dim buscador As buscar_doc_tipoDoc
     Dim idSolicitante As Integer = -1
@@ -217,7 +217,7 @@ Public Class frm_Menu
         Dim consulta_empleado As String = "SELECT Empleado.legajo AS 'Legajo Empleado', Empleado.nombres AS 'Nombres', Empleado.apellido AS 'Apellido', Empleado.fecha_Alta AS 'Fecha Alta', Empleado.Empleado_legajo AS 'Legajo Superior', Cargo.nombre AS 'Cargo' "
         consulta_empleado += "FROM Empleado INNER JOIN Cargo ON Empleado.Cargo_idCargo = Cargo.idCargo"
         'Dim consulta_credito As String = "SELECT Creditos.idCreditos, Creditos.monto, Creditos.fechaSolicitud, Creditos.fechaAprobacion, Estado_Credito.nombre, Objeto.descripcion, Empleado.nombres, Empleado.apellido, Solicitante.nombre AS Expr1, Solicitante.apellido AS Expr2 FROM Creditos INNER JOIN Empleado ON Creditos.Empleado_legajo = Empleado.legajo INNER JOIN Estado_Credito ON Creditos.Estado_Credito_idEstado_Credito = Estado_Credito.idEstado_Credito INNER JOIN Objeto ON Creditos.Objeto_idObjeto = Objeto.idObjeto INNER JOIN Solicitante ON Creditos.Solicitante_idSolicitante = Solicitante.idSolicitante"
-		
+
         Dim pestaña_abm As Integer = Me.tab_control.SelectedIndex
         Select Case pestaña_abm
             Case 0
@@ -306,7 +306,7 @@ Public Class frm_Menu
                     Return False
                     Exit Function
                 End If
-			Case 3
+            Case 3
                 'Monto negativo
                 If Me.txt_creditos_monto.Text < 1 Then
                     MsgBox("El Monto debe ser mayor a 0", vbOKOnly + vbCritical, "Importante")
@@ -333,14 +333,14 @@ Public Class frm_Menu
                 End If
                 'Existe legajo
                 Dim clave As Integer = Me.txt_creditos_legajo.Text
-                    For f As Integer = 0 To grilla.Rows.Count - 1
-                        Dim num As Integer = Val(grilla.Rows(f).Cells(0).Value)
-                        If num = clave Then
-                            grilla.Rows(f).DefaultCellStyle.BackColor = Color.Cyan
-                            grilla.Rows(f).Selected = True
-                        Else
-                            grilla.Rows(f).DefaultCellStyle.BackColor = Color.White
-                        End If
+                For f As Integer = 0 To grilla.Rows.Count - 1
+                    Dim num As Integer = Val(grilla.Rows(f).Cells(0).Value)
+                    If num = clave Then
+                        grilla.Rows(f).DefaultCellStyle.BackColor = Color.Cyan
+                        grilla.Rows(f).Selected = True
+                    Else
+                        grilla.Rows(f).DefaultCellStyle.BackColor = Color.White
+                    End If
                 Next
                 'Existe idSolicitante
                 clave = Me.txt_creditos_idSolicitante.Text
@@ -358,7 +358,7 @@ Public Class frm_Menu
                 'Fecha aprobacion mas vieja que solicitud
                 ' If DateTime.Compare(Me.mtxt_creditos_fAprobacion.Text, Me.txt_creditos_fSolicitud.Text) Then
                 'End If
-				
+
                 'Es Fecha?
                 'CONFLICTO CON VALIDACION DE FECHAS DE SQLSERVER
                 '12-31-2000 SQLSERVER
@@ -662,7 +662,7 @@ Public Class frm_Menu
             txt_creditos_objeto.Enabled = False
         End If
     End Sub
-		
+
     Private Sub txt_creditos_idSolicitante_Enter(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles txt_creditos_idSolicitante.Enter
         Dim consulta_solicitante As String = "SELECT Solicitante.idSolicitante, Solicitante.numeroDocumento, Solicitante.nombre, Solicitante.apellido, Solicitante.fechaNacimiento, Solicitante.domicilio, Solicitante.telefono, tipo_Documento.nombre AS tipodoc "
         consulta_solicitante += "FROM Solicitante INNER JOIN tipo_Documento ON Solicitante.tipo_Documento_idTipo_Documento = tipo_Documento.idTipo_Documento"
