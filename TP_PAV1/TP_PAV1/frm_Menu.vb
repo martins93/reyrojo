@@ -497,13 +497,13 @@ Public Class frm_Menu
         Dim c As Integer
         Dim pestaña As Integer = Me.tab_control.SelectedIndex
 
-        Select pestaña
+        Select Case pestaña
             Case 0
                 For c = 0 To Me.grilla.RowCount - 1
                     If (Me.grilla.Rows(c).Cells("matricula").Value = clave) Then
                         Return c
                         Exit Function
-                    End If            
+                    End If
                 Next
                 Return -1
             Case 2
@@ -574,7 +574,7 @@ Public Class frm_Menu
 
         Dim pestaña_abm As Integer = Me.tab_control.SelectedIndex
 
-        Select pestaña_abm
+        Select Case pestaña_abm
             Case 1
                 Select Case nombre
                     Case "DNI"
@@ -587,7 +587,7 @@ Public Class frm_Menu
 
     End Function
 
-   
+
 
     Private Sub Button1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
 
@@ -598,7 +598,14 @@ Public Class frm_Menu
         frm_objeto = New frm_objeto
 
         Dim result As DialogResult = frm_objeto.ShowDialog(Me)
-        MessageBox.Show("Objeto Cargado con Exito", "Exito", MessageBoxButtons.OK)
+
+        Me.txt_creditos_objeto.Text = frm_objeto.pasar_descripcion_obj()
+
+        If txt_creditos_objeto.Text = "" Then
+        Else
+            txt_creditos_objeto.Enabled = False
+        End If
+
 
     End Sub
 End Class
