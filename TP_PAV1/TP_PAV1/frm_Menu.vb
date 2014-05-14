@@ -1,7 +1,6 @@
 ﻿Imports System.Text.RegularExpressions
 
 Public Class frm_Menu
-    Dim cadena_Conexion As String = "Data Source=MARTIN-PC;Initial Catalog=PAV1;Integrated Security=True"
     Dim conexion As New Conexion(cadena_Conexion, conexion.motores.sqlserver)
     Dim buscador As buscar_doc_tipoDoc
     Dim idSolicitante As Integer = -1
@@ -109,7 +108,7 @@ Public Class frm_Menu
                         MsgBox("No existe ningun empleado con ese legajo")
                         Exit Sub
                     End If
-                    ' texto = "monto= " & Me.txt_creditos_monto.Text & ", fechaSolicitud=" & Me.txt_creditos_fSolicitud.Text & ", "
+                    ' texto = "monto= " & Me.txt_creditos_monto.Text & ", fechaSolicitud=" & Me.txt_creditos_fSolicitud.Text & ", Solicitante_idSolicitante=" & Me.txt_creditos_idSolicitante.Text & ", Estado_Credito_idEstado_Credito=" & Me.cmb_creditos_estadoCredito.SelectedIndex & ", Empleado_legajo=" & Me.txt_creditos_legajo.Text & ", Objeto_idObjeto=" & Me.txt_creditos_idObjeto.Text
                 Case Else
                     Exit Sub
             End Select
@@ -180,7 +179,7 @@ Public Class frm_Menu
                         Me.limpiar_tab()
                         Me.cargar_Grilla()
                         'Combo
-                        Me.conexion._tabla = "estado_credito"
+                        Me.conexion._tabla = "Estado_Credito"
                         Me._combo.cargar(Me.cmb_creditos_estadoCredito, Me.conexion.leo_tabla())
                         txt_creditos_fSolicitud.Text = DateTime.Now().ToString("dd-MM-yyyy")
                         txt_creditos_fSolicitud.Enabled = False
@@ -649,10 +648,7 @@ Public Class frm_Menu
         End Select
     End Function
 
-    Private Sub Button1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
-    End Sub
 
-    Private Sub cmd_credito_obj_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmd_credito_obj.Click
 
         frm_objeto = New frm_objeto
 
@@ -664,7 +660,7 @@ Public Class frm_Menu
         Else
             txt_creditos_objeto.Enabled = False
         End If
-	End sub
+    End Sub
 		
     Private Sub txt_creditos_idSolicitante_Enter(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles txt_creditos_idSolicitante.Enter
         Dim consulta_solicitante As String = "SELECT Solicitante.idSolicitante, Solicitante.numeroDocumento, Solicitante.nombre, Solicitante.apellido, Solicitante.fechaNacimiento, Solicitante.domicilio, Solicitante.telefono, tipo_Documento.nombre AS tipodoc "
@@ -676,10 +672,6 @@ Public Class frm_Menu
         Dim consulta_empleado As String = "SELECT Empleado.legajo AS 'Legajo Empleado', Empleado.nombres AS 'Nombres', Empleado.apellido AS 'Apellido', Empleado.fecha_Alta AS 'Fecha Alta', Empleado.Empleado_legajo AS 'Legajo Superior', Cargo.nombre AS 'Cargo' "
         consulta_empleado += "FROM Empleado INNER JOIN Cargo ON Empleado.Cargo_idCargo = Cargo.idCargo"
         Me.grilla.DataSource = conexion._consulta(consulta_empleado)
-    End Sub
-
-    Private Sub txt_creditos_objeto_TextChanged(sender As System.Object, e As System.EventArgs) Handles txt_creditos_objeto.TextChanged
-
     End Sub
 End Class
 

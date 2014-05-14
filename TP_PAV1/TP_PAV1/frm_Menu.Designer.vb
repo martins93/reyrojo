@@ -113,6 +113,7 @@ Partial Class frm_Menu
         Me.tab_menu_abm = New System.Windows.Forms.TabPage()
         Me.TipoDocumentoBindingSource1 = New System.Windows.Forms.BindingSource(Me.components)
         Me.CargoTableAdapter = New TP_PAV1.PAV1DataSetTableAdapters.CargoTableAdapter()
+        Me.txt_creditos_idObjeto = New System.Windows.Forms.TextBox()
         Me.tab_control.SuspendLayout()
         Me.tab_control_abogado.SuspendLayout()
         Me.tab_control_solicitante.SuspendLayout()
@@ -537,6 +538,7 @@ Partial Class frm_Menu
         '
         Me.tab_control_credito.Controls.Add(Me.cmb_creditos_estadoCredito)
         Me.tab_control_credito.Controls.Add(Me.lbl_creditos_estadoCredito)
+        Me.tab_control_credito.Controls.Add(Me.txt_creditos_idObjeto)
         Me.tab_control_credito.Controls.Add(Me.txt_creditos_objeto)
         Me.tab_control_credito.Controls.Add(Me.lbl_creditos_objeto)
         Me.tab_control_credito.Controls.Add(Me.cmd_credito_obj)
@@ -563,7 +565,7 @@ Partial Class frm_Menu
         Me.cmb_creditos_estadoCredito.Location = New System.Drawing.Point(194, 210)
         Me.cmb_creditos_estadoCredito.Name = "cmb_creditos_estadoCredito"
         Me.cmb_creditos_estadoCredito.Size = New System.Drawing.Size(121, 21)
-        Me.cmb_creditos_estadoCredito.TabIndex = 10
+        Me.cmb_creditos_estadoCredito.TabIndex = 5
         '
         'lbl_creditos_estadoCredito
         '
@@ -578,8 +580,8 @@ Partial Class frm_Menu
         '
         Me.txt_creditos_objeto.Location = New System.Drawing.Point(194, 242)
         Me.txt_creditos_objeto.Name = "txt_creditos_objeto"
-        Me.txt_creditos_objeto.Size = New System.Drawing.Size(210, 20)
-        Me.txt_creditos_objeto.TabIndex = 8
+        Me.txt_creditos_objeto.Size = New System.Drawing.Size(181, 20)
+        Me.txt_creditos_objeto.TabIndex = 6
         '
         'lbl_creditos_objeto
         '
@@ -595,7 +597,7 @@ Partial Class frm_Menu
         Me.cmd_credito_obj.Location = New System.Drawing.Point(161, 433)
         Me.cmd_credito_obj.Name = "cmd_credito_obj"
         Me.cmd_credito_obj.Size = New System.Drawing.Size(100, 52)
-        Me.cmd_credito_obj.TabIndex = 6
+        Me.cmd_credito_obj.TabIndex = 7
         Me.cmd_credito_obj.Text = "Objeto"
         Me.cmd_credito_obj.UseVisualStyleBackColor = True
         '
@@ -605,14 +607,14 @@ Partial Class frm_Menu
         Me.mtxt_creditos_fAprobacion.Mask = "00-00-0000"
         Me.mtxt_creditos_fAprobacion.Name = "mtxt_creditos_fAprobacion"
         Me.mtxt_creditos_fAprobacion.Size = New System.Drawing.Size(100, 20)
-        Me.mtxt_creditos_fAprobacion.TabIndex = 1
+        Me.mtxt_creditos_fAprobacion.TabIndex = 2
         '
         'txt_creditos_legajo
         '
         Me.txt_creditos_legajo.Location = New System.Drawing.Point(194, 176)
         Me.txt_creditos_legajo.Name = "txt_creditos_legajo"
         Me.txt_creditos_legajo.Size = New System.Drawing.Size(100, 20)
-        Me.txt_creditos_legajo.TabIndex = 5
+        Me.txt_creditos_legajo.TabIndex = 4
         '
         'lbl_creditos_legajo
         '
@@ -653,7 +655,7 @@ Partial Class frm_Menu
         Me.txt_creditos_fSolicitud.Location = New System.Drawing.Point(194, 73)
         Me.txt_creditos_fSolicitud.Name = "txt_creditos_fSolicitud"
         Me.txt_creditos_fSolicitud.Size = New System.Drawing.Size(100, 20)
-        Me.txt_creditos_fSolicitud.TabIndex = 2
+        Me.txt_creditos_fSolicitud.TabIndex = 1
         '
         'lbl_creditos_fSolicitud
         '
@@ -959,6 +961,14 @@ Partial Class frm_Menu
         '
         Me.CargoTableAdapter.ClearBeforeFill = True
         '
+        'txt_creditos_idObjeto
+        '
+        Me.txt_creditos_idObjeto.Location = New System.Drawing.Point(129, 242)
+        Me.txt_creditos_idObjeto.Name = "txt_creditos_idObjeto"
+        Me.txt_creditos_idObjeto.Size = New System.Drawing.Size(45, 20)
+        Me.txt_creditos_idObjeto.TabIndex = 6
+        Me.txt_creditos_idObjeto.Visible = False
+        '
         'frm_Menu
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -1084,4 +1094,5 @@ Partial Class frm_Menu
     Friend WithEvents lbl_expediente_numeroExp As System.Windows.Forms.Label
     Friend WithEvents cmb_creditos_estadoCredito As System.Windows.Forms.ComboBox
     Friend WithEvents lbl_creditos_estadoCredito As System.Windows.Forms.Label
+    Friend WithEvents txt_creditos_idObjeto As System.Windows.Forms.TextBox
 End Class
