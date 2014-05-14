@@ -100,6 +100,16 @@ Public Class frm_Menu
                         texto = "legajo=" & Me.txt_empleado_legajo.Text & ", Empleado_legajo=" & Me.txt_empleado_legSup.Text & ", Cargo_idCargo=" & Me.cmb_empleado_cargo.SelectedIndex + 1 & ", nombres=" & Me.txt_empleado_nombre.Text & ", apellido=" & Me.txt_empleado_ape.Text & ", fecha_Alta=" & Me.txt_empleado_fecha.Text
                         conid = True
                     End If
+                Case 3
+                    If Me.buscar_clave(Me.txt_creditos_idSolicitante.Text) = -1 Then
+                        MsgBox("No existe ningun solicitante con ese codigo")
+                        Exit Sub
+                    End If
+                    If Me.buscar_clave(Me.txt_creditos_legajo.Text) = -1 Then
+                        MsgBox("No existe ningun empleado con ese legajo")
+                        Exit Sub
+                    End If
+                    ' texto = "monto= " & Me.txt_creditos_monto.Text & ", fechaSolicitud=" & Me.txt_creditos_fSolicitud.Text & ", "
                 Case Else
                     Exit Sub
             End Select
