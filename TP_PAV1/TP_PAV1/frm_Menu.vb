@@ -1,6 +1,8 @@
 ﻿Imports System.Text.RegularExpressions
 
 Public Class frm_Menu
+
+    Dim cadena_Conexion As String = "Data Source=MARTIN-PC;Initial Catalog=PAV1;Integrated Security=True"
     Dim conexion As New Conexion(cadena_Conexion, conexion.motores.sqlserver)
     Dim buscador As buscar_doc_tipoDoc
     Dim idSolicitante As Integer = -1
@@ -110,7 +112,7 @@ Public Class frm_Menu
                     End If
                     ' texto = "monto= " & Me.txt_creditos_monto.Text & ", fechaSolicitud=" & Me.txt_creditos_fSolicitud.Text & ", Solicitante_idSolicitante=" & Me.txt_creditos_idSolicitante.Text & ", Estado_Credito_idEstado_Credito=" & Me.cmb_creditos_estadoCredito.SelectedIndex & ", Empleado_legajo=" & Me.txt_creditos_legajo.Text & ", Objeto_idObjeto=" & Me.txt_creditos_idObjeto.Text
                 Case 4
-                    
+
 
 
                 Case Else
@@ -156,7 +158,7 @@ Public Class frm_Menu
                 Me.mostrar_Interfaz(False)
             Case 1
                 Me.mostrar_Interfaz(True)
-             
+
                 Select Case pestaña_abm
                     Case 0
                         conexion.cambiar_Tabla(Me.nombre_tabla_pestana)
