@@ -109,7 +109,7 @@ Public Class frm_Menu
                         MsgBox("No existe ningun empleado con ese legajo")
                         Exit Sub
                     End If
-                    ' texto = "monto= " & Me.txt_creditos_monto.Text & ", fechaSolicitud=" & Me.txt_creditos_fSolicitud.Text & ", "
+                    ' texto = "monto= " & Me.txt_creditos_monto.Text & ", fechaSolicitud=" & Me.txt_creditos_fSolicitud.Text & ", Solicitante_idSolicitante=" & Me.txt_creditos_idSolicitante.Text & ", Estado_Credito_idEstado_Credito=" & Me.cmb_creditos_estadoCredito.SelectedIndex & ", Empleado_legajo=" & Me.txt_creditos_legajo.Text & ", Objeto_idObjeto=" & Me.txt_creditos_idObjeto.Text
                 Case Else
                     Exit Sub
             End Select
@@ -179,6 +179,9 @@ Public Class frm_Menu
                         conexion.cambiar_Tabla(Me.nombre_tabla_pestana)
                         Me.limpiar_tab()
                         Me.cargar_Grilla()
+                        'Combo
+                        Me.conexion._tabla = "Estado_Credito"
+                        Me._combo.cargar(Me.cmb_creditos_estadoCredito, Me.conexion.leo_tabla())
                         txt_creditos_fSolicitud.Text = DateTime.Now().ToString("dd-MM-yyyy")
                         txt_creditos_fSolicitud.Enabled = False
                 End Select
@@ -646,10 +649,7 @@ Public Class frm_Menu
         End Select
     End Function
 
-    Private Sub Button1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
-    End Sub
-
-    Private Sub cmd_credito_obj_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmd_credito_obj.Click
+    Private Sub cmd_credito_obj_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles txt_creditos_objeto.Enter, txt_creditos_idObjeto.Enter
 
         frm_objeto = New frm_objeto
 
@@ -661,7 +661,7 @@ Public Class frm_Menu
         Else
             txt_creditos_objeto.Enabled = False
         End If
-	End sub
+    End Sub
 		
     Private Sub txt_creditos_idSolicitante_Enter(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles txt_creditos_idSolicitante.Enter
         Dim consulta_solicitante As String = "SELECT Solicitante.idSolicitante, Solicitante.numeroDocumento, Solicitante.nombre, Solicitante.apellido, Solicitante.fechaNacimiento, Solicitante.domicilio, Solicitante.telefono, tipo_Documento.nombre AS tipodoc "
