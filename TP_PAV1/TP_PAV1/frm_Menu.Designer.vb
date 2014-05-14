@@ -68,6 +68,8 @@ Partial Class frm_Menu
         Me.txt_empleado_legajo = New System.Windows.Forms.TextBox()
         Me.txt_empleado_nombre = New System.Windows.Forms.TextBox()
         Me.tab_control_credito = New System.Windows.Forms.TabPage()
+        Me.cmb_creditos_estadoCredito = New System.Windows.Forms.ComboBox()
+        Me.lbl_creditos_estadoCredito = New System.Windows.Forms.Label()
         Me.txt_creditos_objeto = New System.Windows.Forms.TextBox()
         Me.lbl_creditos_objeto = New System.Windows.Forms.Label()
         Me.cmd_credito_obj = New System.Windows.Forms.Button()
@@ -111,8 +113,6 @@ Partial Class frm_Menu
         Me.tab_menu_abm = New System.Windows.Forms.TabPage()
         Me.TipoDocumentoBindingSource1 = New System.Windows.Forms.BindingSource(Me.components)
         Me.CargoTableAdapter = New TP_PAV1.PAV1DataSetTableAdapters.CargoTableAdapter()
-        Me.lbl_creditos_estadoCredito = New System.Windows.Forms.Label()
-        Me.cmb_creditos_estadoCredito = New System.Windows.Forms.ComboBox()
         Me.tab_control.SuspendLayout()
         Me.tab_control_abogado.SuspendLayout()
         Me.tab_control_solicitante.SuspendLayout()
@@ -557,6 +557,23 @@ Partial Class frm_Menu
         Me.tab_control_credito.Text = "Creditos"
         Me.tab_control_credito.UseVisualStyleBackColor = True
         '
+        'cmb_creditos_estadoCredito
+        '
+        Me.cmb_creditos_estadoCredito.FormattingEnabled = True
+        Me.cmb_creditos_estadoCredito.Location = New System.Drawing.Point(194, 210)
+        Me.cmb_creditos_estadoCredito.Name = "cmb_creditos_estadoCredito"
+        Me.cmb_creditos_estadoCredito.Size = New System.Drawing.Size(121, 21)
+        Me.cmb_creditos_estadoCredito.TabIndex = 10
+        '
+        'lbl_creditos_estadoCredito
+        '
+        Me.lbl_creditos_estadoCredito.AutoSize = True
+        Me.lbl_creditos_estadoCredito.Location = New System.Drawing.Point(36, 213)
+        Me.lbl_creditos_estadoCredito.Name = "lbl_creditos_estadoCredito"
+        Me.lbl_creditos_estadoCredito.Size = New System.Drawing.Size(93, 13)
+        Me.lbl_creditos_estadoCredito.TabIndex = 9
+        Me.lbl_creditos_estadoCredito.Text = "Estado del Credito"
+        '
         'txt_creditos_objeto
         '
         Me.txt_creditos_objeto.Location = New System.Drawing.Point(194, 242)
@@ -941,23 +958,6 @@ Partial Class frm_Menu
         'CargoTableAdapter
         '
         Me.CargoTableAdapter.ClearBeforeFill = True
-        '
-        'lbl_creditos_estadoCredito
-        '
-        Me.lbl_creditos_estadoCredito.AutoSize = True
-        Me.lbl_creditos_estadoCredito.Location = New System.Drawing.Point(36, 213)
-        Me.lbl_creditos_estadoCredito.Name = "lbl_creditos_estadoCredito"
-        Me.lbl_creditos_estadoCredito.Size = New System.Drawing.Size(93, 13)
-        Me.lbl_creditos_estadoCredito.TabIndex = 9
-        Me.lbl_creditos_estadoCredito.Text = "Estado del Credito"
-        '
-        'cmb_creditos_estadoCredito
-        '
-        Me.cmb_creditos_estadoCredito.FormattingEnabled = True
-        Me.cmb_creditos_estadoCredito.Location = New System.Drawing.Point(194, 210)
-        Me.cmb_creditos_estadoCredito.Name = "cmb_creditos_estadoCredito"
-        Me.cmb_creditos_estadoCredito.Size = New System.Drawing.Size(121, 21)
-        Me.cmb_creditos_estadoCredito.TabIndex = 10
         '
         'frm_Menu
         '

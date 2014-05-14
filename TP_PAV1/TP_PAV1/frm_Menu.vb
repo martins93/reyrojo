@@ -674,6 +674,13 @@ Public Class frm_Menu
         consulta_empleado += "FROM Empleado INNER JOIN Cargo ON Empleado.Cargo_idCargo = Cargo.idCargo"
         Me.grilla.DataSource = conexion._consulta(consulta_empleado)
     End Sub
+
+    Private Sub txt_expediente_codCred_Enter(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles txt_expediente_codCred.Enter
+        Dim consulta_expediente As String = "SELECT Creditos.idCreditos AS 'Codigo Credito', Creditos.monto AS 'Monto', Creditos.fechaSolicitud AS 'Fecha Solicitud', Creditos.fechaAprobacion AS 'Fecha Alta', Creditos.Solicitante_idSolicitante AS 'Codigo Solicitante', Creditos.Estado_Credito_idEstado AS 'ESTADO', Creditos.Objeto_idObjeto AS 'Objecto' """
+        consulta_expediente += "FROM Creditos"
+        Me.grilla.DataSource = conexion._consulta(consulta_expediente)
+
+    End Sub
 End Class
 
 'Private Sub fecha_Validated(ByVal sender As Object, ByVal e As System.EventArgs) Handles mtxt_solicitante_fechaNacimiento.Validated
