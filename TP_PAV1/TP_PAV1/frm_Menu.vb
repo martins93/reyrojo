@@ -5,6 +5,7 @@ Public Class frm_Menu
     Dim conexion As New Conexion(cadena_Conexion, conexion.motores.sqlserver)
     Dim buscador As buscar_doc_tipoDoc
     Dim idSolicitante As Integer = -1
+    Dim idCredito As Integer = -1
 
     Dim _combo As New combo     'Para carga combo
     Dim frm_objeto As frm_objeto
@@ -68,6 +69,8 @@ Public Class frm_Menu
         Dim conid As Boolean
         Dim pestaña As Integer = Me.tab_control.SelectedIndex
 
+        conexion.cambiar_Tabla(Me.nombre_tabla_pestana)
+
         If validaciones_pestaña() Then
             Select Case pestaña
                 Case 0
@@ -80,7 +83,7 @@ Public Class frm_Menu
                         texto = "matricula=" & Me.txt_abogado_matricula.Text & ", nombre=" & Me.txt_abogado_nombre.Text & ", apellido=" & Me.txt_abogado_apellido.Text & ", telefono= " & Me.mtxt_abogado_telefono.Text & ", domicilio= " & Me.txt_abogado_domicilio.Text
                         conid = True
                     End If
-
+                    conexion._insertar(texto, conid)
                 Case 1
                     Dim mtextbox As Integer
                     Int32.TryParse(mtxt_solicitante_nrodoc.Text, mtextbox)
@@ -91,7 +94,7 @@ Public Class frm_Menu
                         texto = "numeroDocumento=" & Me.mtxt_solicitante_nrodoc.Text & ", apellido=" & Me.txt_solicitante_apellido.Text & ", nombre=" & Me.txt_solicitante_nombre.Text & ", telefono= " & Me.mtxt_solicitante_telefono.Text & ", domicilio= " & Me.txt_solicitante_domicilio.Text & ", tipo_Documento_idTipo_Documento= " & Me.cmb_solicitante_tipodoc.SelectedValue & ", fechaNacimiento=" & Me.mtxt_solicitante_fechaNacimiento.Text
                         conid = False
                     End If
-
+                    conexion._insertar(texto, conid)
                 Case 2
                     If Me.buscar_clave(Me.txt_empleado_legSup.Text) = -1 Then
                         MsgBox("No existe ningun superior con esa matricula")
@@ -100,23 +103,29 @@ Public Class frm_Menu
                         texto = "legajo=" & Me.txt_empleado_legajo.Text & ", Empleado_legajo=" & Me.txt_empleado_legSup.Text & ", Cargo_idCargo=" & Me.cmb_empleado_cargo.SelectedIndex + 1 & ", nombres=" & Me.txt_empleado_nombre.Text & ", apellido=" & Me.txt_empleado_ape.Text & ", fecha_Alta=" & Me.txt_empleado_fecha.Text
                         conid = True
                     End If
+                    conexion._insertar(texto, conid)
                 Case 3
-                    If Me.buscar_clave(Me.txt_creditos_idSolicitante.Text) = -1 Then
+                    If Me.buscar_en_tabla(Me.txt_creditos_idSolicitante.Text, 2) = -1 Then
                         MsgBox("No existe ningun solicitante con ese codigo")
                         Exit Sub
                     End If
-                    If Me.buscar_clave(Me.txt_creditos_legajo.Text) = -1 Then
+                    If Me.buscar_en_tabla(Me.txt_creditos_legajo.Text, 1) = -1 Then
                         MsgBox("No existe ningun empleado con ese legajo")
                         Exit Sub
                     End If
+
                     ' texto = "monto= " & Me.txt_creditos_monto.Text & ", fechaSolicitud=" & Me.txt_creditos_fSolicitud.Text & ", Solicitante_idSolicitante=" & Me.txt_creditos_idSolicitante.Text & ", Estado_Credito_idEstado_Credito=" & Me.cmb_creditos_estadoCredito.SelectedIndex & ", Empleado_legajo=" & Me.txt_creditos_legajo.Text & ", Objeto_idObjeto=" & Me.txt_creditos_idObjeto.Text
+                    texto = "INSERT INTO creditos (monto, fechaSolicitud, Solicitante_idSolicitante, Estado_Credito_idEstado_Credito, Empleado_legajo, Objeto_idObjeto) VALUES ("
+                    texto += Me.txt_creditos_monto.Text & ", '" & Me.txt_creditos_fSolicitud.Text & "', " & Me.txt_creditos_idSolicitante.Text & ", " & Me.cmb_creditos_estadoCredito.SelectedIndex & ", " & Me.txt_creditos_legajo.Text & ", " & Me.txt_creditos_idObjeto.Text & ")"
+                    conexion._modificar(texto)
                 Case Else
                     Exit Sub
             End Select
-            conexion._insertar(texto, conid)
+
+
             cargar_Grilla()
             limpiar_tab()
-            txt_empleado_fecha.Text = DateTime.Now().ToString("dd-MM-yyyy")
+
         End If
     End Sub
 
@@ -163,6 +172,7 @@ Public Class frm_Menu
                         'Combo
                         Me.conexion._tabla = "tipo_documento"
                         Me._combo.cargar(Me.cmb_solicitante_tipodoc, Me.conexion.leo_tabla())
+                        conexion.cambiar_Tabla(Me.nombre_tabla_pestana)
                     Case 1
                         conexion.cambiar_Tabla(Me.nombre_tabla_pestana)
                         Me.limpiar_tab()
@@ -175,6 +185,7 @@ Public Class frm_Menu
                         Me.conexion._tabla = "cargo"
                         Me._combo.cargar(Me.cmb_empleado_cargo, Me.conexion.leo_tabla())
                         txt_empleado_fecha.Text = DateTime.Now().ToString("dd-MM-yyyy")
+                        conexion.cambiar_Tabla(Me.nombre_tabla_pestana)
                     Case 3
                         conexion.cambiar_Tabla(Me.nombre_tabla_pestana)
                         Me.limpiar_tab()
@@ -184,6 +195,10 @@ Public Class frm_Menu
                         Me._combo.cargar(Me.cmb_creditos_estadoCredito, Me.conexion.leo_tabla())
                         txt_creditos_fSolicitud.Text = DateTime.Now().ToString("dd-MM-yyyy")
                         txt_creditos_fSolicitud.Enabled = False
+                        txt_creditos_idObjeto.Visible = False
+                        mtxt_creditos_fAprobacion.Enabled = False
+                        txt_creditos_idObjeto.Enabled = False
+                        conexion.cambiar_Tabla(Me.nombre_tabla_pestana)
                 End Select
             Case Else
                 Exit Sub
@@ -192,21 +207,30 @@ Public Class frm_Menu
 
     Private Sub btn_borrar_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btn_borrar.Click
         Dim pestaña As Integer = Me.tab_control.SelectedIndex
-        Dim id_solicitante As Integer
+        Dim id_clave As Integer
 
         Select Case pestaña
             Case 0, 2
-                conexion._borrar(pedir_clave_numerica())
-            Case 1 'PEDIR ID CREDITO
+                id_clave = pedir_clave_numerica()
+
+            Case 1
                 If Me.idSolicitante = -1 Then
-                    id_solicitante = pedir_clave_numerica()
+                    id_clave = pedir_clave_numerica()
                 Else
-                    id_solicitante = Me.idSolicitante
+                    id_clave = Me.idSolicitante
                 End If
-                conexion._borrar(id_solicitante)
+
+            Case 3
+                If Me.idCredito = -1 Then
+                    id_clave = Me.pedir_clave_numerica
+                Else
+                    id_clave = Me.idCredito
+                End If
+
             Case Else
                 Exit Sub
         End Select
+        conexion._borrar(id_clave)
         Me.cargar_Grilla()
 
     End Sub
@@ -214,10 +238,16 @@ Public Class frm_Menu
     Private Sub cargar_Grilla()
         Dim consulta_solicitante As String = "SELECT Solicitante.idSolicitante, Solicitante.numeroDocumento, Solicitante.nombre, Solicitante.apellido, Solicitante.fechaNacimiento, Solicitante.domicilio, Solicitante.telefono, tipo_Documento.nombre AS tipodoc "
         consulta_solicitante += "FROM Solicitante INNER JOIN tipo_Documento ON Solicitante.tipo_Documento_idTipo_Documento = tipo_Documento.idTipo_Documento"
+
         Dim consulta_empleado As String = "SELECT Empleado.legajo AS 'Legajo Empleado', Empleado.nombres AS 'Nombres', Empleado.apellido AS 'Apellido', Empleado.fecha_Alta AS 'Fecha Alta', Empleado.Empleado_legajo AS 'Legajo Superior', Cargo.nombre AS 'Cargo' "
         consulta_empleado += "FROM Empleado INNER JOIN Cargo ON Empleado.Cargo_idCargo = Cargo.idCargo"
-        'Dim consulta_credito As String = "SELECT Creditos.idCreditos, Creditos.monto, Creditos.fechaSolicitud, Creditos.fechaAprobacion, Estado_Credito.nombre, Objeto.descripcion, Empleado.nombres, Empleado.apellido, Solicitante.nombre AS Expr1, Solicitante.apellido AS Expr2 FROM Creditos INNER JOIN Empleado ON Creditos.Empleado_legajo = Empleado.legajo INNER JOIN Estado_Credito ON Creditos.Estado_Credito_idEstado_Credito = Estado_Credito.idEstado_Credito INNER JOIN Objeto ON Creditos.Objeto_idObjeto = Objeto.idObjeto INNER JOIN Solicitante ON Creditos.Solicitante_idSolicitante = Solicitante.idSolicitante"
-		
+
+        Dim consulta_credito As String = "SELECT Creditos.idCreditos AS [Codigo Credito], Creditos.monto AS [Monto], Creditos.fechaSolicitud AS [Fecha Solicitud], Creditos.fechaAprobacion AS [Fecha Aprobacion], Solicitante.nombre AS [Nombre Solicitante], Solicitante.apellido AS [Apellido Solicitante], tipo_Documento.nombre AS [Tipo Documento], Solicitante.numeroDocumento AS [Documento], Estado_Credito.nombre AS [ESTADO], Objeto.descripcion AS [Objeto] "
+        consulta_credito += "FROM Creditos INNER JOIN Solicitante ON Creditos.Solicitante_idSolicitante = Solicitante.idSolicitante "
+        consulta_credito += "INNER JOIN Objeto ON Creditos.Objeto_idObjeto = Objeto.idObjeto "
+        consulta_credito += "INNER JOIN Estado_Credito ON Creditos.Estado_Credito_idEstado_Credito = Estado_Credito.idEstado_Credito "
+        consulta_credito += "INNER JOIN tipo_Documento ON Solicitante.tipo_Documento_idTipo_Documento = tipo_Documento.idTipo_Documento "
+
         Dim pestaña_abm As Integer = Me.tab_control.SelectedIndex
         Select Case pestaña_abm
             Case 0
@@ -226,6 +256,8 @@ Public Class frm_Menu
                 Me.grilla.DataSource = conexion._consulta(consulta_solicitante)
             Case 2
                 Me.grilla.DataSource = conexion._consulta(consulta_empleado)
+            Case 3
+                Me.grilla.DataSource = conexion._consulta(consulta_credito)
         End Select
         nombre_columnas()
     End Sub
@@ -235,10 +267,12 @@ Public Class frm_Menu
         Dim esteControl As System.Windows.Forms.Control
 
         For Each esteControl In tab_control.SelectedTab.Controls
-            If esteControl.Text = "" Then
-                MsgBox("Se deben llenar todos los campos", vbOKOnly + vbCritical, "Importante")
-                Return False 'TIENE QUE SER FALSE
-                Exit Function
+            If esteControl.Enabled = True Then
+                If esteControl.Text = "" Then
+                    MsgBox("Se deben llenar todos los campos", vbOKOnly + vbCritical, "Importante")
+                    Return False 'TIENE QUE SER FALSE
+                    Exit Function
+                End If
             End If
         Next
 
@@ -419,6 +453,9 @@ Public Class frm_Menu
             Case 2
                 mensaje = "Ingrese Legajo a buscar"
                 titulo = "Legajo"
+            Case 3
+                mensaje = "Ingrese Codigo de Credito a buscar"
+                titulo = "Codigo de Credito"
         End Select
 
         While valido = False
@@ -523,6 +560,27 @@ Public Class frm_Menu
                 Else
                     MsgBox("Legajo no encontrado", vbOKOnly, "Resultado")
                 End If
+            Case 3
+                Dim idCredito As Integer = pedir_clave_numerica()
+                Dim fila As Integer = Me.buscar_clave(idCredito)
+                If fila <> -1 Then
+                    MsgBox("Credito encontrado", vbOKOnly, "Resultado")
+                    Me.llenar_tab_segunGrilla(fila)
+
+                    For f As Integer = 0 To grilla.Rows.Count - 1
+                        Dim num As Integer = Val(grilla.Rows(f).Cells(0).Value)
+                        If num = idCredito Then
+                            grilla.Rows(f).DefaultCellStyle.BackColor = Color.Cyan
+                            grilla.Rows(f).Selected = True
+                        Else
+                            grilla.Rows(f).DefaultCellStyle.BackColor = Color.White
+                        End If
+                    Next
+                ElseIf idCredito = -1 Then
+                    Exit Sub
+                Else
+                    MsgBox("Credito no encontrado", vbOKOnly, "Resultado")
+                End If
         End Select
     End Sub
 
@@ -583,6 +641,14 @@ Public Class frm_Menu
                 Else
                     Return -1
                 End If
+            Case 3
+                For c = 0 To Me.grilla.RowCount - 1
+                    If (Me.grilla.Rows(c).Cells("Codigo Credito").Value = clave) Then
+                        Return c
+                        Exit Function
+                    End If
+                Next
+                Return -1
         End Select
     End Function
 
@@ -649,7 +715,7 @@ Public Class frm_Menu
         End Select
     End Function
 
-    Private Sub cmd_credito_obj_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles txt_creditos_objeto.Enter, txt_creditos_idObjeto.Enter
+    Private Sub cmd_credito_obj_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles txt_creditos_objeto.Enter
 
         frm_objeto = New frm_objeto
 
@@ -662,7 +728,12 @@ Public Class frm_Menu
             txt_creditos_objeto.Enabled = False
         End If
     End Sub
-		
+
+    Private Sub txt_creditos_idSolicitante_TextChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles txt_creditos_idSolicitante.Validated, txt_creditos_legajo.Validated
+        Me.cargar_Grilla()
+    End Sub
+
+
     Private Sub txt_creditos_idSolicitante_Enter(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles txt_creditos_idSolicitante.Enter
         Dim consulta_solicitante As String = "SELECT Solicitante.idSolicitante, Solicitante.numeroDocumento, Solicitante.nombre, Solicitante.apellido, Solicitante.fechaNacimiento, Solicitante.domicilio, Solicitante.telefono, tipo_Documento.nombre AS tipodoc "
         consulta_solicitante += "FROM Solicitante INNER JOIN tipo_Documento ON Solicitante.tipo_Documento_idTipo_Documento = tipo_Documento.idTipo_Documento"
@@ -674,13 +745,39 @@ Public Class frm_Menu
         consulta_empleado += "FROM Empleado INNER JOIN Cargo ON Empleado.Cargo_idCargo = Cargo.idCargo"
         Me.grilla.DataSource = conexion._consulta(consulta_empleado)
     End Sub
+
+    Private Function buscar_en_tabla(ByVal clave As Integer, ByVal codigo As Integer) As Integer
+
+        Dim consulta As String = ""
+        Dim tabla As New Data.DataTable
+        Dim resultado As Integer = -1
+
+        consulta = "SELECT * FROM "
+
+        Select Case codigo
+            'Case 0
+            Case 1 'Empleado
+                consulta += "Empleado WHERE legajo=" & clave
+            Case 2 'Busco el solicitante
+                consulta += "Solicitante WHERE idSolicitante=" & clave
+
+                'Case 3
+        End Select
+        tabla = conexion._consulta(consulta)
+
+        If tabla.Rows.Count = 1 Then
+            resultado = 1
+        End If
+        Return resultado
+    End Function
+
 End Class
 
 'Private Sub fecha_Validated(ByVal sender As Object, ByVal e As System.EventArgs) Handles mtxt_solicitante_fechaNacimiento.Validated
 '    If sender.text <> "  -  -" Then
 '        If Convert.ToInt32(sender.text.Substring(sender.text.Length - 4)) > 2014 Or Convert.ToInt32(sender.text.Substring(sender.text.Length - 4)) < 1900 Then
 '            ' MsgBox("Año invalido", vbOKOnly + vbCritical, "Importante")
-'            mtxt_solicitante_fechaNacimiento.BackColor = Color.OrangeRed
+'            mtxt_solicitante_fechaNacimiento.BackColor = Color.OrangeRed   
 '            Exit Sub
 '        End If
 '    End If
