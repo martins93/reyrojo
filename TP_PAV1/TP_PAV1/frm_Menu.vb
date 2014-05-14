@@ -2,7 +2,7 @@
 
 Public Class frm_Menu
 
-    Dim cadena_Conexion As String = "Data Source=SALVADOR-PC\PAV1;Initial Catalog=PAV1;Integrated Security=True"
+    Dim cadena_Conexion As String = "Data Source=MARTIN-PC\;Initial Catalog=PAV1;Integrated Security=True"
     Dim conexion As New Conexion(cadena_Conexion, conexion.motores.sqlserver)
     Dim buscador As buscar_doc_tipoDoc
     Dim idSolicitante As Integer = -1
@@ -144,8 +144,7 @@ Public Class frm_Menu
                 Me.mostrar_Interfaz(False)
             Case 1
                 Me.mostrar_Interfaz(True)
-                'Me.CargoTableAdapter.Fill(Me.PAV1DataSet.Cargo)
-                'Me.Tipo_DocumentoTableAdapter.Fill(Me.PAV1DataSet.tipo_Documento)
+                
                 Select Case pestaña_abm
                     Case 0
                         conexion.cambiar_Tabla(Me.nombre_tabla_pestana)
@@ -200,6 +199,7 @@ Public Class frm_Menu
     End Sub
 
     Private Sub cargar_Grilla()
+       
         Dim consulta_solicitante As String = "SELECT Solicitante.idSolicitante, Solicitante.numeroDocumento, Solicitante.nombre, Solicitante.apellido, Solicitante.fechaNacimiento, Solicitante.domicilio, Solicitante.telefono, tipo_Documento.nombre AS tipodoc "
         consulta_solicitante += "FROM Solicitante INNER JOIN tipo_Documento ON Solicitante.tipo_Documento_idTipo_Documento = tipo_Documento.idTipo_Documento"
         Dim consulta_empleado As String = "SELECT Empleado.legajo AS 'Legajo Empleado', Empleado.nombres AS 'Nombres', Empleado.apellido AS 'Apellido', Empleado.fecha_Alta AS 'Fecha Alta', Empleado.Empleado_legajo AS 'Legajo Superior', Cargo.nombre AS 'Cargo' "
