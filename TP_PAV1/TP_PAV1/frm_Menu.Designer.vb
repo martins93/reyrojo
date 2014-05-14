@@ -96,6 +96,14 @@ Partial Class frm_Menu
         Me.lbl_expediente_fechaInicio = New System.Windows.Forms.Label()
         Me.lbl_expediente_codCred = New System.Windows.Forms.Label()
         Me.lbl_expediente_numeroExp = New System.Windows.Forms.Label()
+        Me.tab_control_garantia = New System.Windows.Forms.TabPage()
+        Me.btn_garantia_documentacion = New System.Windows.Forms.Button()
+        Me.txt_garantia_monto = New System.Windows.Forms.TextBox()
+        Me.txt_garantia_descripcion = New System.Windows.Forms.TextBox()
+        Me.txt_garantia_idCredito = New System.Windows.Forms.TextBox()
+        Me.lbl_garantia_monto = New System.Windows.Forms.Label()
+        Me.lbl_garantia_descripcion = New System.Windows.Forms.Label()
+        Me.lbl_garantia_codCredito = New System.Windows.Forms.Label()
         Me.btn_salir = New System.Windows.Forms.Button()
         Me.btn_modificar = New System.Windows.Forms.Button()
         Me.btn_buscar = New System.Windows.Forms.Button()
@@ -113,14 +121,6 @@ Partial Class frm_Menu
         Me.tab_menu_abm = New System.Windows.Forms.TabPage()
         Me.TipoDocumentoBindingSource1 = New System.Windows.Forms.BindingSource(Me.components)
         Me.CargoTableAdapter = New TP_PAV1.PAV1DataSetTableAdapters.CargoTableAdapter()
-        Me.tab_control_garantia = New System.Windows.Forms.TabPage()
-        Me.lbl_garantia_codCredito = New System.Windows.Forms.Label()
-        Me.txt_garantia_idCredito = New System.Windows.Forms.TextBox()
-        Me.lbl_garantia_descripcion = New System.Windows.Forms.Label()
-        Me.txt_garantia_descripcion = New System.Windows.Forms.TextBox()
-        Me.lbl_garantia_monto = New System.Windows.Forms.Label()
-        Me.txt_garantia_monto = New System.Windows.Forms.TextBox()
-        Me.btn_garantia_documentacion = New System.Windows.Forms.Button()
         Me.tab_control.SuspendLayout()
         Me.tab_control_abogado.SuspendLayout()
         Me.tab_control_solicitante.SuspendLayout()
@@ -130,13 +130,13 @@ Partial Class frm_Menu
         CType(Me.CargoBindingSource, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.tab_control_credito.SuspendLayout()
         Me.tab_control_expediente.SuspendLayout()
+        Me.tab_control_garantia.SuspendLayout()
         CType(Me.grilla, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.grp_controles.SuspendLayout()
         Me.tab_menu.SuspendLayout()
         Me.tab_menu_inicio.SuspendLayout()
         Me.tab_menu_abm.SuspendLayout()
         CType(Me.TipoDocumentoBindingSource1, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.tab_control_garantia.SuspendLayout()
         Me.SuspendLayout()
         '
         'tab_control
@@ -715,21 +715,21 @@ Partial Class frm_Menu
         Me.txt_expediente_matAbSol.Location = New System.Drawing.Point(221, 184)
         Me.txt_expediente_matAbSol.Name = "txt_expediente_matAbSol"
         Me.txt_expediente_matAbSol.Size = New System.Drawing.Size(100, 20)
-        Me.txt_expediente_matAbSol.TabIndex = 2
+        Me.txt_expediente_matAbSol.TabIndex = 4
         '
         'txt_expediente_observacion
         '
         Me.txt_expediente_observacion.Location = New System.Drawing.Point(221, 218)
         Me.txt_expediente_observacion.Name = "txt_expediente_observacion"
         Me.txt_expediente_observacion.Size = New System.Drawing.Size(186, 20)
-        Me.txt_expediente_observacion.TabIndex = 2
+        Me.txt_expediente_observacion.TabIndex = 5
         '
         'txt_expediente_matAbCre
         '
         Me.txt_expediente_matAbCre.Location = New System.Drawing.Point(221, 149)
         Me.txt_expediente_matAbCre.Name = "txt_expediente_matAbCre"
         Me.txt_expediente_matAbCre.Size = New System.Drawing.Size(100, 20)
-        Me.txt_expediente_matAbCre.TabIndex = 2
+        Me.txt_expediente_matAbCre.TabIndex = 3
         '
         'txt_expediente_fechaInicio
         '
@@ -743,14 +743,14 @@ Partial Class frm_Menu
         Me.txt_expediente_codCred.Location = New System.Drawing.Point(221, 70)
         Me.txt_expediente_codCred.Name = "txt_expediente_codCred"
         Me.txt_expediente_codCred.Size = New System.Drawing.Size(100, 20)
-        Me.txt_expediente_codCred.TabIndex = 2
+        Me.txt_expediente_codCred.TabIndex = 1
         '
         'txt_expediente_numeroExp
         '
         Me.txt_expediente_numeroExp.Location = New System.Drawing.Point(221, 35)
         Me.txt_expediente_numeroExp.Name = "txt_expediente_numeroExp"
         Me.txt_expediente_numeroExp.Size = New System.Drawing.Size(100, 20)
-        Me.txt_expediente_numeroExp.TabIndex = 2
+        Me.txt_expediente_numeroExp.TabIndex = 0
         '
         'lbl_expediente_matAbSol
         '
@@ -805,6 +805,79 @@ Partial Class frm_Menu
         Me.lbl_expediente_numeroExp.Size = New System.Drawing.Size(115, 13)
         Me.lbl_expediente_numeroExp.TabIndex = 1
         Me.lbl_expediente_numeroExp.Text = "Numero de Expediente"
+        '
+        'tab_control_garantia
+        '
+        Me.tab_control_garantia.Controls.Add(Me.btn_garantia_documentacion)
+        Me.tab_control_garantia.Controls.Add(Me.txt_garantia_monto)
+        Me.tab_control_garantia.Controls.Add(Me.txt_garantia_descripcion)
+        Me.tab_control_garantia.Controls.Add(Me.txt_garantia_idCredito)
+        Me.tab_control_garantia.Controls.Add(Me.lbl_garantia_monto)
+        Me.tab_control_garantia.Controls.Add(Me.lbl_garantia_descripcion)
+        Me.tab_control_garantia.Controls.Add(Me.lbl_garantia_codCredito)
+        Me.tab_control_garantia.Location = New System.Drawing.Point(4, 22)
+        Me.tab_control_garantia.Name = "tab_control_garantia"
+        Me.tab_control_garantia.Size = New System.Drawing.Size(420, 618)
+        Me.tab_control_garantia.TabIndex = 6
+        Me.tab_control_garantia.Text = "Garantias"
+        Me.tab_control_garantia.UseVisualStyleBackColor = True
+        '
+        'btn_garantia_documentacion
+        '
+        Me.btn_garantia_documentacion.Location = New System.Drawing.Point(142, 233)
+        Me.btn_garantia_documentacion.Name = "btn_garantia_documentacion"
+        Me.btn_garantia_documentacion.Size = New System.Drawing.Size(124, 59)
+        Me.btn_garantia_documentacion.TabIndex = 3
+        Me.btn_garantia_documentacion.Text = "Cargar Documentacion"
+        Me.btn_garantia_documentacion.UseVisualStyleBackColor = True
+        '
+        'txt_garantia_monto
+        '
+        Me.txt_garantia_monto.Location = New System.Drawing.Point(196, 108)
+        Me.txt_garantia_monto.Name = "txt_garantia_monto"
+        Me.txt_garantia_monto.Size = New System.Drawing.Size(100, 20)
+        Me.txt_garantia_monto.TabIndex = 2
+        '
+        'txt_garantia_descripcion
+        '
+        Me.txt_garantia_descripcion.Location = New System.Drawing.Point(196, 74)
+        Me.txt_garantia_descripcion.Name = "txt_garantia_descripcion"
+        Me.txt_garantia_descripcion.Size = New System.Drawing.Size(100, 20)
+        Me.txt_garantia_descripcion.TabIndex = 1
+        '
+        'txt_garantia_idCredito
+        '
+        Me.txt_garantia_idCredito.Location = New System.Drawing.Point(196, 38)
+        Me.txt_garantia_idCredito.Name = "txt_garantia_idCredito"
+        Me.txt_garantia_idCredito.Size = New System.Drawing.Size(100, 20)
+        Me.txt_garantia_idCredito.TabIndex = 0
+        '
+        'lbl_garantia_monto
+        '
+        Me.lbl_garantia_monto.AutoSize = True
+        Me.lbl_garantia_monto.Location = New System.Drawing.Point(31, 108)
+        Me.lbl_garantia_monto.Name = "lbl_garantia_monto"
+        Me.lbl_garantia_monto.Size = New System.Drawing.Size(81, 13)
+        Me.lbl_garantia_monto.TabIndex = 0
+        Me.lbl_garantia_monto.Text = "Valor Monetario"
+        '
+        'lbl_garantia_descripcion
+        '
+        Me.lbl_garantia_descripcion.AutoSize = True
+        Me.lbl_garantia_descripcion.Location = New System.Drawing.Point(31, 74)
+        Me.lbl_garantia_descripcion.Name = "lbl_garantia_descripcion"
+        Me.lbl_garantia_descripcion.Size = New System.Drawing.Size(63, 13)
+        Me.lbl_garantia_descripcion.TabIndex = 0
+        Me.lbl_garantia_descripcion.Text = "Descripcion"
+        '
+        'lbl_garantia_codCredito
+        '
+        Me.lbl_garantia_codCredito.AutoSize = True
+        Me.lbl_garantia_codCredito.Location = New System.Drawing.Point(31, 38)
+        Me.lbl_garantia_codCredito.Name = "lbl_garantia_codCredito"
+        Me.lbl_garantia_codCredito.Size = New System.Drawing.Size(91, 13)
+        Me.lbl_garantia_codCredito.TabIndex = 0
+        Me.lbl_garantia_codCredito.Text = "Codigo de Credito"
         '
         'btn_salir
         '
@@ -968,79 +1041,6 @@ Partial Class frm_Menu
         '
         Me.CargoTableAdapter.ClearBeforeFill = True
         '
-        'tab_control_garantia
-        '
-        Me.tab_control_garantia.Controls.Add(Me.btn_garantia_documentacion)
-        Me.tab_control_garantia.Controls.Add(Me.txt_garantia_monto)
-        Me.tab_control_garantia.Controls.Add(Me.txt_garantia_descripcion)
-        Me.tab_control_garantia.Controls.Add(Me.txt_garantia_idCredito)
-        Me.tab_control_garantia.Controls.Add(Me.lbl_garantia_monto)
-        Me.tab_control_garantia.Controls.Add(Me.lbl_garantia_descripcion)
-        Me.tab_control_garantia.Controls.Add(Me.lbl_garantia_codCredito)
-        Me.tab_control_garantia.Location = New System.Drawing.Point(4, 22)
-        Me.tab_control_garantia.Name = "tab_control_garantia"
-        Me.tab_control_garantia.Size = New System.Drawing.Size(420, 618)
-        Me.tab_control_garantia.TabIndex = 6
-        Me.tab_control_garantia.Text = "Garantias"
-        Me.tab_control_garantia.UseVisualStyleBackColor = True
-        '
-        'lbl_garantia_codCredito
-        '
-        Me.lbl_garantia_codCredito.AutoSize = True
-        Me.lbl_garantia_codCredito.Location = New System.Drawing.Point(31, 38)
-        Me.lbl_garantia_codCredito.Name = "lbl_garantia_codCredito"
-        Me.lbl_garantia_codCredito.Size = New System.Drawing.Size(91, 13)
-        Me.lbl_garantia_codCredito.TabIndex = 0
-        Me.lbl_garantia_codCredito.Text = "Codigo de Credito"
-        '
-        'txt_garantia_idCredito
-        '
-        Me.txt_garantia_idCredito.Location = New System.Drawing.Point(196, 38)
-        Me.txt_garantia_idCredito.Name = "txt_garantia_idCredito"
-        Me.txt_garantia_idCredito.Size = New System.Drawing.Size(100, 20)
-        Me.txt_garantia_idCredito.TabIndex = 1
-        '
-        'lbl_garantia_descripcion
-        '
-        Me.lbl_garantia_descripcion.AutoSize = True
-        Me.lbl_garantia_descripcion.Location = New System.Drawing.Point(31, 74)
-        Me.lbl_garantia_descripcion.Name = "lbl_garantia_descripcion"
-        Me.lbl_garantia_descripcion.Size = New System.Drawing.Size(63, 13)
-        Me.lbl_garantia_descripcion.TabIndex = 0
-        Me.lbl_garantia_descripcion.Text = "Descripcion"
-        '
-        'txt_garantia_descripcion
-        '
-        Me.txt_garantia_descripcion.Location = New System.Drawing.Point(196, 74)
-        Me.txt_garantia_descripcion.Name = "txt_garantia_descripcion"
-        Me.txt_garantia_descripcion.Size = New System.Drawing.Size(100, 20)
-        Me.txt_garantia_descripcion.TabIndex = 1
-        '
-        'lbl_garantia_monto
-        '
-        Me.lbl_garantia_monto.AutoSize = True
-        Me.lbl_garantia_monto.Location = New System.Drawing.Point(31, 108)
-        Me.lbl_garantia_monto.Name = "lbl_garantia_monto"
-        Me.lbl_garantia_monto.Size = New System.Drawing.Size(81, 13)
-        Me.lbl_garantia_monto.TabIndex = 0
-        Me.lbl_garantia_monto.Text = "Valor Monetario"
-        '
-        'txt_garantia_monto
-        '
-        Me.txt_garantia_monto.Location = New System.Drawing.Point(196, 108)
-        Me.txt_garantia_monto.Name = "txt_garantia_monto"
-        Me.txt_garantia_monto.Size = New System.Drawing.Size(100, 20)
-        Me.txt_garantia_monto.TabIndex = 1
-        '
-        'btn_garantia_documentacion
-        '
-        Me.btn_garantia_documentacion.Location = New System.Drawing.Point(142, 233)
-        Me.btn_garantia_documentacion.Name = "btn_garantia_documentacion"
-        Me.btn_garantia_documentacion.Size = New System.Drawing.Size(124, 59)
-        Me.btn_garantia_documentacion.TabIndex = 2
-        Me.btn_garantia_documentacion.Text = "Cargar Documentacion"
-        Me.btn_garantia_documentacion.UseVisualStyleBackColor = True
-        '
         'frm_Menu
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -1066,6 +1066,8 @@ Partial Class frm_Menu
         Me.tab_control_credito.PerformLayout()
         Me.tab_control_expediente.ResumeLayout(False)
         Me.tab_control_expediente.PerformLayout()
+        Me.tab_control_garantia.ResumeLayout(False)
+        Me.tab_control_garantia.PerformLayout()
         CType(Me.grilla, System.ComponentModel.ISupportInitialize).EndInit()
         Me.grp_controles.ResumeLayout(False)
         Me.tab_menu.ResumeLayout(False)
@@ -1073,8 +1075,6 @@ Partial Class frm_Menu
         Me.tab_menu_inicio.PerformLayout()
         Me.tab_menu_abm.ResumeLayout(False)
         CType(Me.TipoDocumentoBindingSource1, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.tab_control_garantia.ResumeLayout(False)
-        Me.tab_control_garantia.PerformLayout()
         Me.ResumeLayout(False)
 
     End Sub

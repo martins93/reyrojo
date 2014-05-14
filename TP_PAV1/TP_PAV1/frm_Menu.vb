@@ -59,6 +59,8 @@ Public Class frm_Menu
                 nom_Tabla = "empleado"
             Case 3
                 nom_Tabla = "creditos"
+            Case 5
+                nom_Tabla = "garantia"
             Case Else
                 nom_Tabla = "ERROR"
         End Select
@@ -116,7 +118,7 @@ Public Class frm_Menu
                         Me.txt_creditos_legajo.Focus()
                         Exit Sub
                     End If
-                    If Me.cmb_creditos_estadoCredito.SelectedIndex <> 1 Then
+                    If Me.cmb_creditos_estadoCredito.SelectedIndex <> 0 Then
                         MsgBox("Creditos nuevos solo pueden ser pendientes")
                         Me.cmb_creditos_estadoCredito.Focus()
                         Exit Sub
@@ -127,6 +129,18 @@ Public Class frm_Menu
                     texto += Me.txt_creditos_monto.Text & ", '" & Me.txt_creditos_fSolicitud.Text & "', " & Me.txt_creditos_idSolicitante.Text & ", " & Me.cmb_creditos_estadoCredito.SelectedIndex & ", " & Me.txt_creditos_legajo.Text & ", " & Me.txt_creditos_idObjeto.Text & ")"
                     conexion._modificar(texto)
                     Me.txt_creditos_objeto.Enabled = True
+
+                Case 5
+                    If Me.buscar_en_tabla(Me.txt_garantia_idCredito.Text, 3) = -1 Then
+                        MsgBox("No existe ningun credito con ese ID Credito")
+                        Me.txt_creditos_idSolicitante.Focus()
+                        Exit Sub
+                    End If
+
+                    texto = "INSERT INTO garantia (descripcion, valorMonetario, Creditos_idCreditos) VALUES ('"
+                    texto += Me.txt_garantia_descripcion.Text & "', " & Me.txt_garantia_monto.Text & ", " & Me.txt_garantia_idCredito.Text & ")"
+                    conexion._modificar(texto)
+
                 Case Else
                     Exit Sub
             End Select
@@ -212,7 +226,10 @@ Public Class frm_Menu
                         Me.limpiar_tab()
                         Me.txt_expediente_codCred.Enabled = True
                         Me.cargar_Grilla()
-                    Case 2
+                    Case 5
+                        conexion.cambiar_Tabla(Me.nombre_tabla_pestana)
+                        Me.limpiar_tab()
+                        Me.cargar_Grilla()
                 End Select
             Case Else
                 Exit Sub
@@ -270,6 +287,10 @@ Public Class frm_Menu
         consulta_expediente += " Abogado ON Expediente.abogado_matricula = Abogado.matricula"
         'Dim consulta_expediente = "SELECT * FROM Expediente"
 
+
+        Dim consulta_garantia = "SELECT Garantia.descripcion, Garantia.valorMonetario, Creditos.idCreditos, Creditos.monto, Solicitante.nombre, Solicitante.apellido, Solicitante.idSolicitante"
+        consulta_garantia += " FROM Creditos INNER JOIN Garantia ON Creditos.idCreditos = Garantia.Creditos_idCreditos INNER JOIN Solicitante ON Creditos.Solicitante_idSolicitante = Solicitante.idSolicitante"
+
         Dim pestaña_abm As Integer = Me.tab_control.SelectedIndex
         Select Case pestaña_abm
             Case 0
@@ -282,6 +303,8 @@ Public Class frm_Menu
                 Me.grilla.DataSource = conexion._consulta(consulta_credito)
             Case 4
                 Me.grilla.DataSource = conexion._consulta(consulta_expediente)
+            Case 5
+                Me.grilla.DataSource = conexion._consulta(consulta_garantia)
         End Select
         nombre_columnas()
     End Sub
@@ -428,6 +451,14 @@ Public Class frm_Menu
                 'Return false
                 '    Exit Sub
                 'End If
+
+            Case 5
+                'Monto negativo
+                If Me.txt_garantia_monto.Text < 1 Then
+                    MsgBox("El Monto debe ser mayor a 0", vbOKOnly + vbCritical, "Importante")
+                    Return False
+                    Exit Function
+                End If
 
         End Select
         Return True
@@ -806,6 +837,9 @@ Public Class frm_Menu
                 consulta += "Empleado WHERE legajo=" & clave
             Case 2 'Busco el solicitante
                 consulta += "Solicitante WHERE idSolicitante=" & clave
+            Case 3
+                consulta += "Creditos WHERE idCreditos=" & clave
+
 
                 'Case 3
         End Select
@@ -863,6 +897,20 @@ Public Class frm_Menu
         End If
         Return resultado
     End Function
+
+    Private Sub txt_garantia_idCredito_TextChanged(sender As System.Object, e As System.EventArgs) Handles txt_garantia_idCredito.Enter
+
+        'CARGA LA GRILLA CUANDO TE PARAS EN txt_garantia_codCredito / Solo los creditos con estado Pendiente
+
+        Dim consulta_garantia As String = "SELECT Creditos.idCreditos AS [Codigo Credito], Creditos.monto AS [Monto], Creditos.fechaSolicitud AS [Fecha Solicitud], Creditos.fechaAprobacion AS [Fecha Aprobacion], Solicitante.nombre AS [Nombre Solicitante], Solicitante.apellido AS [Apellido Solicitante], tipo_Documento.nombre AS [Tipo Documento], Solicitante.numeroDocumento AS [Documento], Estado_Credito.nombre AS [ESTADO], Objeto.descripcion AS [Objeto] "
+        consulta_garantia += "FROM Creditos INNER JOIN Solicitante ON Creditos.Solicitante_idSolicitante = Solicitante.idSolicitante "
+        consulta_garantia += "INNER JOIN Objeto ON Creditos.Objeto_idObjeto = Objeto.idObjeto "
+        consulta_garantia += "INNER JOIN Estado_Credito ON Creditos.Estado_Credito_idEstado_Credito = Estado_Credito.idEstado_Credito "
+        consulta_garantia += "INNER JOIN tipo_Documento ON Solicitante.tipo_Documento_idTipo_Documento = tipo_Documento.idTipo_Documento "
+        consulta_garantia += "WHERE Estado_Credito.nombre='PENDIENTE'"
+
+        Me.grilla.DataSource = conexion._consulta(consulta_garantia)
+    End Sub
 End Class
 
 'Private Sub fecha_Validated(ByVal sender As Object, ByVal e As System.EventArgs) Handles mtxt_solicitante_fechaNacimiento.Validated
