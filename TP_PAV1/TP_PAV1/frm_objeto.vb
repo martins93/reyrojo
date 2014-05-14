@@ -1,6 +1,6 @@
 ﻿Public Class frm_objeto
 
-    Dim cadena_Conexion As String = "Data Source=MARTIN-PC;Initial Catalog=PAV1;Integrated Security=True"
+    Dim cadena_Conexion As String = "Data Source=SALVADOR-PC\PAV1;Initial Catalog=PAV1;Integrated Security=True"
     Dim conexion As New Conexion(cadena_Conexion, "Objeto", conexion.motores.sqlserver)
 
     Private Sub frm_objeto_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
@@ -53,7 +53,7 @@
 
     End Function
 
-    Private Sub cmd_objeto_ok_Click(sender As System.Object, e As System.EventArgs) Handles cmd_objeto_ok.Click
+    Private Sub cmd_objeto_ok_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmd_objeto_ok.Click
 
         Me.texto_insert()
         MessageBox.Show("Objeto Cargado con Exito", "Exito", MessageBoxButtons.OK)
