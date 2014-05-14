@@ -204,7 +204,7 @@ Public Class frm_Menu
         consulta_solicitante += "FROM Solicitante INNER JOIN tipo_Documento ON Solicitante.tipo_Documento_idTipo_Documento = tipo_Documento.idTipo_Documento"
         Dim consulta_empleado As String = "SELECT Empleado.legajo AS 'Legajo Empleado', Empleado.nombres AS 'Nombres', Empleado.apellido AS 'Apellido', Empleado.fecha_Alta AS 'Fecha Alta', Empleado.Empleado_legajo AS 'Legajo Superior', Cargo.nombre AS 'Cargo' "
         consulta_empleado += "FROM Empleado INNER JOIN Cargo ON Empleado.Cargo_idCargo = Cargo.idCargo"
-
+        'Dim consulta_credito As String = "SELECT Creditos.idCreditos, Creditos.monto, Creditos.fechaSolicitud, Creditos.fechaAprobacion, Estado_Credito.nombre, Objeto.descripcion, Empleado.nombres, Empleado.apellido, Solicitante.nombre AS Expr1, Solicitante.apellido AS Expr2 FROM Creditos INNER JOIN Empleado ON Creditos.Empleado_legajo = Empleado.legajo INNER JOIN Estado_Credito ON Creditos.Estado_Credito_idEstado_Credito = Estado_Credito.idEstado_Credito INNER JOIN Objeto ON Creditos.Objeto_idObjeto = Objeto.idObjeto INNER JOIN Solicitante ON Creditos.Solicitante_idSolicitante = Solicitante.idSolicitante"
         Dim pestaña_abm As Integer = Me.tab_control.SelectedIndex
         Select Case pestaña_abm
             Case 0
