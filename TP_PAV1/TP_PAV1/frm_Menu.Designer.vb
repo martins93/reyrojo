@@ -582,6 +582,7 @@ Partial Class frm_Menu
         Me.txt_creditos_idObjeto.Name = "txt_creditos_idObjeto"
         Me.txt_creditos_idObjeto.Size = New System.Drawing.Size(45, 20)
         Me.txt_creditos_idObjeto.TabIndex = 6
+        Me.txt_creditos_idObjeto.Visible = False
         '
         'txt_creditos_objeto
         '

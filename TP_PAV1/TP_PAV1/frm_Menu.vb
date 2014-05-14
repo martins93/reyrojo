@@ -1,7 +1,8 @@
 ﻿Imports System.Text.RegularExpressions
 
 Public Class frm_Menu
-    Dim cadena_Conexion As String = "Data Source=SALVADOR-PC\PAV1;Initial Catalog=PAV1;Integrated Security=True"
+
+
     Dim conexion As New Conexion(cadena_Conexion, conexion.motores.sqlserver)
     Dim buscador As buscar_doc_tipoDoc
     Dim idSolicitante As Integer = -1
@@ -162,8 +163,7 @@ Public Class frm_Menu
                 Me.mostrar_Interfaz(False)
             Case 1
                 Me.mostrar_Interfaz(True)
-                'Me.CargoTableAdapter.Fill(Me.PAV1DataSet.Cargo)
-                'Me.Tipo_DocumentoTableAdapter.Fill(Me.PAV1DataSet.tipo_Documento)
+
                 Select Case pestaña_abm
                     Case 0
                         conexion.cambiar_Tabla(Me.nombre_tabla_pestana)
@@ -199,6 +199,12 @@ Public Class frm_Menu
                         mtxt_creditos_fAprobacion.Enabled = False
                         txt_creditos_idObjeto.Enabled = False
                         conexion.cambiar_Tabla(Me.nombre_tabla_pestana)
+                    Case 4
+                        conexion.cambiar_Tabla(Me.nombre_tabla_pestana)
+                        Me.limpiar_tab()
+                        Me.txt_expediente_codCred.Enabled = True
+                        Me.cargar_Grilla()
+                    Case 2
                 End Select
             Case Else
                 Exit Sub
@@ -248,6 +254,14 @@ Public Class frm_Menu
         consulta_credito += "INNER JOIN Estado_Credito ON Creditos.Estado_Credito_idEstado_Credito = Estado_Credito.idEstado_Credito "
         consulta_credito += "INNER JOIN tipo_Documento ON Solicitante.tipo_Documento_idTipo_Documento = tipo_Documento.idTipo_Documento "
 
+        Dim consulta_credito As String = "SELECT Creditos.idCreditos, Creditos.monto, Creditos.fechaSolicitud, Creditos.fechaAprobacion, Estado_Credito.nombre, Objeto.descripcion, Empleado.nombres, Empleado.apellido, Solicitante.nombre AS Expr1, Solicitante.apellido AS Expr2 FROM Creditos INNER JOIN Empleado ON Creditos.Empleado_legajo = Empleado.legajo INNER JOIN Estado_Credito ON Creditos.Estado_Credito_idEstado_Credito = Estado_Credito.idEstado_Credito INNER JOIN Objeto ON Creditos.Objeto_idObjeto = Objeto.idObjeto INNER JOIN Solicitante ON Creditos.Solicitante_idSolicitante = Solicitante.idSolicitante"
+
+        Dim consulta_expediente = "SELECT Expediente.idExpediente AS [Número Expediente], Expediente.fechaInicio AS [Fecha Inicio], Expediente.fechaEntrega AS [Fecha Entrega], Expediente.fechaDevolucion AS [Fecha Devolucion], Estado_Credito.nombre AS [Estado Crédito], Abogado.matricula AS [Matricula Abogado], Abogado.nombre AS [Nombre Abogado], Abogado.apellido AS [Apellido Abogado] "
+        consulta_expediente += "FROM Expediente INNER JOIN"
+        consulta_expediente += " Estado_Credito ON Expediente.Estado_Credito_idEstado_Credito = Estado_Credito.idEstado_Credito INNER JOIN"
+        consulta_expediente += " Abogado ON Expediente.abogado_matricula = Abogado.matricula"
+        'Dim consulta_expediente = "SELECT * FROM Expediente"
+
         Dim pestaña_abm As Integer = Me.tab_control.SelectedIndex
         Select Case pestaña_abm
             Case 0
@@ -258,6 +272,8 @@ Public Class frm_Menu
                 Me.grilla.DataSource = conexion._consulta(consulta_empleado)
             Case 3
                 Me.grilla.DataSource = conexion._consulta(consulta_credito)
+            Case 4
+                Me.grilla.DataSource = conexion._consulta(consulta_expediente)
         End Select
         nombre_columnas()
     End Sub
@@ -340,7 +356,7 @@ Public Class frm_Menu
                     Return False
                     Exit Function
                 End If
-			Case 3
+
                 'Monto negativo
                 If Me.txt_creditos_monto.Text < 1 Then
                     MsgBox("El Monto debe ser mayor a 0", vbOKOnly + vbCritical, "Importante")
@@ -367,14 +383,7 @@ Public Class frm_Menu
                 End If
                 'Existe legajo
                 Dim clave As Integer = Me.txt_creditos_legajo.Text
-                    For f As Integer = 0 To grilla.Rows.Count - 1
-                        Dim num As Integer = Val(grilla.Rows(f).Cells(0).Value)
-                        If num = clave Then
-                            grilla.Rows(f).DefaultCellStyle.BackColor = Color.Cyan
-                            grilla.Rows(f).Selected = True
-                        Else
-                            grilla.Rows(f).DefaultCellStyle.BackColor = Color.White
-                        End If
+
                 Next
                 'Existe idSolicitante
                 clave = Me.txt_creditos_idSolicitante.Text
@@ -392,7 +401,7 @@ Public Class frm_Menu
                 'Fecha aprobacion mas vieja que solicitud
                 ' If DateTime.Compare(Me.mtxt_creditos_fAprobacion.Text, Me.txt_creditos_fSolicitud.Text) Then
                 'End If
-				
+
                 'Es Fecha?
                 'CONFLICTO CON VALIDACION DE FECHAS DE SQLSERVER
                 '12-31-2000 SQLSERVER
@@ -409,7 +418,7 @@ Public Class frm_Menu
         Return True
     End Function
 
-    Private Sub numero_KeyPress(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyPressEventArgs) Handles txt_abogado_matricula.KeyPress, txt_empleado_legajo.KeyPress, txt_empleado_legSup.KeyPress, txt_creditos_idSolicitante.KeyPress, txt_creditos_legajo.KeyPress, txt_creditos_monto.KeyPress
+
         'Permitimos teclas de desplazamiento en el textbox, entre otras'
         Select Case Asc(e.KeyChar)
             Case 4, 24, 19, 127, 13, 9, 15, 14, 8
@@ -423,6 +432,7 @@ Public Class frm_Menu
     End Sub
 
     Private Sub texto_KeyPress(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyPressEventArgs) Handles txt_solicitante_apellido.KeyPress, txt_solicitante_nombre.KeyPress, txt_solicitante_apellido.KeyPress, txt_solicitante_nombre.KeyPress, txt_empleado_ape.KeyPress, txt_empleado_nombre.KeyPress
+
         'Permitimos teclas de desplazamiento en el textbox, entre otras'
         Select Case Asc(e.KeyChar)
             Case 4, 24, 19, 127, 13, 9, 15, 14, 8
@@ -499,6 +509,9 @@ Public Class frm_Menu
                 Me.txt_empleado_nombre.Text = grilla.Rows(fila).Cells(1).Value
                 Me.txt_empleado_fecha.Text = grilla.Rows(fila).Cells(3).Value
                 Me.txt_empleado_ape.Text = grilla.Rows(fila).Cells(2).Value
+
+
+
         End Select
     End Sub
 
@@ -715,23 +728,32 @@ Public Class frm_Menu
         End Select
     End Function
 
+
     Private Sub cmd_credito_obj_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles txt_creditos_objeto.Enter
+
+        Dim tabla As New Data.DataTable
 
         frm_objeto = New frm_objeto
 
         Dim result As DialogResult = frm_objeto.ShowDialog(Me)
 
+        'Trae Descripcion_Objeto
         Me.txt_creditos_objeto.Text = frm_objeto.pasar_descripcion_obj()
-
         If txt_creditos_objeto.Text = "" Then
         Else
             txt_creditos_objeto.Enabled = False
         End If
+
+        'Trae el ID_Objeto
+        tabla = frm_objeto.traer_id_objeto()
+        Me.txt_creditos_idObjeto.Text = tabla.Rows(0)(0)
+
     End Sub
 
     Private Sub txt_creditos_idSolicitante_TextChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles txt_creditos_idSolicitante.Validated, txt_creditos_legajo.Validated
         Me.cargar_Grilla()
     End Sub
+
 
 
     Private Sub txt_creditos_idSolicitante_Enter(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles txt_creditos_idSolicitante.Enter
@@ -771,13 +793,31 @@ Public Class frm_Menu
         Return resultado
     End Function
 
+
+    Private Sub txt_expediente_codCred_Enter(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles txt_expediente_codCred.Enter
+
+        Dim consulta_expediente As String = "SELECT Creditos.idCreditos AS [Codigo Credito], Creditos.monto AS [Monto], Creditos.fechaSolicitud AS [Fecha Solicitud], Creditos.fechaAprobacion AS [Fecha Aprobacion], Solicitante.nombre AS [Nombre Solicitante], Solicitante.apellido AS [Apellido Solicitante], tipo_Documento.nombre AS [Tipo Documento], Solicitante.numeroDocumento AS [Documento], Estado_Credito.nombre AS [ESTADO], Objeto.descripcion AS [Objeto] "
+        consulta_expediente += "FROM Creditos INNER JOIN Solicitante ON Creditos.Solicitante_idSolicitante = Solicitante.idSolicitante "
+        consulta_expediente += "INNER JOIN Objeto ON Creditos.Objeto_idObjeto = Objeto.idObjeto "
+        consulta_expediente += "INNER JOIN Estado_Credito ON Creditos.Estado_Credito_idEstado_Credito = Estado_Credito.idEstado_Credito "
+        consulta_expediente += "INNER JOIN tipo_Documento ON Solicitante.tipo_Documento_idTipo_Documento = tipo_Documento.idTipo_Documento "
+        consulta_expediente += "WHERE Estado_Credito.nombre='DEUDA'"
+
+        Me.grilla.DataSource = conexion._consulta(consulta_expediente)
+    End Sub
+    Private Sub txt_expediente_matAbCre_Enter(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles txt_expediente_matAbCre.Enter, txt_expediente_matAbSol.Enter
+        Dim consulta_abogado As String = "SELECT matricula AS [Matricula], nombre AS [Nombre], apellido AS [Apellido], domicilio AS [Domicilio], telefono AS [Telefono] FROM Abogado"
+        Me.grilla.DataSource = conexion._consulta(consulta_abogado)
+    End Sub
+
+
 End Class
 
 'Private Sub fecha_Validated(ByVal sender As Object, ByVal e As System.EventArgs) Handles mtxt_solicitante_fechaNacimiento.Validated
 '    If sender.text <> "  -  -" Then
 '        If Convert.ToInt32(sender.text.Substring(sender.text.Length - 4)) > 2014 Or Convert.ToInt32(sender.text.Substring(sender.text.Length - 4)) < 1900 Then
 '            ' MsgBox("Año invalido", vbOKOnly + vbCritical, "Importante")
-'            mtxt_solicitante_fechaNacimiento.BackColor = Color.OrangeRed   
+
 '            Exit Sub
 '        End If
 '    End If

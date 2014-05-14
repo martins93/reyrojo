@@ -66,6 +66,7 @@ Partial Class frm_objeto
         '
         'cmd_objeto_cancelar
         '
+        Me.cmd_objeto_cancelar.DialogResult = System.Windows.Forms.DialogResult.Cancel
         Me.cmd_objeto_cancelar.Location = New System.Drawing.Point(210, 112)
         Me.cmd_objeto_cancelar.Name = "cmd_objeto_cancelar"
         Me.cmd_objeto_cancelar.Size = New System.Drawing.Size(75, 23)
@@ -82,8 +83,10 @@ Partial Class frm_objeto
         '
         'frm_objeto
         '
+        Me.AcceptButton = Me.cmd_objeto_ok
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
+        Me.CancelButton = Me.cmd_objeto_cancelar
         Me.ClientSize = New System.Drawing.Size(345, 149)
         Me.Controls.Add(Me.txt_objeto_valorMonetario)
         Me.Controls.Add(Me.cmd_objeto_cancelar)
@@ -92,7 +95,7 @@ Partial Class frm_objeto
         Me.Controls.Add(Me.lbl_objeto_valor)
         Me.Controls.Add(Me.lbl_objeto_descripcion)
         Me.Name = "frm_objeto"
-        Me.Text = "frm_objeto"
+        Me.Text = "Cargar Objeto"
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
