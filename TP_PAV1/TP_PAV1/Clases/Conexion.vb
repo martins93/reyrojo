@@ -156,7 +156,7 @@
     Public Sub _modificar(ByVal comando As String)
         Me._conectar()
         Me.cmd.CommandText = comando
-        MsgBox(comando)
+        '  MsgBox(comando)
         cmd.ExecuteNonQuery()
         Me.conexion.Close()
     End Sub
@@ -304,7 +304,7 @@
         Dim txt_Insert As String = ""
         txt_Insert = Me.armo_insert(conid)
         txt_Insert += Me.asigno_valores_insert(valores, conid)
-        MsgBox(txt_Insert)
+        '  MsgBox(txt_Insert)
         Me._conectar()
         Me.cmd.CommandText = txt_Insert
         cmd.ExecuteNonQuery()
