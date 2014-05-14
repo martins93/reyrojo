@@ -1,6 +1,6 @@
 ﻿Public Class frm_objeto
 
-    Dim cadena_Conexion As String = "Data Source=SALVADOR-PC\PAV1;Initial Catalog=PAV1;Integrated Security=True"
+    Dim cadena_Conexion As String = "Data Source=MARTIN-PC;Initial Catalog=PAV1;Integrated Security=True"
     Dim conexion As New Conexion(cadena_Conexion, "Objeto", conexion.motores.sqlserver)
 
     Private Sub frm_objeto_Load(sender As System.Object, e As System.EventArgs) Handles MyBase.Load
@@ -28,7 +28,6 @@
     End Property
 
     Private Sub texto_insert()
-
         Dim texto As String = "descripcion = " & Me.txt_objeto_descripcion.Text & ", valorMonetario = " & Me.txt_objeto_valorMonetario.Text
 
         conexion._insertar(texto, False)
@@ -41,10 +40,24 @@
 
     End Function
 
+    Public Function traer_id_objeto() As Data.DataTable
+
+        Dim consulta_sql As String = "SELECT MAX(idObjeto) FROM Objeto"
+        Dim id_obj As Integer = 0
+        Dim tabla As New Data.DataTable
+        Dim cmd As New Data.OleDb.OleDbCommand
+
+        tabla = conexion._consulta(consulta_sql)
+
+        Return tabla
+
+    End Function
+
     Private Sub cmd_objeto_ok_Click(sender As System.Object, e As System.EventArgs) Handles cmd_objeto_ok.Click
 
         Me.texto_insert()
         MessageBox.Show("Objeto Cargado con Exito", "Exito", MessageBoxButtons.OK)
+
         Me.Close()
 
     End Sub
@@ -53,4 +66,7 @@
     Private Sub cmd_objeto_cancelar_Click(sender As System.Object, e As System.EventArgs) Handles cmd_objeto_cancelar.Click
         Me.Close()
     End Sub
+
+
+
 End Class

@@ -82,6 +82,13 @@
         Me.cmd.CommandType = CommandType.Text
     End Sub
 
+    Public Sub _conectarPub()
+        Me.conexion.ConnectionString = Me.str_conexion
+        Me.conexion.Open()
+        Me.cmd.Connection = conexion
+        Me.cmd.CommandType = CommandType.Text
+    End Sub
+
     Public Function _consulta(ByVal comando As String) As Data.DataTable
         Dim _tabla As New Data.DataTable
         Me._conectar()
