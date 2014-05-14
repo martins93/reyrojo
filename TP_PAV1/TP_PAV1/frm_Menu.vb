@@ -1,7 +1,7 @@
 ﻿Imports System.Text.RegularExpressions
 
 Public Class frm_Menu
-    Dim cadena_Conexion As String = "Data Source=SALVADOR-PC\PAV1;Initial Catalog=PAV1;Integrated Security=True"
+    Dim cadena_Conexion As String = "Data Source=MARTIN-PC;Initial Catalog=PAV1;Integrated Security=True"
     Dim conexion As New Conexion(cadena_Conexion, conexion.motores.sqlserver)
     Dim buscador As buscar_doc_tipoDoc
     Dim idSolicitante As Integer = -1
@@ -179,6 +179,9 @@ Public Class frm_Menu
                         conexion.cambiar_Tabla(Me.nombre_tabla_pestana)
                         Me.limpiar_tab()
                         Me.cargar_Grilla()
+                        'Combo
+                        Me.conexion._tabla = "estado_credito"
+                        Me._combo.cargar(Me.cmb_creditos_estadoCredito, Me.conexion.leo_tabla())
                         txt_creditos_fSolicitud.Text = DateTime.Now().ToString("dd-MM-yyyy")
                         txt_creditos_fSolicitud.Enabled = False
                 End Select
@@ -673,6 +676,10 @@ Public Class frm_Menu
         Dim consulta_empleado As String = "SELECT Empleado.legajo AS 'Legajo Empleado', Empleado.nombres AS 'Nombres', Empleado.apellido AS 'Apellido', Empleado.fecha_Alta AS 'Fecha Alta', Empleado.Empleado_legajo AS 'Legajo Superior', Cargo.nombre AS 'Cargo' "
         consulta_empleado += "FROM Empleado INNER JOIN Cargo ON Empleado.Cargo_idCargo = Cargo.idCargo"
         Me.grilla.DataSource = conexion._consulta(consulta_empleado)
+    End Sub
+
+    Private Sub txt_creditos_objeto_TextChanged(sender As System.Object, e As System.EventArgs) Handles txt_creditos_objeto.TextChanged
+
     End Sub
 End Class
 
