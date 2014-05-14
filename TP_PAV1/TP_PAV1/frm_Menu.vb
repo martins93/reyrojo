@@ -116,7 +116,7 @@ Public Class frm_Menu
                         Me.txt_creditos_legajo.Focus()
                         Exit Sub
                     End If
-                    If Me.cmb_creditos_estadoCredito.SelectedIndex <> 1 Then
+                    If Me.cmb_creditos_estadoCredito.SelectedIndex <> 0 Then
                         MsgBox("Creditos nuevos solo pueden ser pendientes")
                         Me.cmb_creditos_estadoCredito.Focus()
                         Exit Sub
@@ -244,6 +244,7 @@ Public Class frm_Menu
             Case Else
                 Exit Sub
         End Select
+        Me.limpiar_tab()
         conexion._borrar(id_clave)
         Me.cargar_Grilla()
 
@@ -524,9 +525,20 @@ Public Class frm_Menu
                 Me.txt_empleado_nombre.Text = grilla.Rows(fila).Cells(1).Value
                 Me.txt_empleado_fecha.Text = grilla.Rows(fila).Cells(3).Value
                 Me.txt_empleado_ape.Text = grilla.Rows(fila).Cells(2).Value
+            Case 3
+                Dim tabla As New Data.DataTable
+                Me.idCredito = grilla.Rows(fila).Cells(0).Value
+                tabla = conexion._consulta("SELECT * FROM Creditos WHERE idCreditos=" & Me.idCredito)
 
-
-
+                Me.txt_creditos_fSolicitud.Text = grilla.Rows(fila).Cells(2).Value
+                Me.txt_creditos_idObjeto.Text = tabla.Rows(0)("Objeto_idObjeto")
+                Me.txt_creditos_idSolicitante.Text = tabla.Rows(0)("Solicitante_idSolicitante")                Me.txt_creditos_legajo.Text = tabla.Rows(0)("Empleado_legajo")
+                Me.txt_creditos_monto.Text = grilla.Rows(fila).Cells(1).Value
+                Me.txt_creditos_objeto.Text = grilla.Rows(fila).Cells(9).Value
+                If IsDBNull(grilla.Rows(fila).Cells(3).Value) = False Then
+                    Me.mtxt_creditos_fAprobacion.Text = grilla.Rows(fila).Cells(3).Value
+                End If
+                Me.cmb_creditos_estadoCredito.SelectedIndex = tabla.Rows(0)("Estado_Credito_idEstado_Credito")
         End Select
     End Sub
 
@@ -641,12 +653,54 @@ Public Class frm_Menu
                     Else
                         id_clave = Me.idCredito
                     End If
-                    If validar_estado_credito(id_clave) = True Then
-                        'validar estado no aprobado ni rechazado
-                        texto += "monto= " & Me.txt_creditos_monto.Text & ", Estado_Credito_idEstado_Credito=" & Me.cmb_creditos_estadoCredito.SelectedIndex & ", Objeto_idObjeto=" & Me.txt_creditos_idObjeto.Text
-                        texto += " WHERE idCreditos=" & id_clave
-                        Me.txt_creditos_objeto.Enabled = True
-                    End If
+
+                    If validar_estado_credito(id_clave) = 2 Then
+                        If Me.cmb_creditos_estadoCredito.SelectedIndex = 1 Then
+                            texto += "Estado_Credito_idEstado_Credito=" & Me.cmb_creditos_estadoCredito.SelectedIndex
+                        Else
+                            MsgBox("Creditos en deuda solo pueden volver a aprobados")
+                            Exit Sub
+                        End If
+                    ElseIf validar_estado_credito(id_clave) = 3 Then
+                        MsgBox("No se pueden modificar creditos rechazados")
+                        Exit Sub
+                    ElseIf validar_estado_credito(id_clave) = 1 Then
+                        If Me.cmb_creditos_estadoCredito.SelectedIndex = 2 Then
+                            texto += "Estado_Credito_idEstado_Credito=" & Me.cmb_creditos_estadoCredito.SelectedIndex
+                        Else
+                            MsgBox("Creditos aprobados solo pueden pasar a estado de Deuda")
+                            Exit Sub
+                        End If
+                    Else
+                        If Me.cmb_creditos_estadoCredito.SelectedIndex = 1 Then
+                            If Me.mtxt_creditos_fAprobacion.MaskCompleted = True Then
+                                texto += "monto= " & Me.txt_creditos_monto.Text & ", fechaAprobacion=" & Me.mtxt_creditos_fAprobacion.Text & ", Estado_Credito_idEstado_Credito=" & Me.cmb_creditos_estadoCredito.SelectedIndex
+                            Else
+                                MsgBox("Se debe llenar la fecha de aprobacion")
+                                Exit Sub
+                            End If
+                        ElseIf Me.cmb_creditos_estadoCredito.SelectedIndex = 3 Then
+                            texto += "Estado_Credito_idEstado_Credito=" & Me.cmb_creditos_estadoCredito.SelectedIndex
+                        Else
+                            MsgBox("Creditos pendientes solo se puede actualizar a Aprobados o Rechazados")
+                            Exit Sub
+                        End If
+
+                        End If
+                    texto += " WHERE idCreditos=" & id_clave
+
+
+
+                    'If validar_estado_credito(id_clave) <> 1 And validar_estado_credito(id_clave) <> 3 Then
+
+                    '    texto += "monto= " & Me.txt_creditos_monto.Text
+                    '    If Me.mtxt_creditos_fAprobacion.Enabled = True Then
+                    '        texto += ", fechaAprobacion=" & Me.mtxt_creditos_fAprobacion.Text
+                    '    End If
+                    '    texto += ", Estado_Credito_idEstado_Credito=" & Me.cmb_creditos_estadoCredito.SelectedIndex
+                    '    texto += " WHERE idCreditos=" & id_clave
+                    '    Me.txt_creditos_objeto.Enabled = True
+                    'End If
                 Case Else
                     Exit Sub
             End Select
@@ -838,18 +892,43 @@ Public Class frm_Menu
 
         If Me.cmb_creditos_estadoCredito.SelectedIndex = 1 Then
             Me.mtxt_creditos_fAprobacion.Enabled = True
-        Else
-            Me.mtxt_creditos_fAprobacion.Enabled = False
+            Me.txt_creditos_objeto.Enabled = False
+            Me.txt_creditos_legajo.Enabled = False
+            Me.txt_creditos_idSolicitante.Enabled = False
+            '    Me.txt_creditos_monto.Enabled = False
+            'Me.txt_creditos_objeto.Text = ""
+            'Me.txt_creditos_legajo.Text = ""
+            'Me.txt_creditos_idSolicitante.Text = ""
+            '' Me.txt_creditos_monto.Text = ""
         End If
-
+        If Me.cmb_creditos_estadoCredito.SelectedIndex = 0 Then
+            Me.mtxt_creditos_fAprobacion.Enabled = False
+            Me.mtxt_creditos_fAprobacion.Clear()
+            Me.txt_creditos_objeto.Enabled = True
+            Me.txt_creditos_legajo.Enabled = True
+            Me.txt_creditos_idSolicitante.Enabled = True
+            Me.txt_creditos_monto.Enabled = True
+        End If
+        If Me.cmb_creditos_estadoCredito.SelectedIndex = 2 Or Me.cmb_creditos_estadoCredito.SelectedIndex = 3 Then
+            Me.mtxt_creditos_fAprobacion.Enabled = False
+            Me.mtxt_creditos_fAprobacion.Clear()
+            Me.txt_creditos_objeto.Enabled = False
+            Me.txt_creditos_legajo.Enabled = False
+            Me.txt_creditos_idSolicitante.Enabled = False
+            Me.txt_creditos_monto.Enabled = False
+            'Me.txt_creditos_objeto.Text = ""
+            'Me.txt_creditos_legajo.Text = ""
+            'Me.txt_creditos_idSolicitante.Text = ""
+            'Me.txt_creditos_monto.Text = ""
+        End If
     End Sub
 
-    Private Function validar_estado_credito(ByVal clave As Integer) As Boolean
+    Private Function validar_estado_credito(ByVal clave As Integer) As Integer
 
         Dim consulta As String = ""
         Dim tabla As New Data.DataTable
         Dim valor As Integer
-        Dim resultado As Boolean = True
+        Dim resultado As Integer = -1
 
         consulta = "SELECT * FROM creditos WHERE idCreditos=" & clave
 
@@ -857,9 +936,8 @@ Public Class frm_Menu
 
         If tabla.Rows.Count = 1 Then
             valor = tabla.Rows(0)(5)
-            If valor = 1 Or valor = 2 Then
-                resultado = False
-            End If
+            resultado = valor
+
         End If
         Return resultado
     End Function
