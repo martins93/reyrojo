@@ -1,13 +1,9 @@
 ﻿Imports System.Text.RegularExpressions
 
 Public Class frm_Menu
-<<<<<<< HEAD
+
 
     Dim cadena_Conexion As String = "Data Source=MARTIN-PC\;Initial Catalog=PAV1;Integrated Security=True"
-=======
-    'PROBANDO PUSH PULL CON EL IGNORE
-    Dim cadena_Conexion As String = "Data Source=SALVADOR-PC\PAV1;Initial Catalog=PAV1;Integrated Security=True"
->>>>>>> ee7b166960ea7ca17f544f329948b5361d3bae0d
     Dim conexion As New Conexion(cadena_Conexion, conexion.motores.sqlserver)
     Dim buscador As buscar_doc_tipoDoc
     Dim idSolicitante As Integer = -1
