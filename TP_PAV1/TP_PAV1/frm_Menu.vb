@@ -1,7 +1,6 @@
 ﻿Imports System.Text.RegularExpressions
 
 Public Class frm_Menu
-    Dim cadena_Conexion As String = "Data Source=MARTIN-PC;Initial Catalog=PAV1;Integrated Security=True"
     Dim conexion As New Conexion(cadena_Conexion, conexion.motores.sqlserver)
     Dim buscador As buscar_doc_tipoDoc
     Dim idSolicitante As Integer = -1
@@ -670,18 +669,25 @@ Public Class frm_Menu
         End Select
     End Function
 
-    Private Sub cmd_credito_obj_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles txt_creditos_objeto.Enter, txt_creditos_idObjeto.Enter
+    Private Sub cmd_credito_obj_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles txt_creditos_objeto.Enter
+
+        Dim tabla As New Data.DataTable
 
         frm_objeto = New frm_objeto
 
         Dim result As DialogResult = frm_objeto.ShowDialog(Me)
 
+        'Trae Descripcion_Objeto
         Me.txt_creditos_objeto.Text = frm_objeto.pasar_descripcion_obj()
-
         If txt_creditos_objeto.Text = "" Then
         Else
             txt_creditos_objeto.Enabled = False
         End If
+
+        'Trae el ID_Objeto
+        tabla = frm_objeto.traer_id_objeto()
+        Me.txt_creditos_idObjeto.Text = tabla.Rows(0)(0)
+
     End Sub
 
     Private Sub txt_creditos_idSolicitante_Enter(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles txt_creditos_idSolicitante.Enter
