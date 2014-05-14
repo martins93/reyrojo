@@ -73,7 +73,6 @@ Partial Class frm_Menu
         Me.txt_creditos_idObjeto = New System.Windows.Forms.TextBox()
         Me.txt_creditos_objeto = New System.Windows.Forms.TextBox()
         Me.lbl_creditos_objeto = New System.Windows.Forms.Label()
-        Me.cmd_credito_obj = New System.Windows.Forms.Button()
         Me.mtxt_creditos_fAprobacion = New System.Windows.Forms.MaskedTextBox()
         Me.txt_creditos_legajo = New System.Windows.Forms.TextBox()
         Me.lbl_creditos_legajo = New System.Windows.Forms.Label()
@@ -114,6 +113,14 @@ Partial Class frm_Menu
         Me.tab_menu_abm = New System.Windows.Forms.TabPage()
         Me.TipoDocumentoBindingSource1 = New System.Windows.Forms.BindingSource(Me.components)
         Me.CargoTableAdapter = New TP_PAV1.PAV1DataSetTableAdapters.CargoTableAdapter()
+        Me.tab_control_garantia = New System.Windows.Forms.TabPage()
+        Me.lbl_garantia_codCredito = New System.Windows.Forms.Label()
+        Me.txt_garantia_idCredito = New System.Windows.Forms.TextBox()
+        Me.lbl_garantia_descripcion = New System.Windows.Forms.Label()
+        Me.txt_garantia_descripcion = New System.Windows.Forms.TextBox()
+        Me.lbl_garantia_monto = New System.Windows.Forms.Label()
+        Me.txt_garantia_monto = New System.Windows.Forms.TextBox()
+        Me.btn_garantia_documentacion = New System.Windows.Forms.Button()
         Me.tab_control.SuspendLayout()
         Me.tab_control_abogado.SuspendLayout()
         Me.tab_control_solicitante.SuspendLayout()
@@ -129,6 +136,7 @@ Partial Class frm_Menu
         Me.tab_menu_inicio.SuspendLayout()
         Me.tab_menu_abm.SuspendLayout()
         CType(Me.TipoDocumentoBindingSource1, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.tab_control_garantia.SuspendLayout()
         Me.SuspendLayout()
         '
         'tab_control
@@ -138,6 +146,7 @@ Partial Class frm_Menu
         Me.tab_control.Controls.Add(Me.tab_control_empleado)
         Me.tab_control.Controls.Add(Me.tab_control_credito)
         Me.tab_control.Controls.Add(Me.tab_control_expediente)
+        Me.tab_control.Controls.Add(Me.tab_control_garantia)
         Me.tab_control.Location = New System.Drawing.Point(0, 8)
         Me.tab_control.Name = "tab_control"
         Me.tab_control.SelectedIndex = 0
@@ -541,7 +550,6 @@ Partial Class frm_Menu
         Me.tab_control_credito.Controls.Add(Me.txt_creditos_idObjeto)
         Me.tab_control_credito.Controls.Add(Me.txt_creditos_objeto)
         Me.tab_control_credito.Controls.Add(Me.lbl_creditos_objeto)
-        Me.tab_control_credito.Controls.Add(Me.cmd_credito_obj)
         Me.tab_control_credito.Controls.Add(Me.mtxt_creditos_fAprobacion)
         Me.tab_control_credito.Controls.Add(Me.txt_creditos_legajo)
         Me.tab_control_credito.Controls.Add(Me.lbl_creditos_legajo)
@@ -599,15 +607,6 @@ Partial Class frm_Menu
         Me.lbl_creditos_objeto.Size = New System.Drawing.Size(38, 13)
         Me.lbl_creditos_objeto.TabIndex = 7
         Me.lbl_creditos_objeto.Text = "Objeto"
-        '
-        'cmd_credito_obj
-        '
-        Me.cmd_credito_obj.Location = New System.Drawing.Point(161, 433)
-        Me.cmd_credito_obj.Name = "cmd_credito_obj"
-        Me.cmd_credito_obj.Size = New System.Drawing.Size(100, 52)
-        Me.cmd_credito_obj.TabIndex = 7
-        Me.cmd_credito_obj.Text = "Objeto"
-        Me.cmd_credito_obj.UseVisualStyleBackColor = True
         '
         'mtxt_creditos_fAprobacion
         '
@@ -969,6 +968,79 @@ Partial Class frm_Menu
         '
         Me.CargoTableAdapter.ClearBeforeFill = True
         '
+        'tab_control_garantia
+        '
+        Me.tab_control_garantia.Controls.Add(Me.btn_garantia_documentacion)
+        Me.tab_control_garantia.Controls.Add(Me.txt_garantia_monto)
+        Me.tab_control_garantia.Controls.Add(Me.txt_garantia_descripcion)
+        Me.tab_control_garantia.Controls.Add(Me.txt_garantia_idCredito)
+        Me.tab_control_garantia.Controls.Add(Me.lbl_garantia_monto)
+        Me.tab_control_garantia.Controls.Add(Me.lbl_garantia_descripcion)
+        Me.tab_control_garantia.Controls.Add(Me.lbl_garantia_codCredito)
+        Me.tab_control_garantia.Location = New System.Drawing.Point(4, 22)
+        Me.tab_control_garantia.Name = "tab_control_garantia"
+        Me.tab_control_garantia.Size = New System.Drawing.Size(420, 618)
+        Me.tab_control_garantia.TabIndex = 6
+        Me.tab_control_garantia.Text = "Garantias"
+        Me.tab_control_garantia.UseVisualStyleBackColor = True
+        '
+        'lbl_garantia_codCredito
+        '
+        Me.lbl_garantia_codCredito.AutoSize = True
+        Me.lbl_garantia_codCredito.Location = New System.Drawing.Point(31, 38)
+        Me.lbl_garantia_codCredito.Name = "lbl_garantia_codCredito"
+        Me.lbl_garantia_codCredito.Size = New System.Drawing.Size(91, 13)
+        Me.lbl_garantia_codCredito.TabIndex = 0
+        Me.lbl_garantia_codCredito.Text = "Codigo de Credito"
+        '
+        'txt_garantia_idCredito
+        '
+        Me.txt_garantia_idCredito.Location = New System.Drawing.Point(196, 38)
+        Me.txt_garantia_idCredito.Name = "txt_garantia_idCredito"
+        Me.txt_garantia_idCredito.Size = New System.Drawing.Size(100, 20)
+        Me.txt_garantia_idCredito.TabIndex = 1
+        '
+        'lbl_garantia_descripcion
+        '
+        Me.lbl_garantia_descripcion.AutoSize = True
+        Me.lbl_garantia_descripcion.Location = New System.Drawing.Point(31, 74)
+        Me.lbl_garantia_descripcion.Name = "lbl_garantia_descripcion"
+        Me.lbl_garantia_descripcion.Size = New System.Drawing.Size(63, 13)
+        Me.lbl_garantia_descripcion.TabIndex = 0
+        Me.lbl_garantia_descripcion.Text = "Descripcion"
+        '
+        'txt_garantia_descripcion
+        '
+        Me.txt_garantia_descripcion.Location = New System.Drawing.Point(196, 74)
+        Me.txt_garantia_descripcion.Name = "txt_garantia_descripcion"
+        Me.txt_garantia_descripcion.Size = New System.Drawing.Size(100, 20)
+        Me.txt_garantia_descripcion.TabIndex = 1
+        '
+        'lbl_garantia_monto
+        '
+        Me.lbl_garantia_monto.AutoSize = True
+        Me.lbl_garantia_monto.Location = New System.Drawing.Point(31, 108)
+        Me.lbl_garantia_monto.Name = "lbl_garantia_monto"
+        Me.lbl_garantia_monto.Size = New System.Drawing.Size(81, 13)
+        Me.lbl_garantia_monto.TabIndex = 0
+        Me.lbl_garantia_monto.Text = "Valor Monetario"
+        '
+        'txt_garantia_monto
+        '
+        Me.txt_garantia_monto.Location = New System.Drawing.Point(196, 108)
+        Me.txt_garantia_monto.Name = "txt_garantia_monto"
+        Me.txt_garantia_monto.Size = New System.Drawing.Size(100, 20)
+        Me.txt_garantia_monto.TabIndex = 1
+        '
+        'btn_garantia_documentacion
+        '
+        Me.btn_garantia_documentacion.Location = New System.Drawing.Point(142, 233)
+        Me.btn_garantia_documentacion.Name = "btn_garantia_documentacion"
+        Me.btn_garantia_documentacion.Size = New System.Drawing.Size(124, 59)
+        Me.btn_garantia_documentacion.TabIndex = 2
+        Me.btn_garantia_documentacion.Text = "Cargar Documentacion"
+        Me.btn_garantia_documentacion.UseVisualStyleBackColor = True
+        '
         'frm_Menu
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -1001,6 +1073,8 @@ Partial Class frm_Menu
         Me.tab_menu_inicio.PerformLayout()
         Me.tab_menu_abm.ResumeLayout(False)
         CType(Me.TipoDocumentoBindingSource1, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.tab_control_garantia.ResumeLayout(False)
+        Me.tab_control_garantia.PerformLayout()
         Me.ResumeLayout(False)
 
     End Sub
@@ -1076,7 +1150,6 @@ Partial Class frm_Menu
     Friend WithEvents lbl_creditos_fSolicitud As System.Windows.Forms.Label
     Friend WithEvents txt_creditos_monto As System.Windows.Forms.TextBox
     Friend WithEvents lbl_creditos_monto As System.Windows.Forms.Label
-    Friend WithEvents cmd_credito_obj As System.Windows.Forms.Button
     Friend WithEvents txt_creditos_objeto As System.Windows.Forms.TextBox
     Friend WithEvents lbl_creditos_objeto As System.Windows.Forms.Label
     Friend WithEvents tab_control_expediente As System.Windows.Forms.TabPage
@@ -1095,4 +1168,12 @@ Partial Class frm_Menu
     Friend WithEvents cmb_creditos_estadoCredito As System.Windows.Forms.ComboBox
     Friend WithEvents lbl_creditos_estadoCredito As System.Windows.Forms.Label
     Friend WithEvents txt_creditos_idObjeto As System.Windows.Forms.TextBox
+    Friend WithEvents tab_control_garantia As System.Windows.Forms.TabPage
+    Friend WithEvents btn_garantia_documentacion As System.Windows.Forms.Button
+    Friend WithEvents txt_garantia_monto As System.Windows.Forms.TextBox
+    Friend WithEvents txt_garantia_descripcion As System.Windows.Forms.TextBox
+    Friend WithEvents txt_garantia_idCredito As System.Windows.Forms.TextBox
+    Friend WithEvents lbl_garantia_monto As System.Windows.Forms.Label
+    Friend WithEvents lbl_garantia_descripcion As System.Windows.Forms.Label
+    Friend WithEvents lbl_garantia_codCredito As System.Windows.Forms.Label
 End Class
