@@ -2,7 +2,7 @@
 
 Public Class frm_Menu
 
-    Dim cadena_Conexion As String = "Data Source=SALVADOR-PC\PAV1;Initial Catalog=PAV1;Integrated Security=True"
+    Dim cadena_Conexion As String = "Data Source=MARTIN-PC;Initial Catalog=PAV1;Integrated Security=True"
     Dim conexion As New Conexion(cadena_Conexion, conexion.motores.sqlserver)
     Dim buscador As buscar_doc_tipoDoc
     Dim idSolicitante As Integer = -1
@@ -19,29 +19,6 @@ Public Class frm_Menu
         End If
     End Sub
 
-    Private Sub nombre_columnas() 'Ver si se puede hacer desde SQL directamente
-        Dim pestaña_abm As Integer = Me.tab_control.SelectedIndex
-        Select Case pestaña_abm
-            Case 0
-                grilla.Columns(0).HeaderText = "Matricula"
-                grilla.Columns(1).HeaderText = "Nombres"
-                grilla.Columns(2).HeaderText = "Apellido"
-                grilla.Columns(3).HeaderText = "Domicilio"
-                grilla.Columns(4).HeaderText = "Telefono"
-            Case 1
-                grilla.Columns(0).HeaderText = "Codigo de Solicitante"
-                grilla.Columns(1).HeaderText = "Numero de Documento"
-                grilla.Columns(2).HeaderText = "Nombres"
-                grilla.Columns(3).HeaderText = "Apellido"
-                grilla.Columns(4).HeaderText = "Fecha de Nacimiento"
-                grilla.Columns(5).HeaderText = "Domicilio"
-                grilla.Columns(6).HeaderText = "Telefono"
-                grilla.Columns(7).HeaderText = "Tipo de Documento"
-                'Case 2
-                'Agregar empleado.
-        End Select
-
-    End Sub
 
     Private Sub frm_Menu_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         Me.tab_menu.Width = 1260  'Esto despues se borra, es para no tener la pestaña gigante por debajo de los controles en el diseñador
@@ -59,6 +36,8 @@ Public Class frm_Menu
                 nom_Tabla = "empleado"
             Case 3
                 nom_Tabla = "creditos"
+            Case 4
+                nom_Tabla = "expediente"
             Case Else
                 nom_Tabla = "ERROR"
         End Select
@@ -119,6 +98,31 @@ Public Class frm_Menu
                     texto = "INSERT INTO creditos (monto, fechaSolicitud, Solicitante_idSolicitante, Estado_Credito_idEstado_Credito, Empleado_legajo, Objeto_idObjeto) VALUES ("
                     texto += Me.txt_creditos_monto.Text & ", '" & Me.txt_creditos_fSolicitud.Text & "', " & Me.txt_creditos_idSolicitante.Text & ", " & Me.cmb_creditos_estadoCredito.SelectedIndex & ", " & Me.txt_creditos_legajo.Text & ", " & Me.txt_creditos_idObjeto.Text & ")"
                     conexion._modificar(texto)
+
+                Case 4
+                    Dim tabla As New DataTable
+                    Dim consulta As String = "SELECT (Estado_Credito_idEstado_Credito) FROM Creditos WHERE "
+                    consulta += "idCreditos=" & Me.txt_expediente_codCred.Text
+                    Dim valor As Integer
+                    tabla = conexion._consulta(consulta)
+                    valor = tabla.Rows(0)(0)
+
+                    'texto = "INSERT INTO expediente (idExpediente, Estado_Credito_idEstado_Credito, abogado_matricula, observacion, fechaInicio, abogado_matriculaSol) VALUES ("
+                    texto += "idExpediente=" & Me.txt_expediente_numeroExp.Text & ", Estado_Credito_idEstado_Credito=" & valor & ", abogado_matricula=" & Me.txt_expediente_matAbCre.Text & ", observacion=" & Me.txt_expediente_observacion.Text & ", fechaInicio=" & Me.txt_expediente_fechaInicio.Text & ", abogado_matriculaSol=" & Me.txt_expediente_matAbSol.Text
+                    MsgBox(texto)
+
+                    'Dim expediente As Integer = Me.txt_expediente_numeroExp.Text
+                    'Dim fila As Integer = Me.buscar_clave(expediente)
+                    'If fila <> -1 Then
+                    '    MsgBox("Ya existe un expediente con el mismo valor")
+
+                    'Else
+
+                    conid = True
+                    conexion._insertar(texto, conid)
+                    'End If
+
+
                 Case Else
                     Exit Sub
             End Select
@@ -242,30 +246,34 @@ Public Class frm_Menu
     End Sub
 
     Private Sub cargar_Grilla()
-        Dim consulta_solicitante As String = "SELECT Solicitante.idSolicitante, Solicitante.numeroDocumento, Solicitante.nombre, Solicitante.apellido, Solicitante.fechaNacimiento, Solicitante.domicilio, Solicitante.telefono, tipo_Documento.nombre AS tipodoc "
+        Dim consulta_abogado As String = "SELECT matricula AS [Matricula], nombre AS [Nombres], apellido AS [Apellido], domicilio AS [Domicilio], telefono AS [Telefono] FROM Abogado"
+
+        Dim consulta_solicitante As String = "SELECT Solicitante.idSolicitante AS [Codigo Solicitante], Solicitante.numeroDocumento AS [Documento], tipo_Documento.nombre AS [Tipo Documento], Solicitante.nombre AS [Nombres], Solicitante.apellido AS [Apellido], Solicitante.fechaNacimiento AS [Fecha Nacimiento], Solicitante.domicilio AS [Domicilio], Solicitante.telefono AS [Telefono] "
         consulta_solicitante += "FROM Solicitante INNER JOIN tipo_Documento ON Solicitante.tipo_Documento_idTipo_Documento = tipo_Documento.idTipo_Documento"
 
-        Dim consulta_empleado As String = "SELECT Empleado.legajo AS 'Legajo Empleado', Empleado.nombres AS 'Nombres', Empleado.apellido AS 'Apellido', Empleado.fecha_Alta AS 'Fecha Alta', Empleado.Empleado_legajo AS 'Legajo Superior', Cargo.nombre AS 'Cargo' "
+        Dim consulta_empleado As String = "SELECT Empleado.legajo AS [Legajo Empleado], Empleado.nombres AS [Nombres], Empleado.apellido AS [Apellido], Empleado.fecha_Alta AS [Fecha Alta], Empleado.Empleado_legajo AS [Legajo Superior], Cargo.nombre AS [Cargo] "
         consulta_empleado += "FROM Empleado INNER JOIN Cargo ON Empleado.Cargo_idCargo = Cargo.idCargo"
 
-        Dim consulta_credito As String = "SELECT Creditos.idCreditos AS [Codigo Credito], Creditos.monto AS [Monto], Creditos.fechaSolicitud AS [Fecha Solicitud], Creditos.fechaAprobacion AS [Fecha Aprobacion], Solicitante.nombre AS [Nombre Solicitante], Solicitante.apellido AS [Apellido Solicitante], tipo_Documento.nombre AS [Tipo Documento], Solicitante.numeroDocumento AS [Documento], Estado_Credito.nombre AS [ESTADO], Objeto.descripcion AS [Objeto] "
+        Dim consulta_credito As String = "SELECT Creditos.idCreditos AS [Codigo Credito], Creditos.monto AS [Monto], Creditos.fechaSolicitud AS [Fecha Solicitud], Creditos.fechaAprobacion AS [Fecha Aprobacion], Solicitante.nombre AS [Nombre Solicitante], Solicitante.apellido AS [Apellido Solicitante], tipo_Documento.nombre AS [Tipo Documento], Solicitante.numeroDocumento AS [Documento], Estado_Credito.nombre AS [ESTADO], Objeto.descripcion AS [Objeto], Empleado.legajo AS [Legajo Empleado], Empleado.nombres AS [Nombre Empleado], Empleado.apellido AS [Apellido Empleado] "
         consulta_credito += "FROM Creditos INNER JOIN Solicitante ON Creditos.Solicitante_idSolicitante = Solicitante.idSolicitante "
         consulta_credito += "INNER JOIN Objeto ON Creditos.Objeto_idObjeto = Objeto.idObjeto "
         consulta_credito += "INNER JOIN Estado_Credito ON Creditos.Estado_Credito_idEstado_Credito = Estado_Credito.idEstado_Credito "
         consulta_credito += "INNER JOIN tipo_Documento ON Solicitante.tipo_Documento_idTipo_Documento = tipo_Documento.idTipo_Documento "
+        consulta_credito += "INNER JOIN Empleado ON Creditos.Empleado_legajo = Empleado.legajo "
 
         ' Dim consulta_credito As String = "SELECT Creditos.idCreditos, Creditos.monto, Creditos.fechaSolicitud, Creditos.fechaAprobacion, Estado_Credito.nombre, Objeto.descripcion, Empleado.nombres, Empleado.apellido, Solicitante.nombre AS Expr1, Solicitante.apellido AS Expr2 FROM Creditos INNER JOIN Empleado ON Creditos.Empleado_legajo = Empleado.legajo INNER JOIN Estado_Credito ON Creditos.Estado_Credito_idEstado_Credito = Estado_Credito.idEstado_Credito INNER JOIN Objeto ON Creditos.Objeto_idObjeto = Objeto.idObjeto INNER JOIN Solicitante ON Creditos.Solicitante_idSolicitante = Solicitante.idSolicitante"
 
-        Dim consulta_expediente = "SELECT Expediente.idExpediente AS [Número Expediente], Expediente.fechaInicio AS [Fecha Inicio], Expediente.fechaEntrega AS [Fecha Entrega], Expediente.fechaDevolucion AS [Fecha Devolucion], Estado_Credito.nombre AS [Estado Crédito], Abogado.matricula AS [Matricula Abogado], Abogado.nombre AS [Nombre Abogado], Abogado.apellido AS [Apellido Abogado] "
+        Dim consulta_expediente = "SELECT Expediente.idExpediente AS [Número Expediente], Expediente.fechaInicio AS [Fecha Inicio], Expediente.fechaEntrega AS [Fecha Entrega], Expediente.fechaDevolucion AS [Fecha Devolucion], Estado_Credito.nombre AS [Estado Crédito], Abogado.matricula AS [Matricula Abogado], Abogado.nombre AS [Nombre Abogado], Abogado.apellido AS [Apellido Abogado], Ab2.matricula AS [Matricula Abogado Solicitante], Ab2.nombre AS [Nombre Abogado Solicitante], Ab2.apellido AS [Apellido Abogado Solicitante] "
         consulta_expediente += "FROM Expediente INNER JOIN"
         consulta_expediente += " Estado_Credito ON Expediente.Estado_Credito_idEstado_Credito = Estado_Credito.idEstado_Credito INNER JOIN"
-        consulta_expediente += " Abogado ON Expediente.abogado_matricula = Abogado.matricula"
-        'Dim consulta_expediente = "SELECT * FROM Expediente"
+        consulta_expediente += " Abogado ON Expediente.abogado_matricula = Abogado.matricula "
+        consulta_expediente += "INNER JOIN Abogado Ab2 ON Expediente.abogado_matriculaSol = Ab2.matricula "
+
 
         Dim pestaña_abm As Integer = Me.tab_control.SelectedIndex
         Select Case pestaña_abm
             Case 0
-                Me.grilla.DataSource = conexion.leo_tabla()
+                Me.grilla.DataSource = conexion._consulta(consulta_abogado)
             Case 1
                 Me.grilla.DataSource = conexion._consulta(consulta_solicitante)
             Case 2
@@ -275,7 +283,7 @@ Public Class frm_Menu
             Case 4
                 Me.grilla.DataSource = conexion._consulta(consulta_expediente)
         End Select
-        nombre_columnas()
+
     End Sub
 
     Private Function validaciones_pestaña() As Boolean
@@ -403,6 +411,18 @@ Public Class frm_Menu
                         grilla.Rows(f).DefaultCellStyle.BackColor = Color.White
                     End If
                 Next
+            Case 4
+                Dim expediente As Integer = Me.txt_expediente_numeroExp.Text
+                Dim fila As Integer = Me.buscar_clave(expediente)
+                If fila <> -1 Then
+                    MsgBox("Ya existe un expediente con el mismo valor")
+                    Return False
+                End If
+
+
+
+
+
 
                 'HACER CON EL ESTADO DEL CREDITO, SI = APROBADO.
                 'Fecha aprobacion mas vieja que solicitud
@@ -643,7 +663,7 @@ Public Class frm_Menu
         Select Case pestaña
             Case 0
                 For c = 0 To Me.grilla.RowCount - 1
-                    If (Me.grilla.Rows(c).Cells("matricula").Value = clave) Then
+                    If (Me.grilla.Rows(c).Cells("Matricula").Value = clave) Then
                         Return c
                         Exit Function
                     End If
@@ -669,6 +689,16 @@ Public Class frm_Menu
                     End If
                 Next
                 Return -1
+            Case 4
+                For c = 0 To Me.grilla.RowCount - 1
+                    If (Me.grilla.Rows(c).Cells("Número Expediente").Value = clave) Then
+                        Return c
+                        Exit Function
+                    End If
+                Next
+                Return -1
+
+
         End Select
     End Function
 
@@ -818,6 +848,9 @@ Public Class frm_Menu
     End Sub
 
 
+    Private Sub txt_expediente_observacion_Enter(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles txt_expediente_observacion.Enter
+        Me.cargar_Grilla()
+    End Sub
 End Class
 
 'Private Sub fecha_Validated(ByVal sender As Object, ByVal e As System.EventArgs) Handles mtxt_solicitante_fechaNacimiento.Validated
