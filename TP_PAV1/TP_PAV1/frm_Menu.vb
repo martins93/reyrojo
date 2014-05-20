@@ -2,7 +2,7 @@
 
 Public Class frm_Menu
 
-    Dim cadena_Conexion As String = "Data Source=MARTIN-PC;Initial Catalog=PAV1;Integrated Security=True"
+    Dim cadena_Conexion As String = "Data Source=SALVADOR-PC\PAV1;Initial Catalog=PAV1;Integrated Security=True"
     Dim conexion As New Conexion(cadena_Conexion, conexion.motores.sqlserver)
     Dim buscador As buscar_doc_tipoDoc
     Dim idSolicitante As Integer = -1
@@ -18,7 +18,6 @@ Public Class frm_Menu
             e.Cancel = True  'Si la salida seleccionada es NO, se omite la accion de cerrado'
         End If
     End Sub
-
 
     Private Sub frm_Menu_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         Me.tab_menu.Width = 1260  'Esto despues se borra, es para no tener la pestaña gigante por debajo de los controles en el diseñador
@@ -736,7 +735,7 @@ Public Class frm_Menu
                             Exit Sub
                         End If
 
-                        End If
+                    End If
                     texto += " WHERE idCreditos=" & id_clave
 
 
@@ -890,7 +889,7 @@ Public Class frm_Menu
 
     End Sub
 
-    Private Sub txt_creditos_idSolicitante_TextChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles txt_creditos_idSolicitante.Validated, txt_creditos_legajo.Validated
+    Private Sub txt_creditos_idSolicitante_TextChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles txt_creditos_idSolicitante.Validated, txt_creditos_legajo.Validated, txt_expediente_codCred.Validated, txt_expediente_matAbCre.Validated, txt_expediente_matAbSol.Validated, txt_garantia_idCredito.Validated
         Me.cargar_Grilla()
     End Sub
 
@@ -1004,11 +1003,12 @@ Public Class frm_Menu
         End If
         Return resultado
     End Function
+
     Private Sub txt_expediente_observacion_Enter(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles txt_expediente_observacion.Enter
         Me.cargar_Grilla()
     End Sub
 
-    Private Sub txt_garantia_idCredito_TextChanged(sender As System.Object, e As System.EventArgs) Handles txt_garantia_idCredito.Enter
+    Private Sub txt_garantia_idCredito_TextChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles txt_garantia_idCredito.Enter
 
         'CARGA LA GRILLA CUANDO TE PARAS EN txt_garantia_codCredito / Solo los creditos con estado Pendiente
 
@@ -1021,6 +1021,7 @@ Public Class frm_Menu
 
         Me.grilla.DataSource = conexion._consulta(consulta_garantia)
     End Sub
+
 End Class
 
 'Private Sub fecha_Validated(ByVal sender As Object, ByVal e As System.EventArgs) Handles mtxt_solicitante_fechaNacimiento.Validated

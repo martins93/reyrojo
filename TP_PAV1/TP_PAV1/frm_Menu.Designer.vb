@@ -824,9 +824,9 @@ Partial Class frm_Menu
         '
         'btn_garantia_documentacion
         '
-        Me.btn_garantia_documentacion.Location = New System.Drawing.Point(142, 233)
+        Me.btn_garantia_documentacion.Location = New System.Drawing.Point(34, 218)
         Me.btn_garantia_documentacion.Name = "btn_garantia_documentacion"
-        Me.btn_garantia_documentacion.Size = New System.Drawing.Size(124, 59)
+        Me.btn_garantia_documentacion.Size = New System.Drawing.Size(154, 24)
         Me.btn_garantia_documentacion.TabIndex = 3
         Me.btn_garantia_documentacion.Text = "Cargar Documentacion"
         Me.btn_garantia_documentacion.UseVisualStyleBackColor = True
