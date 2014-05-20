@@ -586,6 +586,7 @@ Partial Class frm_Menu
         '
         'txt_creditos_idObjeto
         '
+        Me.txt_creditos_idObjeto.Enabled = False
         Me.txt_creditos_idObjeto.Location = New System.Drawing.Point(129, 242)
         Me.txt_creditos_idObjeto.Name = "txt_creditos_idObjeto"
         Me.txt_creditos_idObjeto.Size = New System.Drawing.Size(45, 20)
@@ -610,6 +611,7 @@ Partial Class frm_Menu
         '
         'mtxt_creditos_fAprobacion
         '
+        Me.mtxt_creditos_fAprobacion.Enabled = False
         Me.mtxt_creditos_fAprobacion.Location = New System.Drawing.Point(194, 108)
         Me.mtxt_creditos_fAprobacion.Mask = "00-00-0000"
         Me.mtxt_creditos_fAprobacion.Name = "mtxt_creditos_fAprobacion"
