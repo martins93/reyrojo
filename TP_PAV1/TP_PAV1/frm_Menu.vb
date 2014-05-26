@@ -1,17 +1,17 @@
-﻿Imports System.Text.RegularExpressions
+﻿Public Class frm_Menu
 
-Public Class frm_Menu
-
-    Dim cadena_Conexion As String = "Data Source=SALVADOR-PC\PAV1;Initial Catalog=PAV1;Integrated Security=True"
+    Public cadena_Conexion As String = "Data Source=SALVADOR-PC\PAV1;Initial Catalog=PAV1;Integrated Security=True"
     Dim conexion As New Conexion(cadena_Conexion, conexion.motores.sqlserver)
 
-    'Ambos id no son txt asi que necesito variables globales.
+    'id no son txt asi que necesito variables globales.
     Dim idSolicitante As Integer = -1
     Dim idCredito As Integer = -1
+    Dim idExpediente As Integer = -1
 
     Dim buscador As buscar_doc_tipoDoc 'Para busqueda Doc/TipoDoc
     Dim _combo As New combo     'Para carga combo
     Dim frm_objeto As frm_objeto 'Para cargar objeto
+    Dim validacion As Validacion 'Para validaciones
 
 
     'Botones y eventos de formulario.
@@ -37,7 +37,7 @@ Public Class frm_Menu
         Dim id_clave As Integer
 
         Select Case pestaña 'En que pestaña de ABM estoy parado
-            Case 0, 2
+            Case 0, 2, 4
                 id_clave = pedir_clave_numerica()   'Pido matricula/legajo
 
             Case 1
@@ -144,6 +144,27 @@ Public Class frm_Menu
                 Else
                     MsgBox("Credito no encontrado", vbOKOnly, "Resultado")
                 End If
+            Case 4
+                Dim numero_expediente As Integer = pedir_clave_numerica()
+                Dim fila As Integer = Me.buscar_clave(numero_expediente)
+                If fila <> -1 Then
+                    MsgBox("Expediente encontrado", vbOKOnly, "Resultado")
+                    Me.llenar_tab_segunGrilla(fila)
+
+                    For f As Integer = 0 To grilla.Rows.Count - 1
+                        Dim num As Integer = Val(grilla.Rows(f).Cells(0).Value)
+                        If num = numero_expediente Then
+                            grilla.Rows(f).DefaultCellStyle.BackColor = Color.Cyan
+                            grilla.Rows(f).Selected = True
+                        Else
+                            grilla.Rows(f).DefaultCellStyle.BackColor = Color.White
+                        End If
+                    Next
+                ElseIf numero_expediente = -1 Then
+                    Exit Sub
+                Else
+                    MsgBox("Expediente no encontrado", vbOKOnly, "Resultado")
+                End If
         End Select
     End Sub
 
@@ -153,24 +174,36 @@ Public Class frm_Menu
         Dim nom_Tabla As String = nombre_tabla_pestana()        'Nombre de la tabla segun la pestaña sobre la que estoy
         Dim pestaña As Integer = Me.tab_control.SelectedIndex
         Dim id_clave As Integer
+        Dim validacion As New Validacion
+        Dim objeto As Object
 
-        If validaciones_pestaña() Then          'Si los campos estan llenados correctamente
+        If validacion._validar_campos_vacios() Then          'Si los campos estan llenados correctamente
             texto = "UPDATE " & nom_Tabla & " SET "
+            objeto = cargar_struct()
             Select Case pestaña
                 Case 0
-                    texto += "nombre='" & Me.txt_abogado_nombre.Text & "', apellido='" & Me.txt_abogado_apellido.Text & "', telefono='" & Me.mtxt_abogado_telefono.Text & "', domicilio='" & Me.txt_abogado_domicilio.Text & "'"
-                    texto += " WHERE matricula= " & Me.txt_abogado_matricula.Text
+                    If validacion._validar_abogado(objeto) Then
+                        texto += "nombre='" & Me.txt_abogado_nombre.Text & "', apellido='" & Me.txt_abogado_apellido.Text & "', telefono='" & Me.mtxt_abogado_telefono.Text & "', domicilio='" & Me.txt_abogado_domicilio.Text & "'"
+                        texto += " WHERE matricula= " & Me.txt_abogado_matricula.Text
+                        conexion._modificar(texto)
+                    End If
                 Case 1
                     If Me.idSolicitante = -1 Then  'Si no busco o hizo doble click en un solicitante pido el id
                         id_clave = pedir_clave_numerica()
                     Else
                         id_clave = Me.idSolicitante
                     End If
-                    texto += "numeroDocumento='" & Me.mtxt_solicitante_nrodoc.Text & "', apellido='" & Me.txt_solicitante_apellido.Text & "', nombre='" & Me.txt_solicitante_nombre.Text & "', telefono='" & Me.mtxt_solicitante_telefono.Text & "', domicilio='" & Me.txt_solicitante_domicilio.Text & "', tipo_Documento_idTipo_Documento='" & Me.cmb_solicitante_tipodoc.SelectedValue & "', fechaNacimiento='" & Me.mtxt_solicitante_fechaNacimiento.Text & "'"
-                    texto += " WHERE idSolicitante= " & id_clave
+                    If validacion._validar_solicitante(objeto) Then
+                        texto += "numeroDocumento='" & Me.mtxt_solicitante_nrodoc.Text & "', apellido='" & Me.txt_solicitante_apellido.Text & "', nombre='" & Me.txt_solicitante_nombre.Text & "', telefono='" & Me.mtxt_solicitante_telefono.Text & "', domicilio='" & Me.txt_solicitante_domicilio.Text & "', tipo_Documento_idTipo_Documento='" & Me.cmb_solicitante_tipodoc.SelectedValue & "', fechaNacimiento='" & Me.mtxt_solicitante_fechaNacimiento.Text & "'"
+                        texto += " WHERE idSolicitante= " & id_clave
+                        conexion._modificar(texto)
+                    End If
                 Case 2
-                    texto += "Empleado_legajo=" & Me.txt_empleado_legSup.Text & ", Cargo_idCargo=" & Me.cmb_empleado_cargo.SelectedIndex + 1 & ", nombres='" & Me.txt_empleado_nombre.Text & "', apellido='" & Me.txt_empleado_ape.Text & "', fecha_Alta='" & Me.txt_empleado_fecha.Text & "'"
-                    texto += " WHERE legajo= " & Me.txt_empleado_legajo.Text
+                    If validacion._validar_empleado(objeto) Then
+                        texto += "Empleado_legajo=" & Me.txt_empleado_legSup.Text & ", Cargo_idCargo=" & Me.cmb_empleado_cargo.SelectedIndex + 1 & ", nombres='" & Me.txt_empleado_nombre.Text & "', apellido='" & Me.txt_empleado_ape.Text & "', fecha_Alta='" & Me.txt_empleado_fecha.Text & "'"
+                        texto += " WHERE legajo= " & Me.txt_empleado_legajo.Text
+                        conexion._modificar(texto)
+                    End If
                 Case 3
                     If Me.idCredito = -1 Then   'Idem solicitante
                         id_clave = pedir_clave_numerica()
@@ -178,35 +211,38 @@ Public Class frm_Menu
                         id_clave = Me.idCredito
                     End If
 
-                    'HACER VARIABLE CONTENER VALIDAR_ESTADO_CREDITO
+                    ' HACER VARIABLE CONTENER VALIDAR_ESTADO_CREDITO
+                    '^Se puede usar la Struct credito si se carga en tiempo real.
                     'SE PUEDE CONOCER EL ESTADO DEL CREDITO DE OTRA FORMA?
+                    Dim estado_credito As Integer = obtener_estado_credito(id_clave)
+                    Dim estado_credito_seleccionado As Integer = Me.cmb_creditos_estadoCredito.SelectedIndex
 
-                    If validar_estado_credito(id_clave) = 2 Then  'Si credito=deuda solo puedo volver a aprobado (pago deuda), ninguna otra operacion
-                        If Me.cmb_creditos_estadoCredito.SelectedIndex = 1 Then
+                    If estado_credito = 2 Then  'Si credito=deuda solo puedo volver a aprobado (pago deuda), ninguna otra operacion
+                        If estado_credito_seleccionado = 1 Then
                             texto += "Estado_Credito_idEstado_Credito=" & Me.cmb_creditos_estadoCredito.SelectedIndex
                         Else
                             MsgBox("Creditos en deuda solo pueden volver a aprobados")
                             Exit Sub
                         End If
-                    ElseIf validar_estado_credito(id_clave) = 3 Then    'Si credito=rechazado no puedo hacer nada
+                    ElseIf estado_credito = 3 Then    'Si credito=rechazado no puedo hacer nada
                         MsgBox("No se pueden modificar creditos rechazados")
                         Exit Sub
-                    ElseIf validar_estado_credito(id_clave) = 1 Then    'Si credito=aprobado solo puedo pasar a deuda
-                        If Me.cmb_creditos_estadoCredito.SelectedIndex = 2 Then
+                    ElseIf estado_credito = 1 Then    'Si credito=aprobado solo puedo pasar a deuda
+                        If estado_credito_seleccionado = 2 Then
                             texto += "Estado_Credito_idEstado_Credito=" & Me.cmb_creditos_estadoCredito.SelectedIndex
                         Else
                             MsgBox("Creditos aprobados solo pueden pasar a estado de Deuda")
                             Exit Sub
                         End If
                     Else
-                        If Me.cmb_creditos_estadoCredito.SelectedIndex = 1 Then 'Si credito=pendiente 
+                        If estado_credito_seleccionado = 1 Then 'Si credito=pendiente 
                             If Me.mtxt_creditos_fAprobacion.MaskCompleted = True Then   'Si hay fecha de aprobacion ya se que paso a aprobado
                                 texto += "monto= " & Me.txt_creditos_monto.Text & ", fechaAprobacion=" & Me.mtxt_creditos_fAprobacion.Text & ", Estado_Credito_idEstado_Credito=" & Me.cmb_creditos_estadoCredito.SelectedIndex
                             Else
                                 MsgBox("Se debe llenar la fecha de aprobacion")
                                 Exit Sub
                             End If
-                        ElseIf Me.cmb_creditos_estadoCredito.SelectedIndex = 3 Then  'Paso a rechazado
+                        ElseIf estado_credito_seleccionado = 3 Then  'Paso a rechazado
                             texto += "Estado_Credito_idEstado_Credito=" & Me.cmb_creditos_estadoCredito.SelectedIndex
                         Else 'No puedo pasar a deuda desde pendiente
                             MsgBox("Creditos pendientes solo se puede actualizar a Aprobados o Rechazados")
@@ -215,27 +251,21 @@ Public Class frm_Menu
 
                     End If
                     texto += " WHERE idCreditos=" & id_clave
-
-
-
-                    'If validar_estado_credito(id_clave) <> 1 And validar_estado_credito(id_clave) <> 3 Then
-
-                    '    texto += "monto= " & Me.txt_creditos_monto.Text
-                    '    If Me.mtxt_creditos_fAprobacion.Enabled = True Then
-                    '        texto += ", fechaAprobacion=" & Me.mtxt_creditos_fAprobacion.Text
-                    '    End If
-                    '    texto += ", Estado_Credito_idEstado_Credito=" & Me.cmb_creditos_estadoCredito.SelectedIndex
-                    '    texto += " WHERE idCreditos=" & id_clave
-                    '    Me.txt_creditos_objeto.Enabled = True
-                    'End If
-                Case Else
-                    Exit Sub
+                    conexion._modificar(texto)
+                Case 4
+                    If validacion._validar_expediente(objeto) Then
+                        texto += "observacion='" & Me.txt_expediente_observacion.Text & "', abogado_matricula=" & Me.txt_expediente_matAbCre.Text & ", abogado_matriculaSol=" & Me.txt_expediente_matAbSol.Text
+                        texto += " WHERE idExpediente=" & Me.txt_expediente_numeroExp.Text
+                        conexion._modificar(texto)
+                    End If
             End Select
-            'Modifico, limpio campos y recargo grilla
-            conexion._modificar(texto)
+
             Me.limpiar_tab()
             Me.cargar_Grilla()
         End If
+
+
+        
     End Sub
 
     'Boton salir de los ABM
@@ -246,112 +276,57 @@ Public Class frm_Menu
     'Boton guardar de los ABM
     Private Sub btn_guardar_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btn_guardar.Click
         Dim texto As String = ""         'Consulta a hacer
-        Dim conid As Boolean             'Si es con ID la consulta
         Dim pestaña As Integer = Me.tab_control.SelectedIndex
-
+        Dim objeto As Object
+        Dim validacion As New Validacion
         conexion.cambiar_Tabla(Me.nombre_tabla_pestana) 'Defino a que tabla me voy a conectar segun la pestaña, ES NECESARIO?
 
-        If validaciones_pestaña() Then      'Si los campos estan cargados correctamente
+
+        'DEJAR DE USAR INSERT DEL PROFE, HACER INSERT PROPIO
+        If validacion._validar_campos_vacios() Then
+            objeto = cargar_struct()
             Select Case pestaña
                 Case 0
-                    Dim matricula As Integer = Me.txt_abogado_matricula.Text
-                    Dim fila As Integer = Me.buscar_clave(matricula)        'Busco al abogado en la grilla
-                    If fila <> -1 Then
-                        MsgBox("Ya existe un abogado con la misma matricula")
-                        Exit Sub
-                    Else
+                    If validacion._validar_abogado(objeto) Then
                         texto = "matricula=" & Me.txt_abogado_matricula.Text & ", nombre=" & Me.txt_abogado_nombre.Text & ", apellido=" & Me.txt_abogado_apellido.Text & ", telefono= " & Me.mtxt_abogado_telefono.Text & ", domicilio= " & Me.txt_abogado_domicilio.Text
-                        conid = True
+                        conexion._insertar(texto, True)
                     End If
-                    conexion._insertar(texto, conid)    'Inserto sin ID autoincremental (true)
                 Case 1
-                    Dim mtextbox As Integer
-                    Int32.TryParse(mtxt_solicitante_nrodoc.Text, mtextbox)
-                    If Me.buscar_doc_tdoc(mtextbox, cmb_solicitante_tipodoc.SelectedIndex + 1) = 1 Then 'Busco al solicitante en la grilla
-                        MsgBox("Ya existe un solicitante con el mismo Documento y tipo Documento")
-                        Exit Sub
-                    Else
+                    If validacion._validar_solicitante(objeto) Then
                         texto = "numeroDocumento=" & Me.mtxt_solicitante_nrodoc.Text & ", apellido=" & Me.txt_solicitante_apellido.Text & ", nombre=" & Me.txt_solicitante_nombre.Text & ", telefono= " & Me.mtxt_solicitante_telefono.Text & ", domicilio= " & Me.txt_solicitante_domicilio.Text & ", tipo_Documento_idTipo_Documento= " & Me.cmb_solicitante_tipodoc.SelectedValue & ", fechaNacimiento=" & Me.mtxt_solicitante_fechaNacimiento.Text
-                        conid = False
+                        conexion._insertar(texto, False)
                     End If
-                    conexion._insertar(texto, conid)
                 Case 2
-                    If Me.buscar_clave(Me.txt_empleado_legSup.Text) = -1 Then   'Busco en GRILLA al legajo del superior
-                        MsgBox("No existe ningun superior con esa matricula")
-                        Exit Sub
-                    Else
+                    If validacion._validar_empleado(objeto) Then
                         texto = "legajo=" & Me.txt_empleado_legajo.Text & ", Empleado_legajo=" & Me.txt_empleado_legSup.Text & ", Cargo_idCargo=" & Me.cmb_empleado_cargo.SelectedIndex + 1 & ", nombres=" & Me.txt_empleado_nombre.Text & ", apellido=" & Me.txt_empleado_ape.Text & ", fecha_Alta=" & Me.txt_empleado_fecha.Text
-                        conid = True
+                        conexion._insertar(texto, True)
                     End If
-                    conexion._insertar(texto, conid)
                 Case 3
-
-                    'SACCAR VALIDACIONES AFUERA?
-                    If Me.buscar_en_tabla(Me.txt_creditos_idSolicitante.Text, 2) = -1 Then
-                        MsgBox("No existe ningun solicitante con ese codigo")
-                        Me.txt_creditos_idSolicitante.Focus()
-                        Exit Sub
+                    If validacion._validar_credito(objeto) Then
+                        texto = "INSERT INTO creditos (monto, fechaSolicitud, Solicitante_idSolicitante, Estado_Credito_idEstado_Credito, Empleado_legajo, Objeto_idObjeto) VALUES ("
+                        texto += Me.txt_creditos_monto.Text & ", " & "convert(date, '" & Me.txt_creditos_fSolicitud.Text & "', 103)" & ", " & Me.txt_creditos_idSolicitante.Text & ", " & Me.cmb_creditos_estadoCredito.SelectedIndex & ", " & Me.txt_creditos_legajo.Text & ", " & Me.txt_creditos_idObjeto.Text & ")"
+                        conexion._modificar(texto)
+                        Me.txt_creditos_objeto.Enabled = True
                     End If
-                    If Me.buscar_en_tabla(Me.txt_creditos_legajo.Text, 1) = -1 Then
-                        MsgBox("No existe ningun empleado con ese legajo")
-                        Me.txt_creditos_legajo.Focus()
-                        Exit Sub
-                    End If
-                    If Me.cmb_creditos_estadoCredito.SelectedIndex <> 0 Then
-                        MsgBox("Creditos nuevos solo pueden ser pendientes")
-                        Me.cmb_creditos_estadoCredito.Focus()
-                        Exit Sub
-                    End If
-
-                    'texto = "monto= " & Me.txt_creditos_monto.Text & ", fechaSolicitud=" & Me.txt_creditos_fSolicitud.Text & ", Solicitante_idSolicitante=" & Me.txt_creditos_idSolicitante.Text & ", Estado_Credito_idEstado_Credito=" & Me.cmb_creditos_estadoCredito.SelectedIndex & ", Empleado_legajo=" & Me.txt_creditos_legajo.Text & ", Objeto_idObjeto=" & Me.txt_creditos_idObjeto.Text
-
-                    'Uso INSERT propio porque varios valores no son cargados y el insert de conexion no permite eso
-                    texto = "INSERT INTO creditos (monto, fechaSolicitud, Solicitante_idSolicitante, Estado_Credito_idEstado_Credito, Empleado_legajo, Objeto_idObjeto) VALUES ("
-                    texto += Me.txt_creditos_monto.Text & ", '" & Me.txt_creditos_fSolicitud.Text & "', " & Me.txt_creditos_idSolicitante.Text & ", " & Me.cmb_creditos_estadoCredito.SelectedIndex & ", " & Me.txt_creditos_legajo.Text & ", " & Me.txt_creditos_idObjeto.Text & ")"
-                    conexion._modificar(texto)          'conexion._modificar() ejecuta SQL por nonquery.
-                    Me.txt_creditos_objeto.Enabled = True
-
                 Case 4
-                    Dim tabla As New DataTable
-                    Dim consulta As String = "SELECT (Estado_Credito_idEstado_Credito) FROM Creditos WHERE "
-                    consulta += "idCreditos=" & Me.txt_expediente_codCred.Text
-                    Dim valor As Integer
-                    tabla = conexion._consulta(consulta)
-                    valor = tabla.Rows(0)(0)
-
-                    'texto = "INSERT INTO expediente (idExpediente, Estado_Credito_idEstado_Credito, abogado_matricula, observacion, fechaInicio, abogado_matriculaSol) VALUES ("
-                    texto += "idExpediente=" & Me.txt_expediente_numeroExp.Text & ", Estado_Credito_idEstado_Credito=" & valor & ", abogado_matricula=" & Me.txt_expediente_matAbCre.Text & ", observacion=" & Me.txt_expediente_observacion.Text & ", fechaInicio=" & Me.txt_expediente_fechaInicio.Text & ", abogado_matriculaSol=" & Me.txt_expediente_matAbSol.Text
-                    '   MsgBox(texto)
-
-                    Dim expediente As Integer = Me.txt_expediente_numeroExp.Text
-                    Dim fila As Integer = Me.buscar_clave(expediente)
-                    If fila <> -1 Then
-                        MsgBox("Ya existe un expediente con el mismo valor")
-
-                    Else
-                        conid = True
-                        conexion._insertar(texto, conid)
+                    If validacion._validar_expediente(objeto) Then
+                        Dim valor As Integer
+                        valor = obtener_estado_credito(Me.txt_expediente_codCred.Text)
+                        texto = "INSERT INTO expediente (idExpediente, Estado_Credito_idEstado_Credito, abogado_matricula, observacion, fechaInicio, abogado_matriculaSol, Creditos_idCreditos) VALUES ("
+                        texto += Me.txt_expediente_numeroExp.Text & ", " & valor & ", " & Me.txt_expediente_matAbCre.Text & ", '" & Me.txt_expediente_observacion.Text & "', " & "convert(date, '" & Me.txt_expediente_fechaInicio.Text & "', 103)" & ", " & Me.txt_expediente_matAbSol.Text & ", " & Me.txt_expediente_codCred.Text & ")"
+                        conexion._modificar(texto)          'conexion._modificar() ejecuta SQL por nonquery.
                     End If
-
                 Case 5
-                    If Me.buscar_en_tabla(Me.txt_garantia_idCredito.Text, 3) = -1 Then
-                        MsgBox("No existe ningun credito con ese Codigo de Credito")
-                        Me.txt_creditos_idSolicitante.Focus()
-                        Exit Sub
+                    If validacion._validar_garantia(objeto) Then
+                        texto = "INSERT INTO garantia (descripcion, valorMonetario, Creditos_idCreditos) VALUES ('"
+                        texto += Me.txt_garantia_descripcion.Text & "', " & Me.txt_garantia_monto.Text & ", " & Me.txt_garantia_idCredito.Text & ")"
+                        conexion._modificar(texto)
                     End If
-
-                    texto = "INSERT INTO garantia (descripcion, valorMonetario, Creditos_idCreditos) VALUES ('"
-                    texto += Me.txt_garantia_descripcion.Text & "', " & Me.txt_garantia_monto.Text & ", " & Me.txt_garantia_idCredito.Text & ")"
-                    conexion._modificar(texto)
-
-                Case Else
-                    Exit Sub
             End Select
-            'Recargo grilla, limpio campos.
-            cargar_Grilla()
-            limpiar_tab()
-
         End If
+        cargar_Grilla()
+        limpiar_tab()
+
     End Sub
 
     'Boton nuevo cargo de pestaña empleado
@@ -368,7 +343,6 @@ Public Class frm_Menu
 
 
     'Validaciones
-
 
     'Validaciones de campos no vacios, valores correctos, etc.
     Private Function validaciones_pestaña() As Boolean
@@ -546,7 +520,7 @@ Public Class frm_Menu
     End Sub
 
     'No permito ingresar numeros en el textbox.
-    Private Sub texto_KeyPress(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyPressEventArgs) Handles txt_solicitante_apellido.KeyPress, txt_solicitante_nombre.KeyPress, txt_solicitante_apellido.KeyPress, txt_solicitante_nombre.KeyPress, txt_empleado_ape.KeyPress, txt_empleado_nombre.KeyPress
+    Private Sub texto_KeyPress(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyPressEventArgs) Handles txt_abogado_apellido.KeyPress, txt_abogado_nombre.KeyPress, txt_solicitante_apellido.KeyPress, txt_solicitante_nombre.KeyPress, txt_solicitante_apellido.KeyPress, txt_solicitante_nombre.KeyPress, txt_empleado_ape.KeyPress, txt_empleado_nombre.KeyPress
 
         'Permitimos teclas de desplazamiento en el textbox, entre otras'
         Select Case Asc(e.KeyChar)
@@ -564,8 +538,8 @@ Public Class frm_Menu
     'Busquedas
 
 
-    'Obtengo el estado del credito pasado por parametro.
-    Private Function validar_estado_credito(ByVal clave As Integer) As Integer
+    'Obtengo el estado del credito pasado por parametro.   ;Es necesario?
+    Private Function obtener_estado_credito(ByVal clave As Integer) As Integer
 
         Dim consulta As String = ""
         Dim tabla As New Data.DataTable
@@ -633,17 +607,24 @@ Public Class frm_Menu
 
     'Busco el documento y tipo de documento pasado por parametro, en grilla.
     Private Function buscar_doc_tdoc(ByVal dni As Integer, ByVal tdoc As Integer) As Integer
+        Dim validacion As New Validacion
         Dim c As Integer
+        Dim consulta As String = "SELECT * FROM solicitante"
         If (dni = -1 Or tdoc = -1) Then
             Return 2
             Exit Function
         End If
-        For c = 0 To Me.grilla.RowCount - 1
-            If (Me.grilla.Rows(c).Cells("numeroDocumento").Value = dni) And (nombre_a_id(Me.grilla.Rows(c).Cells("tipodoc").Value) = tdoc) Then   'ARREGLAR ESTO.
-                Return 1
-                Exit Function
-            End If
-        Next
+
+        If validacion._validar_doc_tdoc(dni, tdoc) Then
+            Return 1
+            Exit Function
+        End If
+        'For c = 0 To Me.grilla.RowCount - 1
+        '    If (Me.grilla.Rows(c).Cells("numeroDocumento").Value = dni) And (nombre_a_id(Me.grilla.Rows(c).Cells("tipodoc").Value) = tdoc) Then   'ARREGLAR ESTO.
+        '        Return 1
+        '        Exit Function
+        '    End If
+        'Next
         Return 0
         'Return, 2=parametros invalidos, 0= no se encontro, 1=se encontro.
     End Function
@@ -714,6 +695,9 @@ Public Class frm_Menu
             Case 3
                 mensaje = "Ingrese Codigo de Credito a buscar"
                 titulo = "Codigo de Credito"
+            Case 4
+                mensaje = "Ingrese numero de Expediente a buscar"
+                titulo = "Numero de Expediente"
         End Select
 
         While valido = False 'Validar que ingrese un valor correcto
@@ -771,11 +755,12 @@ Public Class frm_Menu
         consulta_credito += "INNER JOIN tipo_Documento ON Solicitante.tipo_Documento_idTipo_Documento = tipo_Documento.idTipo_Documento "
         consulta_credito += "INNER JOIN Empleado ON Creditos.Empleado_legajo = Empleado.legajo "
 
-        Dim consulta_expediente = "SELECT Expediente.idExpediente AS [Número Expediente], Expediente.fechaInicio AS [Fecha Inicio], Expediente.fechaEntrega AS [Fecha Entrega], Expediente.fechaDevolucion AS [Fecha Devolucion], Estado_Credito.nombre AS [Estado Crédito], Abogado.matricula AS [Matricula Abogado], Abogado.nombre AS [Nombre Abogado], Abogado.apellido AS [Apellido Abogado], Ab2.matricula AS [Matricula Abogado Solicitante], Ab2.nombre AS [Nombre Abogado Solicitante], Ab2.apellido AS [Apellido Abogado Solicitante] "
+        Dim consulta_expediente = "SELECT Expediente.idExpediente AS [Número Expediente], Creditos.idCreditos AS [Credito Asociado], Expediente.fechaInicio AS [Fecha Inicio], Expediente.fechaEntrega AS [Fecha Entrega], Expediente.fechaDevolucion AS [Fecha Devolucion], Estado_Credito.nombre AS [Estado Crédito], Abogado.matricula AS [Matricula Abogado], Abogado.nombre AS [Nombre Abogado], Abogado.apellido AS [Apellido Abogado], Ab2.matricula AS [Matricula Abogado Solicitante], Ab2.nombre AS [Nombre Abogado Solicitante], Ab2.apellido AS [Apellido Abogado Solicitante], Expediente.observacion AS [OBSERVACIONES] "
         consulta_expediente += "FROM Expediente INNER JOIN"
         consulta_expediente += " Estado_Credito ON Expediente.Estado_Credito_idEstado_Credito = Estado_Credito.idEstado_Credito INNER JOIN"
         consulta_expediente += " Abogado ON Expediente.abogado_matricula = Abogado.matricula "
         consulta_expediente += "INNER JOIN Abogado Ab2 ON Expediente.abogado_matriculaSol = Ab2.matricula "
+        consulta_expediente += "INNER JOIN Creditos ON Creditos.idCreditos = Expediente.Creditos_idCreditos "
 
         Dim consulta_garantia = "SELECT Garantia.descripcion, Garantia.valorMonetario, Creditos.idCreditos, Creditos.monto, Solicitante.nombre, Solicitante.apellido, Solicitante.idSolicitante"
         consulta_garantia += " FROM Creditos INNER JOIN Garantia ON Creditos.idCreditos = Garantia.Creditos_idCreditos INNER JOIN Solicitante ON Creditos.Solicitante_idSolicitante = Solicitante.idSolicitante"
@@ -826,9 +811,9 @@ Public Class frm_Menu
                 Me.txt_empleado_ape.Text = grilla.Rows(fila).Cells(2).Value
             Case 3
                 Dim tabla As New Data.DataTable
+                Me.idCredito = grilla.Rows(fila).Cells(0).Value
                 tabla = conexion._consulta("SELECT * FROM Creditos WHERE idCreditos=" & Me.idCredito)
 
-                Me.idCredito = grilla.Rows(fila).Cells(0).Value
                 Me.txt_creditos_fSolicitud.Text = grilla.Rows(fila).Cells(2).Value
                 Me.txt_creditos_idObjeto.Text = tabla.Rows(0)("Objeto_idObjeto")
                 Me.txt_creditos_idSolicitante.Text = tabla.Rows(0)("Solicitante_idSolicitante")                Me.txt_creditos_legajo.Text = tabla.Rows(0)("Empleado_legajo")
@@ -839,6 +824,20 @@ Public Class frm_Menu
                     Me.mtxt_creditos_fAprobacion.Text = grilla.Rows(fila).Cells(3).Value
                 End If
                 Me.cmb_creditos_estadoCredito.SelectedIndex = tabla.Rows(0)("Estado_Credito_idEstado_Credito")
+            Case 4
+                Dim tabla As New Data.DataTable
+                Me.idExpediente = grilla.Rows(fila).Cells(0).Value
+                tabla = conexion._consulta("SELECT *, convert(date, fechaInicio, 103) FROM Expediente WHERE idExpediente=" & Me.idExpediente)
+                Me.txt_expediente_numeroExp.Text = tabla.Rows(0)("idExpediente")
+                Me.txt_expediente_fechaInicio.Text = tabla.Rows(0)("fechaInicio")
+                Me.txt_expediente_observacion.Text = tabla.Rows(0)("observacion")
+                Me.txt_expediente_matAbSol.Text = tabla.Rows(0)("abogado_matricula")
+                Me.txt_expediente_matAbCre.Text = tabla.Rows(0)("abogado_matriculaSol")
+                Me.txt_expediente_codCred.Text = tabla.Rows(0)("Creditos_idCreditos")
+
+                Me.txt_expediente_numeroExp.Enabled = False
+                Me.txt_expediente_codCred.Enabled = False
+                Me.txt_expediente_fechaInicio.Enabled = False
         End Select
     End Sub
 
@@ -908,14 +907,14 @@ Public Class frm_Menu
                         Me._combo.cargar(Me.cmb_empleado_cargo, Me.conexion.leo_tabla())
                         conexion.cambiar_Tabla(Me.nombre_tabla_pestana)
                         Me.cargar_Grilla()
-                        txt_empleado_fecha.Text = DateTime.Now().ToString("MM-dd-yyyy")   'ANTES ERA ("dd-MM-yyyy"), VER TIPO DATE SQLSERVER.
+                        txt_empleado_fecha.Text = DateTime.Now().ToString("dd-MM-yyyy")   'ANTES ERA ("dd-MM-yyyy"), VER TIPO DATE SQLSERVER.
                     Case 3
                         Me.limpiar_tab()
                         Me.conexion._tabla = "Estado_Credito"
                         Me._combo.cargar(Me.cmb_creditos_estadoCredito, Me.conexion.leo_tabla())
                         conexion.cambiar_Tabla(Me.nombre_tabla_pestana)
                         Me.cargar_Grilla()
-                        txt_creditos_fSolicitud.Text = DateTime.Now().ToString("MM-dd-yyyy")    'ANTES ERA ("dd-MM-yyyy"), VER TIPO DATE SQLSERVER.
+                        txt_creditos_fSolicitud.Text = DateTime.Now().ToString("dd-MM-yyyy")    'ANTES ERA ("dd-MM-yyyy"), VER TIPO DATE SQLSERVER.
 
                         'Campos visibles/accesibles al cargar la pestaña
                         txt_creditos_fSolicitud.Enabled = False
@@ -925,7 +924,10 @@ Public Class frm_Menu
                     Case 4
                         conexion.cambiar_Tabla(Me.nombre_tabla_pestana)
                         Me.limpiar_tab()
-                        Me.txt_expediente_codCred.Enabled = True            'PREGUNTAR QUE HACE
+                        Me.txt_expediente_numeroExp.Enabled = True
+                        Me.txt_expediente_codCred.Enabled = True
+                        Me.txt_expediente_fechaInicio.Enabled = False
+                        Me.txt_expediente_fechaInicio.Text = DateTime.Now().ToString("dd-MM-yyyy")
                         Me.cargar_Grilla()
                     Case 5
                         conexion.cambiar_Tabla(Me.nombre_tabla_pestana)
@@ -1053,30 +1055,73 @@ Public Class frm_Menu
         Me.grilla.DataSource = conexion._consulta(consulta_garantia)
     End Sub
 
-
-    'Otros
-
-
-    'REVISAR.
-    Private Function nombre_a_id(ByVal nombre As String) As Integer
-
+    'Lleno los valores de la Struct correspondiente a la pestaña en la que estoy
+    Private Function cargar_struct() As Object
         Dim pestaña_abm As Integer = Me.tab_control.SelectedIndex
 
         Select Case pestaña_abm
+            Case 0
+                Dim abogado As Validacion.abogado
+                abogado.nombres = Me.txt_abogado_nombre.Text
+                abogado.apellido = Me.txt_abogado_apellido.Text
+                abogado.matricula = Me.txt_abogado_matricula.Text
+                abogado.domicilio = Me.txt_abogado_domicilio.Text
+                abogado.telefono = Me.mtxt_abogado_telefono.Text
+                Return abogado
             Case 1
-                Select Case nombre
-                    Case "DNI"
-                        Return 1
-                        Exit Function
-                End Select
+                Dim solicitante As Validacion.solicitante
+                solicitante.numDoc = Me.mtxt_solicitante_nrodoc.Text
+                solicitante.tipoDoc = Me.cmb_solicitante_tipodoc.SelectedIndex + 1
+                solicitante.nombres = Me.txt_solicitante_nombre.Text
+                solicitante.apellido = Me.txt_solicitante_apellido.Text
+                solicitante.telefono = Me.mtxt_solicitante_telefono.Text
+                solicitante.domicilio = Me.txt_solicitante_domicilio.Text
+                solicitante.fecha_nacimiento = Me.mtxt_solicitante_fechaNacimiento.Text
+                Return solicitante
+            Case 2
+                Dim empleado As Validacion.empleado
+                empleado.legajo = Me.txt_empleado_legajo.Text
+                empleado.nombres = Me.txt_empleado_nombre.Text
+                empleado.apellido = Me.txt_empleado_ape.Text
+                empleado.fecha_alta = Me.txt_empleado_fecha.Text
+                empleado.superior = Me.txt_empleado_legSup.Text
+                empleado.cargo = Me.cmb_empleado_cargo.SelectedIndex + 1
+                Return empleado
+            Case 3
+                Dim credito As Validacion.credito
+                credito.monto = Me.txt_creditos_monto.Text
+                credito.fecha_solicitud = Me.txt_creditos_fSolicitud.Text
+                credito.fecha_aprobacion = Me.mtxt_creditos_fAprobacion.Text
+                credito.idSolicitante = Me.txt_creditos_idSolicitante.Text
+                credito.legajo = Me.txt_creditos_legajo.Text
+                credito.estado = Me.cmb_creditos_estadoCredito.SelectedIndex + 1
+                credito.idObjeto = Me.txt_creditos_idObjeto.Text
+                credito.objeto_nombre = Me.txt_creditos_objeto.Text
+                Return credito
+            Case 4
+                Dim expediente As Validacion.expediente
+                expediente.numero = Me.txt_expediente_numeroExp.Text
+                expediente.codCred = Me.txt_expediente_codCred.Text
+                expediente.fecha_inicio = Me.txt_expediente_fechaInicio.Text
+                expediente.matricula_crecor = Me.txt_expediente_matAbCre.Text
+                expediente.matricula_solicitante = Me.txt_expediente_matAbSol.Text
+                expediente.observacion = Me.txt_expediente_observacion.Text
+                expediente.estado_credito = obtener_estado_credito(expediente.codCred)
+                Return expediente
+            Case 5
+                Dim garantia As Validacion.garantia
+                garantia.monto = Me.txt_garantia_monto.Text
+                garantia.codCred = Me.txt_garantia_idCredito.Text
+                garantia.descripcion = Me.txt_garantia_descripcion.Text
+                Return garantia
         End Select
+        Return vbObject
     End Function
 
-    'No va esto:
-    'Private Sub txt_expediente_observacion_Enter(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles txt_expediente_observacion.Enter
-    '    Me.cargar_Grilla()
-    'End Sub
 
+    '"convert(date, '" & fecha.Text & "', 103)" 
+    'Cuando queiro borrar un solicitante/empleado choca contra los creditos que tienen el mismo idSolicitante/empleado como foranea
+    'Cuando quiero borrar un credito choca contra expediente por foranea
 End Class
 
 'Private Sub fecha_Validated(ByVal sender As Object, ByVal e As System.EventArgs) Handles mtxt_solicitante_fechaNacimiento.Validated
@@ -1089,3 +1134,206 @@ End Class
 '    End If
 '                       -----Sirve para resaltar el campo de un color si el contenido no es valido-----
 'End Sub
+
+'Private Sub btn_guardar_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btn_guardar.Click
+'    Dim texto As String = ""         'Consulta a hacer
+'    Dim conid As Boolean             'Si es con ID la consulta
+'    Dim pestaña As Integer = Me.tab_control.SelectedIndex
+
+'    conexion.cambiar_Tabla(Me.nombre_tabla_pestana) 'Defino a que tabla me voy a conectar segun la pestaña, ES NECESARIO?
+
+'    If validaciones_pestaña() Then      'Si los campos estan cargados correctamente
+'        Select Case pestaña
+'            Case 0
+'                Dim matricula As Integer = Me.txt_abogado_matricula.Text
+'                Dim fila As Integer = Me.buscar_clave(matricula)        'Busco al abogado en la grilla
+'                If fila <> -1 Then
+'                    MsgBox("Ya existe un abogado con la misma matricula")
+'                    Exit Sub
+'                Else
+'                    texto = "matricula=" & Me.txt_abogado_matricula.Text & ", nombre=" & Me.txt_abogado_nombre.Text & ", apellido=" & Me.txt_abogado_apellido.Text & ", telefono= " & Me.mtxt_abogado_telefono.Text & ", domicilio= " & Me.txt_abogado_domicilio.Text
+'                    conid = True
+'                End If
+'                conexion._insertar(texto, conid)    'Inserto sin ID autoincremental (true)
+'            Case 1
+'                Dim mtextbox As Integer
+'                Int32.TryParse(mtxt_solicitante_nrodoc.Text, mtextbox)
+'                If Me.buscar_doc_tdoc(mtextbox, cmb_solicitante_tipodoc.SelectedIndex + 1) = 1 Then 'Busco al solicitante en la grilla
+'                    MsgBox("Ya existe un solicitante con el mismo Documento y tipo Documento")
+'                    Exit Sub
+'                Else
+'                    texto = "numeroDocumento=" & Me.mtxt_solicitante_nrodoc.Text & ", apellido=" & Me.txt_solicitante_apellido.Text & ", nombre=" & Me.txt_solicitante_nombre.Text & ", telefono= " & Me.mtxt_solicitante_telefono.Text & ", domicilio= " & Me.txt_solicitante_domicilio.Text & ", tipo_Documento_idTipo_Documento= " & Me.cmb_solicitante_tipodoc.SelectedValue & ", fechaNacimiento=" & Me.mtxt_solicitante_fechaNacimiento.Text
+'                    conid = False
+'                End If
+'                conexion._insertar(texto, conid)
+'            Case 2
+'                If Me.buscar_clave(Me.txt_empleado_legSup.Text) = -1 Then   'Busco en GRILLA al legajo del superior
+'                    MsgBox("No existe ningun superior con esa matricula")
+'                    Exit Sub
+'                Else
+'                    texto = "legajo=" & Me.txt_empleado_legajo.Text & ", Empleado_legajo=" & Me.txt_empleado_legSup.Text & ", Cargo_idCargo=" & Me.cmb_empleado_cargo.SelectedIndex + 1 & ", nombres=" & Me.txt_empleado_nombre.Text & ", apellido=" & Me.txt_empleado_ape.Text & ", fecha_Alta=" & Me.txt_empleado_fecha.Text
+'                    conid = True
+'                End If
+'                conexion._insertar(texto, conid)
+'            Case 3
+
+'                'SACCAR VALIDACIONES AFUERA?
+'                'If Me.buscar_en_tabla(Me.txt_creditos_idSolicitante.Text, 2) = -1 Then
+'                '    MsgBox("No existe ningun solicitante con ese codigo")
+'                '    Me.txt_creditos_idSolicitante.Focus()
+'                '    Exit Sub
+'                'End If
+'                'If Me.buscar_en_tabla(Me.txt_creditos_legajo.Text, 1) = -1 Then
+'                '    MsgBox("No existe ningun empleado con ese legajo")
+'                '    Me.txt_creditos_legajo.Focus()
+'                '    Exit Sub
+'                'End If
+'                If Me.cmb_creditos_estadoCredito.SelectedIndex <> 0 Then
+'                    MsgBox("Creditos nuevos solo pueden ser pendientes")
+'                    Me.cmb_creditos_estadoCredito.Focus()
+'                    Exit Sub
+'                End If
+
+'                'texto = "monto= " & Me.txt_creditos_monto.Text & ", fechaSolicitud=" & Me.txt_creditos_fSolicitud.Text & ", Solicitante_idSolicitante=" & Me.txt_creditos_idSolicitante.Text & ", Estado_Credito_idEstado_Credito=" & Me.cmb_creditos_estadoCredito.SelectedIndex & ", Empleado_legajo=" & Me.txt_creditos_legajo.Text & ", Objeto_idObjeto=" & Me.txt_creditos_idObjeto.Text
+
+'                'Uso INSERT propio porque varios valores no son cargados y el insert de conexion no permite eso
+'                texto = "INSERT INTO creditos (monto, fechaSolicitud, Solicitante_idSolicitante, Estado_Credito_idEstado_Credito, Empleado_legajo, Objeto_idObjeto) VALUES ("
+'                texto += Me.txt_creditos_monto.Text & ", " & "convert(date, '" & Me.txt_creditos_fSolicitud.Text & "', 103)" & ", " & Me.txt_creditos_idSolicitante.Text & ", " & Me.cmb_creditos_estadoCredito.SelectedIndex & ", " & Me.txt_creditos_legajo.Text & ", " & Me.txt_creditos_idObjeto.Text & ")"
+'                conexion._modificar(texto)          'conexion._modificar() ejecuta SQL por nonquery.
+'                Me.txt_creditos_objeto.Enabled = True
+
+'            Case 4
+'                Dim valor As Integer
+'                'Dim tabla As New DataTable
+'                'Dim consulta As String = "SELECT (Estado_Credito_idEstado_Credito) FROM Creditos WHERE "
+'                'consulta += "idCreditos=" & Me.txt_expediente_codCred.Text
+
+'                'tabla = conexion._consulta(consulta)
+'                'valor = tabla.Rows(0)(0)
+
+'                valor = validar_estado_credito(Me.txt_expediente_codCred.Text)
+
+'                'texto = "INSERT INTO expediente (idExpediente, Estado_Credito_idEstado_Credito, abogado_matricula, observacion, fechaInicio, abogado_matriculaSol) VALUES ("
+'                texto += "idExpediente=" & Me.txt_expediente_numeroExp.Text & ", Estado_Credito_idEstado_Credito=" & valor & ", abogado_matricula=" & Me.txt_expediente_matAbCre.Text & ", observacion=" & Me.txt_expediente_observacion.Text & ", fechaInicio=" & Me.txt_expediente_fechaInicio.Text & ", abogado_matriculaSol=" & Me.txt_expediente_matAbSol.Text
+'                '   MsgBox(texto)
+
+'                Dim expediente As Integer = Me.txt_expediente_numeroExp.Text
+'                Dim fila As Integer = Me.buscar_clave(expediente)
+'                If fila <> -1 Then
+'                    MsgBox("Ya existe un expediente con el mismo valor")
+
+'                Else
+'                    conid = True
+'                    conexion._insertar(texto, conid)
+'                End If
+
+'            Case 5
+'                If Me.buscar_en_tabla(Me.txt_garantia_idCredito.Text, 3) = -1 Then
+'                    MsgBox("No existe ningun credito con ese Codigo de Credito")
+'                    Me.txt_creditos_idSolicitante.Focus()
+'                    Exit Sub
+'                End If
+
+'                texto = "INSERT INTO garantia (descripcion, valorMonetario, Creditos_idCreditos) VALUES ('"
+'                texto += Me.txt_garantia_descripcion.Text & "', " & Me.txt_garantia_monto.Text & ", " & Me.txt_garantia_idCredito.Text & ")"
+'                conexion._modificar(texto)
+
+'            Case Else
+'                Exit Sub
+'        End Select
+'        'Recargo grilla, limpio campos.
+'        cargar_Grilla()
+'        limpiar_tab()
+
+'    End If
+'End Sub
+
+
+
+
+'If validaciones_pestaña() Then          'Si los campos estan llenados correctamente
+'    texto = "UPDATE " & nom_Tabla & " SET "
+'    Select Case pestaña
+'        Case 0
+'            texto += "nombre='" & Me.txt_abogado_nombre.Text & "', apellido='" & Me.txt_abogado_apellido.Text & "', telefono='" & Me.mtxt_abogado_telefono.Text & "', domicilio='" & Me.txt_abogado_domicilio.Text & "'"
+'            texto += " WHERE matricula= " & Me.txt_abogado_matricula.Text
+'        Case 1
+'            If Me.idSolicitante = -1 Then  'Si no busco o hizo doble click en un solicitante pido el id
+'                id_clave = pedir_clave_numerica()
+'            Else
+'                id_clave = Me.idSolicitante
+'            End If
+'            texto += "numeroDocumento='" & Me.mtxt_solicitante_nrodoc.Text & "', apellido='" & Me.txt_solicitante_apellido.Text & "', nombre='" & Me.txt_solicitante_nombre.Text & "', telefono='" & Me.mtxt_solicitante_telefono.Text & "', domicilio='" & Me.txt_solicitante_domicilio.Text & "', tipo_Documento_idTipo_Documento='" & Me.cmb_solicitante_tipodoc.SelectedValue & "', fechaNacimiento='" & Me.mtxt_solicitante_fechaNacimiento.Text & "'"
+'            texto += " WHERE idSolicitante= " & id_clave
+'        Case 2
+'            texto += "Empleado_legajo=" & Me.txt_empleado_legSup.Text & ", Cargo_idCargo=" & Me.cmb_empleado_cargo.SelectedIndex + 1 & ", nombres='" & Me.txt_empleado_nombre.Text & "', apellido='" & Me.txt_empleado_ape.Text & "', fecha_Alta='" & Me.txt_empleado_fecha.Text & "'"
+'            texto += " WHERE legajo= " & Me.txt_empleado_legajo.Text
+'        Case 3
+'            If Me.idCredito = -1 Then   'Idem solicitante
+'                id_clave = pedir_clave_numerica()
+'            Else
+'                id_clave = Me.idCredito
+'            End If
+
+'            'HACER VARIABLE CONTENER VALIDAR_ESTADO_CREDITO
+'            Dim estado_credito As Integer = obtener_estado_credito(id_clave)
+'            '^Se puede usar la Struct credito si se carga en tiempo real.
+'            'SE PUEDE CONOCER EL ESTADO DEL CREDITO DE OTRA FORMA?
+
+'            Dim estado_credito_seleccionado As Integer = Me.cmb_creditos_estadoCredito.SelectedIndex
+
+'            If estado_credito = 2 Then  'Si credito=deuda solo puedo volver a aprobado (pago deuda), ninguna otra operacion
+'                If estado_credito_seleccionado = 1 Then
+'                    texto += "Estado_Credito_idEstado_Credito=" & Me.cmb_creditos_estadoCredito.SelectedIndex
+'                Else
+'                    MsgBox("Creditos en deuda solo pueden volver a aprobados")
+'                    Exit Sub
+'                End If
+'            ElseIf estado_credito = 3 Then    'Si credito=rechazado no puedo hacer nada
+'                MsgBox("No se pueden modificar creditos rechazados")
+'                Exit Sub
+'            ElseIf estado_credito = 1 Then    'Si credito=aprobado solo puedo pasar a deuda
+'                If estado_credito_seleccionado = 2 Then
+'                    texto += "Estado_Credito_idEstado_Credito=" & Me.cmb_creditos_estadoCredito.SelectedIndex
+'                Else
+'                    MsgBox("Creditos aprobados solo pueden pasar a estado de Deuda")
+'                    Exit Sub
+'                End If
+'            Else
+'                If estado_credito_seleccionado = 1 Then 'Si credito=pendiente 
+'                    If Me.mtxt_creditos_fAprobacion.MaskCompleted = True Then   'Si hay fecha de aprobacion ya se que paso a aprobado
+'                        texto += "monto= " & Me.txt_creditos_monto.Text & ", fechaAprobacion=" & Me.mtxt_creditos_fAprobacion.Text & ", Estado_Credito_idEstado_Credito=" & Me.cmb_creditos_estadoCredito.SelectedIndex
+'                    Else
+'                        MsgBox("Se debe llenar la fecha de aprobacion")
+'                        Exit Sub
+'                    End If
+'                ElseIf estado_credito_seleccionado = 3 Then  'Paso a rechazado
+'                    texto += "Estado_Credito_idEstado_Credito=" & Me.cmb_creditos_estadoCredito.SelectedIndex
+'                Else 'No puedo pasar a deuda desde pendiente
+'                    MsgBox("Creditos pendientes solo se puede actualizar a Aprobados o Rechazados")
+'                    Exit Sub
+'                End If
+
+'            End If
+'            texto += " WHERE idCreditos=" & id_clave
+
+
+
+'            'If validar_estado_credito(id_clave) <> 1 And validar_estado_credito(id_clave) <> 3 Then
+
+'            '    texto += "monto= " & Me.txt_creditos_monto.Text
+'            '    If Me.mtxt_creditos_fAprobacion.Enabled = True Then
+'            '        texto += ", fechaAprobacion=" & Me.mtxt_creditos_fAprobacion.Text
+'            '    End If
+'            '    texto += ", Estado_Credito_idEstado_Credito=" & Me.cmb_creditos_estadoCredito.SelectedIndex
+'            '    texto += " WHERE idCreditos=" & id_clave
+'            '    Me.txt_creditos_objeto.Enabled = True
+'            'End If
+'        Case Else
+'            Exit Sub
+'    End Select
+'    'Modifico, limpio campos y recargo grilla
+'    conexion._modificar(texto)
+'    Me.limpiar_tab()
+'    Me.cargar_Grilla()
+'End If

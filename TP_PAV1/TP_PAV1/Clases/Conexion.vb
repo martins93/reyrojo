@@ -128,6 +128,8 @@
                 texto_borrar += "legajo= "
             Case "creditos"
                 texto_borrar += "idCreditos= "
+            Case "expediente"
+                texto_borrar += "idExpediente= "
             Case Else
                 Exit Sub
         End Select
