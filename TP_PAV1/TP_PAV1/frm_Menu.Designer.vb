@@ -118,7 +118,6 @@ Partial Class frm_Menu
         Me.grilla = New System.Windows.Forms.DataGridView()
         Me.Tipo_DocumentoTableAdapter = New TP_PAV1.PAV1DataSetTableAdapters.tipo_DocumentoTableAdapter()
         Me.grp_controles = New System.Windows.Forms.GroupBox()
-        Me.boton_validar = New System.Windows.Forms.Button()
         Me.tab_menu = New System.Windows.Forms.TabControl()
         Me.tab_menu_inicio = New System.Windows.Forms.TabPage()
         Me.Label4 = New System.Windows.Forms.Label()
@@ -893,6 +892,7 @@ Partial Class frm_Menu
         '
         'txt_garantia_monto
         '
+        Me.txt_garantia_monto.AllowDrop = True
         Me.txt_garantia_monto.Location = New System.Drawing.Point(196, 105)
         Me.txt_garantia_monto.Name = "txt_garantia_monto"
         Me.txt_garantia_monto.Size = New System.Drawing.Size(100, 20)
@@ -914,7 +914,6 @@ Partial Class frm_Menu
         '
         'lbl_garantia_monto
         '
-        Me.lbl_garantia_monto.AutoSize = True
         Me.lbl_garantia_monto.Location = New System.Drawing.Point(31, 108)
         Me.lbl_garantia_monto.Name = "lbl_garantia_monto"
         Me.lbl_garantia_monto.Size = New System.Drawing.Size(81, 13)
@@ -1002,7 +1001,6 @@ Partial Class frm_Menu
         '
         'grp_controles
         '
-        Me.grp_controles.Controls.Add(Me.boton_validar)
         Me.grp_controles.Controls.Add(Me.grilla)
         Me.grp_controles.Controls.Add(Me.btn_salir)
         Me.grp_controles.Controls.Add(Me.btn_borrar)
@@ -1015,15 +1013,6 @@ Partial Class frm_Menu
         Me.grp_controles.TabIndex = 8
         Me.grp_controles.TabStop = False
         Me.grp_controles.Visible = False
-        '
-        'boton_validar
-        '
-        Me.boton_validar.Location = New System.Drawing.Point(47, 576)
-        Me.boton_validar.Name = "boton_validar"
-        Me.boton_validar.Size = New System.Drawing.Size(75, 23)
-        Me.boton_validar.TabIndex = 6
-        Me.boton_validar.Text = "Button1"
-        Me.boton_validar.UseVisualStyleBackColor = True
         '
         'tab_menu
         '
@@ -1247,7 +1236,6 @@ Partial Class frm_Menu
     Friend WithEvents lbl_garantia_monto As System.Windows.Forms.Label
     Friend WithEvents lbl_garantia_descripcion As System.Windows.Forms.Label
     Friend WithEvents lbl_garantia_codCredito As System.Windows.Forms.Label
-    Friend WithEvents boton_validar As System.Windows.Forms.Button
     Friend WithEvents lbl_documentacion As System.Windows.Forms.Label
     Friend WithEvents panel_documentacion As System.Windows.Forms.Panel
     Friend WithEvents txt_garantias_ubicacion As System.Windows.Forms.TextBox
