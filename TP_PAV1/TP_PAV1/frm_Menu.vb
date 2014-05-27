@@ -239,7 +239,7 @@
                     Else
                         If estado_credito_seleccionado = 1 Then 'Si credito=pendiente 
                             If Me.mtxt_creditos_fAprobacion.MaskCompleted = True Then   'Si hay fecha de aprobacion ya se que paso a aprobado
-                                texto += "monto= " & Me.txt_creditos_monto.Text & ", fechaAprobacion=" & Me.mtxt_creditos_fAprobacion.Text & ", Estado_Credito_idEstado_Credito=" & Me.cmb_creditos_estadoCredito.SelectedIndex
+                                texto += "monto= " & Me.txt_creditos_monto.Text & ", fechaAprobacion=" & "convert(date, '" & Me.mtxt_creditos_fAprobacion.Text & "', 103)" & ", Estado_Credito_idEstado_Credito=" & Me.cmb_creditos_estadoCredito.SelectedIndex
                             Else
                                 MsgBox("Se debe llenar la fecha de aprobacion")
                                 Exit Sub
