@@ -1,12 +1,14 @@
 ﻿Public Class frm_Menu
 
-    Public cadena_Conexion As String = "Data Source=SALVADOR-PC\PAV1;Initial Catalog=PAV1;Integrated Security=True"
+    Public cadena_Conexion As String = "Data Source=MARTIN-PC\;Initial Catalog=PAV1;Integrated Security=True"
     Dim conexion As New Conexion(cadena_Conexion, conexion.motores.sqlserver)
 
     'id no son txt asi que necesito variables globales.
     Dim idSolicitante As Integer = -1
     Dim idCredito As Integer = -1
     Dim idExpediente As Integer = -1
+    Dim idMatricula As Integer = -1
+    Dim idEmpleado As Integer = -1
 
     Dim buscador As buscar_doc_tipoDoc 'Para busqueda Doc/TipoDoc
     Dim _combo As New combo     'Para carga combo
@@ -790,25 +792,44 @@
 
         Select Case pestaña
             Case 0
-                Me.txt_abogado_matricula.Text = grilla.Rows(fila).Cells(0).Value
-                Me.txt_abogado_nombre.Text = grilla.Rows(fila).Cells(1).Value
-                Me.txt_abogado_apellido.Text = grilla.Rows(fila).Cells(2).Value
-                Me.mtxt_abogado_telefono.Text = grilla.Rows(fila).Cells(4).Value
-                Me.txt_abogado_domicilio.Text = grilla.Rows(fila).Cells(3).Value
+                Dim tabla As New Data.DataTable
+                Me.idMatricula = grilla.Rows(fila).Cells(0).Value
+                tabla = conexion._consulta("SELECT * FROM Abogado WHERE matricula=" & Me.idMatricula)
+
+                Me.txt_abogado_matricula.Text = tabla.Rows(0)("matricula")
+                Me.txt_abogado_nombre.Text = tabla.Rows(0)("nombre")
+                Me.txt_abogado_apellido.Text = tabla.Rows(0)("apellido")
+                Me.mtxt_abogado_telefono.Text = tabla.Rows(0)("telefono")
+                Me.txt_abogado_domicilio.Text = tabla.Rows(0)("domicilio")
+                Me.txt_abogado_matricula.Enabled = False
             Case 1
+                Dim tabla As New Data.DataTable
                 Me.idSolicitante = grilla.Rows(fila).Cells(0).Value
-                Me.txt_solicitante_nombre.Text = grilla.Rows(fila).Cells(2).Value
-                Me.txt_solicitante_domicilio.Text = grilla.Rows(fila).Cells(5).Value
-                Me.txt_solicitante_apellido.Text = grilla.Rows(fila).Cells(3).Value
-                Me.mtxt_solicitante_telefono.Text = grilla.Rows(fila).Cells(6).Value
-                Me.mtxt_solicitante_nrodoc.Text = grilla.Rows(fila).Cells(1).Value
-                Me.mtxt_solicitante_fechaNacimiento.Text = grilla.Rows(fila).Cells(4).Value
+                tabla = conexion._consulta("SELECT * FROM Solicitante WHERE idSolicitante=" & Me.idSolicitante)
+
+                Me.idSolicitante = tabla.Rows(0)("idSolicitante")
+                Me.txt_solicitante_nombre.Text = tabla.Rows(0)("nombre")
+                Me.txt_solicitante_domicilio.Text = tabla.Rows(0)("domicilio")
+                Me.txt_solicitante_apellido.Text = tabla.Rows(0)("apellido")
+                Me.mtxt_solicitante_telefono.Text = tabla.Rows(0)("telefono")
+                Me.mtxt_solicitante_nrodoc.Text = tabla.Rows(0)("numeroDocumento")
+                Me.mtxt_solicitante_fechaNacimiento.Text = tabla.Rows(0)("fechaNacimiento")
+                Me.cmb_solicitante_tipodoc.SelectedIndex = tabla.Rows(0)("tipo_Documento_idTipo_Documento") - 1
+                Me.mtxt_solicitante_nrodoc.Enabled = False
+                Me.cmb_solicitante_tipodoc.Enabled = False
+
+
             Case 2
-                Me.txt_empleado_legajo.Text = grilla.Rows(fila).Cells(0).Value
-                Me.txt_empleado_legSup.Text = grilla.Rows(fila).Cells(4).Value
-                Me.txt_empleado_nombre.Text = grilla.Rows(fila).Cells(1).Value
-                Me.txt_empleado_fecha.Text = grilla.Rows(fila).Cells(3).Value
-                Me.txt_empleado_ape.Text = grilla.Rows(fila).Cells(2).Value
+                Dim tabla As New Data.DataTable
+                Me.idEmpleado = grilla.Rows(fila).Cells(0).Value
+                tabla = conexion._consulta("SELECT * FROM Empleado WHERE legajo=" & Me.idEmpleado)
+
+                Me.txt_empleado_legajo.Text = tabla.Rows(0)("legajo")
+                Me.txt_empleado_legSup.Text = tabla.Rows(0)("Empleado_legajo")
+                Me.txt_empleado_nombre.Text = tabla.Rows(0)("nombres")
+                Me.txt_empleado_fecha.Text = tabla.Rows(0)("fecha_Alta")
+                Me.txt_empleado_ape.Text = tabla.Rows(0)("apellido")
+                Me.txt_empleado_legajo.Enabled = False
             Case 3
                 Dim tabla As New Data.DataTable
                 Me.idCredito = grilla.Rows(fila).Cells(0).Value
@@ -895,12 +916,15 @@
                         conexion.cambiar_Tabla(Me.nombre_tabla_pestana)
                         Me.limpiar_tab()
                         Me.cargar_Grilla()
+                        Me.txt_abogado_matricula.Enabled = True
                     Case 1
-                        Me.conexion._tabla = "tipo_documento"
-                        Me._combo.cargar(Me.cmb_solicitante_tipodoc, Me.conexion.leo_tabla())
-                        conexion.cambiar_Tabla(Me.nombre_tabla_pestana)
+                        Me.conexion._tabla = "tipo_Documento"
                         Me.limpiar_tab()
+                        Me._combo.cargar(Me.cmb_solicitante_tipodoc, Me.conexion.leo_tabla())
+                        conexion.cambiar_Tabla(Me.nombre_tabla_pestana)    
                         Me.cargar_Grilla()
+                        Me.mtxt_solicitante_nrodoc.Enabled = True
+                        Me.cmb_solicitante_tipodoc.Enabled = True
                     Case 2
                         Me.limpiar_tab()
                         Me.conexion._tabla = "cargo"
@@ -908,6 +932,7 @@
                         conexion.cambiar_Tabla(Me.nombre_tabla_pestana)
                         Me.cargar_Grilla()
                         txt_empleado_fecha.Text = DateTime.Now().ToString("dd-MM-yyyy")   'ANTES ERA ("dd-MM-yyyy"), VER TIPO DATE SQLSERVER.
+                        Me.txt_empleado_legajo.Enabled = True
                     Case 3
                         Me.limpiar_tab()
                         Me.conexion._tabla = "Estado_Credito"
