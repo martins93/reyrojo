@@ -331,12 +331,36 @@
                         limpiar_tab()
                     End If
                 Case 5
-                    If validacion._validar_garantia(objeto) Then
-                        texto = "INSERT INTO garantia (descripcion, valorMonetario, Creditos_idCreditos) VALUES ('"
-                        texto += Me.txt_garantia_descripcion.Text & "', " & Me.txt_garantia_monto.Text & ", " & Me.txt_garantia_idCredito.Text & ")"
-                        conexion._modificar(texto)
-                        limpiar_tab()
+                    'If validacion._validar_garantia(objeto) Then
+                    '    texto = "INSERT INTO garantia (descripcion, valorMonetario, Creditos_idCreditos) VALUES ('"
+                    '    texto += Me.txt_garantia_descripcion.Text & "', " & Me.txt_garantia_monto.Text & ", " & Me.txt_garantia_idCredito.Text & ")"
+                    '    conexion._modificar(texto)
+                    '    limpiar_tab()
+                    'End If
+                    Dim tabla As New Data.DataTable
+                    Dim insert_garantia As String = ""
+
+                    insert_garantia = "descripcion=" & Me.txt_garantia_descripcion.Text & " , valorMonetario=" & Me.txt_garantia_monto.Text & " , Creditos_idCreditos=" & Me.txt_garantia_idCredito.Text
+
+                    Me.conexion._iniciar_conexion_con_transaccion()
+
+                    Me.conexion._insertar_transaccion(insert_garantia, False)
+                    tabla = conexion._consulta("SELECT MAX(idGarantia) FROM Garantia")
+
+                    Me.conexion._tabla = "Documentacion_x_Garantia"     'Cambio de tabla
+                    texto = "Documentacion_idDocumentacion=" & Me.txt_garantias_idDocumentacion.Text & " , Garantia_idGarantia=" & tabla.Rows(0)(0)
+
+                    Me.conexion._insertar_transaccion(texto, False)
+
+                    Dim estado As Object
+                    estado = Me.conexion._finalizar_conexio_con_transaccion()
+
+                    If estado.ToString = "_ok" Then
+                        MsgBox("Se grabó exitosamente", MsgBoxStyle.Information, "Importante")
+                    Else
+                        MsgBox("Se produjo error en la grabación", MsgBoxStyle.Information, "Importante")
                     End If
+
             End Select
         End If
         cargar_Grilla()

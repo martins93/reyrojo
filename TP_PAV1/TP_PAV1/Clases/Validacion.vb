@@ -87,8 +87,7 @@ Public Class Validacion
         Dim esteControl As System.Windows.Forms.Control
 
         For Each esteControl In frm_Menu.tab_control.SelectedTab.Controls        'Reviso cada campo y valido no vacio.
-            MsgBox(esteControl.Name)
-            If esteControl.Enabled = True And esteControl.GetType().ToString() <> "System.Windows.Forms.Panel" Then
+            If esteControl.Enabled = True And esteControl.GetType().ToString <> "System.Windows.Forms.Panel" Then
                 If esteControl.Text = "" Then
                     MsgBox("Se deben llenar todos los campos", vbOKOnly + vbCritical, "Importante")
                     Return False
