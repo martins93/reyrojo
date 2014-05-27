@@ -25,12 +25,6 @@ Public Class Validacion
     Private Const ERROR_DOC_TDOC As String = "Ya existe un solicitante con ese documento y tipo de documento"
     Private Const ERROR_ESTADO_CREDITO As String = "El credito solo puede ser "
 
-    'Devolver mensajes de error y validar que no esten vacios en vez de usar booleaans?
-    'O imprimimos por pantalla desde aca?
-
-
-
-
 
     Structure abogado
         Friend matricula As Integer
@@ -373,6 +367,8 @@ Public Class Validacion
     End Function
 
 
+    'Devolver mensajes de error y validar que no esten vacios en vez de usar booleaans?
+    'O imprimimos por pantalla desde aca?
 
 End Class
 
