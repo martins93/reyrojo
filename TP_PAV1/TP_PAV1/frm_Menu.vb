@@ -1,6 +1,6 @@
 ﻿Public Class frm_Menu
 
-    Public cadena_Conexion As String = "Data Source=SALVADOR-PC\PAV1;Initial Catalog=PAV1;Integrated Security=True"
+    Public cadena_Conexion As String = "Data Source=MARTIN-PC\;Initial Catalog=PAV1;Integrated Security=True"
     Dim conexion As New Conexion(cadena_Conexion, conexion.motores.sqlserver)
 
     'Ambos id no son txt asi que necesito variables globales.
@@ -267,7 +267,7 @@
         End If
 
 
-        
+
     End Sub
 
     'Boton salir de los ABM
@@ -805,8 +805,10 @@
                 consulta += "INNER JOIN Abogado Ab2 ON Expediente.abogado_matriculaSol = Ab2.matricula "
                 consulta += "INNER JOIN Creditos ON Creditos.idCreditos = Expediente.Creditos_idCreditos "
             Case 5
-                consulta += "SELECT Garantia.descripcion, Garantia.valorMonetario, Creditos.idCreditos, Creditos.monto, Solicitante.nombre, Solicitante.apellido, Solicitante.idSolicitante"
-                consulta += " FROM Creditos INNER JOIN Garantia ON Creditos.idCreditos = Garantia.Creditos_idCreditos INNER JOIN Solicitante ON Creditos.Solicitante_idSolicitante = Solicitante.idSolicitante"
+                'consulta += "SELECT Garantia.descripcion AS [Descripcion], Garantia.valorMonetario AS [Valor Monetario], Creditos.idCreditos AS [Codigo Credito], Creditos.monto AS [Monto Credito], Solicitante.nombre AS [Nombre Solicitante], Solicitante.apellido AS [Apellido Solicitante], Solicitante.idSolicitante AS [Codigo Solicitante], Documentacion.lugarAlmacenamiento AS [Ubicacion]"
+                'consulta += " FROM Creditos INNER JOIN Solicitante ON Creditos.Solicitante_idSolicitante = Solicitante.idSolicitante INNER JOIN Garantia ON Garantia.Creditos_idCreditos = Creditos.idCreditos INNER JOIN Documentacion_x_Garantia ON Documentacion_x_Garantia.Documentacion_idDocumentacion = Documentacion.idDocumentacion"
+                consulta += "SELECT Solicitante.nombre AS [Nombre Solicitante], Solicitante.apellido AS [Apellido Solicitante], Solicitante.idSolicitante AS [Codigo Solicitante], Garantia.descripcion AS [Descripcion Garantia], Garantia.valorMonetario AS [Valor Monetario], Garantia.Creditos_idCreditos AS [Codigo Credito], Documentacion.lugarAlmacenamiento AS [UBICACION], Documentacion.descripcion AS [Descripcion Documentacion] "
+                consulta += "FROM Documentacion INNER JOIN Documentacion_x_Garantia ON Documentacion.idDocumentacion = Documentacion_x_Garantia.Documentacion_idDocumentacion INNER JOIN Garantia ON Documentacion_x_Garantia.Garantia_idGarantia = Garantia.idGarantia INNER JOIN Creditos ON Garantia.Creditos_idCreditos = Creditos.idCreditos INNER JOIN Solicitante ON Creditos.Solicitante_idSolicitante = Solicitante.idSolicitante"
         End Select
         Me.grilla.DataSource = conexion._consulta(consulta)
 
