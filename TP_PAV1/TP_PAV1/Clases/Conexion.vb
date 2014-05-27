@@ -200,13 +200,20 @@
                 texto_borrar += "legajo= "
             Case "creditos"
                 texto_borrar += "idCreditos= "
+            Case "expediente"
+                texto_borrar += "idExpediente= "
             Case Else
                 Exit Sub
         End Select
         texto_borrar &= id
         ' MsgBox(texto_borrar)
         Me.cmd.CommandText = texto_borrar
-        cmd.ExecuteNonQuery()
+        Try
+            cmd.ExecuteNonQuery()
+        Catch e As SqlClient.SqlException
+            MsgBox("No se pudo eliminar el elemento seleccionado", vbOKOnly + vbCritical, "Importante")
+        End Try
+
         Me.conexion.Close() ' FALTA VERIFICAR SI ES CONEXION SIMPLE O TRANSACCION
     End Sub
 
@@ -509,13 +516,13 @@
                 If motor = motores.access Then
                     Return "#" & texto & "#"
                 Else
-                    Return "'" & texto & "'"
+                    Return "convert(date, '" & texto & "', 103)"
                 End If
             Case "System.DateTimeKind"
                 If motor = motores.access Then
                     Return "#" & texto & "#"
                 Else
-                    Return "'" & texto & "'"
+                    Return "convert(date, '" & texto & "', 103)"
                 End If
             Case Else
                 Return texto
