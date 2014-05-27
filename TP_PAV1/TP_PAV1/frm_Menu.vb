@@ -3,7 +3,7 @@
     Public cadena_Conexion As String = "Data Source=MARTIN-PC;Initial Catalog=PAV1;Integrated Security=True"
     Dim conexion As New Conexion(cadena_Conexion, conexion.motores.sqlserver)
 
-    'id no son txt asi que necesito variables globales.
+    'Ambos id no son txt asi que necesito variables globales.
     Dim idSolicitante As Integer = -1
     Dim idCredito As Integer = -1
     Dim idExpediente As Integer = -1
@@ -13,8 +13,8 @@
     Dim buscador As buscar_doc_tipoDoc 'Para busqueda Doc/TipoDoc
     Dim _combo As New combo     'Para carga combo
     Dim frm_objeto As frm_objeto 'Para cargar objeto
-    Dim validacion As Validacion 'Para validaciones
-
+    Dim validacion As Validacion
+    Dim frm_docum As frm_documentacion
 
     'Botones y eventos de formulario.
 
@@ -253,7 +253,7 @@
 
                     End If
                     texto += " WHERE idCreditos=" & id_clave
-                    conexion._modificar(texto)
+                    conexion._modificar(texto)          'conexion._modificar() ejecuta SQL por nonquery.
                 Case 4
                     If validacion._validar_expediente(objeto) Then
                         texto += "observacion='" & Me.txt_expediente_observacion.Text & "', abogado_matricula=" & Me.txt_expediente_matAbCre.Text & ", abogado_matriculaSol=" & Me.txt_expediente_matAbSol.Text
@@ -838,7 +838,8 @@
 
                 Me.txt_creditos_fSolicitud.Text = grilla.Rows(fila).Cells(2).Value
                 Me.txt_creditos_idObjeto.Text = tabla.Rows(0)("Objeto_idObjeto")
-                Me.txt_creditos_idSolicitante.Text = tabla.Rows(0)("Solicitante_idSolicitante")                Me.txt_creditos_legajo.Text = tabla.Rows(0)("Empleado_legajo")
+                Me.txt_creditos_idSolicitante.Text = tabla.Rows(0)("Solicitante_idSolicitante")
+                Me.txt_creditos_legajo.Text = tabla.Rows(0)("Empleado_legajo")
                 Me.txt_creditos_monto.Text = grilla.Rows(fila).Cells(1).Value
                 Me.txt_creditos_objeto.Text = grilla.Rows(fila).Cells(9).Value
 
@@ -989,6 +990,30 @@
         'Trae el ID_Objeto
         tabla = frm_objeto.traer_id_objeto()
         Me.txt_creditos_idObjeto.Text = tabla.Rows(0)(0)
+
+    End Sub
+
+    'Abro formulario de ingreso de documentacion al llegar al TextBox descripcion_docum en garantias.
+    Private Sub txt_garantias_descripDocum_Enter(sender As System.Object, e As System.EventArgs) Handles txt_garantias_descripDocum.Enter
+
+        Dim tabla As New Data.DataTable
+
+        frm_docum = New frm_documentacion
+
+        Dim result As DialogResult = frm_docum.ShowDialog(Me)
+
+        'Trae Descripcion_Objeto
+        Me.txt_garantias_descripDocum.Text = frm_docum.pasar_descripcion_docum()
+
+        If txt_garantia_descripcion.Text <> "" Then
+            'txt_garantia_descripcion.Enabled = False
+            Me.txt_garantias_ubicacion.Text = frm_docum.pasar_ubicacion_docum()
+
+        End If
+
+        'Trae el ID_Objeto
+        tabla = frm_docum.traer_id_docum()
+        Me.txt_garantias_idDocumentacion.Text = tabla.Rows(0)(0)
 
     End Sub
 

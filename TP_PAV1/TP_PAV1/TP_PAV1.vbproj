@@ -54,6 +54,7 @@
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Deployment" />
+    <Reference Include="System.DirectoryServices" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Web.Services" />
     <Reference Include="System.Windows.Forms" />
@@ -85,6 +86,12 @@
     <Compile Include="Clases\combo.vb" />
     <Compile Include="Clases\Conexion.vb" />
     <Compile Include="Clases\Validacion.vb" />
+    <Compile Include="frm_documentacion.Designer.vb">
+      <DependentUpon>frm_documentacion.vb</DependentUpon>
+    </Compile>
+    <Compile Include="frm_documentacion.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="frm_Menu.Designer.vb">
       <DependentUpon>frm_Menu.vb</DependentUpon>
     </Compile>
@@ -121,6 +128,9 @@
   <ItemGroup>
     <EmbeddedResource Include="buscar_doc_tipoDoc.resx">
       <DependentUpon>buscar_doc_tipoDoc.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frm_documentacion.resx">
+      <DependentUpon>frm_documentacion.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frm_Menu.resx">
       <DependentUpon>frm_Menu.vb</DependentUpon>

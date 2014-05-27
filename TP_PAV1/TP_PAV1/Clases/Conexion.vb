@@ -1,8 +1,18 @@
 ﻿Public Class Conexion
 
+    Enum tipo_conexion  'para transacciones o inserciones simples
+        transaccion
+        simple
+    End Enum
+
     Enum motores
         sqlserver
         access
+    End Enum
+
+    Enum estado_transaccion 'para determinar resultado de transaccion
+        _ok
+        _error
     End Enum
 
     Dim conexion As New Object
@@ -10,6 +20,11 @@
     Dim str_conexion As String
     Dim motor As motores = motores.access
     Dim nom_tabla As String = ""
+
+    'manejo de transacciones
+    Dim configurar_conexion As tipo_conexion = tipo_conexion.simple
+    Dim transaccion As New Object
+    Dim control_transaccion As estado_transaccion = estado_transaccion._ok
 
 
     Public Property _cadenaConexion() As String
@@ -76,26 +91,83 @@
     'End Sub
 
     Private Sub _conectar()
-        Me.conexion.ConnectionString = Me.str_conexion
-        Me.conexion.Open()
-        Me.cmd.Connection = conexion
-        Me.cmd.CommandType = CommandType.Text
+
+        If Me.conexion.State.ToString() <> "Open" Then
+            Me.conexion.ConnectionString = Me.str_conexion
+            Me.conexion.Open()
+            Me.cmd.Connection = conexion
+            Me.cmd.CommandType = CommandType.Text
+
+            If Me.configurar_conexion = tipo_conexion.transaccion Then
+                Me.transaccion = Me.conexion.BeginTransaction()
+                Me.cmd.Transaction = Me.transaccion
+            End If
+        End If
+
     End Sub
+
+    'Manejo de transacciones
+    Public Sub _iniciar_conexion_con_transaccion()
+        Me.configurar_conexion = tipo_conexion.transaccion
+        Me.control_transaccion = estado_transaccion._ok
+    End Sub
+
+    Public Function _finalizar_conexio_con_transaccion() As estado_transaccion
+        If Me.control_transaccion = estado_transaccion._ok Then
+            Me.transaccion.Commit()
+        Else
+            Me.transaccion.Rollback()
+        End If
+
+        Me.conexion.Close()
+        Me.configurar_conexion = tipo_conexion.simple
+
+        Return Me.control_transaccion
+
+    End Function
+
+    Private Function _ejecutar(ByVal comando As String) As String
+        Me._conectar()
+        Me.cmd.CommandText = comando
+        Try
+            cmd.ExecuteNonQuery()
+            Return "ok"
+        Catch ex As Exception
+            MessageBox.Show(ex.Message)
+            Me.control_transaccion = estado_transaccion._error
+            Return ex.Message
+        End Try
+    End Function
+
+    '--------------------------------------
 
     Public Function _consulta(ByVal comando As String) As Data.DataTable
         Dim _tabla As New Data.DataTable
         Me._conectar()
         Me.cmd.CommandText = comando
-        _tabla.Load(Me.cmd.ExecuteReader())
-        Me.conexion.Close()
+        Try
+            _tabla.Load(Me.cmd.ExecuteReader())
+        Catch ex As Exception
+            MessageBox.Show(ex.Message, "Error en consulta")
+        End Try
+
+        If Me.configurar_conexion = tipo_conexion.simple Then
+            Me.conexion.Close()
+        End If
         Return _tabla
     End Function
 
     Public Sub _consulta(ByVal comando As String, ByVal _tabla As Data.DataTable)
         Me._conectar()
         Me.cmd.CommandText = comando
-        _tabla.Load(Me.cmd.ExecuteReader())
-        Me.conexion.Close()
+        Try
+            _tabla.Load(Me.cmd.ExecuteReader())
+        Catch ex As Exception
+            MessageBox.Show(ex.Message, "Error en consulta")
+        End Try
+        If Me.configurar_conexion = tipo_conexion.simple Then
+            Me.conexion.Close()
+        End If
     End Sub
 
     Public Function leo_tabla() As Data.DataTable
@@ -142,7 +214,7 @@
             MsgBox("No se pudo eliminar el elemento seleccionado", vbOKOnly + vbCritical, "Importante")
         End Try
 
-        Me.conexion.Close()
+        Me.conexion.Close() ' FALTA VERIFICAR SI ES CONEXION SIMPLE O TRANSACCION
     End Sub
 
     Public Sub _borrar(ByVal documento As Integer, ByVal tipoDocumento As Integer)
@@ -157,7 +229,7 @@
         '  MsgBox(texto_borrar)
         Me.cmd.CommandText = texto_borrar
         cmd.ExecuteNonQuery()
-        Me.conexion.Close()
+        Me.conexion.Close() ' FALTA VERIFICAR SI ES CONEXION SIMPLE O TRANSACCION
     End Sub
 
     Public Sub _modificar(ByVal comando As String)
@@ -165,7 +237,7 @@
         Me.cmd.CommandText = comando
         '  MsgBox(comando)
         cmd.ExecuteNonQuery()
-        Me.conexion.Close()
+        Me.conexion.Close() ' FALTA VERIFICAR SI ES CONEXION SIMPLE O TRANSACCION
     End Sub
 
     Public Sub _modificar(ByVal valores As String, ByVal restriccion As String)
@@ -191,7 +263,7 @@
         Me._conectar()
         Me.cmd.CommandText = _update
         cmd.ExecuteNonQuery()
-        Me.conexion.Close()
+        Me.conexion.Close() ' FALTA VERIFICAR SI ES CONEXION SIMPLE O TRANSACCION
     End Sub
 
     Private Function _armar_restriccion_update(ByVal restriccion As String) As String
@@ -307,11 +379,37 @@
         Return txt
     End Function
 
+
+    'Insert que maneja transacciones y inserciones simples
+    Public Function _insertar_transaccion(ByVal valores As String, ByVal conid As Boolean) As String
+        Dim txt_Insert As String = ""
+
+        txt_Insert = Me.armo_insert(conid)
+        txt_Insert += Me.asigno_valores_insert(valores, conid)
+
+        'MsgBox(txt_Insert)
+
+        Dim estado As String = Me._ejecutar(txt_Insert)
+        If Me.configurar_conexion = tipo_conexion.transaccion Then
+            If estado = "ok" Then
+                Return "ok"
+            Else
+                Return "error"
+            End If
+        Else
+            Me.conexion.Close()
+            Return ("ok")
+        End If
+
+    End Function
+
+
     Public Sub _insertar(ByVal valores As String, ByVal conid As Boolean) 'usar true si tabla no tiene id; usar false si la tabla tiene id
         Dim txt_Insert As String = ""
         txt_Insert = Me.armo_insert(conid)
         txt_Insert += Me.asigno_valores_insert(valores, conid)
         '  MsgBox(txt_Insert)
+
         Me._conectar()
         Me.cmd.CommandText = txt_Insert
         cmd.ExecuteNonQuery()
