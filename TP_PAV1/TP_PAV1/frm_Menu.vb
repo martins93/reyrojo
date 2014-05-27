@@ -237,7 +237,7 @@
                     Else
                         If estado_credito_seleccionado = 1 Then 'Si credito=pendiente 
                             If Me.mtxt_creditos_fAprobacion.MaskCompleted = True Then   'Si hay fecha de aprobacion ya se que paso a aprobado
-                                texto += "monto= " & Me.txt_creditos_monto.Text & ", fechaAprobacion=" & Me.mtxt_creditos_fAprobacion.Text & ", Estado_Credito_idEstado_Credito=" & Me.cmb_creditos_estadoCredito.SelectedIndex
+                                texto += "monto= " & Me.txt_creditos_monto.Text & ", fechaAprobacion=" & "convert(date, '" & Me.mtxt_creditos_fAprobacion.Text & "', 103)" & ", Estado_Credito_idEstado_Credito=" & Me.cmb_creditos_estadoCredito.SelectedIndex
                             Else
                                 MsgBox("Se debe llenar la fecha de aprobacion")
                                 Exit Sub
@@ -251,6 +251,7 @@
 
                     End If
                     texto += " WHERE idCreditos=" & id_clave
+                    MsgBox(texto)
                     conexion._modificar(texto)
                 Case 4
                     If validacion._validar_expediente(objeto) Then
@@ -298,7 +299,7 @@
                     If validacion._validar_solicitante(objeto) Then
                         '   texto = "numeroDocumento=" & Me.mtxt_solicitante_nrodoc.Text & ", apellido=" & Me.txt_solicitante_apellido.Text & ", nombre=" & Me.txt_solicitante_nombre.Text & ", telefono= " & Me.mtxt_solicitante_telefono.Text & ", domicilio= " & Me.txt_solicitante_domicilio.Text & ", tipo_Documento_idTipo_Documento= " & Me.cmb_solicitante_tipodoc.SelectedValue & ", fechaNacimiento=" & Me.mtxt_solicitante_fechaNacimiento.Text
                         texto = "INSERT INTO solicitante (numeroDocumento, apellido, nombre, telefono, domicilio, tipo_Documento_idTipo_Documento, fechaNacimiento) VALUES ("
-                        texto += Me.mtxt_solicitante_nrodoc.Text & ", '" & Me.txt_solicitante_apellido.Text & "', '" & Me.txt_solicitante_nombre.Text & "', '" & Me.mtxt_solicitante_telefono.Text & "', '" & Me.txt_solicitante_domicilio.Text & "', " & Me.cmb_solicitante_tipodoc.SelectedValue & ", '" & Me.mtxt_solicitante_fechaNacimiento.Text & "')"
+                        texto += Me.mtxt_solicitante_nrodoc.Text & ", '" & Me.txt_solicitante_apellido.Text & "', '" & Me.txt_solicitante_nombre.Text & "', '" & Me.mtxt_solicitante_telefono.Text & "', '" & Me.txt_solicitante_domicilio.Text & "', " & Me.cmb_solicitante_tipodoc.SelectedValue & ", " & "convert(date, '" & Me.mtxt_solicitante_fechaNacimiento.Text & "', 103))"
                         conexion._modificar(texto)
                         limpiar_tab()
                     End If
@@ -309,6 +310,7 @@
                         conexion._insertar(texto, True)
                         limpiar_tab()
                         txt_empleado_fecha.Text = DateTime.Now().ToString("dd-MM-yyyy")   'ANTES ERA ("dd-MM-yyyy"), VER TIPO DATE SQLSERVER.
+
                     End If
                 Case 3
                     If validacion._validar_credito(objeto) Then
