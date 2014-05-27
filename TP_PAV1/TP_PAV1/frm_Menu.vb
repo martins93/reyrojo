@@ -239,7 +239,7 @@
                     Else
                         If estado_credito_seleccionado = 1 Then 'Si credito=pendiente 
                             If Me.mtxt_creditos_fAprobacion.MaskCompleted = True Then   'Si hay fecha de aprobacion ya se que paso a aprobado
-                                texto += "monto= " & Me.txt_creditos_monto.Text & ", fechaAprobacion=" & Me.mtxt_creditos_fAprobacion.Text & ", Estado_Credito_idEstado_Credito=" & Me.cmb_creditos_estadoCredito.SelectedIndex
+                                texto += "monto= " & Me.txt_creditos_monto.Text & ", fechaAprobacion=" & "convert(date, '" & Me.mtxt_creditos_fAprobacion.Text & "', 103)" & ", Estado_Credito_idEstado_Credito=" & Me.cmb_creditos_estadoCredito.SelectedIndex
                             Else
                                 MsgBox("Se debe llenar la fecha de aprobacion")
                                 Exit Sub
@@ -330,12 +330,36 @@
                         limpiar_tab()
                     End If
                 Case 5
-                    If validacion._validar_garantia(objeto) Then
-                        texto = "INSERT INTO garantia (descripcion, valorMonetario, Creditos_idCreditos) VALUES ('"
-                        texto += Me.txt_garantia_descripcion.Text & "', " & Me.txt_garantia_monto.Text & ", " & Me.txt_garantia_idCredito.Text & ")"
-                        conexion._modificar(texto)
-                        limpiar_tab()
+                    'If validacion._validar_garantia(objeto) Then
+                    '    texto = "INSERT INTO garantia (descripcion, valorMonetario, Creditos_idCreditos) VALUES ('"
+                    '    texto += Me.txt_garantia_descripcion.Text & "', " & Me.txt_garantia_monto.Text & ", " & Me.txt_garantia_idCredito.Text & ")"
+                    '    conexion._modificar(texto)
+                    '    limpiar_tab()
+                    'End If
+                    Dim tabla As New Data.DataTable
+                    Dim insert_garantia As String = ""
+
+                    insert_garantia = "descripcion=" & Me.txt_garantia_descripcion.Text & " , valorMonetario=" & Me.txt_garantia_monto.Text & " , Creditos_idCreditos=" & Me.txt_garantia_idCredito.Text
+
+                    Me.conexion._iniciar_conexion_con_transaccion()
+
+                    Me.conexion._insertar_transaccion(insert_garantia, False)
+                    tabla = conexion._consulta("SELECT MAX(idGarantia) FROM Garantia")
+
+                    Me.conexion._tabla = "Documentacion_x_Garantia"     'Cambio de tabla
+                    texto = "Documentacion_idDocumentacion=" & Me.txt_garantias_idDocumentacion.Text & " , Garantia_idGarantia=" & tabla.Rows(0)(0)
+
+                    Me.conexion._insertar_transaccion(texto, False)
+
+                    Dim estado As Object
+                    estado = Me.conexion._finalizar_conexio_con_transaccion()
+
+                    If estado.ToString = "_ok" Then
+                        MsgBox("Se grabó exitosamente", MsgBoxStyle.Information, "Importante")
+                    Else
+                        MsgBox("Se produjo error en la grabación", MsgBoxStyle.Information, "Importante")
                     End If
+
             End Select
         End If
         cargar_Grilla()
