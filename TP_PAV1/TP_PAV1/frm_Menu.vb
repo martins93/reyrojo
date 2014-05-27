@@ -1,6 +1,6 @@
 ﻿Public Class frm_Menu
 
-    Public cadena_Conexion As String = "Data Source=MARTIN-PC;Initial Catalog=PAV1;Integrated Security=True"
+    Public cadena_Conexion As String = "Data Source=SALVADOR-PC\PAV1;Initial Catalog=PAV1;Integrated Security=True"
     Dim conexion As New Conexion(cadena_Conexion, conexion.motores.sqlserver)
 
     'Ambos id no son txt asi que necesito variables globales.
@@ -300,7 +300,7 @@
                     If validacion._validar_solicitante(objeto) Then
                         '   texto = "numeroDocumento=" & Me.mtxt_solicitante_nrodoc.Text & ", apellido=" & Me.txt_solicitante_apellido.Text & ", nombre=" & Me.txt_solicitante_nombre.Text & ", telefono= " & Me.mtxt_solicitante_telefono.Text & ", domicilio= " & Me.txt_solicitante_domicilio.Text & ", tipo_Documento_idTipo_Documento= " & Me.cmb_solicitante_tipodoc.SelectedValue & ", fechaNacimiento=" & Me.mtxt_solicitante_fechaNacimiento.Text
                         texto = "INSERT INTO solicitante (numeroDocumento, apellido, nombre, telefono, domicilio, tipo_Documento_idTipo_Documento, fechaNacimiento) VALUES ("
-                        texto += Me.mtxt_solicitante_nrodoc.Text & ", '" & Me.txt_solicitante_apellido.Text & "', '" & Me.txt_solicitante_nombre.Text & "', '" & Me.mtxt_solicitante_telefono.Text & "', '" & Me.txt_solicitante_domicilio.Text & "', " & Me.cmb_solicitante_tipodoc.SelectedValue & ", '" & Me.mtxt_solicitante_fechaNacimiento.Text & "')"
+                        texto += Me.mtxt_solicitante_nrodoc.Text & ", '" & Me.txt_solicitante_apellido.Text & "', '" & Me.txt_solicitante_nombre.Text & "', '" & Me.mtxt_solicitante_telefono.Text & "', '" & Me.txt_solicitante_domicilio.Text & "', " & Me.cmb_solicitante_tipodoc.SelectedValue & ", " & "convert(date, '" & Me.mtxt_solicitante_fechaNacimiento.Text & "', 103))"
                         conexion._modificar(texto)
                         limpiar_tab()
                     End If
@@ -311,6 +311,7 @@
                         conexion._insertar(texto, True)
                         limpiar_tab()
                         txt_empleado_fecha.Text = DateTime.Now().ToString("dd-MM-yyyy")   'ANTES ERA ("dd-MM-yyyy"), VER TIPO DATE SQLSERVER.
+
                     End If
                 Case 3
                     If validacion._validar_credito(objeto) Then
@@ -330,12 +331,36 @@
                         limpiar_tab()
                     End If
                 Case 5
-                    If validacion._validar_garantia(objeto) Then
-                        texto = "INSERT INTO garantia (descripcion, valorMonetario, Creditos_idCreditos) VALUES ('"
-                        texto += Me.txt_garantia_descripcion.Text & "', " & Me.txt_garantia_monto.Text & ", " & Me.txt_garantia_idCredito.Text & ")"
-                        conexion._modificar(texto)
-                        limpiar_tab()
+                    'If validacion._validar_garantia(objeto) Then
+                    '    texto = "INSERT INTO garantia (descripcion, valorMonetario, Creditos_idCreditos) VALUES ('"
+                    '    texto += Me.txt_garantia_descripcion.Text & "', " & Me.txt_garantia_monto.Text & ", " & Me.txt_garantia_idCredito.Text & ")"
+                    '    conexion._modificar(texto)
+                    '    limpiar_tab()
+                    'End If
+                    Dim tabla As New Data.DataTable
+                    Dim insert_garantia As String = ""
+
+                    insert_garantia = "descripcion=" & Me.txt_garantia_descripcion.Text & " , valorMonetario=" & Me.txt_garantia_monto.Text & " , Creditos_idCreditos=" & Me.txt_garantia_idCredito.Text
+
+                    Me.conexion._iniciar_conexion_con_transaccion()
+
+                    Me.conexion._insertar_transaccion(insert_garantia, False)
+                    tabla = conexion._consulta("SELECT MAX(idGarantia) FROM Garantia")
+
+                    Me.conexion._tabla = "Documentacion_x_Garantia"     'Cambio de tabla
+                    texto = "Documentacion_idDocumentacion=" & Me.txt_garantias_idDocumentacion.Text & " , Garantia_idGarantia=" & tabla.Rows(0)(0)
+
+                    Me.conexion._insertar_transaccion(texto, False)
+
+                    Dim estado As Object
+                    estado = Me.conexion._finalizar_conexio_con_transaccion()
+
+                    If estado.ToString = "_ok" Then
+                        MsgBox("Se grabó exitosamente", MsgBoxStyle.Information, "Importante")
+                    Else
+                        MsgBox("Se produjo error en la grabación", MsgBoxStyle.Information, "Importante")
                     End If
+
             End Select
         End If
         cargar_Grilla()
@@ -838,8 +863,7 @@
 
                 Me.txt_creditos_fSolicitud.Text = grilla.Rows(fila).Cells(2).Value
                 Me.txt_creditos_idObjeto.Text = tabla.Rows(0)("Objeto_idObjeto")
-                Me.txt_creditos_idSolicitante.Text = tabla.Rows(0)("Solicitante_idSolicitante")
-                Me.txt_creditos_legajo.Text = tabla.Rows(0)("Empleado_legajo")
+                Me.txt_creditos_idSolicitante.Text = tabla.Rows(0)("Solicitante_idSolicitante")                Me.txt_creditos_legajo.Text = tabla.Rows(0)("Empleado_legajo")
                 Me.txt_creditos_monto.Text = grilla.Rows(fila).Cells(1).Value
                 Me.txt_creditos_objeto.Text = grilla.Rows(fila).Cells(9).Value
 
