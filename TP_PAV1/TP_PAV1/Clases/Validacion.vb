@@ -2,7 +2,13 @@
 
 Public Class Validacion
 
-    Dim conexion As New Conexion(frm_Menu.cadena_Conexion, Conexion.motores.sqlserver)
+    Enum OPERACION
+        INSERTAR
+        MODIFICAR
+    End Enum
+
+    Dim conexion As New Conexion(frm_Menu.cadena_Conexion, conexion.motores.sqlserver)
+    Public oper As OPERACION
 
     Private Const ERROR_FECHA As String = "Fecha invalida"
     Private Const ERROR_TELEFONO As String = "Ingrese un numero de telefono valido"
@@ -17,10 +23,13 @@ Public Class Validacion
     Private Const ERROR_CODCRED As String = "Ingrese un Codigo de Credito valido"
     Private Const ERROR_EXPEDIENTE As String = "Ingrese un numero de expediente valido"
     Private Const ERROR_DOC_TDOC As String = "Ya existe un solicitante con ese documento y tipo de documento"
-    Private Const ERROR_ESTADO_CREDITO As String = "El credito solo puede ser deuda"
+    Private Const ERROR_ESTADO_CREDITO As String = "El credito solo puede ser "
 
     'Devolver mensajes de error y validar que no esten vacios en vez de usar booleaans?
     'O imprimimos por pantalla desde aca?
+
+
+
 
 
     Structure abogado
@@ -75,6 +84,7 @@ Public Class Validacion
         Dim codCred As Integer
         Dim descripcion As String
         Dim monto As Double
+        Dim estado_credito As Integer
         'Que hacemos con la documentacion?
     End Structure
 
@@ -145,24 +155,70 @@ Public Class Validacion
 
 
     Public Function _validar_abogado(ByVal ab As abogado) As Boolean
-        If _validar_numero_positivo(ab.matricula) Then
-            Dim tel = Regex.Replace(ab.telefono, "[^0-9]", String.Empty)
-            If tel.Length() = 12 Then
-                Return True
+        If oper = OPERACION.INSERTAR Then
+            If _validar_numero_positivo(ab.matricula) Then
+                If Not _validar_existente("Abogado", "matricula", ab.matricula) Then
+                    Dim tel = Regex.Replace(ab.telefono, "[^0-9]", String.Empty)
+                    If tel.Length() = 12 Then
+                        Return True
+                    Else
+                        MsgBox(ERROR_TELEFONO, vbOKOnly + vbCritical, "Importante")
+                    End If
+                Else
+                    MsgBox(ERROR_MATRICULA, vbOKOnly + vbCritical, "Importante")
+                End If
             Else
-                MsgBox(ERROR_TELEFONO, vbOKOnly + vbCritical, "Importante")
+                MsgBox(ERROR_MATRICULA, vbOKOnly + vbCritical, "Importante")
             End If
+            Return False
         Else
+            If _validar_numero_positivo(ab.matricula) Then
+                Dim tel = Regex.Replace(ab.telefono, "[^0-9]", String.Empty)
+                If tel.Length() = 12 Then
+                    Return True
+                Else
+                    MsgBox(ERROR_TELEFONO, vbOKOnly + vbCritical, "Importante")
+                End If    
+            Else
             MsgBox(ERROR_MATRICULA, vbOKOnly + vbCritical, "Importante")
         End If
-        Return False
+            Return False
+        End If
     End Function
 
     Public Function _validar_solicitante(ByVal sol As solicitante) As Boolean
-        If _validar_campos_vacios() Then
-            If sol.numDoc.ToString.Length = 8 And sol.numDoc <> 0 Then
-                If _validar_numero_positivo(sol.tipoDoc) Then
-                    If _validar_doc_tdoc(sol.numDoc, sol.tipoDoc) Then
+        If oper = OPERACION.INSERTAR Then
+            If _validar_campos_vacios() Then
+                If sol.numDoc.ToString.Length = 8 And sol.numDoc <> 0 Then
+                    If _validar_numero_positivo(sol.tipoDoc) Then
+                        If Not _validar_doc_tdoc(sol.numDoc, sol.tipoDoc) Then
+                            Dim tel = Regex.Replace(sol.telefono, "[^0-9]", String.Empty)
+                            If tel.Length() = 12 Then ' "(   )    -   -" Then
+                                If _validar_fecha(sol.fecha_nacimiento) Then
+                                    Return True
+                                    Exit Function
+                                Else
+                                    MsgBox(ERROR_FECHA, vbOKOnly + vbCritical, "Importante")
+                                End If
+
+                            Else
+                                MsgBox(ERROR_TELEFONO, vbOKOnly + vbCritical, "Importante")
+                            End If
+                        Else
+                            MsgBox(ERROR_DOC_TDOC, vbOKOnly + vbCritical, "Importante")
+                        End If
+                    Else
+                        MsgBox(ERROR_TIPODOC, vbOKOnly + vbCritical, "Importante")
+                    End If
+                Else
+                    MsgBox(ERROR_NUMDOC, vbOKOnly + vbCritical, "Importante")
+                End If
+            End If
+            Return False
+        Else
+            If _validar_campos_vacios() Then
+                If sol.numDoc.ToString.Length = 8 And sol.numDoc <> 0 Then
+                    If _validar_numero_positivo(sol.tipoDoc) Then
                         Dim tel = Regex.Replace(sol.telefono, "[^0-9]", String.Empty)
                         If tel.Length() = 12 Then ' "(   )    -   -" Then
                             If _validar_fecha(sol.fecha_nacimiento) Then
@@ -174,10 +230,7 @@ Public Class Validacion
 
                         Else
                             MsgBox(ERROR_TELEFONO, vbOKOnly + vbCritical, "Importante")
-                        End If
-                    Else
-                        MsgBox(ERROR_DOC_TDOC, vbOKOnly + vbCritical, "Importante")
-                    End If
+                        End If                    
                 Else
                     MsgBox(ERROR_TIPODOC, vbOKOnly + vbCritical, "Importante")
                 End If
@@ -185,31 +238,58 @@ Public Class Validacion
                     MsgBox(ERROR_NUMDOC, vbOKOnly + vbCritical, "Importante")
                 End If
             End If
-        Return False
+            Return False
+        End If
+
     End Function
 
     Public Function _validar_empleado(ByVal emp As empleado) As Boolean
-        If _validar_campos_vacios() Then
-            If _validar_numero_positivo(emp.legajo) Then
-                If _validar_fecha(emp.fecha_alta) Then
-                    If _validar_numero_positivo(emp.superior) And _validar_existente("Empleado", "Legajo", emp.superior) Then
-                        If _validar_numero_positivo(emp.cargo) Then
-                            Return True
-                            Exit Function
+        If oper = OPERACION.INSERTAR Then
+            If _validar_campos_vacios() Then
+                If _validar_numero_positivo(emp.legajo) And (Not _validar_existente("Empleado", "Legajo", emp.legajo)) Then
+                    If _validar_fecha(emp.fecha_alta) Then
+                        If _validar_numero_positivo(emp.superior) And _validar_existente("Empleado", "Legajo", emp.superior) Then
+                            If _validar_numero_positivo(emp.cargo) Then
+                                Return True
+                                Exit Function
+                            Else
+                                MsgBox(ERROR_CARGO, vbOKOnly + vbCritical, "Importante")
+                            End If
                         Else
-                            MsgBox(ERROR_CARGO, vbOKOnly + vbCritical, "Importante")
+                            MsgBox(ERROR_LEGAJO, vbOKOnly + vbCritical, "Importante")
                         End If
                     Else
-                        MsgBox(ERROR_LEGAJO, vbOKOnly + vbCritical, "Importante")
+                        MsgBox(ERROR_FECHA, vbOKOnly + vbCritical, "Importante")
                     End If
                 Else
-                    MsgBox(ERROR_FECHA, vbOKOnly + vbCritical, "Importante")
+                    MsgBox(ERROR_LEGAJO, vbOKOnly + vbCritical, "Importante")
                 End If
-            Else
-                MsgBox(ERROR_NUMDOC, vbOKOnly + vbCritical, "Importante")
             End If
+            Return False
+        Else
+            If _validar_campos_vacios() Then
+                If _validar_numero_positivo(emp.legajo) Then
+                    If _validar_fecha(emp.fecha_alta) Then
+                        If _validar_numero_positivo(emp.superior) Then
+                            If _validar_numero_positivo(emp.cargo) Then
+                                Return True
+                                Exit Function
+                            Else
+                                MsgBox(ERROR_CARGO, vbOKOnly + vbCritical, "Importante")
+                            End If
+                        Else
+                            MsgBox(ERROR_LEGAJO, vbOKOnly + vbCritical, "Importante")
+                        End If
+                    Else
+                        MsgBox(ERROR_FECHA, vbOKOnly + vbCritical, "Importante")
+                    End If
+                Else
+                    MsgBox(ERROR_NUMDOC, vbOKOnly + vbCritical, "Importante")
+                End If
+            End If
+            Return False
         End If
-        Return False
+
     End Function
 
     Public Function _validar_credito(ByVal cred As credito) As Boolean
@@ -243,7 +323,7 @@ Public Class Validacion
     Public Function _validar_expediente(ByVal exp As expediente) As Boolean 'Validar que matriculas y codcred ya existan, metodo _validar_existente(nombre de campo a consultar)?
         If _validar_campos_vacios() Then
             If _validar_numero_positivo(exp.numero) Then
-                If _validar_numero_positivo(exp.codCred) And _validar_existente("Creditos", "idCreditos", exp.codCred) Then
+                If _validar_numero_positivo(exp.codCred) And _validar_existente("Creditos", "idCreditos", exp.codCred) And Not _validar_existente("Expediente", "Creditos_idCreditos", exp.codCred) Then
                     If exp.estado_credito = 2 Then
                         If _validar_fecha(exp.fecha_inicio) Then
                             If _validar_numero_positivo(exp.matricula_crecor) And _validar_existente("Abogado", "matricula", exp.matricula_crecor) Then
@@ -260,7 +340,7 @@ Public Class Validacion
                             MsgBox(ERROR_FECHA, vbOKOnly + vbCritical, "Importante")
                         End If
                     Else
-                        MsgBox(ERROR_ESTADO_CREDITO, vbOKOnly + vbCritical, "Importante")
+                        MsgBox(ERROR_ESTADO_CREDITO & "deuda.", vbOKOnly + vbCritical, "Importante")
                     End If
                 Else
                     MsgBox(ERROR_CODCRED, vbOKOnly + vbCritical, "Importante")
@@ -275,12 +355,17 @@ Public Class Validacion
     Public Function _validar_garantia(ByVal gar As garantia) As Boolean
         If _validar_campos_vacios() Then
             If _validar_numero_positivo(gar.codCred) And _validar_existente("Creditos", "idCreditos", gar.codCred) Then
-                If _validar_numero_positivo(gar.monto) Then
-                    Return True
-                    Exit Function
+                If gar.estado_credito = 0 Then
+                    If _validar_numero_positivo(gar.monto) Then
+                        Return True
+                        Exit Function
+                    Else
+                        MsgBox(ERROR_MONTO, vbOKOnly + vbCritical, "Importante")
+                    End If
                 Else
-                    MsgBox(ERROR_MONTO, vbOKOnly + vbCritical, "Importante")
+                    MsgBox(ERROR_ESTADO_CREDITO & "pendiente.", vbOKOnly + vbCritical, "Importante")
                 End If
+            Else
                 MsgBox(ERROR_CODCRED, vbOKOnly + vbCritical, "Importante")
             End If
         End If

@@ -176,7 +176,7 @@
         Dim id_clave As Integer
         Dim validacion As New Validacion
         Dim objeto As Object
-
+        validacion.oper = validacion.OPERACION.MODIFICAR
         If validacion._validar_campos_vacios() Then          'Si los campos estan llenados correctamente
             texto = "UPDATE " & nom_Tabla & " SET "
             objeto = cargar_struct()
@@ -279,6 +279,7 @@
         Dim pestaña As Integer = Me.tab_control.SelectedIndex
         Dim objeto As Object
         Dim validacion As New Validacion
+        validacion.oper = validacion.OPERACION.INSERTAR
         conexion.cambiar_Tabla(Me.nombre_tabla_pestana) 'Defino a que tabla me voy a conectar segun la pestaña, ES NECESARIO?
 
 
@@ -288,24 +289,33 @@
             Select Case pestaña
                 Case 0
                     If validacion._validar_abogado(objeto) Then
+
                         texto = "matricula=" & Me.txt_abogado_matricula.Text & ", nombre=" & Me.txt_abogado_nombre.Text & ", apellido=" & Me.txt_abogado_apellido.Text & ", telefono= " & Me.mtxt_abogado_telefono.Text & ", domicilio= " & Me.txt_abogado_domicilio.Text
                         conexion._insertar(texto, True)
+                        limpiar_tab()
                     End If
                 Case 1
                     If validacion._validar_solicitante(objeto) Then
-                        texto = "numeroDocumento=" & Me.mtxt_solicitante_nrodoc.Text & ", apellido=" & Me.txt_solicitante_apellido.Text & ", nombre=" & Me.txt_solicitante_nombre.Text & ", telefono= " & Me.mtxt_solicitante_telefono.Text & ", domicilio= " & Me.txt_solicitante_domicilio.Text & ", tipo_Documento_idTipo_Documento= " & Me.cmb_solicitante_tipodoc.SelectedValue & ", fechaNacimiento=" & Me.mtxt_solicitante_fechaNacimiento.Text
-                        conexion._insertar(texto, False)
+                        '   texto = "numeroDocumento=" & Me.mtxt_solicitante_nrodoc.Text & ", apellido=" & Me.txt_solicitante_apellido.Text & ", nombre=" & Me.txt_solicitante_nombre.Text & ", telefono= " & Me.mtxt_solicitante_telefono.Text & ", domicilio= " & Me.txt_solicitante_domicilio.Text & ", tipo_Documento_idTipo_Documento= " & Me.cmb_solicitante_tipodoc.SelectedValue & ", fechaNacimiento=" & Me.mtxt_solicitante_fechaNacimiento.Text
+                        texto = "INSERT INTO solicitante (numeroDocumento, apellido, nombre, telefono, domicilio, tipo_Documento_idTipo_Documento, fechaNacimiento) VALUES ("
+                        texto += Me.mtxt_solicitante_nrodoc.Text & ", '" & Me.txt_solicitante_apellido.Text & "', '" & Me.txt_solicitante_nombre.Text & "', '" & Me.mtxt_solicitante_telefono.Text & "', '" & Me.txt_solicitante_domicilio.Text & "', " & Me.cmb_solicitante_tipodoc.SelectedValue & ", '" & Me.mtxt_solicitante_fechaNacimiento.Text & "')"
+                        conexion._modificar(texto)
+                        limpiar_tab()
                     End If
                 Case 2
                     If validacion._validar_empleado(objeto) Then
+                        'texto = "INSERT INTO empleado (                                                             "
                         texto = "legajo=" & Me.txt_empleado_legajo.Text & ", Empleado_legajo=" & Me.txt_empleado_legSup.Text & ", Cargo_idCargo=" & Me.cmb_empleado_cargo.SelectedIndex + 1 & ", nombres=" & Me.txt_empleado_nombre.Text & ", apellido=" & Me.txt_empleado_ape.Text & ", fecha_Alta=" & Me.txt_empleado_fecha.Text
                         conexion._insertar(texto, True)
+                        limpiar_tab()
+                        txt_empleado_fecha.Text = DateTime.Now().ToString("dd-MM-yyyy")   'ANTES ERA ("dd-MM-yyyy"), VER TIPO DATE SQLSERVER.
                     End If
                 Case 3
                     If validacion._validar_credito(objeto) Then
                         texto = "INSERT INTO creditos (monto, fechaSolicitud, Solicitante_idSolicitante, Estado_Credito_idEstado_Credito, Empleado_legajo, Objeto_idObjeto) VALUES ("
                         texto += Me.txt_creditos_monto.Text & ", " & "convert(date, '" & Me.txt_creditos_fSolicitud.Text & "', 103)" & ", " & Me.txt_creditos_idSolicitante.Text & ", " & Me.cmb_creditos_estadoCredito.SelectedIndex & ", " & Me.txt_creditos_legajo.Text & ", " & Me.txt_creditos_idObjeto.Text & ")"
                         conexion._modificar(texto)
+                        limpiar_tab()
                         Me.txt_creditos_objeto.Enabled = True
                     End If
                 Case 4
@@ -315,17 +325,19 @@
                         texto = "INSERT INTO expediente (idExpediente, Estado_Credito_idEstado_Credito, abogado_matricula, observacion, fechaInicio, abogado_matriculaSol, Creditos_idCreditos) VALUES ("
                         texto += Me.txt_expediente_numeroExp.Text & ", " & valor & ", " & Me.txt_expediente_matAbCre.Text & ", '" & Me.txt_expediente_observacion.Text & "', " & "convert(date, '" & Me.txt_expediente_fechaInicio.Text & "', 103)" & ", " & Me.txt_expediente_matAbSol.Text & ", " & Me.txt_expediente_codCred.Text & ")"
                         conexion._modificar(texto)          'conexion._modificar() ejecuta SQL por nonquery.
+                        limpiar_tab()
                     End If
                 Case 5
                     If validacion._validar_garantia(objeto) Then
                         texto = "INSERT INTO garantia (descripcion, valorMonetario, Creditos_idCreditos) VALUES ('"
                         texto += Me.txt_garantia_descripcion.Text & "', " & Me.txt_garantia_monto.Text & ", " & Me.txt_garantia_idCredito.Text & ")"
                         conexion._modificar(texto)
+                        limpiar_tab()
                     End If
             End Select
         End If
         cargar_Grilla()
-        limpiar_tab()
+
 
     End Sub
 
@@ -739,48 +751,37 @@
     Private Sub cargar_Grilla()
 
         'HACER 1 SOLO CONSULTA, DEFINIRLO EN EL CASE.
-
-        Dim consulta_abogado As String = "SELECT matricula AS [Matricula], nombre AS [Nombres], apellido AS [Apellido], domicilio AS [Domicilio], telefono AS [Telefono] FROM Abogado"
-
-        Dim consulta_solicitante As String = "SELECT Solicitante.idSolicitante AS [Codigo Solicitante], Solicitante.numeroDocumento AS [Documento], tipo_Documento.nombre AS [Tipo Documento], Solicitante.nombre AS [Nombres], Solicitante.apellido AS [Apellido], Solicitante.fechaNacimiento AS [Fecha Nacimiento], Solicitante.domicilio AS [Domicilio], Solicitante.telefono AS [Telefono] "
-        consulta_solicitante += "FROM Solicitante INNER JOIN tipo_Documento ON Solicitante.tipo_Documento_idTipo_Documento = tipo_Documento.idTipo_Documento"
-
-        Dim consulta_empleado As String = "SELECT Empleado.legajo AS [Legajo Empleado], Empleado.nombres AS [Nombres], Empleado.apellido AS [Apellido], Empleado.fecha_Alta AS [Fecha Alta], Empleado.Empleado_legajo AS [Legajo Superior], Cargo.nombre AS [Cargo] "
-        consulta_empleado += "FROM Empleado INNER JOIN Cargo ON Empleado.Cargo_idCargo = Cargo.idCargo"
-
-        Dim consulta_credito As String = "SELECT Creditos.idCreditos AS [Codigo Credito], Creditos.monto AS [Monto], Creditos.fechaSolicitud AS [Fecha Solicitud], Creditos.fechaAprobacion AS [Fecha Aprobacion], Solicitante.nombre AS [Nombre Solicitante], Solicitante.apellido AS [Apellido Solicitante], tipo_Documento.nombre AS [Tipo Documento], Solicitante.numeroDocumento AS [Documento], Estado_Credito.nombre AS [ESTADO], Objeto.descripcion AS [Objeto], Empleado.legajo AS [Legajo Empleado], Empleado.nombres AS [Nombre Empleado], Empleado.apellido AS [Apellido Empleado] "
-        consulta_credito += "FROM Creditos INNER JOIN Solicitante ON Creditos.Solicitante_idSolicitante = Solicitante.idSolicitante "
-        consulta_credito += "INNER JOIN Objeto ON Creditos.Objeto_idObjeto = Objeto.idObjeto "
-        consulta_credito += "INNER JOIN Estado_Credito ON Creditos.Estado_Credito_idEstado_Credito = Estado_Credito.idEstado_Credito "
-        consulta_credito += "INNER JOIN tipo_Documento ON Solicitante.tipo_Documento_idTipo_Documento = tipo_Documento.idTipo_Documento "
-        consulta_credito += "INNER JOIN Empleado ON Creditos.Empleado_legajo = Empleado.legajo "
-
-        Dim consulta_expediente = "SELECT Expediente.idExpediente AS [Número Expediente], Creditos.idCreditos AS [Credito Asociado], Expediente.fechaInicio AS [Fecha Inicio], Expediente.fechaEntrega AS [Fecha Entrega], Expediente.fechaDevolucion AS [Fecha Devolucion], Estado_Credito.nombre AS [Estado Crédito], Abogado.matricula AS [Matricula Abogado], Abogado.nombre AS [Nombre Abogado], Abogado.apellido AS [Apellido Abogado], Ab2.matricula AS [Matricula Abogado Solicitante], Ab2.nombre AS [Nombre Abogado Solicitante], Ab2.apellido AS [Apellido Abogado Solicitante], Expediente.observacion AS [OBSERVACIONES] "
-        consulta_expediente += "FROM Expediente INNER JOIN"
-        consulta_expediente += " Estado_Credito ON Expediente.Estado_Credito_idEstado_Credito = Estado_Credito.idEstado_Credito INNER JOIN"
-        consulta_expediente += " Abogado ON Expediente.abogado_matricula = Abogado.matricula "
-        consulta_expediente += "INNER JOIN Abogado Ab2 ON Expediente.abogado_matriculaSol = Ab2.matricula "
-        consulta_expediente += "INNER JOIN Creditos ON Creditos.idCreditos = Expediente.Creditos_idCreditos "
-
-        Dim consulta_garantia = "SELECT Garantia.descripcion, Garantia.valorMonetario, Creditos.idCreditos, Creditos.monto, Solicitante.nombre, Solicitante.apellido, Solicitante.idSolicitante"
-        consulta_garantia += " FROM Creditos INNER JOIN Garantia ON Creditos.idCreditos = Garantia.Creditos_idCreditos INNER JOIN Solicitante ON Creditos.Solicitante_idSolicitante = Solicitante.idSolicitante"
-
-
+        Dim consulta As String = ""
         Dim pestaña_abm As Integer = Me.tab_control.SelectedIndex
+
         Select Case pestaña_abm
             Case 0
-                Me.grilla.DataSource = conexion._consulta(consulta_abogado)
+                consulta += "SELECT matricula AS [Matricula], nombre AS [Nombres], apellido AS [Apellido], domicilio AS [Domicilio], telefono AS [Telefono] FROM Abogado"
             Case 1
-                Me.grilla.DataSource = conexion._consulta(consulta_solicitante)
+                consulta += "SELECT Solicitante.idSolicitante AS [Codigo Solicitante], Solicitante.numeroDocumento AS [Documento], tipo_Documento.nombre AS [Tipo Documento], Solicitante.nombre AS [Nombres], Solicitante.apellido AS [Apellido], Solicitante.fechaNacimiento AS [Fecha Nacimiento], Solicitante.domicilio AS [Domicilio], Solicitante.telefono AS [Telefono] "
+                consulta += "FROM Solicitante INNER JOIN tipo_Documento ON Solicitante.tipo_Documento_idTipo_Documento = tipo_Documento.idTipo_Documento"
             Case 2
-                Me.grilla.DataSource = conexion._consulta(consulta_empleado)
+                consulta += "SELECT Empleado.legajo AS [Legajo Empleado], Empleado.nombres AS [Nombres], Empleado.apellido AS [Apellido], Empleado.fecha_Alta AS [Fecha Alta], Empleado.Empleado_legajo AS [Legajo Superior], Cargo.nombre AS [Cargo] "
+                consulta += "FROM Empleado INNER JOIN Cargo ON Empleado.Cargo_idCargo = Cargo.idCargo"
             Case 3
-                Me.grilla.DataSource = conexion._consulta(consulta_credito)
+                consulta += "SELECT Creditos.idCreditos AS [Codigo Credito], Creditos.monto AS [Monto], Creditos.fechaSolicitud AS [Fecha Solicitud], Creditos.fechaAprobacion AS [Fecha Aprobacion], Solicitante.nombre AS [Nombre Solicitante], Solicitante.apellido AS [Apellido Solicitante], tipo_Documento.nombre AS [Tipo Documento], Solicitante.numeroDocumento AS [Documento], Estado_Credito.nombre AS [ESTADO], Objeto.descripcion AS [Objeto], Empleado.legajo AS [Legajo Empleado], Empleado.nombres AS [Nombre Empleado], Empleado.apellido AS [Apellido Empleado] "
+                consulta += "FROM Creditos INNER JOIN Solicitante ON Creditos.Solicitante_idSolicitante = Solicitante.idSolicitante "
+                consulta += "INNER JOIN Objeto ON Creditos.Objeto_idObjeto = Objeto.idObjeto "
+                consulta += "INNER JOIN Estado_Credito ON Creditos.Estado_Credito_idEstado_Credito = Estado_Credito.idEstado_Credito "
+                consulta += "INNER JOIN tipo_Documento ON Solicitante.tipo_Documento_idTipo_Documento = tipo_Documento.idTipo_Documento "
+                consulta += "INNER JOIN Empleado ON Creditos.Empleado_legajo = Empleado.legajo "
             Case 4
-                Me.grilla.DataSource = conexion._consulta(consulta_expediente)
+                consulta += "SELECT Expediente.idExpediente AS [Número Expediente], Creditos.idCreditos AS [Credito Asociado], Expediente.fechaInicio AS [Fecha Inicio], Expediente.fechaEntrega AS [Fecha Entrega], Expediente.fechaDevolucion AS [Fecha Devolucion], Estado_Credito.nombre AS [Estado Crédito], Abogado.matricula AS [Matricula Abogado], Abogado.nombre AS [Nombre Abogado], Abogado.apellido AS [Apellido Abogado], Ab2.matricula AS [Matricula Abogado Solicitante], Ab2.nombre AS [Nombre Abogado Solicitante], Ab2.apellido AS [Apellido Abogado Solicitante], Expediente.observacion AS [OBSERVACIONES] "
+                consulta += "FROM Expediente INNER JOIN"
+                consulta += " Estado_Credito ON Expediente.Estado_Credito_idEstado_Credito = Estado_Credito.idEstado_Credito INNER JOIN"
+                consulta += " Abogado ON Expediente.abogado_matricula = Abogado.matricula "
+                consulta += "INNER JOIN Abogado Ab2 ON Expediente.abogado_matriculaSol = Ab2.matricula "
+                consulta += "INNER JOIN Creditos ON Creditos.idCreditos = Expediente.Creditos_idCreditos "
             Case 5
-                Me.grilla.DataSource = conexion._consulta(consulta_garantia)
+                consulta += "SELECT Garantia.descripcion, Garantia.valorMonetario, Creditos.idCreditos, Creditos.monto, Solicitante.nombre, Solicitante.apellido, Solicitante.idSolicitante"
+                consulta += " FROM Creditos INNER JOIN Garantia ON Creditos.idCreditos = Garantia.Creditos_idCreditos INNER JOIN Solicitante ON Creditos.Solicitante_idSolicitante = Solicitante.idSolicitante"
         End Select
+        Me.grilla.DataSource = conexion._consulta(consulta)
 
     End Sub
 
@@ -1113,15 +1114,18 @@
                 garantia.monto = Me.txt_garantia_monto.Text
                 garantia.codCred = Me.txt_garantia_idCredito.Text
                 garantia.descripcion = Me.txt_garantia_descripcion.Text
+                garantia.estado_credito = obtener_estado_credito(garantia.codCred)
                 Return garantia
         End Select
         Return vbObject
     End Function
 
 
-    '"convert(date, '" & fecha.Text & "', 103)" 
+    '"convert(date, fecha, 103)" 
     'Cuando queiro borrar un solicitante/empleado choca contra los creditos que tienen el mismo idSolicitante/empleado como foranea
     'Cuando quiero borrar un credito choca contra expediente por foranea
+    'Atrapamos la excepcion, revisar si podemos arreglarlo desde bd
+    'SET DEFAULT (Para el delete donde chocan foraneas)
 End Class
 
 'Private Sub fecha_Validated(ByVal sender As Object, ByVal e As System.EventArgs) Handles mtxt_solicitante_fechaNacimiento.Validated
