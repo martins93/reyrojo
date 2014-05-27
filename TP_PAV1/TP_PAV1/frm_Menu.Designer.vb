@@ -97,7 +97,13 @@ Partial Class frm_Menu
         Me.lbl_expediente_codCred = New System.Windows.Forms.Label()
         Me.lbl_expediente_numeroExp = New System.Windows.Forms.Label()
         Me.tab_control_garantia = New System.Windows.Forms.TabPage()
-        Me.btn_garantia_documentacion = New System.Windows.Forms.Button()
+        Me.lbl_documentacion = New System.Windows.Forms.Label()
+        Me.panel_documentacion = New System.Windows.Forms.Panel()
+        Me.txt_garantias_ubicacion = New System.Windows.Forms.TextBox()
+        Me.txt_garantias_descripDocum = New System.Windows.Forms.TextBox()
+        Me.lbl_descripcion_documentacion = New System.Windows.Forms.Label()
+        Me.lbl_direccion_documentacion = New System.Windows.Forms.Label()
+        Me.txt_garantias_idDocumentacion = New System.Windows.Forms.TextBox()
         Me.txt_garantia_monto = New System.Windows.Forms.TextBox()
         Me.txt_garantia_descripcion = New System.Windows.Forms.TextBox()
         Me.txt_garantia_idCredito = New System.Windows.Forms.TextBox()
@@ -112,6 +118,7 @@ Partial Class frm_Menu
         Me.grilla = New System.Windows.Forms.DataGridView()
         Me.Tipo_DocumentoTableAdapter = New TP_PAV1.PAV1DataSetTableAdapters.tipo_DocumentoTableAdapter()
         Me.grp_controles = New System.Windows.Forms.GroupBox()
+        Me.boton_validar = New System.Windows.Forms.Button()
         Me.tab_menu = New System.Windows.Forms.TabControl()
         Me.tab_menu_inicio = New System.Windows.Forms.TabPage()
         Me.Label4 = New System.Windows.Forms.Label()
@@ -131,6 +138,7 @@ Partial Class frm_Menu
         Me.tab_control_credito.SuspendLayout()
         Me.tab_control_expediente.SuspendLayout()
         Me.tab_control_garantia.SuspendLayout()
+        Me.panel_documentacion.SuspendLayout()
         CType(Me.grilla, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.grp_controles.SuspendLayout()
         Me.tab_menu.SuspendLayout()
@@ -586,6 +594,7 @@ Partial Class frm_Menu
         '
         'txt_creditos_idObjeto
         '
+        Me.txt_creditos_idObjeto.Enabled = False
         Me.txt_creditos_idObjeto.Location = New System.Drawing.Point(129, 242)
         Me.txt_creditos_idObjeto.Name = "txt_creditos_idObjeto"
         Me.txt_creditos_idObjeto.Size = New System.Drawing.Size(45, 20)
@@ -610,6 +619,7 @@ Partial Class frm_Menu
         '
         'mtxt_creditos_fAprobacion
         '
+        Me.mtxt_creditos_fAprobacion.Enabled = False
         Me.mtxt_creditos_fAprobacion.Location = New System.Drawing.Point(194, 108)
         Me.mtxt_creditos_fAprobacion.Mask = "00-00-0000"
         Me.mtxt_creditos_fAprobacion.Name = "mtxt_creditos_fAprobacion"
@@ -808,7 +818,8 @@ Partial Class frm_Menu
         '
         'tab_control_garantia
         '
-        Me.tab_control_garantia.Controls.Add(Me.btn_garantia_documentacion)
+        Me.tab_control_garantia.Controls.Add(Me.lbl_documentacion)
+        Me.tab_control_garantia.Controls.Add(Me.panel_documentacion)
         Me.tab_control_garantia.Controls.Add(Me.txt_garantia_monto)
         Me.tab_control_garantia.Controls.Add(Me.txt_garantia_descripcion)
         Me.tab_control_garantia.Controls.Add(Me.txt_garantia_idCredito)
@@ -822,32 +833,81 @@ Partial Class frm_Menu
         Me.tab_control_garantia.Text = "Garantias"
         Me.tab_control_garantia.UseVisualStyleBackColor = True
         '
-        'btn_garantia_documentacion
+        'lbl_documentacion
         '
-        Me.btn_garantia_documentacion.Location = New System.Drawing.Point(142, 233)
-        Me.btn_garantia_documentacion.Name = "btn_garantia_documentacion"
-        Me.btn_garantia_documentacion.Size = New System.Drawing.Size(124, 59)
-        Me.btn_garantia_documentacion.TabIndex = 3
-        Me.btn_garantia_documentacion.Text = "Cargar Documentacion"
-        Me.btn_garantia_documentacion.UseVisualStyleBackColor = True
+        Me.lbl_documentacion.Location = New System.Drawing.Point(31, 183)
+        Me.lbl_documentacion.Name = "lbl_documentacion"
+        Me.lbl_documentacion.Size = New System.Drawing.Size(155, 14)
+        Me.lbl_documentacion.TabIndex = 5
+        Me.lbl_documentacion.Text = "Documentacion de Garantía"
+        '
+        'panel_documentacion
+        '
+        Me.panel_documentacion.Controls.Add(Me.txt_garantias_ubicacion)
+        Me.panel_documentacion.Controls.Add(Me.txt_garantias_descripDocum)
+        Me.panel_documentacion.Controls.Add(Me.lbl_descripcion_documentacion)
+        Me.panel_documentacion.Controls.Add(Me.lbl_direccion_documentacion)
+        Me.panel_documentacion.Controls.Add(Me.txt_garantias_idDocumentacion)
+        Me.panel_documentacion.Location = New System.Drawing.Point(34, 210)
+        Me.panel_documentacion.Name = "panel_documentacion"
+        Me.panel_documentacion.Size = New System.Drawing.Size(369, 131)
+        Me.panel_documentacion.TabIndex = 4
+        '
+        'txt_garantias_ubicacion
+        '
+        Me.txt_garantias_ubicacion.Location = New System.Drawing.Point(117, 80)
+        Me.txt_garantias_ubicacion.Name = "txt_garantias_ubicacion"
+        Me.txt_garantias_ubicacion.Size = New System.Drawing.Size(236, 20)
+        Me.txt_garantias_ubicacion.TabIndex = 4
+        '
+        'txt_garantias_descripDocum
+        '
+        Me.txt_garantias_descripDocum.Location = New System.Drawing.Point(117, 24)
+        Me.txt_garantias_descripDocum.Name = "txt_garantias_descripDocum"
+        Me.txt_garantias_descripDocum.Size = New System.Drawing.Size(236, 20)
+        Me.txt_garantias_descripDocum.TabIndex = 3
+        '
+        'lbl_descripcion_documentacion
+        '
+        Me.lbl_descripcion_documentacion.Location = New System.Drawing.Point(3, 27)
+        Me.lbl_descripcion_documentacion.Name = "lbl_descripcion_documentacion"
+        Me.lbl_descripcion_documentacion.Size = New System.Drawing.Size(63, 23)
+        Me.lbl_descripcion_documentacion.TabIndex = 0
+        Me.lbl_descripcion_documentacion.Text = "Descripcion"
+        '
+        'lbl_direccion_documentacion
+        '
+        Me.lbl_direccion_documentacion.Location = New System.Drawing.Point(3, 83)
+        Me.lbl_direccion_documentacion.Name = "lbl_direccion_documentacion"
+        Me.lbl_direccion_documentacion.Size = New System.Drawing.Size(118, 13)
+        Me.lbl_direccion_documentacion.TabIndex = 1
+        Me.lbl_direccion_documentacion.Text = "Ubicación del Archivo"
+        '
+        'txt_garantias_idDocumentacion
+        '
+        Me.txt_garantias_idDocumentacion.Enabled = False
+        Me.txt_garantias_idDocumentacion.Location = New System.Drawing.Point(72, 24)
+        Me.txt_garantias_idDocumentacion.Name = "txt_garantias_idDocumentacion"
+        Me.txt_garantias_idDocumentacion.Size = New System.Drawing.Size(31, 20)
+        Me.txt_garantias_idDocumentacion.TabIndex = 3
         '
         'txt_garantia_monto
         '
-        Me.txt_garantia_monto.Location = New System.Drawing.Point(196, 108)
+        Me.txt_garantia_monto.Location = New System.Drawing.Point(196, 105)
         Me.txt_garantia_monto.Name = "txt_garantia_monto"
         Me.txt_garantia_monto.Size = New System.Drawing.Size(100, 20)
         Me.txt_garantia_monto.TabIndex = 2
         '
         'txt_garantia_descripcion
         '
-        Me.txt_garantia_descripcion.Location = New System.Drawing.Point(196, 74)
+        Me.txt_garantia_descripcion.Location = New System.Drawing.Point(196, 71)
         Me.txt_garantia_descripcion.Name = "txt_garantia_descripcion"
         Me.txt_garantia_descripcion.Size = New System.Drawing.Size(100, 20)
         Me.txt_garantia_descripcion.TabIndex = 1
         '
         'txt_garantia_idCredito
         '
-        Me.txt_garantia_idCredito.Location = New System.Drawing.Point(196, 38)
+        Me.txt_garantia_idCredito.Location = New System.Drawing.Point(196, 35)
         Me.txt_garantia_idCredito.Name = "txt_garantia_idCredito"
         Me.txt_garantia_idCredito.Size = New System.Drawing.Size(100, 20)
         Me.txt_garantia_idCredito.TabIndex = 0
@@ -942,6 +1002,7 @@ Partial Class frm_Menu
         '
         'grp_controles
         '
+        Me.grp_controles.Controls.Add(Me.boton_validar)
         Me.grp_controles.Controls.Add(Me.grilla)
         Me.grp_controles.Controls.Add(Me.btn_salir)
         Me.grp_controles.Controls.Add(Me.btn_borrar)
@@ -954,6 +1015,15 @@ Partial Class frm_Menu
         Me.grp_controles.TabIndex = 8
         Me.grp_controles.TabStop = False
         Me.grp_controles.Visible = False
+        '
+        'boton_validar
+        '
+        Me.boton_validar.Location = New System.Drawing.Point(47, 576)
+        Me.boton_validar.Name = "boton_validar"
+        Me.boton_validar.Size = New System.Drawing.Size(75, 23)
+        Me.boton_validar.TabIndex = 6
+        Me.boton_validar.Text = "Button1"
+        Me.boton_validar.UseVisualStyleBackColor = True
         '
         'tab_menu
         '
@@ -1068,6 +1138,8 @@ Partial Class frm_Menu
         Me.tab_control_expediente.PerformLayout()
         Me.tab_control_garantia.ResumeLayout(False)
         Me.tab_control_garantia.PerformLayout()
+        Me.panel_documentacion.ResumeLayout(False)
+        Me.panel_documentacion.PerformLayout()
         CType(Me.grilla, System.ComponentModel.ISupportInitialize).EndInit()
         Me.grp_controles.ResumeLayout(False)
         Me.tab_menu.ResumeLayout(False)
@@ -1169,11 +1241,18 @@ Partial Class frm_Menu
     Friend WithEvents lbl_creditos_estadoCredito As System.Windows.Forms.Label
     Friend WithEvents txt_creditos_idObjeto As System.Windows.Forms.TextBox
     Friend WithEvents tab_control_garantia As System.Windows.Forms.TabPage
-    Friend WithEvents btn_garantia_documentacion As System.Windows.Forms.Button
     Friend WithEvents txt_garantia_monto As System.Windows.Forms.TextBox
     Friend WithEvents txt_garantia_descripcion As System.Windows.Forms.TextBox
     Friend WithEvents txt_garantia_idCredito As System.Windows.Forms.TextBox
     Friend WithEvents lbl_garantia_monto As System.Windows.Forms.Label
     Friend WithEvents lbl_garantia_descripcion As System.Windows.Forms.Label
     Friend WithEvents lbl_garantia_codCredito As System.Windows.Forms.Label
+    Friend WithEvents boton_validar As System.Windows.Forms.Button
+    Friend WithEvents lbl_documentacion As System.Windows.Forms.Label
+    Friend WithEvents panel_documentacion As System.Windows.Forms.Panel
+    Friend WithEvents txt_garantias_ubicacion As System.Windows.Forms.TextBox
+    Friend WithEvents txt_garantias_descripDocum As System.Windows.Forms.TextBox
+    Friend WithEvents txt_garantias_idDocumentacion As System.Windows.Forms.TextBox
+    Friend WithEvents lbl_direccion_documentacion As System.Windows.Forms.Label
+    Friend WithEvents lbl_descripcion_documentacion As System.Windows.Forms.Label
 End Class
