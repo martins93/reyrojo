@@ -1,6 +1,6 @@
 ﻿Public Class frm_Menu
 
-    Public cadena_Conexion As String = "Data Source=SALVADOR-PC\PAV1;Initial Catalog=PAV1;Integrated Security=True"
+    Public cadena_Conexion As String = "Data Source=MARTIN-PC;Initial Catalog=PAV1;Integrated Security=True"
     Dim conexion As New Conexion(cadena_Conexion, conexion.motores.sqlserver)
 
     'Ambos id no son txt asi que necesito variables globales.
@@ -16,6 +16,7 @@
     Dim frm_objeto As frm_objeto 'Para cargar objeto
     Dim validacion As Validacion
     Dim frm_docum As frm_documentacion
+    Dim frm_cuota As frm_cuota
 
     'Botones y eventos de formulario.
 
@@ -1036,6 +1037,9 @@
     'Evento al hacer doble click en una celda en la grilla.
     Private Sub grilla_CellDoubleClick(ByVal sender As System.Object, ByVal e As System.Windows.Forms.DataGridViewCellEventArgs) Handles grilla.CellDoubleClick
         Me.llenar_tab_segunGrilla(e.RowIndex)
+        If Me.mtxt_creditos_fAprobacion.Enabled = False Then
+            Me.btn_credito_cuotas.Enabled = False
+        End If
     End Sub
 
     'Abro formulario de ingreso de objetos al llegar al TextBox objeto en creditos.
@@ -1130,6 +1134,16 @@
             Me.txt_creditos_objeto.Enabled = False
             Me.txt_creditos_legajo.Enabled = False
             Me.txt_creditos_idSolicitante.Enabled = False
+            If Me.mtxt_creditos_fAprobacion.MaskCompleted = True Then
+                Me.btn_credito_cuotas.Enabled = True
+
+            End If
+
+            
+
+
+
+
             '    Me.txt_creditos_monto.Enabled = False
             'Me.txt_creditos_objeto.Text = ""
             'Me.txt_creditos_legajo.Text = ""
@@ -1292,6 +1306,30 @@
         Dim hola As New Validacion.credito
 
     End Sub
+
+    Private Function crear_credito() As Validacion.credito
+        Dim credito As New Validacion.credito
+        credito.monto = Me.txt_creditos_monto.Text
+
+        credito.fecha_aprobacion = Me.mtxt_creditos_fAprobacion.Text
+
+        credito.fecha_solicitud = 0
+        credito.estado = 0
+        credito.idObjeto = 0
+        credito.idSolicitante = 0
+        credito.objeto_nombre = ""
+        credito.legajo = 0
+
+        Return credito
+    End Function
+
+    Private Sub btn_credito_cuotas_Click(sender As System.Object, e As System.EventArgs) Handles btn_credito_cuotas.Click
+        Dim credito As Validacion.credito
+        credito = Me.crear_credito
+        frm_cuota = New frm_cuota(idCredito, credito.monto, credito.fecha_aprobacion)
+        Dim result As DialogResult = frm_cuota.ShowDialog(Me)
+    End Sub
+
 End Class
 
 'Private Sub fecha_Validated(ByVal sender As Object, ByVal e As System.EventArgs) Handles mtxt_solicitante_fechaNacimiento.Validated
