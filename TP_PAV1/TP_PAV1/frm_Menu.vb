@@ -1,6 +1,6 @@
 ﻿Public Class frm_Menu
 
-    Public cadena_Conexion As String = "Data Source=MARTIN-PC\;Initial Catalog=PAV1;Integrated Security=True"
+    Public cadena_Conexion As String = "Data Source=SALVADOR-PC\PAV1;Initial Catalog=PAV1;Integrated Security=True"
     Dim conexion As New Conexion(cadena_Conexion, conexion.motores.sqlserver)
 
     'Ambos id no son txt asi que necesito variables globales.
@@ -236,15 +236,16 @@
                             MsgBox("Creditos aprobados solo pueden pasar a estado de Deuda")
                             Exit Sub
                         End If
-                    Else
-                        If estado_credito_seleccionado = 1 Then 'Si credito=pendiente 
+                    Else 'FALTA HACER PASAR DE PENDIENTE A PENDIENTE CON DATOS CAMBIADOS
+                        If estado_credito_seleccionado = 1 Then 'Si credito=pendiente y quiero pasar a aprobado
                             If Me.mtxt_creditos_fAprobacion.MaskCompleted = True Then   'Si hay fecha de aprobacion ya se que paso a aprobado
+                                'aca va cuotas y transaccion
                                 texto += "monto= " & Me.txt_creditos_monto.Text & ", fechaAprobacion=" & "convert(date, '" & Me.mtxt_creditos_fAprobacion.Text & "', 103)" & ", Estado_Credito_idEstado_Credito=" & Me.cmb_creditos_estadoCredito.SelectedIndex
                             Else
                                 MsgBox("Se debe llenar la fecha de aprobacion")
                                 Exit Sub
                             End If
-                        ElseIf estado_credito_seleccionado = 3 Then  'Paso a rechazado
+                        ElseIf estado_credito_seleccionado = 3 Then  'Quiero pasar a rechazado
                             texto += "Estado_Credito_idEstado_Credito=" & Me.cmb_creditos_estadoCredito.SelectedIndex
                         Else 'No puedo pasar a deuda desde pendiente
                             MsgBox("Creditos pendientes solo se puede actualizar a Aprobados o Rechazados")
@@ -253,6 +254,7 @@
 
                     End If
                     texto += " WHERE idCreditos=" & id_clave
+                    MsgBox(texto)
                     conexion._modificar(texto)          'conexion._modificar() ejecuta SQL por nonquery.
                 Case 4
                     If validacion._validar_expediente(objeto) Then
@@ -829,7 +831,7 @@
                 Me.txt_abogado_apellido.Text = tabla.Rows(0)("apellido")
                 Me.mtxt_abogado_telefono.Text = tabla.Rows(0)("telefono")
                 Me.txt_abogado_domicilio.Text = tabla.Rows(0)("domicilio")
-                Me.txt_abogado_matricula.Enabled = False
+                '  Me.txt_abogado_matricula.Enabled = False
             Case 1
                 Dim tabla As New Data.DataTable
                 Me.idSolicitante = grilla.Rows(fila).Cells(0).Value
@@ -843,8 +845,8 @@
                 Me.mtxt_solicitante_nrodoc.Text = tabla.Rows(0)("numeroDocumento")
                 Me.mtxt_solicitante_fechaNacimiento.Text = tabla.Rows(0)("fechaNacimiento")
                 Me.cmb_solicitante_tipodoc.SelectedIndex = tabla.Rows(0)("tipo_Documento_idTipo_Documento") - 1
-                Me.mtxt_solicitante_nrodoc.Enabled = False
-                Me.cmb_solicitante_tipodoc.Enabled = False
+                ' Me.mtxt_solicitante_nrodoc.Enabled = False
+                '  Me.cmb_solicitante_tipodoc.Enabled = False
 
 
             Case 2
@@ -857,7 +859,7 @@
                 Me.txt_empleado_nombre.Text = tabla.Rows(0)("nombres")
                 Me.txt_empleado_fecha.Text = tabla.Rows(0)("fecha_Alta")
                 Me.txt_empleado_ape.Text = tabla.Rows(0)("apellido")
-                Me.txt_empleado_legajo.Enabled = False
+                '  Me.txt_empleado_legajo.Enabled = False
             Case 3
                 Dim tabla As New Data.DataTable
                 Me.idCredito = grilla.Rows(fila).Cells(0).Value
@@ -884,9 +886,9 @@
                 Me.txt_expediente_matAbCre.Text = tabla.Rows(0)("abogado_matriculaSol")
                 Me.txt_expediente_codCred.Text = tabla.Rows(0)("Creditos_idCreditos")
 
-                Me.txt_expediente_numeroExp.Enabled = False
-                Me.txt_expediente_codCred.Enabled = False
-                Me.txt_expediente_fechaInicio.Enabled = False
+                '    Me.txt_expediente_numeroExp.Enabled = False
+                '   Me.txt_expediente_codCred.Enabled = False
+                '   Me.txt_expediente_fechaInicio.Enabled = False
         End Select
     End Sub
 
@@ -1202,6 +1204,8 @@
     'Cuando quiero borrar un credito choca contra expediente por foranea
     'Atrapamos la excepcion, revisar si podemos arreglarlo desde bd
     'SET DEFAULT (Para el delete donde chocan foraneas)
+    'no esconder campos, me fuerza a cambiar de pestaña
+    'traer bien telefonos
 End Class
 
 'Private Sub fecha_Validated(ByVal sender As Object, ByVal e As System.EventArgs) Handles mtxt_solicitante_fechaNacimiento.Validated

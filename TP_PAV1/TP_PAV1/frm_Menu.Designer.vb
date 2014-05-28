@@ -127,6 +127,7 @@ Partial Class frm_Menu
         Me.tab_menu_abm = New System.Windows.Forms.TabPage()
         Me.TipoDocumentoBindingSource1 = New System.Windows.Forms.BindingSource(Me.components)
         Me.CargoTableAdapter = New TP_PAV1.PAV1DataSetTableAdapters.CargoTableAdapter()
+        Me.btn_credito_cuotas = New System.Windows.Forms.Button()
         Me.tab_control.SuspendLayout()
         Me.tab_control_abogado.SuspendLayout()
         Me.tab_control_solicitante.SuspendLayout()
@@ -552,6 +553,7 @@ Partial Class frm_Menu
         '
         'tab_control_credito
         '
+        Me.tab_control_credito.Controls.Add(Me.btn_credito_cuotas)
         Me.tab_control_credito.Controls.Add(Me.cmb_creditos_estadoCredito)
         Me.tab_control_credito.Controls.Add(Me.lbl_creditos_estadoCredito)
         Me.tab_control_credito.Controls.Add(Me.txt_creditos_idObjeto)
@@ -1100,6 +1102,18 @@ Partial Class frm_Menu
         '
         Me.CargoTableAdapter.ClearBeforeFill = True
         '
+        'btn_credito_cuotas
+        '
+        Me.btn_credito_cuotas.BackColor = System.Drawing.Color.Transparent
+        Me.btn_credito_cuotas.Enabled = False
+        Me.btn_credito_cuotas.ForeColor = System.Drawing.Color.Black
+        Me.btn_credito_cuotas.Location = New System.Drawing.Point(61, 331)
+        Me.btn_credito_cuotas.Name = "btn_credito_cuotas"
+        Me.btn_credito_cuotas.Size = New System.Drawing.Size(299, 53)
+        Me.btn_credito_cuotas.TabIndex = 10
+        Me.btn_credito_cuotas.Text = "Cargar Cuotas"
+        Me.btn_credito_cuotas.UseVisualStyleBackColor = False
+        '
         'frm_Menu
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -1243,4 +1257,5 @@ Partial Class frm_Menu
     Friend WithEvents txt_garantias_idDocumentacion As System.Windows.Forms.TextBox
     Friend WithEvents lbl_direccion_documentacion As System.Windows.Forms.Label
     Friend WithEvents lbl_descripcion_documentacion As System.Windows.Forms.Label
+    Friend WithEvents btn_credito_cuotas As System.Windows.Forms.Button
 End Class
