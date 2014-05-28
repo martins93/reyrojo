@@ -1014,7 +1014,7 @@ Partial Class frm_Menu
         Me.txt_pago_codCred.Location = New System.Drawing.Point(132, 27)
         Me.txt_pago_codCred.Name = "txt_pago_codCred"
         Me.txt_pago_codCred.Size = New System.Drawing.Size(100, 20)
-        Me.txt_pago_codCred.TabIndex = 1
+        Me.txt_pago_codCred.TabIndex = 0
         '
         'Label5
         '

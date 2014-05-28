@@ -48,7 +48,7 @@ Partial Class frm_cuota
         Me.txt_cuota_montoTotal.Location = New System.Drawing.Point(144, 30)
         Me.txt_cuota_montoTotal.Name = "txt_cuota_montoTotal"
         Me.txt_cuota_montoTotal.Size = New System.Drawing.Size(146, 20)
-        Me.txt_cuota_montoTotal.TabIndex = 1
+        Me.txt_cuota_montoTotal.TabIndex = 0
         '
         'cmb_cuota_cantidad
         '
@@ -64,7 +64,7 @@ Partial Class frm_cuota
         Me.btn_cuota_aceptar.Location = New System.Drawing.Point(43, 167)
         Me.btn_cuota_aceptar.Name = "btn_cuota_aceptar"
         Me.btn_cuota_aceptar.Size = New System.Drawing.Size(100, 43)
-        Me.btn_cuota_aceptar.TabIndex = 3
+        Me.btn_cuota_aceptar.TabIndex = 4
         Me.btn_cuota_aceptar.Text = "Aceptar"
         Me.btn_cuota_aceptar.UseVisualStyleBackColor = True
         '
@@ -73,7 +73,7 @@ Partial Class frm_cuota
         Me.txt_cuota_montoCuota.Location = New System.Drawing.Point(144, 127)
         Me.txt_cuota_montoCuota.Name = "txt_cuota_montoCuota"
         Me.txt_cuota_montoCuota.Size = New System.Drawing.Size(146, 20)
-        Me.txt_cuota_montoCuota.TabIndex = 1
+        Me.txt_cuota_montoCuota.TabIndex = 3
         '
         'txt_cuota_interes
         '
@@ -115,7 +115,7 @@ Partial Class frm_cuota
         Me.btn_cuota_cancelar.Location = New System.Drawing.Point(174, 167)
         Me.btn_cuota_cancelar.Name = "btn_cuota_cancelar"
         Me.btn_cuota_cancelar.Size = New System.Drawing.Size(100, 43)
-        Me.btn_cuota_cancelar.TabIndex = 3
+        Me.btn_cuota_cancelar.TabIndex = 5
         Me.btn_cuota_cancelar.Text = "Cancelar"
         Me.btn_cuota_cancelar.UseVisualStyleBackColor = True
         '

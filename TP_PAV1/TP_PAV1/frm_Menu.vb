@@ -1,6 +1,6 @@
 ﻿Public Class frm_Menu
 
-    Public cadena_Conexion As String = "Data Source=MARTIN-PC;Initial Catalog=PAV1;Integrated Security=True"
+    Public cadena_Conexion As String = "Data Source=SALVADOR-PC\PAV1;Initial Catalog=PAV1;Integrated Security=True"
     Dim conexion As New Conexion(cadena_Conexion, conexion.motores.sqlserver)
 
     'Ambos id no son txt asi que necesito variables globales.
@@ -846,7 +846,7 @@
                 consulta += "SELECT Garantia.idGarantia as [Codigo de Garantia], Solicitante.nombre AS [Nombre Solicitante], Solicitante.apellido AS [Apellido Solicitante], Solicitante.idSolicitante AS [Codigo Solicitante], Garantia.descripcion AS [Descripcion Garantia], Garantia.valorMonetario AS [Valor Monetario], Garantia.Creditos_idCreditos AS [Codigo Credito], Documentacion.lugarAlmacenamiento AS [UBICACION], Documentacion.descripcion AS [Descripcion Documentacion] "
                 consulta += "FROM Documentacion INNER JOIN Documentacion_x_Garantia ON Documentacion.idDocumentacion = Documentacion_x_Garantia.Documentacion_idDocumentacion INNER JOIN Garantia ON Documentacion_x_Garantia.Garantia_idGarantia = Garantia.idGarantia INNER JOIN Creditos ON Garantia.Creditos_idCreditos = Creditos.idCreditos INNER JOIN Solicitante ON Creditos.Solicitante_idSolicitante = Solicitante.idSolicitante"
             Case 6
-                consulta += "SELECT Creditos_idCreditos, Cuota_idCuota, Estado_Credito.nombre FROM Creditos_x_Cuota INNER JOIN Estado_Credito ON Creditos_x_Cuota.Estado_Cuota_idEstado_Cuota = Estado_Cuota.idEstado_Cuota"
+                consulta += "SELECT Creditos_idCreditos, Cuota_idCuota, Estado_Cuota.nombre FROM Creditos_x_Cuota INNER JOIN Estado_Cuota ON Creditos_x_Cuota.Estado_Cuota_idEstado_Cuota = Estado_Cuota.idEstado_Cuota"
         End Select
         Me.grilla.DataSource = conexion._consulta(consulta)
 
@@ -991,7 +991,7 @@
                         Me.conexion._tabla = "tipo_Documento"
                         Me.limpiar_tab()
                         Me._combo.cargar(Me.cmb_solicitante_tipodoc, Me.conexion.leo_tabla())
-                        conexion.cambiar_Tabla(Me.nombre_tabla_pestana)    
+                        conexion.cambiar_Tabla(Me.nombre_tabla_pestana)
                         Me.cargar_Grilla()
                         Me.mtxt_solicitante_nrodoc.Enabled = True
                         Me.cmb_solicitante_tipodoc.Enabled = True
@@ -1065,7 +1065,7 @@
     End Sub
 
     'Abro formulario de ingreso de documentacion al llegar al TextBox descripcion_docum en garantias.
-    Private Sub txt_garantias_descripDocum_Enter(sender As System.Object, e As System.EventArgs) Handles txt_garantias_descripDocum.Enter
+    Private Sub txt_garantias_descripDocum_Enter(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles txt_garantias_descripDocum.Enter
 
         Dim tabla As New Data.DataTable
 
@@ -1139,7 +1139,7 @@
 
             End If
 
-            
+
 
 
 
@@ -1187,18 +1187,18 @@
         Me.grilla.DataSource = conexion._consulta(consulta_garantia)
     End Sub
 
-    Private Function crear_credito() As Validacion.credito
-        Dim credito As New Validacion.credito
-        credito.monto = Me.txt_creditos_monto.Text
-        credito.fecha_solicitud = Me.txt_creditos_fSolicitud.Text
-        credito.fecha_aprobacion = Me.mtxt_creditos_fAprobacion.Text
-        credito.idSolicitante = Me.txt_creditos_idSolicitante.Text
-        credito.legajo = Me.txt_creditos_legajo.Text
-        credito.estado = Me.cmb_creditos_estadoCredito.SelectedIndex + 1
-        credito.idObjeto = Me.txt_creditos_idObjeto.Text
-        credito.objeto_nombre = Me.txt_creditos_objeto.Text
-        Return credito
-    End Function
+    'Private Function crear_credito() As Validacion.credito
+    '    Dim credito As New Validacion.credito
+    '    credito.monto = Me.txt_creditos_monto.Text
+    '    credito.fecha_solicitud = Me.txt_creditos_fSolicitud.Text
+    '    credito.fecha_aprobacion = Me.mtxt_creditos_fAprobacion.Text
+    '    credito.idSolicitante = Me.txt_creditos_idSolicitante.Text
+    '    credito.legajo = Me.txt_creditos_legajo.Text
+    '    credito.estado = Me.cmb_creditos_estadoCredito.SelectedIndex + 1
+    '    credito.idObjeto = Me.txt_creditos_idObjeto.Text
+    '    credito.objeto_nombre = Me.txt_creditos_objeto.Text
+    '    Return credito
+    'End Function
 
     'Lleno los valores de la Struct correspondiente a la pestaña en la que estoy
     Private Function cargar_struct() As Object
@@ -1323,7 +1323,7 @@
         Return credito
     End Function
 
-    Private Sub btn_credito_cuotas_Click(sender As System.Object, e As System.EventArgs) Handles btn_credito_cuotas.Click
+    Private Sub btn_credito_cuotas_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btn_credito_cuotas.Click
         Dim credito As Validacion.credito
         credito = Me.crear_credito
         frm_cuota = New frm_cuota(idCredito, credito.monto, credito.fecha_aprobacion)
