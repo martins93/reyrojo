@@ -68,6 +68,7 @@ Partial Class frm_Menu
         Me.txt_empleado_legajo = New System.Windows.Forms.TextBox()
         Me.txt_empleado_nombre = New System.Windows.Forms.TextBox()
         Me.tab_control_credito = New System.Windows.Forms.TabPage()
+        Me.btn_credito_cuotas = New System.Windows.Forms.Button()
         Me.cmb_creditos_estadoCredito = New System.Windows.Forms.ComboBox()
         Me.lbl_creditos_estadoCredito = New System.Windows.Forms.Label()
         Me.txt_creditos_idObjeto = New System.Windows.Forms.TextBox()
@@ -127,7 +128,6 @@ Partial Class frm_Menu
         Me.tab_menu_abm = New System.Windows.Forms.TabPage()
         Me.TipoDocumentoBindingSource1 = New System.Windows.Forms.BindingSource(Me.components)
         Me.CargoTableAdapter = New TP_PAV1.PAV1DataSetTableAdapters.CargoTableAdapter()
-        Me.btn_credito_cuotas = New System.Windows.Forms.Button()
         Me.tab_control.SuspendLayout()
         Me.tab_control_abogado.SuspendLayout()
         Me.tab_control_solicitante.SuspendLayout()
@@ -575,6 +575,18 @@ Partial Class frm_Menu
         Me.tab_control_credito.TabIndex = 4
         Me.tab_control_credito.Text = "Creditos"
         Me.tab_control_credito.UseVisualStyleBackColor = True
+        '
+        'btn_credito_cuotas
+        '
+        Me.btn_credito_cuotas.BackColor = System.Drawing.Color.Transparent
+        Me.btn_credito_cuotas.Enabled = False
+        Me.btn_credito_cuotas.ForeColor = System.Drawing.Color.Black
+        Me.btn_credito_cuotas.Location = New System.Drawing.Point(61, 331)
+        Me.btn_credito_cuotas.Name = "btn_credito_cuotas"
+        Me.btn_credito_cuotas.Size = New System.Drawing.Size(299, 53)
+        Me.btn_credito_cuotas.TabIndex = 10
+        Me.btn_credito_cuotas.Text = "Cargar Cuotas"
+        Me.btn_credito_cuotas.UseVisualStyleBackColor = False
         '
         'cmb_creditos_estadoCredito
         '
@@ -1101,18 +1113,6 @@ Partial Class frm_Menu
         'CargoTableAdapter
         '
         Me.CargoTableAdapter.ClearBeforeFill = True
-        '
-        'btn_credito_cuotas
-        '
-        Me.btn_credito_cuotas.BackColor = System.Drawing.Color.Transparent
-        Me.btn_credito_cuotas.Enabled = False
-        Me.btn_credito_cuotas.ForeColor = System.Drawing.Color.Black
-        Me.btn_credito_cuotas.Location = New System.Drawing.Point(61, 331)
-        Me.btn_credito_cuotas.Name = "btn_credito_cuotas"
-        Me.btn_credito_cuotas.Size = New System.Drawing.Size(299, 53)
-        Me.btn_credito_cuotas.TabIndex = 10
-        Me.btn_credito_cuotas.Text = "Cargar Cuotas"
-        Me.btn_credito_cuotas.UseVisualStyleBackColor = False
         '
         'frm_Menu
         '

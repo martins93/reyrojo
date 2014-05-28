@@ -37,7 +37,7 @@ Partial Class frm_cuota
         'Label1
         '
         Me.Label1.AutoSize = True
-        Me.Label1.Location = New System.Drawing.Point(22, 39)
+        Me.Label1.Location = New System.Drawing.Point(22, 90)
         Me.Label1.Name = "Label1"
         Me.Label1.Size = New System.Drawing.Size(100, 13)
         Me.Label1.TabIndex = 0
@@ -45,7 +45,7 @@ Partial Class frm_cuota
         '
         'txt_cuota_montoTotal
         '
-        Me.txt_cuota_montoTotal.Location = New System.Drawing.Point(144, 66)
+        Me.txt_cuota_montoTotal.Location = New System.Drawing.Point(144, 30)
         Me.txt_cuota_montoTotal.Name = "txt_cuota_montoTotal"
         Me.txt_cuota_montoTotal.Size = New System.Drawing.Size(146, 20)
         Me.txt_cuota_montoTotal.TabIndex = 1
@@ -54,7 +54,7 @@ Partial Class frm_cuota
         '
         Me.cmb_cuota_cantidad.FormattingEnabled = True
         Me.cmb_cuota_cantidad.Items.AddRange(New Object() {"6", "12", "18", "24", "36", "60", "84"})
-        Me.cmb_cuota_cantidad.Location = New System.Drawing.Point(144, 36)
+        Me.cmb_cuota_cantidad.Location = New System.Drawing.Point(144, 87)
         Me.cmb_cuota_cantidad.Name = "cmb_cuota_cantidad"
         Me.cmb_cuota_cantidad.Size = New System.Drawing.Size(78, 21)
         Me.cmb_cuota_cantidad.TabIndex = 2
@@ -77,7 +77,7 @@ Partial Class frm_cuota
         '
         'txt_cuota_interes
         '
-        Me.txt_cuota_interes.Location = New System.Drawing.Point(144, 92)
+        Me.txt_cuota_interes.Location = New System.Drawing.Point(144, 59)
         Me.txt_cuota_interes.Name = "txt_cuota_interes"
         Me.txt_cuota_interes.Size = New System.Drawing.Size(146, 20)
         Me.txt_cuota_interes.TabIndex = 1
@@ -85,7 +85,7 @@ Partial Class frm_cuota
         'Label2
         '
         Me.Label2.AutoSize = True
-        Me.Label2.Location = New System.Drawing.Point(22, 69)
+        Me.Label2.Location = New System.Drawing.Point(22, 33)
         Me.Label2.Name = "Label2"
         Me.Label2.Size = New System.Drawing.Size(60, 13)
         Me.Label2.TabIndex = 0
@@ -103,7 +103,7 @@ Partial Class frm_cuota
         'Label4
         '
         Me.Label4.AutoSize = True
-        Me.Label4.Location = New System.Drawing.Point(22, 95)
+        Me.Label4.Location = New System.Drawing.Point(22, 62)
         Me.Label4.Name = "Label4"
         Me.Label4.Size = New System.Drawing.Size(80, 13)
         Me.Label4.TabIndex = 0
