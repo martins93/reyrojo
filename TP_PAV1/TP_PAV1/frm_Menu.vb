@@ -1403,6 +1403,22 @@
 
     Private Sub btn_credxrango_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btn_credxrango.Click
 
+        Dim sql As String = ""
+
+        If Me.txt_credxrango_desde.MaskCompleted = False And txt_credxrango_hasta.MaskCompleted = False Then
+            sql = "SELECT Cre.idCreditos AS CodigoCredito, Cre.monto AS MontoCredito, tipo_Documento.nombre AS TipoDocumento, Solicitante.nombre AS Nombre, Solicitante.apellido AS Apellido, Solicitante.numeroDocumento AS NumeroDocumento, Objeto.descripcion AS Objeto, Objeto.valorMonetario AS ValorObjeto, CONVERT(varchar, Cre.fechaAprobacion, 103) AS FechaAprobacion FROM Creditos AS Cre "
+            sql += "INNER JOIN Solicitante ON Cre.Solicitante_idSolicitante = Solicitante.idSolicitante INNER JOIN tipo_Documento ON Solicitante.tipo_Documento_idTipo_Documento = tipo_Documento.idTipo_Documento INNER JOIN Objeto ON Cre.Objeto_idObjeto = Objeto.idObjeto INNER JOIN Estado_Credito EC ON EC.idEstado_Credito = Cre.Estado_Credito_idEstado_Credito "
+            sql += "WHERE EC.nombre = 'APROBADO'"
+        Else
+            sql = "SELECT Cre.idCreditos AS CodigoCredito, Cre.monto AS MontoCredito, tipo_Documento.nombre AS TipoDocumento, Solicitante.nombre AS Nombre, Solicitante.apellido AS Apellido, Solicitante.numeroDocumento AS NumeroDocumento, Objeto.descripcion AS Objeto, Objeto.valorMonetario AS ValorObjeto, CONVERT(varchar, Cre.fechaAprobacion, 103) AS FechaAprobacion FROM Creditos AS Cre "
+            sql += "INNER JOIN Solicitante ON Cre.Solicitante_idSolicitante = Solicitante.idSolicitante INNER JOIN tipo_Documento ON Solicitante.tipo_Documento_idTipo_Documento = tipo_Documento.idTipo_Documento INNER JOIN Objeto ON Cre.Objeto_idObjeto = Objeto.idObjeto "
+            sql += "WHERE Cre.fechaAprobacion >= (CONVERT(DATE, '" & Me.txt_credxrango_desde.Text & "', 103)) AND Cre.fechaAprobacion <= (CONVERT(DATE, '" & Me.txt_credxrango_hasta.Text & "', 103))"
+
+        End If
+
+        CreditosXRangoFechasBindingSource.DataSource = conexion._consulta(sql)
+        report_credxfecha.RefreshReport()
+
     End Sub
 End Class
 
