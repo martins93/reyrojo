@@ -130,6 +130,14 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>PAV1DataSet.xsd</DependentUpon>
     </Compile>
+    <Compile Include="PAV1DataSet2.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>PAV1DataSet2.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="PAV1DataSet2.vb">
+      <DependentUpon>PAV1DataSet2.xsd</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="buscar_doc_tipoDoc.resx">
@@ -153,6 +161,8 @@
       <CustomToolNamespace>My.Resources</CustomToolNamespace>
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <EmbeddedResource Include="Report1.rdlc" />
+    <EmbeddedResource Include="Report2.rdlc" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
@@ -175,6 +185,17 @@
     </None>
     <None Include="PAV1DataSet.xss">
       <DependentUpon>PAV1DataSet.xsd</DependentUpon>
+    </None>
+    <None Include="PAV1DataSet2.xsc">
+      <DependentUpon>PAV1DataSet2.xsd</DependentUpon>
+    </None>
+    <None Include="PAV1DataSet2.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>PAV1DataSet2.Designer.vb</LastGenOutput>
+    </None>
+    <None Include="PAV1DataSet2.xss">
+      <DependentUpon>PAV1DataSet2.xsd</DependentUpon>
     </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
