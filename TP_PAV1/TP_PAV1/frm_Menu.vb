@@ -1202,6 +1202,8 @@
     'Cuando quiero borrar un credito choca contra expediente por foranea
     'Atrapamos la excepcion, revisar si podemos arreglarlo desde bd
     'SET DEFAULT (Para el delete donde chocan foraneas)
+
+   
 End Class
 
 'Private Sub fecha_Validated(ByVal sender As Object, ByVal e As System.EventArgs) Handles mtxt_solicitante_fechaNacimiento.Validated
