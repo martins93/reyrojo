@@ -277,7 +277,7 @@
 
                     End If
                     texto += " WHERE idCreditos=" & id_clave
-                    MsgBox(texto)
+                    '  MsgBox(texto)
                     conexion._modificar(texto)          'conexion._modificar() ejecuta SQL por nonquery.
                 Case 4
                     If validacion._validar_expediente(objeto) Then
@@ -570,7 +570,7 @@
     End Function
 
     'No permito ingresar letras en el textbox.
-    Private Sub numero_KeyPress(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyPressEventArgs) Handles txt_abogado_matricula.KeyPress, txt_empleado_legajo.KeyPress, txt_empleado_legSup.KeyPress, txt_creditos_idSolicitante.KeyPress, txt_creditos_legajo.KeyPress, txt_creditos_monto.KeyPress
+    Private Sub numero_KeyPress(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyPressEventArgs) Handles txt_abogado_matricula.KeyPress, txt_empleado_legajo.KeyPress, txt_empleado_legSup.KeyPress, txt_creditos_idSolicitante.KeyPress, txt_creditos_legajo.KeyPress, txt_creditos_monto.KeyPress, txt_pago_codCred.KeyPress, txt_expediente_codCred.KeyPress, txt_garantia_idCredito.KeyPress, txt_garantia_monto.KeyPress
         'Permitimos teclas de desplazamiento en el textbox, entre otras'
         Select Case Asc(e.KeyChar)
             Case 4, 24, 19, 127, 13, 9, 15, 14, 8
@@ -1016,6 +1016,7 @@
                         txt_creditos_idObjeto.Visible = False
                         mtxt_creditos_fAprobacion.Enabled = False
                         txt_creditos_idObjeto.Enabled = False
+                        Me.btn_credito_cuotas.Enabled = False
                     Case 4
                         conexion.cambiar_Tabla(Me.nombre_tabla_pestana)
                         Me.limpiar_tab()
@@ -1028,6 +1029,11 @@
                         conexion.cambiar_Tabla(Me.nombre_tabla_pestana)
                         Me.limpiar_tab()
                         Me.cargar_Grilla()
+                    Case 6
+                        Me.limpiar_tab()
+                        Me.grilla.DataSource = vbNull
+                        Me.conexion._tabla = "Estado_Cuota"
+                        Me._combo.cargar(Me.cmb_pago_estado, Me.conexion.leo_tabla())
                 End Select
             Case Else
                 Exit Sub
@@ -1037,10 +1043,9 @@
     'Evento al hacer doble click en una celda en la grilla.
     Private Sub grilla_CellDoubleClick(ByVal sender As System.Object, ByVal e As System.Windows.Forms.DataGridViewCellEventArgs) Handles grilla.CellDoubleClick
         Me.llenar_tab_segunGrilla(e.RowIndex)
-
-        Me.btn_credito_cuotas.Enabled = False
-
-        
+        'If Me.mtxt_creditos_fAprobacion.Enabled = False Then
+        '    Me.btn_credito_cuotas.Enabled = False
+        'End If
     End Sub
 
     'Abro formulario de ingreso de objetos al llegar al TextBox objeto en creditos.
