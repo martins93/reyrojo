@@ -89,7 +89,7 @@
 
             insert_couta = "INSERT INTO Cuota (monto, interes, fechaVencimiento, fechaPago) VALUES ("
             insert_couta += Me.txt_cuota_montoCuota.Text & ", " & Me.txt_cuota_interes.Text & ", DATEADD(month, " & c & ", convert(date, '" & fecha_aprobacion & "', 103)), null)"
-            MsgBox(insert_couta)
+            ' MsgBox(insert_couta)
 
             Me.conexion._tabla = "Cuota"
             Me.conexion._modificar(insert_couta)
