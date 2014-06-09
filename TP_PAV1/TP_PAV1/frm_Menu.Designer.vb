@@ -30,6 +30,7 @@ Partial Class frm_Menu
         Me.CreditosXEmpleadoBindingSource = New System.Windows.Forms.BindingSource(Me.components)
         Me.PAV1DataSet2 = New TP_PAV1.PAV1DataSet2()
         Me.CreditosXSolicitanteBindingSource = New System.Windows.Forms.BindingSource(Me.components)
+        Me.CreditosXRangoFechasBindingSource = New System.Windows.Forms.BindingSource(Me.components)
         Me.tab_control = New System.Windows.Forms.TabControl()
         Me.tab_control_abogado = New System.Windows.Forms.TabPage()
         Me.mtxt_abogado_telefono = New System.Windows.Forms.MaskedTextBox()
@@ -170,10 +171,11 @@ Partial Class frm_Menu
         Me.tab_menu_est = New System.Windows.Forms.TabPage()
         Me.TipoDocumentoBindingSource1 = New System.Windows.Forms.BindingSource(Me.components)
         Me.CargoTableAdapter = New TP_PAV1.PAV1DataSetTableAdapters.CargoTableAdapter()
-        Me.CreditosXRangoFechasBindingSource = New System.Windows.Forms.BindingSource(Me.components)
+        Me.CreditosXRangoMontoBindingSource = New System.Windows.Forms.BindingSource(Me.components)
         CType(Me.CreditosXEmpleadoBindingSource, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.PAV1DataSet2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.CreditosXSolicitanteBindingSource, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.CreditosXRangoFechasBindingSource, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.tab_control.SuspendLayout()
         Me.tab_control_abogado.SuspendLayout()
         Me.tab_control_solicitante.SuspendLayout()
@@ -198,7 +200,7 @@ Partial Class frm_Menu
         Me.tab_report_credxrango.SuspendLayout()
         Me.tab_report_credxmonto.SuspendLayout()
         CType(Me.TipoDocumentoBindingSource1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.CreditosXRangoFechasBindingSource, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.CreditosXRangoMontoBindingSource, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'CreditosXEmpleadoBindingSource
@@ -215,6 +217,11 @@ Partial Class frm_Menu
         '
         Me.CreditosXSolicitanteBindingSource.DataMember = "CreditosXSolicitante"
         Me.CreditosXSolicitanteBindingSource.DataSource = Me.PAV1DataSet2
+        '
+        'CreditosXRangoFechasBindingSource
+        '
+        Me.CreditosXRangoFechasBindingSource.DataMember = "CreditosXRangoFechas"
+        Me.CreditosXRangoFechasBindingSource.DataSource = Me.PAV1DataSet2
         '
         'tab_control
         '
@@ -1500,10 +1507,10 @@ Partial Class frm_Menu
         '
         'report_credxmonto
         '
-        ReportDataSource4.Name = "tabla2"
-        ReportDataSource4.Value = Me.CreditosXSolicitanteBindingSource
+        ReportDataSource4.Name = "tabla4"
+        ReportDataSource4.Value = Me.CreditosXRangoMontoBindingSource
         Me.report_credxmonto.LocalReport.DataSources.Add(ReportDataSource4)
-        Me.report_credxmonto.LocalReport.ReportEmbeddedResource = "TP_PAV1.Report2.rdlc"
+        Me.report_credxmonto.LocalReport.ReportEmbeddedResource = "TP_PAV1.Report4.rdlc"
         Me.report_credxmonto.Location = New System.Drawing.Point(2, 3)
         Me.report_credxmonto.Name = "report_credxmonto"
         Me.report_credxmonto.Size = New System.Drawing.Size(1231, 522)
@@ -1527,10 +1534,10 @@ Partial Class frm_Menu
         '
         Me.CargoTableAdapter.ClearBeforeFill = True
         '
-        'CreditosXRangoFechasBindingSource
+        'CreditosXRangoMontoBindingSource
         '
-        Me.CreditosXRangoFechasBindingSource.DataMember = "CreditosXRangoFechas"
-        Me.CreditosXRangoFechasBindingSource.DataSource = Me.PAV1DataSet2
+        Me.CreditosXRangoMontoBindingSource.DataMember = "CreditosXRangoMonto"
+        Me.CreditosXRangoMontoBindingSource.DataSource = Me.PAV1DataSet2
         '
         'frm_Menu
         '
@@ -1546,6 +1553,7 @@ Partial Class frm_Menu
         CType(Me.CreditosXEmpleadoBindingSource, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.PAV1DataSet2, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.CreditosXSolicitanteBindingSource, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.CreditosXRangoFechasBindingSource, System.ComponentModel.ISupportInitialize).EndInit()
         Me.tab_control.ResumeLayout(False)
         Me.tab_control_abogado.ResumeLayout(False)
         Me.tab_control_abogado.PerformLayout()
@@ -1583,7 +1591,7 @@ Partial Class frm_Menu
         Me.tab_report_credxmonto.ResumeLayout(False)
         Me.tab_report_credxmonto.PerformLayout()
         CType(Me.TipoDocumentoBindingSource1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.CreditosXRangoFechasBindingSource, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.CreditosXRangoMontoBindingSource, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
     End Sub
@@ -1731,4 +1739,5 @@ Partial Class frm_Menu
     Friend WithEvents Label13 As System.Windows.Forms.Label
     Friend WithEvents btn_credxmonto As System.Windows.Forms.Button
     Friend WithEvents CreditosXRangoFechasBindingSource As System.Windows.Forms.BindingSource
+    Friend WithEvents CreditosXRangoMontoBindingSource As System.Windows.Forms.BindingSource
 End Class

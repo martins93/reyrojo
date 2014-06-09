@@ -1420,6 +1420,25 @@
         report_credxfecha.RefreshReport()
 
     End Sub
+
+    Private Sub btn_credxmonto_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btn_credxmonto.Click
+
+        Dim sql As String = ""
+
+        If Me.txt_credxmonto_desde.Text = "" And Me.txt_credxmonto_hasta.Text = "" Then
+            sql = "SELECT Solicitante.nombre AS Nombre, Solicitante.apellido AS Apellido, Solicitante.numeroDocumento AS NumeroDocumento, tipo_Documento.nombre AS TipoDocumento, Creditos.idCreditos AS CodigoCredito, Creditos.monto AS MontoCredito, Objeto.descripcion AS Objeto, Objeto.valorMonetario AS MontoObjeto "
+            sql += "FROM Creditos INNER JOIN Solicitante ON Creditos.Solicitante_idSolicitante = Solicitante.idSolicitante INNER JOIN tipo_Documento ON Solicitante.tipo_Documento_idTipo_Documento = tipo_Documento.idTipo_Documento INNER JOIN Objeto ON Creditos.Objeto_idObjeto = Objeto.idObjeto INNER JOIN Estado_Credito EC ON EC.idEstado_Credito = Creditos.Estado_Credito_idEstado_Credito "
+            sql += "WHERE EC.nombre = 'APROBADO'"
+        Else
+            sql = "SELECT Solicitante.nombre AS Nombre, Solicitante.apellido AS Apellido, Solicitante.numeroDocumento AS NumeroDocumento, tipo_Documento.nombre AS TipoDocumento, Creditos.idCreditos AS CodigoCredito, Creditos.monto AS MontoCredito, Objeto.descripcion AS Objeto, Objeto.valorMonetario AS MontoObjeto "
+            sql += "FROM Creditos INNER JOIN Solicitante ON Creditos.Solicitante_idSolicitante = Solicitante.idSolicitante INNER JOIN tipo_Documento ON Solicitante.tipo_Documento_idTipo_Documento = tipo_Documento.idTipo_Documento INNER JOIN Objeto ON Creditos.Objeto_idObjeto = Objeto.idObjeto INNER JOIN Estado_Credito EC ON EC.idEstado_Credito = Creditos.Estado_Credito_idEstado_Credito "
+            sql += "WHERE EC.nombre = 'APROBADO' AND (Creditos.monto >= " & Me.txt_credxmonto_desde.Text & " AND Creditos.monto <= " & Me.txt_credxmonto_hasta.Text & ")"
+        End If
+
+        CreditosXRangoMontoBindingSource.DataSource = conexion._consulta(sql)
+        report_credxmonto.RefreshReport()
+
+    End Sub
 End Class
 
 'Private Sub fecha_Validated(ByVal sender As Object, ByVal e As System.EventArgs) Handles mtxt_solicitante_fechaNacimiento.Validated

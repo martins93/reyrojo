@@ -51,6 +51,20 @@
             </xs:sequence>
           </xs:complexType>
         </xs:element>
+        <xs:element name="CreditosXRangoMonto" msprop:Generator_TableClassName="CreditosXRangoMontoDataTable" msprop:Generator_TableVarName="tableCreditosXRangoMonto" msprop:Generator_TablePropName="CreditosXRangoMonto" msprop:Generator_RowDeletingName="CreditosXRangoMontoRowDeleting" msprop:Generator_RowChangingName="CreditosXRangoMontoRowChanging" msprop:Generator_RowEvHandlerName="CreditosXRangoMontoRowChangeEventHandler" msprop:Generator_RowDeletedName="CreditosXRangoMontoRowDeleted" msprop:Generator_UserTableName="CreditosXRangoMonto" msprop:Generator_RowChangedName="CreditosXRangoMontoRowChanged" msprop:Generator_RowEvArgName="CreditosXRangoMontoRowChangeEvent" msprop:Generator_RowClassName="CreditosXRangoMontoRow">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="Nombre" msprop:Generator_ColumnVarNameInTable="columnNombre" msprop:Generator_ColumnPropNameInRow="Nombre" msprop:Generator_ColumnPropNameInTable="NombreColumn" msprop:Generator_UserColumnName="Nombre" type="xs:string" minOccurs="0" />
+              <xs:element name="Apellido" msprop:Generator_ColumnVarNameInTable="columnApellido" msprop:Generator_ColumnPropNameInRow="Apellido" msprop:Generator_ColumnPropNameInTable="ApellidoColumn" msprop:Generator_UserColumnName="Apellido" type="xs:string" minOccurs="0" />
+              <xs:element name="CodigoCredito" msprop:Generator_ColumnVarNameInTable="columnCodigoCredito" msprop:Generator_ColumnPropNameInRow="CodigoCredito" msprop:Generator_ColumnPropNameInTable="CodigoCreditoColumn" msprop:Generator_UserColumnName="CodigoCredito" type="xs:int" minOccurs="0" />
+              <xs:element name="MontoCredito" msprop:Generator_ColumnVarNameInTable="columnMontoCredito" msprop:Generator_ColumnPropNameInRow="MontoCredito" msprop:Generator_ColumnPropNameInTable="MontoCreditoColumn" msprop:Generator_UserColumnName="MontoCredito" type="xs:double" minOccurs="0" />
+              <xs:element name="TipoDocumento" msprop:Generator_ColumnVarNameInTable="columnTipoDocumento" msprop:Generator_ColumnPropNameInRow="TipoDocumento" msprop:Generator_ColumnPropNameInTable="TipoDocumentoColumn" msprop:Generator_UserColumnName="TipoDocumento" type="xs:string" minOccurs="0" />
+              <xs:element name="NumeroDocumento" msprop:Generator_ColumnVarNameInTable="columnNumeroDocumento" msprop:Generator_ColumnPropNameInRow="NumeroDocumento" msprop:Generator_ColumnPropNameInTable="NumeroDocumentoColumn" msprop:Generator_UserColumnName="NumeroDocumento" type="xs:int" minOccurs="0" />
+              <xs:element name="Objeto" msprop:Generator_ColumnVarNameInTable="columnObjeto" msprop:Generator_ColumnPropNameInRow="Objeto" msprop:Generator_ColumnPropNameInTable="ObjetoColumn" msprop:Generator_UserColumnName="Objeto" type="xs:string" minOccurs="0" />
+              <xs:element name="MontoObjeto" msdata:Caption="ValorObjeto" msprop:Generator_ColumnVarNameInTable="columnMontoObjeto" msprop:Generator_ColumnPropNameInRow="MontoObjeto" msprop:Generator_ColumnPropNameInTable="MontoObjetoColumn" msprop:Generator_UserColumnName="MontoObjeto" type="xs:double" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
       </xs:choice>
     </xs:complexType>
   </xs:element>
