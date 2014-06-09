@@ -1,6 +1,6 @@
 ﻿Public Class frm_Menu
 
-    Public cadena_Conexion As String = "Data Source=SALVADOR-PC\PAV1;Initial Catalog=PAV1;Integrated Security=True"
+    Public cadena_Conexion As String = "Data Source=MARTIN-PC;Initial Catalog=PAV1;Integrated Security=True"
     Dim conexion As New Conexion(cadena_Conexion, conexion.motores.sqlserver)
 
     'Ambos id no son txt asi que necesito variables globales.
@@ -1037,9 +1037,10 @@
     'Evento al hacer doble click en una celda en la grilla.
     Private Sub grilla_CellDoubleClick(ByVal sender As System.Object, ByVal e As System.Windows.Forms.DataGridViewCellEventArgs) Handles grilla.CellDoubleClick
         Me.llenar_tab_segunGrilla(e.RowIndex)
-        If Me.mtxt_creditos_fAprobacion.Enabled = False Then
-            Me.btn_credito_cuotas.Enabled = False
-        End If
+
+        Me.btn_credito_cuotas.Enabled = False
+
+        
     End Sub
 
     'Abro formulario de ingreso de objetos al llegar al TextBox objeto en creditos.
@@ -1138,6 +1139,8 @@
                 Me.btn_credito_cuotas.Enabled = True
 
             End If
+
+            
 
 
 
@@ -1328,8 +1331,18 @@
         credito = Me.crear_credito
         frm_cuota = New frm_cuota(idCredito, credito.monto, credito.fecha_aprobacion)
         Dim result As DialogResult = frm_cuota.ShowDialog(Me)
+
+        Me.cargar_Grilla()
     End Sub
 
+    Private Sub mtxt_creditos_fAprobacion_TextChanged(sender As Object, e As System.EventArgs) Handles mtxt_creditos_fAprobacion.TextChanged
+
+        If Me.mtxt_creditos_fAprobacion.Enabled = False Then
+            Me.btn_credito_cuotas.Enabled = False
+        Else
+            Me.btn_credito_cuotas.Enabled = True
+        End If
+    End Sub
 End Class
 
 'Private Sub fecha_Validated(ByVal sender As Object, ByVal e As System.EventArgs) Handles mtxt_solicitante_fechaNacimiento.Validated
