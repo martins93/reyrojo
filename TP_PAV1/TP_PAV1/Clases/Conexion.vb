@@ -387,7 +387,7 @@
         txt_Insert = Me.armo_insert(conid)
         txt_Insert += Me.asigno_valores_insert(valores, conid)
 
-        'MsgBox(txt_Insert)
+        MsgBox(txt_Insert)
 
         Dim estado As String = Me._ejecutar(txt_Insert)
         If Me.configurar_conexion = tipo_conexion.transaccion Then
@@ -403,12 +403,33 @@
 
     End Function
 
+    Public Function _insertar_transaccion(ByVal valores As String) As String
+        Dim txt_Insert As String = valores
+
+        'txt_Insert = 
+        'txt_Insert += Me.asigno_valores_insert(valores, conid)
+
+        MsgBox(txt_Insert)
+
+        Dim estado As String = Me._ejecutar(txt_Insert)
+        If Me.configurar_conexion = tipo_conexion.transaccion Then
+            If estado = "ok" Then
+                Return "ok"
+            Else
+                Return "error"
+            End If
+        Else
+            Me.conexion.Close()
+            Return ("ok")
+        End If
+
+    End Function
 
     Public Sub _insertar(ByVal valores As String, ByVal conid As Boolean) 'usar true si tabla no tiene id; usar false si la tabla tiene id
         Dim txt_Insert As String = ""
         txt_Insert = Me.armo_insert(conid)
         txt_Insert += Me.asigno_valores_insert(valores, conid)
-        '  MsgBox(txt_Insert)
+        MsgBox(txt_Insert)
 
         Me._conectar()
         Me.cmd.CommandText = txt_Insert

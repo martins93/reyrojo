@@ -1,6 +1,6 @@
 ﻿Public Class frm_documentacion
 
-    Dim cadena_Conexion As String = "Data Source=MARTIN-PC\;Initial Catalog=PAV1;Integrated Security=True"
+    Dim cadena_Conexion As String = frm_Menu.cadena_Conexion
     Dim conexion As New Conexion(cadena_Conexion, "Documentacion", conexion.motores.sqlserver)
 
     Private Sub frm_documentacion_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
@@ -69,12 +69,12 @@
     End Function
 
     Private Sub cmd_documentacion_ok_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmd_documentacion_ok.Click
+        If validar_documentacion() Then
+            Me.texto_insert()
+            MessageBox.Show("Documento Cargado con Exito", "Exito", MessageBoxButtons.OK)
 
-        Me.texto_insert()
-        MessageBox.Show("Documento Cargado con Exito", "Exito", MessageBoxButtons.OK)
-
-        Me.Close()
-
+            Me.Close()
+        End If
     End Sub
 
 
@@ -100,6 +100,18 @@
 
     End Sub
 
-
+    Private Function validar_documentacion() As Boolean
+        If Me.txt_documentacion_descripcion.Text <> "" Then
+            If Me.txt_documentacion_ubicacion.Text <> "" Then
+                Return True
+                Exit Function
+            Else
+                MsgBox("Se debe definir la ruta de la ubicaion", vbOKOnly + vbCritical, "Importante")
+            End If
+        Else
+            MsgBox("Se debe llenar la descripcion", vbOKOnly + vbCritical, "Importante")
+        End If
+        Return False
+    End Function
 
 End Class

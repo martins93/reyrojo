@@ -1,6 +1,6 @@
 ﻿Public Class frm_Menu
 
-    Public cadena_Conexion As String = "Data Source=MARTIN-PC\;Initial Catalog=PAV1;Integrated Security=True"
+    Public cadena_Conexion As String = "Data Source=MARTIN-PC;Initial Catalog=PAV1;Integrated Security=True"
     Dim conexion As New Conexion(cadena_Conexion, conexion.motores.sqlserver)
 
     'Ambos id no son txt asi que necesito variables globales.
@@ -9,12 +9,14 @@
     Dim idExpediente As Integer = -1
     Dim idMatricula As Integer = -1
     Dim idEmpleado As Integer = -1
+    Dim idGarantia As Integer = -1
 
     Dim buscador As buscar_doc_tipoDoc 'Para busqueda Doc/TipoDoc
     Dim _combo As New combo     'Para carga combo
     Dim frm_objeto As frm_objeto 'Para cargar objeto
     Dim validacion As Validacion
     Dim frm_docum As frm_documentacion
+    Dim frm_cuota As frm_cuota
 
     'Botones y eventos de formulario.
 
@@ -167,6 +169,27 @@
                 Else
                     MsgBox("Expediente no encontrado", vbOKOnly, "Resultado")
                 End If
+            Case 5
+                Dim idGarantia As Integer = pedir_clave_numerica()       'Pido matricula de abogado
+                Dim fila As Integer = Me.buscar_clave(idGarantia)
+                If fila <> -1 Then
+                    MsgBox("Garantia encontrada", vbOKOnly, "Resultado")
+                    Me.llenar_tab_segunGrilla(fila)                     'Si la encuentro cargo los boxes con la info.
+
+                    For f As Integer = 0 To grilla.Rows.Count - 1       'Resalto esa fila.
+                        Dim num As Integer = Val(grilla.Rows(f).Cells(0).Value)
+                        If num = idGarantia Then
+                            grilla.Rows(f).DefaultCellStyle.BackColor = Color.Cyan
+                            grilla.Rows(f).Selected = True
+                        Else
+                            grilla.Rows(f).DefaultCellStyle.BackColor = Color.White
+                        End If
+                    Next
+                ElseIf idGarantia = -1 Then
+                    Exit Sub
+                Else
+                    MsgBox("Garantia no encontrada", vbOKOnly, "Resultado")
+                End If
         End Select
     End Sub
 
@@ -236,15 +259,16 @@
                             MsgBox("Creditos aprobados solo pueden pasar a estado de Deuda")
                             Exit Sub
                         End If
-                    Else
-                        If estado_credito_seleccionado = 1 Then 'Si credito=pendiente 
+                    Else 'FALTA HACER PASAR DE PENDIENTE A PENDIENTE CON DATOS CAMBIADOS
+                        If estado_credito_seleccionado = 1 Then 'Si credito=pendiente y quiero pasar a aprobado
                             If Me.mtxt_creditos_fAprobacion.MaskCompleted = True Then   'Si hay fecha de aprobacion ya se que paso a aprobado
+                                'aca va cuotas y transaccion
                                 texto += "monto= " & Me.txt_creditos_monto.Text & ", fechaAprobacion=" & "convert(date, '" & Me.mtxt_creditos_fAprobacion.Text & "', 103)" & ", Estado_Credito_idEstado_Credito=" & Me.cmb_creditos_estadoCredito.SelectedIndex
                             Else
                                 MsgBox("Se debe llenar la fecha de aprobacion")
                                 Exit Sub
                             End If
-                        ElseIf estado_credito_seleccionado = 3 Then  'Paso a rechazado
+                        ElseIf estado_credito_seleccionado = 3 Then  'Quiero pasar a rechazado
                             texto += "Estado_Credito_idEstado_Credito=" & Me.cmb_creditos_estadoCredito.SelectedIndex
                         Else 'No puedo pasar a deuda desde pendiente
                             MsgBox("Creditos pendientes solo se puede actualizar a Aprobados o Rechazados")
@@ -253,6 +277,7 @@
 
                     End If
                     texto += " WHERE idCreditos=" & id_clave
+                    '  MsgBox(texto)
                     conexion._modificar(texto)          'conexion._modificar() ejecuta SQL por nonquery.
                 Case 4
                     If validacion._validar_expediente(objeto) Then
@@ -545,7 +570,7 @@
     End Function
 
     'No permito ingresar letras en el textbox.
-    Private Sub numero_KeyPress(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyPressEventArgs) Handles txt_abogado_matricula.KeyPress, txt_empleado_legajo.KeyPress, txt_empleado_legSup.KeyPress, txt_creditos_idSolicitante.KeyPress, txt_creditos_legajo.KeyPress, txt_creditos_monto.KeyPress
+    Private Sub numero_KeyPress(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyPressEventArgs) Handles txt_abogado_matricula.KeyPress, txt_empleado_legajo.KeyPress, txt_empleado_legSup.KeyPress, txt_creditos_idSolicitante.KeyPress, txt_creditos_legajo.KeyPress, txt_creditos_monto.KeyPress, txt_pago_codCred.KeyPress, txt_expediente_codCred.KeyPress, txt_garantia_idCredito.KeyPress, txt_garantia_monto.KeyPress
         'Permitimos teclas de desplazamiento en el textbox, entre otras'
         Select Case Asc(e.KeyChar)
             Case 4, 24, 19, 127, 13, 9, 15, 14, 8
@@ -634,6 +659,14 @@
             Case 4
                 For c = 0 To Me.grilla.RowCount - 1
                     If (Me.grilla.Rows(c).Cells("Número Expediente").Value = clave) Then
+                        Return c
+                        Exit Function
+                    End If
+                Next
+                Return -1
+            Case 5
+                For c = 0 To Me.grilla.RowCount - 1
+                    If (Me.grilla.Rows(c).Cells("Codigo de Garantia").Value = clave) Then
                         Return c
                         Exit Function
                     End If
@@ -730,13 +763,16 @@
                 titulo = "Codigo de Solicitante"
             Case 2
                 mensaje = "Ingrese Legajo a buscar"
-                titulo = "Legajo"
+                titulo = "Legajo de Empleado"
             Case 3
                 mensaje = "Ingrese Codigo de Credito a buscar"
                 titulo = "Codigo de Credito"
             Case 4
                 mensaje = "Ingrese numero de Expediente a buscar"
                 titulo = "Numero de Expediente"
+            Case 5
+                mensaje = "Ingrese Codigo de Garantia a buscar"
+                titulo = "Codigo de Garantia"
         End Select
 
         While valido = False 'Validar que ingrese un valor correcto
@@ -807,8 +843,10 @@
             Case 5
                 'consulta += "SELECT Garantia.descripcion AS [Descripcion], Garantia.valorMonetario AS [Valor Monetario], Creditos.idCreditos AS [Codigo Credito], Creditos.monto AS [Monto Credito], Solicitante.nombre AS [Nombre Solicitante], Solicitante.apellido AS [Apellido Solicitante], Solicitante.idSolicitante AS [Codigo Solicitante], Documentacion.lugarAlmacenamiento AS [Ubicacion]"
                 'consulta += " FROM Creditos INNER JOIN Solicitante ON Creditos.Solicitante_idSolicitante = Solicitante.idSolicitante INNER JOIN Garantia ON Garantia.Creditos_idCreditos = Creditos.idCreditos INNER JOIN Documentacion_x_Garantia ON Documentacion_x_Garantia.Documentacion_idDocumentacion = Documentacion.idDocumentacion"
-                consulta += "SELECT Solicitante.nombre AS [Nombre Solicitante], Solicitante.apellido AS [Apellido Solicitante], Solicitante.idSolicitante AS [Codigo Solicitante], Garantia.descripcion AS [Descripcion Garantia], Garantia.valorMonetario AS [Valor Monetario], Garantia.Creditos_idCreditos AS [Codigo Credito], Documentacion.lugarAlmacenamiento AS [UBICACION], Documentacion.descripcion AS [Descripcion Documentacion] "
+                consulta += "SELECT Garantia.idGarantia as [Codigo de Garantia], Solicitante.nombre AS [Nombre Solicitante], Solicitante.apellido AS [Apellido Solicitante], Solicitante.idSolicitante AS [Codigo Solicitante], Garantia.descripcion AS [Descripcion Garantia], Garantia.valorMonetario AS [Valor Monetario], Garantia.Creditos_idCreditos AS [Codigo Credito], Documentacion.lugarAlmacenamiento AS [UBICACION], Documentacion.descripcion AS [Descripcion Documentacion] "
                 consulta += "FROM Documentacion INNER JOIN Documentacion_x_Garantia ON Documentacion.idDocumentacion = Documentacion_x_Garantia.Documentacion_idDocumentacion INNER JOIN Garantia ON Documentacion_x_Garantia.Garantia_idGarantia = Garantia.idGarantia INNER JOIN Creditos ON Garantia.Creditos_idCreditos = Creditos.idCreditos INNER JOIN Solicitante ON Creditos.Solicitante_idSolicitante = Solicitante.idSolicitante"
+            Case 6
+                consulta += "SELECT Creditos_idCreditos, Cuota_idCuota, Estado_Cuota.nombre FROM Creditos_x_Cuota INNER JOIN Estado_Cuota ON Creditos_x_Cuota.Estado_Cuota_idEstado_Cuota = Estado_Cuota.idEstado_Cuota"
         End Select
         Me.grilla.DataSource = conexion._consulta(consulta)
 
@@ -829,7 +867,7 @@
                 Me.txt_abogado_apellido.Text = tabla.Rows(0)("apellido")
                 Me.mtxt_abogado_telefono.Text = tabla.Rows(0)("telefono")
                 Me.txt_abogado_domicilio.Text = tabla.Rows(0)("domicilio")
-                Me.txt_abogado_matricula.Enabled = False
+                '  Me.txt_abogado_matricula.Enabled = False
             Case 1
                 Dim tabla As New Data.DataTable
                 Me.idSolicitante = grilla.Rows(fila).Cells(0).Value
@@ -843,8 +881,8 @@
                 Me.mtxt_solicitante_nrodoc.Text = tabla.Rows(0)("numeroDocumento")
                 Me.mtxt_solicitante_fechaNacimiento.Text = tabla.Rows(0)("fechaNacimiento")
                 Me.cmb_solicitante_tipodoc.SelectedIndex = tabla.Rows(0)("tipo_Documento_idTipo_Documento") - 1
-                Me.mtxt_solicitante_nrodoc.Enabled = False
-                Me.cmb_solicitante_tipodoc.Enabled = False
+                ' Me.mtxt_solicitante_nrodoc.Enabled = False
+                '  Me.cmb_solicitante_tipodoc.Enabled = False
 
 
             Case 2
@@ -857,7 +895,7 @@
                 Me.txt_empleado_nombre.Text = tabla.Rows(0)("nombres")
                 Me.txt_empleado_fecha.Text = tabla.Rows(0)("fecha_Alta")
                 Me.txt_empleado_ape.Text = tabla.Rows(0)("apellido")
-                Me.txt_empleado_legajo.Enabled = False
+                '  Me.txt_empleado_legajo.Enabled = False
             Case 3
                 Dim tabla As New Data.DataTable
                 Me.idCredito = grilla.Rows(fila).Cells(0).Value
@@ -884,9 +922,13 @@
                 Me.txt_expediente_matAbCre.Text = tabla.Rows(0)("abogado_matriculaSol")
                 Me.txt_expediente_codCred.Text = tabla.Rows(0)("Creditos_idCreditos")
 
-                Me.txt_expediente_numeroExp.Enabled = False
-                Me.txt_expediente_codCred.Enabled = False
-                Me.txt_expediente_fechaInicio.Enabled = False
+                '    Me.txt_expediente_numeroExp.Enabled = False
+                '   Me.txt_expediente_codCred.Enabled = False
+                '   Me.txt_expediente_fechaInicio.Enabled = False
+            Case 5
+                Dim tabla As New Data.DataTable
+                Me.idGarantia = grilla.Rows(fila).Cells(0).Value
+
         End Select
     End Sub
 
@@ -949,7 +991,7 @@
                         Me.conexion._tabla = "tipo_Documento"
                         Me.limpiar_tab()
                         Me._combo.cargar(Me.cmb_solicitante_tipodoc, Me.conexion.leo_tabla())
-                        conexion.cambiar_Tabla(Me.nombre_tabla_pestana)    
+                        conexion.cambiar_Tabla(Me.nombre_tabla_pestana)
                         Me.cargar_Grilla()
                         Me.mtxt_solicitante_nrodoc.Enabled = True
                         Me.cmb_solicitante_tipodoc.Enabled = True
@@ -974,6 +1016,7 @@
                         txt_creditos_idObjeto.Visible = False
                         mtxt_creditos_fAprobacion.Enabled = False
                         txt_creditos_idObjeto.Enabled = False
+                        Me.btn_credito_cuotas.Enabled = False
                     Case 4
                         conexion.cambiar_Tabla(Me.nombre_tabla_pestana)
                         Me.limpiar_tab()
@@ -986,6 +1029,11 @@
                         conexion.cambiar_Tabla(Me.nombre_tabla_pestana)
                         Me.limpiar_tab()
                         Me.cargar_Grilla()
+                    Case 6
+                        Me.limpiar_tab()
+                        Me.grilla.DataSource = vbNull
+                        Me.conexion._tabla = "Estado_Cuota"
+                        Me._combo.cargar(Me.cmb_pago_estado, Me.conexion.leo_tabla())
                 End Select
             Case Else
                 Exit Sub
@@ -995,6 +1043,9 @@
     'Evento al hacer doble click en una celda en la grilla.
     Private Sub grilla_CellDoubleClick(ByVal sender As System.Object, ByVal e As System.Windows.Forms.DataGridViewCellEventArgs) Handles grilla.CellDoubleClick
         Me.llenar_tab_segunGrilla(e.RowIndex)
+        'If Me.mtxt_creditos_fAprobacion.Enabled = False Then
+        '    Me.btn_credito_cuotas.Enabled = False
+        'End If
     End Sub
 
     'Abro formulario de ingreso de objetos al llegar al TextBox objeto en creditos.
@@ -1020,7 +1071,7 @@
     End Sub
 
     'Abro formulario de ingreso de documentacion al llegar al TextBox descripcion_docum en garantias.
-    Private Sub txt_garantias_descripDocum_Enter(sender As System.Object, e As System.EventArgs) Handles txt_garantias_descripDocum.Enter
+    Private Sub txt_garantias_descripDocum_Enter(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles txt_garantias_descripDocum.Enter
 
         Dim tabla As New Data.DataTable
 
@@ -1031,11 +1082,11 @@
         'Trae Descripcion_Objeto
         Me.txt_garantias_descripDocum.Text = frm_docum.pasar_descripcion_docum()
 
-        If txt_garantia_descripcion.Text <> "" Then
-            'txt_garantia_descripcion.Enabled = False
-            Me.txt_garantias_ubicacion.Text = frm_docum.pasar_ubicacion_docum()
+        'If txt_garantia_descripcion.Text <> "" Then
+        'txt_garantia_descripcion.Enabled = False
+        Me.txt_garantias_ubicacion.Text = frm_docum.pasar_ubicacion_docum()
 
-        End If
+        '  End If
 
         'Trae el ID_Objeto
         tabla = frm_docum.traer_id_docum()
@@ -1089,6 +1140,18 @@
             Me.txt_creditos_objeto.Enabled = False
             Me.txt_creditos_legajo.Enabled = False
             Me.txt_creditos_idSolicitante.Enabled = False
+            If Me.mtxt_creditos_fAprobacion.MaskCompleted = True Then
+                Me.btn_credito_cuotas.Enabled = True
+
+            End If
+
+            
+
+
+
+
+
+
             '    Me.txt_creditos_monto.Enabled = False
             'Me.txt_creditos_objeto.Text = ""
             'Me.txt_creditos_legajo.Text = ""
@@ -1131,6 +1194,19 @@
 
         Me.grilla.DataSource = conexion._consulta(consulta_garantia)
     End Sub
+
+    'Private Function crear_credito() As Validacion.credito
+    '    Dim credito As New Validacion.credito
+    '    credito.monto = Me.txt_creditos_monto.Text
+    '    credito.fecha_solicitud = Me.txt_creditos_fSolicitud.Text
+    '    credito.fecha_aprobacion = Me.mtxt_creditos_fAprobacion.Text
+    '    credito.idSolicitante = Me.txt_creditos_idSolicitante.Text
+    '    credito.legajo = Me.txt_creditos_legajo.Text
+    '    credito.estado = Me.cmb_creditos_estadoCredito.SelectedIndex + 1
+    '    credito.idObjeto = Me.txt_creditos_idObjeto.Text
+    '    credito.objeto_nombre = Me.txt_creditos_objeto.Text
+    '    Return credito
+    'End Function
 
     'Lleno los valores de la Struct correspondiente a la pestaña en la que estoy
     Private Function cargar_struct() As Object
@@ -1197,13 +1273,81 @@
     End Function
 
 
+
+
     '"convert(date, fecha, 103)" 
     'Cuando queiro borrar un solicitante/empleado choca contra los creditos que tienen el mismo idSolicitante/empleado como foranea
     'Cuando quiero borrar un credito choca contra expediente por foranea
     'Atrapamos la excepcion, revisar si podemos arreglarlo desde bd
     'SET DEFAULT (Para el delete donde chocan foraneas)
+    'no esconder campos, me fuerza a cambiar de pestaña
+    'traer bien telefonos
 
-   
+    Private Sub txt_pago_codCred_TextChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles txt_pago_codCred.Enter
+        Dim consulta As String = ""
+        consulta += "SELECT Creditos.idCreditos AS [Codigo Credito], Creditos.monto AS [Monto], Creditos.fechaSolicitud AS [Fecha Solicitud], Creditos.fechaAprobacion AS [Fecha Aprobacion], Solicitante.nombre AS [Nombre Solicitante], Solicitante.apellido AS [Apellido Solicitante], tipo_Documento.nombre AS [Tipo Documento], Solicitante.numeroDocumento AS [Documento], Estado_Credito.nombre AS [ESTADO], Objeto.descripcion AS [Objeto], Empleado.legajo AS [Legajo Empleado], Empleado.nombres AS [Nombre Empleado], Empleado.apellido AS [Apellido Empleado] "
+        consulta += "FROM Creditos INNER JOIN Solicitante ON Creditos.Solicitante_idSolicitante = Solicitante.idSolicitante "
+        consulta += "INNER JOIN Objeto ON Creditos.Objeto_idObjeto = Objeto.idObjeto "
+        consulta += "INNER JOIN Estado_Credito ON Creditos.Estado_Credito_idEstado_Credito = Estado_Credito.idEstado_Credito "
+        consulta += "INNER JOIN tipo_Documento ON Solicitante.tipo_Documento_idTipo_Documento = tipo_Documento.idTipo_Documento "
+        consulta += "INNER JOIN Empleado ON Creditos.Empleado_legajo = Empleado.legajo "
+        Me.grilla.DataSource = conexion._consulta(consulta)
+    End Sub
+
+    Private Sub txt_pago_codCred_TextChanged_1(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles txt_pago_codCred.Validated
+        Dim tabla As New Data.DataTable
+        Dim consulta As String = ""
+
+        If Me.txt_pago_codCred.Text <> "" Then
+            If IsNumeric(Me.txt_pago_codCred.Text) And Me.txt_pago_codCred.Text > 0 Then
+                consulta = "SELECT * FROM Creditos WHERE idCreditos=" & Me.txt_pago_codCred.Text
+                tabla = conexion._consulta(consulta)
+                If tabla.Rows.Count = 1 Then
+                    cargar_Grilla()
+                End If
+
+            End If
+        Else
+            Me.grilla.DataSource = vbNull
+        End If
+
+        Dim hola As New Validacion.credito
+
+    End Sub
+
+    Private Function crear_credito() As Validacion.credito
+        Dim credito As New Validacion.credito
+        credito.monto = Me.txt_creditos_monto.Text
+
+        credito.fecha_aprobacion = Me.mtxt_creditos_fAprobacion.Text
+
+        credito.fecha_solicitud = 0
+        credito.estado = 0
+        credito.idObjeto = 0
+        credito.idSolicitante = 0
+        credito.objeto_nombre = ""
+        credito.legajo = 0
+
+        Return credito
+    End Function
+
+    Private Sub btn_credito_cuotas_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btn_credito_cuotas.Click
+        Dim credito As Validacion.credito
+        credito = Me.crear_credito
+        frm_cuota = New frm_cuota(idCredito, credito.monto, credito.fecha_aprobacion)
+        Dim result As DialogResult = frm_cuota.ShowDialog(Me)
+
+        Me.cargar_Grilla()
+    End Sub
+
+    Private Sub mtxt_creditos_fAprobacion_TextChanged(sender As Object, e As System.EventArgs) Handles mtxt_creditos_fAprobacion.TextChanged
+
+        If Me.mtxt_creditos_fAprobacion.Enabled = False Then
+            Me.btn_credito_cuotas.Enabled = False
+        Else
+            Me.btn_credito_cuotas.Enabled = True
+        End If
+    End Sub
 End Class
 
 'Private Sub fecha_Validated(ByVal sender As Object, ByVal e As System.EventArgs) Handles mtxt_solicitante_fechaNacimiento.Validated

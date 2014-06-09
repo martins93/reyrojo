@@ -68,6 +68,7 @@ Partial Class frm_Menu
         Me.txt_empleado_legajo = New System.Windows.Forms.TextBox()
         Me.txt_empleado_nombre = New System.Windows.Forms.TextBox()
         Me.tab_control_credito = New System.Windows.Forms.TabPage()
+        Me.btn_credito_cuotas = New System.Windows.Forms.Button()
         Me.cmb_creditos_estadoCredito = New System.Windows.Forms.ComboBox()
         Me.lbl_creditos_estadoCredito = New System.Windows.Forms.Label()
         Me.txt_creditos_idObjeto = New System.Windows.Forms.TextBox()
@@ -110,6 +111,13 @@ Partial Class frm_Menu
         Me.lbl_garantia_monto = New System.Windows.Forms.Label()
         Me.lbl_garantia_descripcion = New System.Windows.Forms.Label()
         Me.lbl_garantia_codCredito = New System.Windows.Forms.Label()
+        Me.tab_control_pago = New System.Windows.Forms.TabPage()
+        Me.cmb_pago_estado = New System.Windows.Forms.ComboBox()
+        Me.txt_pago_fecha = New System.Windows.Forms.TextBox()
+        Me.Label7 = New System.Windows.Forms.Label()
+        Me.Label6 = New System.Windows.Forms.Label()
+        Me.txt_pago_codCred = New System.Windows.Forms.TextBox()
+        Me.Label5 = New System.Windows.Forms.Label()
         Me.btn_salir = New System.Windows.Forms.Button()
         Me.btn_modificar = New System.Windows.Forms.Button()
         Me.btn_buscar = New System.Windows.Forms.Button()
@@ -138,6 +146,7 @@ Partial Class frm_Menu
         Me.tab_control_expediente.SuspendLayout()
         Me.tab_control_garantia.SuspendLayout()
         Me.panel_documentacion.SuspendLayout()
+        Me.tab_control_pago.SuspendLayout()
         CType(Me.grilla, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.grp_controles.SuspendLayout()
         Me.tab_menu.SuspendLayout()
@@ -154,6 +163,7 @@ Partial Class frm_Menu
         Me.tab_control.Controls.Add(Me.tab_control_credito)
         Me.tab_control.Controls.Add(Me.tab_control_expediente)
         Me.tab_control.Controls.Add(Me.tab_control_garantia)
+        Me.tab_control.Controls.Add(Me.tab_control_pago)
         Me.tab_control.Location = New System.Drawing.Point(0, 8)
         Me.tab_control.Name = "tab_control"
         Me.tab_control.SelectedIndex = 0
@@ -552,6 +562,7 @@ Partial Class frm_Menu
         '
         'tab_control_credito
         '
+        Me.tab_control_credito.Controls.Add(Me.btn_credito_cuotas)
         Me.tab_control_credito.Controls.Add(Me.cmb_creditos_estadoCredito)
         Me.tab_control_credito.Controls.Add(Me.lbl_creditos_estadoCredito)
         Me.tab_control_credito.Controls.Add(Me.txt_creditos_idObjeto)
@@ -573,6 +584,18 @@ Partial Class frm_Menu
         Me.tab_control_credito.TabIndex = 4
         Me.tab_control_credito.Text = "Creditos"
         Me.tab_control_credito.UseVisualStyleBackColor = True
+        '
+        'btn_credito_cuotas
+        '
+        Me.btn_credito_cuotas.BackColor = System.Drawing.Color.Transparent
+        Me.btn_credito_cuotas.Enabled = False
+        Me.btn_credito_cuotas.ForeColor = System.Drawing.Color.Black
+        Me.btn_credito_cuotas.Location = New System.Drawing.Point(61, 331)
+        Me.btn_credito_cuotas.Name = "btn_credito_cuotas"
+        Me.btn_credito_cuotas.Size = New System.Drawing.Size(299, 53)
+        Me.btn_credito_cuotas.TabIndex = 10
+        Me.btn_credito_cuotas.Text = "Cargar Cuotas"
+        Me.btn_credito_cuotas.UseVisualStyleBackColor = False
         '
         'cmb_creditos_estadoCredito
         '
@@ -938,6 +961,70 @@ Partial Class frm_Menu
         Me.lbl_garantia_codCredito.TabIndex = 0
         Me.lbl_garantia_codCredito.Text = "Codigo de Credito"
         '
+        'tab_control_pago
+        '
+        Me.tab_control_pago.Controls.Add(Me.cmb_pago_estado)
+        Me.tab_control_pago.Controls.Add(Me.txt_pago_fecha)
+        Me.tab_control_pago.Controls.Add(Me.Label7)
+        Me.tab_control_pago.Controls.Add(Me.Label6)
+        Me.tab_control_pago.Controls.Add(Me.txt_pago_codCred)
+        Me.tab_control_pago.Controls.Add(Me.Label5)
+        Me.tab_control_pago.Location = New System.Drawing.Point(4, 22)
+        Me.tab_control_pago.Name = "tab_control_pago"
+        Me.tab_control_pago.Size = New System.Drawing.Size(420, 618)
+        Me.tab_control_pago.TabIndex = 7
+        Me.tab_control_pago.Text = "Manejo Pago"
+        Me.tab_control_pago.UseVisualStyleBackColor = True
+        '
+        'cmb_pago_estado
+        '
+        Me.cmb_pago_estado.FormattingEnabled = True
+        Me.cmb_pago_estado.Location = New System.Drawing.Point(132, 101)
+        Me.cmb_pago_estado.Name = "cmb_pago_estado"
+        Me.cmb_pago_estado.Size = New System.Drawing.Size(121, 21)
+        Me.cmb_pago_estado.TabIndex = 2
+        '
+        'txt_pago_fecha
+        '
+        Me.txt_pago_fecha.Location = New System.Drawing.Point(132, 65)
+        Me.txt_pago_fecha.Name = "txt_pago_fecha"
+        Me.txt_pago_fecha.Size = New System.Drawing.Size(100, 20)
+        Me.txt_pago_fecha.TabIndex = 1
+        '
+        'Label7
+        '
+        Me.Label7.AutoSize = True
+        Me.Label7.Location = New System.Drawing.Point(21, 104)
+        Me.Label7.Name = "Label7"
+        Me.Label7.Size = New System.Drawing.Size(83, 13)
+        Me.Label7.TabIndex = 0
+        Me.Label7.Text = "Estado de Pago"
+        '
+        'Label6
+        '
+        Me.Label6.AutoSize = True
+        Me.Label6.Location = New System.Drawing.Point(21, 68)
+        Me.Label6.Name = "Label6"
+        Me.Label6.Size = New System.Drawing.Size(80, 13)
+        Me.Label6.TabIndex = 0
+        Me.Label6.Text = "Fecha de Pago"
+        '
+        'txt_pago_codCred
+        '
+        Me.txt_pago_codCred.Location = New System.Drawing.Point(132, 27)
+        Me.txt_pago_codCred.Name = "txt_pago_codCred"
+        Me.txt_pago_codCred.Size = New System.Drawing.Size(100, 20)
+        Me.txt_pago_codCred.TabIndex = 0
+        '
+        'Label5
+        '
+        Me.Label5.AutoSize = True
+        Me.Label5.Location = New System.Drawing.Point(21, 30)
+        Me.Label5.Name = "Label5"
+        Me.Label5.Size = New System.Drawing.Size(91, 13)
+        Me.Label5.TabIndex = 0
+        Me.Label5.Text = "Codigo de Credito"
+        '
         'btn_salir
         '
         Me.btn_salir.DialogResult = System.Windows.Forms.DialogResult.Cancel
@@ -1129,6 +1216,8 @@ Partial Class frm_Menu
         Me.tab_control_garantia.PerformLayout()
         Me.panel_documentacion.ResumeLayout(False)
         Me.panel_documentacion.PerformLayout()
+        Me.tab_control_pago.ResumeLayout(False)
+        Me.tab_control_pago.PerformLayout()
         CType(Me.grilla, System.ComponentModel.ISupportInitialize).EndInit()
         Me.grp_controles.ResumeLayout(False)
         Me.tab_menu.ResumeLayout(False)
@@ -1243,4 +1332,12 @@ Partial Class frm_Menu
     Friend WithEvents txt_garantias_idDocumentacion As System.Windows.Forms.TextBox
     Friend WithEvents lbl_direccion_documentacion As System.Windows.Forms.Label
     Friend WithEvents lbl_descripcion_documentacion As System.Windows.Forms.Label
+    Friend WithEvents btn_credito_cuotas As System.Windows.Forms.Button
+    Friend WithEvents tab_control_pago As System.Windows.Forms.TabPage
+    Friend WithEvents cmb_pago_estado As System.Windows.Forms.ComboBox
+    Friend WithEvents txt_pago_fecha As System.Windows.Forms.TextBox
+    Friend WithEvents Label7 As System.Windows.Forms.Label
+    Friend WithEvents Label6 As System.Windows.Forms.Label
+    Friend WithEvents txt_pago_codCred As System.Windows.Forms.TextBox
+    Friend WithEvents Label5 As System.Windows.Forms.Label
 End Class

@@ -99,6 +99,38 @@ Public Class Validacion
         Return True
     End Function
 
+    'Public Function _validar_vacios_generico() As Boolean    'Devuelve true si estan todos los datos
+    '    Dim combo As ComboBox
+
+    '    For Each obj As System.Windows.Forms.Control In Me.Controls
+    '        Select Case obj.GetType().ToString
+    '            Case "System.Windows.Forms.TextBox"
+    '                If obj.Text = "" Then
+    '                    MsgBox("Falta cargar dato en " & obj.Name, MsgBoxStyle.Critical, "Corregir")
+    '                    obj.Focus()
+    '                    Return False
+    '                End If
+
+    '            Case "System.Windows.Forms.MaskedTextBox"
+    '                If obj.Text = "" Then
+    '                    MsgBox("Falta cargar dato en " & obj.Name, MsgBoxStyle.Critical, "Corregir")
+    '                    obj.Focus()
+    '                    Return False
+    '                End If
+    '            Case "System.Windows.Forms.ComboBox"
+    '                combo = obj
+    '                If combo.SelectedIndex = -1 Then
+    '                    MsgBox("Falta seleccionar en el combo " & combo.Name, MsgBoxStyle.Critical, "Seleccionar")
+    '                    obj.Focus()
+    '                    Return False
+    '                End If
+    '        End Select
+    '    Next obj
+
+    '    Return True
+
+    'End Function
+
     Private Function _validar_fecha(ByVal fecha As String) As Boolean
         If IsDate(fecha) Then                                           'dd-mm-aaaa
             Dim año As Integer = Convert.ToInt32(fecha.Substring(6, 4)) '01 3 45 6 78910
@@ -110,7 +142,7 @@ Public Class Validacion
         Return False
     End Function
 
-    Private Function _validar_numero_positivo(ByVal numero As Integer) As Boolean
+    Public Function _validar_numero_positivo(ByVal numero As Integer) As Boolean
         If numero > 0 Then
             Return True
             Exit Function
@@ -369,6 +401,11 @@ Public Class Validacion
 
     'Devolver mensajes de error y validar que no esten vacios en vez de usar booleaans?
     'O imprimimos por pantalla desde aca?
+
+    'Private Function Controls() As Object
+    '    Throw New NotImplementedException
+    'End Function
+
 
 End Class
 

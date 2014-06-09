@@ -1,6 +1,6 @@
 ﻿Public Class frm_objeto
 
-    Dim cadena_Conexion As String = "Data Source=MARTIN-PC\;Initial Catalog=PAV1;Integrated Security=True"
+    Dim cadena_Conexion As String = frm_Menu.cadena_Conexion
     Dim conexion As New Conexion(cadena_Conexion, "Objeto", conexion.motores.sqlserver)
 
     Private Sub frm_objeto_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
@@ -54,11 +54,12 @@
     End Function
 
     Private Sub cmd_objeto_ok_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmd_objeto_ok.Click
+        If validar_objeto() Then
+            Me.texto_insert()
+            MessageBox.Show("Objeto Cargado con Exito", "Exito", MessageBoxButtons.OK)
 
-        Me.texto_insert()
-        MessageBox.Show("Objeto Cargado con Exito", "Exito", MessageBoxButtons.OK)
-
-        Me.Close()
+            Me.Close()
+        End If
 
     End Sub
 
@@ -67,6 +68,18 @@
         Me.Close()
     End Sub
 
-
+    Private Function validar_objeto() As Boolean
+        If Me.txt_objeto_descripcion.Text <> "" Then
+            If IsNumeric(Me.txt_objeto_valorMonetario.Text) And Me.txt_objeto_valorMonetario.Text > 0 Then
+                Return True
+                Exit Function
+            Else
+                MsgBox("El monto debe ser mayor a 0", vbOKOnly + vbCritical, "Importante")
+            End If
+        Else
+            MsgBox("Se debe llenar la descripcion", vbOKOnly + vbCritical, "Importante")
+        End If
+        Return False
+    End Function
 
 End Class
