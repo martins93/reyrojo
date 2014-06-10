@@ -33,6 +33,9 @@
     'Cuando se carga el formulario principal
     Private Sub frm_Menu_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         Me.tab_menu.Width = 1260  'Esto despues se borra, es para no tener la pestaña gigante por debajo de los controles en el diseñador
+
+        Me.report_credxemp.RefreshReport()
+        Me.ReportViewer1.RefreshReport()
     End Sub
 
     'Boton borrar de los ABM
@@ -903,7 +906,8 @@
 
                 Me.txt_creditos_fSolicitud.Text = grilla.Rows(fila).Cells(2).Value
                 Me.txt_creditos_idObjeto.Text = tabla.Rows(0)("Objeto_idObjeto")
-                Me.txt_creditos_idSolicitante.Text = tabla.Rows(0)("Solicitante_idSolicitante")                Me.txt_creditos_legajo.Text = tabla.Rows(0)("Empleado_legajo")
+                Me.txt_creditos_idSolicitante.Text = tabla.Rows(0)("Solicitante_idSolicitante")
+                Me.txt_creditos_legajo.Text = tabla.Rows(0)("Empleado_legajo")
                 Me.txt_creditos_monto.Text = grilla.Rows(fila).Cells(1).Value
                 Me.txt_creditos_objeto.Text = grilla.Rows(fila).Cells(9).Value
 
@@ -952,6 +956,7 @@
     Private Function nombre_tabla_pestana() As String
         Dim nom_Tabla As String = ""
         Dim pestaña As Integer = Me.tab_control.SelectedIndex
+
         Select Case pestaña
             Case 0
                 nom_Tabla = "abogado"
@@ -968,13 +973,15 @@
             Case Else
                 nom_Tabla = "ERROR"
         End Select
+
         Return nom_Tabla
     End Function
 
     'Acciones al cambiar de una pestaña a otra (Menu/ABM)
-    Private Sub cambio_Pestaña(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles tab_menu.Selected, tab_control.Selected
+    Private Sub cambio_Pestaña(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles tab_menu.Selected, tab_control.Selected, tab_report.Selected, tab_est.Selected
         Dim pestaña_menu As Integer = Me.tab_menu.SelectedIndex
         Dim pestaña_abm As Integer = Me.tab_control.SelectedIndex
+        Dim pestaña_report As Integer = Me.tab_report.SelectedIndex
 
         Select Case pestaña_menu
             Case 0
@@ -1035,8 +1042,27 @@
                         Me.conexion._tabla = "Estado_Cuota"
                         Me._combo.cargar(Me.cmb_pago_estado, Me.conexion.leo_tabla())
                 End Select
+            Case 2
+                Me.mostrar_Interfaz(False)
+                Select Case pestaña_report
+                    Case 0
+                        report_credxemp.RefreshReport()
+                    Case 1
+                        report_credxsol.RefreshReport()
+                        Me.conexion._tabla = "tipo_Documento"
+                        Me._combo.cargar(Me.cmb_credxsol, Me.conexion.leo_tabla())
+                    Case 2
+                        report_credxfecha.RefreshReport()
+                    Case 3
+                        report_credxmonto.RefreshReport()
+                End Select
+            Case 3
+                Me.mostrar_Interfaz(False)
+
             Case Else
                 Exit Sub
+
+
         End Select
     End Sub
 
@@ -1347,6 +1373,75 @@
         Else
             Me.btn_credito_cuotas.Enabled = True
         End If
+    End Sub
+
+    Private Sub btn_cantxemp_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btn_cantxemp.Click
+        Dim sql As String = ""
+
+        If Me.txt_cantxemp_leg.Text = "" Then
+            sql = "SELECT Empleado.legajo AS Legajo, Empleado.nombres AS Nombre, Empleado.apellido AS Apellido, Creditos.idCreditos AS CodigoCredito, Creditos.monto AS Monto FROM Creditos INNER JOIN Empleado ON Creditos.Empleado_legajo = Empleado.legajo"
+        Else
+            sql = "SELECT Empleado.legajo AS Legajo, Empleado.nombres AS Nombre, Empleado.apellido AS Apellido, Creditos.idCreditos AS CodigoCredito, Creditos.monto AS Monto FROM Creditos INNER JOIN Empleado ON Creditos.Empleado_legajo = Empleado.legajo WHERE Empleado.legajo=" & Me.txt_cantxemp_leg.Text
+        End If
+        CreditosXEmpleadoBindingSource.DataSource = conexion._consulta(sql)
+        report_credxemp.RefreshReport()
+    End Sub
+
+  
+    Private Sub btn_cantxsol_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btn_cantxsol.Click
+        Dim sql As String = ""
+
+        If Me.txt_cantxsol_doc.Text = "" Then
+            sql = "SELECT Solicitante.nombre AS Nombre, Solicitante.apellido AS Apellido, Solicitante.numeroDocumento AS NumeroDocumento, Creditos.monto AS MontoCredito, CONVERT(varchar, Creditos.fechaSolicitud, 103) AS FechaSolicitud, Estado_Credito.nombre AS EstadoCredito, tipo_Documento.nombre AS TipoDocumento FROM Creditos "
+            sql += "INNER JOIN Solicitante ON Creditos.Solicitante_idSolicitante = Solicitante.idSolicitante INNER JOIN Estado_Credito ON Creditos.Estado_Credito_idEstado_Credito = Estado_Credito.idEstado_Credito "
+            sql += "INNER JOIN tipo_Documento ON Solicitante.tipo_Documento_idTipo_Documento = tipo_Documento.idTipo_Documento"
+        Else
+            sql = "SELECT Solicitante.nombre AS Nombre, Solicitante.apellido AS Apellido, Solicitante.numeroDocumento AS NumeroDocumento, Creditos.monto AS MontoCredito, CONVERT(varchar, Creditos.fechaSolicitud, 103) AS FechaSolicitud, Estado_Credito.nombre AS EstadoCredito, tipo_Documento.nombre AS TipoDocumento FROM Creditos "
+            sql += "INNER JOIN Solicitante ON Creditos.Solicitante_idSolicitante = Solicitante.idSolicitante INNER JOIN Estado_Credito ON Creditos.Estado_Credito_idEstado_Credito = Estado_Credito.idEstado_Credito "
+            sql += "INNER JOIN tipo_Documento ON Solicitante.tipo_Documento_idTipo_Documento = tipo_Documento.idTipo_Documento WHERE Solicitante.numeroDocumento=" & Me.txt_cantxsol_doc.Text & " AND Solicitante.tipo_Documento_idTipo_Documento=" & Me.cmb_credxsol.SelectedIndex + 1
+        End If
+        CreditosXSolicitanteBindingSource.DataSource = conexion._consulta(sql)
+        report_credxsol.RefreshReport()
+
+    End Sub
+
+    Private Sub btn_credxrango_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btn_credxrango.Click
+
+        Dim sql As String = ""
+
+        If Me.txt_credxrango_desde.MaskCompleted = False And txt_credxrango_hasta.MaskCompleted = False Then
+            sql = "SELECT Cre.idCreditos AS CodigoCredito, Cre.monto AS MontoCredito, tipo_Documento.nombre AS TipoDocumento, Solicitante.nombre AS Nombre, Solicitante.apellido AS Apellido, Solicitante.numeroDocumento AS NumeroDocumento, Objeto.descripcion AS Objeto, Objeto.valorMonetario AS ValorObjeto, CONVERT(varchar, Cre.fechaAprobacion, 103) AS FechaAprobacion FROM Creditos AS Cre "
+            sql += "INNER JOIN Solicitante ON Cre.Solicitante_idSolicitante = Solicitante.idSolicitante INNER JOIN tipo_Documento ON Solicitante.tipo_Documento_idTipo_Documento = tipo_Documento.idTipo_Documento INNER JOIN Objeto ON Cre.Objeto_idObjeto = Objeto.idObjeto INNER JOIN Estado_Credito EC ON EC.idEstado_Credito = Cre.Estado_Credito_idEstado_Credito "
+            sql += "WHERE EC.nombre = 'APROBADO'"
+        Else
+            sql = "SELECT Cre.idCreditos AS CodigoCredito, Cre.monto AS MontoCredito, tipo_Documento.nombre AS TipoDocumento, Solicitante.nombre AS Nombre, Solicitante.apellido AS Apellido, Solicitante.numeroDocumento AS NumeroDocumento, Objeto.descripcion AS Objeto, Objeto.valorMonetario AS ValorObjeto, CONVERT(varchar, Cre.fechaAprobacion, 103) AS FechaAprobacion FROM Creditos AS Cre "
+            sql += "INNER JOIN Solicitante ON Cre.Solicitante_idSolicitante = Solicitante.idSolicitante INNER JOIN tipo_Documento ON Solicitante.tipo_Documento_idTipo_Documento = tipo_Documento.idTipo_Documento INNER JOIN Objeto ON Cre.Objeto_idObjeto = Objeto.idObjeto "
+            sql += "WHERE Cre.fechaAprobacion >= (CONVERT(DATE, '" & Me.txt_credxrango_desde.Text & "', 103)) AND Cre.fechaAprobacion <= (CONVERT(DATE, '" & Me.txt_credxrango_hasta.Text & "', 103))"
+
+        End If
+
+        CreditosXRangoFechasBindingSource.DataSource = conexion._consulta(sql)
+        report_credxfecha.RefreshReport()
+
+    End Sub
+
+    Private Sub btn_credxmonto_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btn_credxmonto.Click
+
+        Dim sql As String = ""
+
+        If Me.txt_credxmonto_desde.Text = "" And Me.txt_credxmonto_hasta.Text = "" Then
+            sql = "SELECT Solicitante.nombre AS Nombre, Solicitante.apellido AS Apellido, Solicitante.numeroDocumento AS NumeroDocumento, tipo_Documento.nombre AS TipoDocumento, Creditos.idCreditos AS CodigoCredito, Creditos.monto AS MontoCredito, Objeto.descripcion AS Objeto, Objeto.valorMonetario AS MontoObjeto "
+            sql += "FROM Creditos INNER JOIN Solicitante ON Creditos.Solicitante_idSolicitante = Solicitante.idSolicitante INNER JOIN tipo_Documento ON Solicitante.tipo_Documento_idTipo_Documento = tipo_Documento.idTipo_Documento INNER JOIN Objeto ON Creditos.Objeto_idObjeto = Objeto.idObjeto INNER JOIN Estado_Credito EC ON EC.idEstado_Credito = Creditos.Estado_Credito_idEstado_Credito "
+            sql += "WHERE EC.nombre = 'APROBADO'"
+        Else
+            sql = "SELECT Solicitante.nombre AS Nombre, Solicitante.apellido AS Apellido, Solicitante.numeroDocumento AS NumeroDocumento, tipo_Documento.nombre AS TipoDocumento, Creditos.idCreditos AS CodigoCredito, Creditos.monto AS MontoCredito, Objeto.descripcion AS Objeto, Objeto.valorMonetario AS MontoObjeto "
+            sql += "FROM Creditos INNER JOIN Solicitante ON Creditos.Solicitante_idSolicitante = Solicitante.idSolicitante INNER JOIN tipo_Documento ON Solicitante.tipo_Documento_idTipo_Documento = tipo_Documento.idTipo_Documento INNER JOIN Objeto ON Creditos.Objeto_idObjeto = Objeto.idObjeto INNER JOIN Estado_Credito EC ON EC.idEstado_Credito = Creditos.Estado_Credito_idEstado_Credito "
+            sql += "WHERE EC.nombre = 'APROBADO' AND (Creditos.monto >= " & Me.txt_credxmonto_desde.Text & " AND Creditos.monto <= " & Me.txt_credxmonto_hasta.Text & ")"
+        End If
+
+        CreditosXRangoMontoBindingSource.DataSource = conexion._consulta(sql)
+        report_credxmonto.RefreshReport()
+
     End Sub
 End Class
 
