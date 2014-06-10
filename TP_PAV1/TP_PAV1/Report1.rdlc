@@ -395,7 +395,9 @@
                           <TextRuns>
                             <TextRun>
                               <Value>=Fields!Monto.Value</Value>
-                              <Style />
+                              <Style>
+                                <Format>'$'0.00;('$'0.00)</Format>
+                              </Style>
                             </TextRun>
                           </TextRuns>
                           <Style>
@@ -413,8 +415,10 @@
                         <PaddingRight>2pt</PaddingRight>
                         <PaddingTop>2pt</PaddingTop>
                         <PaddingBottom>2pt</PaddingBottom>
+                        <rd:FormatSymbolCulture>es-AR</rd:FormatSymbolCulture>
                       </Style>
                     </Textbox>
+                    <rd:Selected>true</rd:Selected>
                   </CellContents>
                 </TablixCell>
               </TablixCells>
@@ -443,8 +447,8 @@
         <DataSetName>tabla_credxemp</DataSetName>
         <Top>1.63195cm</Top>
         <Left>1.07633cm</Left>
-        <Height>1.41167cm</Height>
-        <Width>25.38521cm</Width>
+        <Height>1.41168cm</Height>
+        <Width>25.38527cm</Width>
         <Style>
           <Border>
             <Color>LightGrey</Color>

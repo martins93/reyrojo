@@ -35,6 +35,7 @@
         Me.tab_menu.Width = 1260  'Esto despues se borra, es para no tener la pestaña gigante por debajo de los controles en el diseñador
 
         Me.report_credxemp.RefreshReport()
+        Me.ReportViewer1.RefreshReport()
     End Sub
 
     'Boton borrar de los ABM
@@ -976,7 +977,7 @@
     End Function
 
     'Acciones al cambiar de una pestaña a otra (Menu/ABM)
-    Private Sub cambio_Pestaña(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles tab_menu.Selected, tab_control.Selected, tab_report.Selected
+    Private Sub cambio_Pestaña(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles tab_menu.Selected, tab_control.Selected, tab_report.Selected, tab_est.Selected
         Dim pestaña_menu As Integer = Me.tab_menu.SelectedIndex
         Dim pestaña_abm As Integer = Me.tab_control.SelectedIndex
         Dim pestaña_report As Integer = Me.tab_report.SelectedIndex
@@ -1054,6 +1055,8 @@
                     Case 3
                         report_credxmonto.RefreshReport()
                 End Select
+            Case 3
+                Me.mostrar_Interfaz(False)
 
             Case Else
                 Exit Sub

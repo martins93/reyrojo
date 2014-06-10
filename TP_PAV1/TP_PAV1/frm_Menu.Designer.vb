@@ -23,14 +23,20 @@ Partial Class frm_Menu
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
+        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frm_Menu))
         Dim ReportDataSource1 As Microsoft.Reporting.WinForms.ReportDataSource = New Microsoft.Reporting.WinForms.ReportDataSource()
         Dim ReportDataSource2 As Microsoft.Reporting.WinForms.ReportDataSource = New Microsoft.Reporting.WinForms.ReportDataSource()
         Dim ReportDataSource3 As Microsoft.Reporting.WinForms.ReportDataSource = New Microsoft.Reporting.WinForms.ReportDataSource()
         Dim ReportDataSource4 As Microsoft.Reporting.WinForms.ReportDataSource = New Microsoft.Reporting.WinForms.ReportDataSource()
+        Dim ReportDataSource5 As Microsoft.Reporting.WinForms.ReportDataSource = New Microsoft.Reporting.WinForms.ReportDataSource()
+        Dim ReportDataSource6 As Microsoft.Reporting.WinForms.ReportDataSource = New Microsoft.Reporting.WinForms.ReportDataSource()
+        Dim ReportDataSource7 As Microsoft.Reporting.WinForms.ReportDataSource = New Microsoft.Reporting.WinForms.ReportDataSource()
+        Dim ReportDataSource8 As Microsoft.Reporting.WinForms.ReportDataSource = New Microsoft.Reporting.WinForms.ReportDataSource()
         Me.CreditosXEmpleadoBindingSource = New System.Windows.Forms.BindingSource(Me.components)
         Me.PAV1DataSet2 = New TP_PAV1.PAV1DataSet2()
         Me.CreditosXSolicitanteBindingSource = New System.Windows.Forms.BindingSource(Me.components)
         Me.CreditosXRangoFechasBindingSource = New System.Windows.Forms.BindingSource(Me.components)
+        Me.CreditosXRangoMontoBindingSource = New System.Windows.Forms.BindingSource(Me.components)
         Me.tab_control = New System.Windows.Forms.TabControl()
         Me.tab_control_abogado = New System.Windows.Forms.TabPage()
         Me.mtxt_abogado_telefono = New System.Windows.Forms.MaskedTextBox()
@@ -136,10 +142,6 @@ Partial Class frm_Menu
         Me.grp_controles = New System.Windows.Forms.GroupBox()
         Me.tab_menu = New System.Windows.Forms.TabControl()
         Me.tab_menu_inicio = New System.Windows.Forms.TabPage()
-        Me.Label4 = New System.Windows.Forms.Label()
-        Me.Label3 = New System.Windows.Forms.Label()
-        Me.Label2 = New System.Windows.Forms.Label()
-        Me.Label1 = New System.Windows.Forms.Label()
         Me.tab_menu_abm = New System.Windows.Forms.TabPage()
         Me.tab_menu_report = New System.Windows.Forms.TabPage()
         Me.tab_report = New System.Windows.Forms.TabControl()
@@ -169,13 +171,22 @@ Partial Class frm_Menu
         Me.btn_credxmonto = New System.Windows.Forms.Button()
         Me.report_credxmonto = New Microsoft.Reporting.WinForms.ReportViewer()
         Me.tab_menu_est = New System.Windows.Forms.TabPage()
+        Me.tab_est = New System.Windows.Forms.TabControl()
+        Me.TabPage1 = New System.Windows.Forms.TabPage()
+        Me.ReportViewer1 = New Microsoft.Reporting.WinForms.ReportViewer()
+        Me.TabPage2 = New System.Windows.Forms.TabPage()
+        Me.ReportViewer2 = New Microsoft.Reporting.WinForms.ReportViewer()
+        Me.TabPage3 = New System.Windows.Forms.TabPage()
+        Me.ReportViewer3 = New Microsoft.Reporting.WinForms.ReportViewer()
+        Me.TabPage4 = New System.Windows.Forms.TabPage()
+        Me.ReportViewer4 = New Microsoft.Reporting.WinForms.ReportViewer()
         Me.TipoDocumentoBindingSource1 = New System.Windows.Forms.BindingSource(Me.components)
         Me.CargoTableAdapter = New TP_PAV1.PAV1DataSetTableAdapters.CargoTableAdapter()
-        Me.CreditosXRangoMontoBindingSource = New System.Windows.Forms.BindingSource(Me.components)
         CType(Me.CreditosXEmpleadoBindingSource, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.PAV1DataSet2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.CreditosXSolicitanteBindingSource, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.CreditosXRangoFechasBindingSource, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.CreditosXRangoMontoBindingSource, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.tab_control.SuspendLayout()
         Me.tab_control_abogado.SuspendLayout()
         Me.tab_control_solicitante.SuspendLayout()
@@ -191,7 +202,6 @@ Partial Class frm_Menu
         CType(Me.grilla, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.grp_controles.SuspendLayout()
         Me.tab_menu.SuspendLayout()
-        Me.tab_menu_inicio.SuspendLayout()
         Me.tab_menu_abm.SuspendLayout()
         Me.tab_menu_report.SuspendLayout()
         Me.tab_report.SuspendLayout()
@@ -199,8 +209,13 @@ Partial Class frm_Menu
         Me.tab_report_credxsol.SuspendLayout()
         Me.tab_report_credxrango.SuspendLayout()
         Me.tab_report_credxmonto.SuspendLayout()
+        Me.tab_menu_est.SuspendLayout()
+        Me.tab_est.SuspendLayout()
+        Me.TabPage1.SuspendLayout()
+        Me.TabPage2.SuspendLayout()
+        Me.TabPage3.SuspendLayout()
+        Me.TabPage4.SuspendLayout()
         CType(Me.TipoDocumentoBindingSource1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.CreditosXRangoMontoBindingSource, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'CreditosXEmpleadoBindingSource
@@ -222,6 +237,11 @@ Partial Class frm_Menu
         '
         Me.CreditosXRangoFechasBindingSource.DataMember = "CreditosXRangoFechas"
         Me.CreditosXRangoFechasBindingSource.DataSource = Me.PAV1DataSet2
+        '
+        'CreditosXRangoMontoBindingSource
+        '
+        Me.CreditosXRangoMontoBindingSource.DataMember = "CreditosXRangoMonto"
+        Me.CreditosXRangoMontoBindingSource.DataSource = Me.PAV1DataSet2
         '
         'tab_control
         '
@@ -1178,64 +1198,20 @@ Partial Class frm_Menu
         Me.tab_menu.Location = New System.Drawing.Point(8, 2)
         Me.tab_menu.Name = "tab_menu"
         Me.tab_menu.SelectedIndex = 0
-        Me.tab_menu.Size = New System.Drawing.Size(439, 679)
+        Me.tab_menu.Size = New System.Drawing.Size(1238, 679)
         Me.tab_menu.TabIndex = 9
         '
         'tab_menu_inicio
         '
-        Me.tab_menu_inicio.Controls.Add(Me.Label4)
-        Me.tab_menu_inicio.Controls.Add(Me.Label3)
-        Me.tab_menu_inicio.Controls.Add(Me.Label2)
-        Me.tab_menu_inicio.Controls.Add(Me.Label1)
+        Me.tab_menu_inicio.BackgroundImage = CType(resources.GetObject("tab_menu_inicio.BackgroundImage"), System.Drawing.Image)
+        Me.tab_menu_inicio.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom
         Me.tab_menu_inicio.Location = New System.Drawing.Point(4, 22)
         Me.tab_menu_inicio.Name = "tab_menu_inicio"
         Me.tab_menu_inicio.Padding = New System.Windows.Forms.Padding(3)
-        Me.tab_menu_inicio.Size = New System.Drawing.Size(431, 653)
+        Me.tab_menu_inicio.Size = New System.Drawing.Size(1230, 653)
         Me.tab_menu_inicio.TabIndex = 0
         Me.tab_menu_inicio.Text = "Inicio"
         Me.tab_menu_inicio.UseVisualStyleBackColor = True
-        '
-        'Label4
-        '
-        Me.Label4.AutoSize = True
-        Me.Label4.Font = New System.Drawing.Font("Microsoft Sans Serif", 18.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label4.ForeColor = System.Drawing.SystemColors.InactiveCaption
-        Me.Label4.Location = New System.Drawing.Point(171, 389)
-        Me.Label4.Name = "Label4"
-        Me.Label4.Size = New System.Drawing.Size(138, 29)
-        Me.Label4.TabIndex = 5
-        Me.Label4.Text = "IMAGENES"
-        '
-        'Label3
-        '
-        Me.Label3.AutoSize = True
-        Me.Label3.Font = New System.Drawing.Font("Monotype Corsiva", 24.0!, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label3.ForeColor = System.Drawing.SystemColors.InactiveCaptionText
-        Me.Label3.Location = New System.Drawing.Point(50, 259)
-        Me.Label3.Name = "Label3"
-        Me.Label3.Size = New System.Drawing.Size(363, 39)
-        Me.Label3.TabIndex = 4
-        Me.Label3.Text = "Futuros procesos y estadisticas"
-        '
-        'Label2
-        '
-        Me.Label2.AutoSize = True
-        Me.Label2.Font = New System.Drawing.Font("Microsoft Sans Serif", 20.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label2.Location = New System.Drawing.Point(124, 151)
-        Me.Label2.Name = "Label2"
-        Me.Label2.Size = New System.Drawing.Size(198, 31)
-        Me.Label2.TabIndex = 3
-        Me.Label2.Text = "Proyecto PAV1"
-        '
-        'Label1
-        '
-        Me.Label1.Font = New System.Drawing.Font("Bell MT", 20.25!, CType((System.Drawing.FontStyle.Italic Or System.Drawing.FontStyle.Underline), System.Drawing.FontStyle), System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label1.ForeColor = System.Drawing.SystemColors.HotTrack
-        Me.Label1.Location = New System.Drawing.Point(102, 26)
-        Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(235, 125)
-        Me.Label1.TabIndex = 1
-        Me.Label1.Text = "Creditos CreCOR"
         '
         'tab_menu_abm
         '
@@ -1243,7 +1219,7 @@ Partial Class frm_Menu
         Me.tab_menu_abm.Location = New System.Drawing.Point(4, 22)
         Me.tab_menu_abm.Name = "tab_menu_abm"
         Me.tab_menu_abm.Padding = New System.Windows.Forms.Padding(3)
-        Me.tab_menu_abm.Size = New System.Drawing.Size(431, 653)
+        Me.tab_menu_abm.Size = New System.Drawing.Size(1230, 653)
         Me.tab_menu_abm.TabIndex = 1
         Me.tab_menu_abm.Text = "Carga de Datos"
         Me.tab_menu_abm.UseVisualStyleBackColor = True
@@ -1254,7 +1230,7 @@ Partial Class frm_Menu
         Me.tab_menu_report.Location = New System.Drawing.Point(4, 22)
         Me.tab_menu_report.Name = "tab_menu_report"
         Me.tab_menu_report.Padding = New System.Windows.Forms.Padding(3)
-        Me.tab_menu_report.Size = New System.Drawing.Size(431, 653)
+        Me.tab_menu_report.Size = New System.Drawing.Size(1230, 653)
         Me.tab_menu_report.TabIndex = 2
         Me.tab_menu_report.Text = "Reportes"
         Me.tab_menu_report.UseVisualStyleBackColor = True
@@ -1518,12 +1494,111 @@ Partial Class frm_Menu
         '
         'tab_menu_est
         '
+        Me.tab_menu_est.Controls.Add(Me.tab_est)
         Me.tab_menu_est.Location = New System.Drawing.Point(4, 22)
         Me.tab_menu_est.Name = "tab_menu_est"
-        Me.tab_menu_est.Size = New System.Drawing.Size(431, 653)
+        Me.tab_menu_est.Size = New System.Drawing.Size(1230, 653)
         Me.tab_menu_est.TabIndex = 3
         Me.tab_menu_est.Text = "Estadisticas"
         Me.tab_menu_est.UseVisualStyleBackColor = True
+        '
+        'tab_est
+        '
+        Me.tab_est.Controls.Add(Me.TabPage1)
+        Me.tab_est.Controls.Add(Me.TabPage2)
+        Me.tab_est.Controls.Add(Me.TabPage3)
+        Me.tab_est.Controls.Add(Me.TabPage4)
+        Me.tab_est.Location = New System.Drawing.Point(3, 8)
+        Me.tab_est.Name = "tab_est"
+        Me.tab_est.SelectedIndex = 0
+        Me.tab_est.Size = New System.Drawing.Size(1241, 614)
+        Me.tab_est.TabIndex = 0
+        '
+        'TabPage1
+        '
+        Me.TabPage1.Controls.Add(Me.ReportViewer1)
+        Me.TabPage1.Location = New System.Drawing.Point(4, 22)
+        Me.TabPage1.Name = "TabPage1"
+        Me.TabPage1.Padding = New System.Windows.Forms.Padding(3)
+        Me.TabPage1.Size = New System.Drawing.Size(1233, 588)
+        Me.TabPage1.TabIndex = 0
+        Me.TabPage1.Text = "TabPage1"
+        Me.TabPage1.UseVisualStyleBackColor = True
+        '
+        'ReportViewer1
+        '
+        ReportDataSource5.Name = "tabla4"
+        ReportDataSource5.Value = Me.CreditosXRangoMontoBindingSource
+        Me.ReportViewer1.LocalReport.DataSources.Add(ReportDataSource5)
+        Me.ReportViewer1.LocalReport.ReportEmbeddedResource = "TP_PAV1.Report4.rdlc"
+        Me.ReportViewer1.Location = New System.Drawing.Point(0, 0)
+        Me.ReportViewer1.Name = "ReportViewer1"
+        Me.ReportViewer1.Size = New System.Drawing.Size(1231, 522)
+        Me.ReportViewer1.TabIndex = 4
+        '
+        'TabPage2
+        '
+        Me.TabPage2.Controls.Add(Me.ReportViewer2)
+        Me.TabPage2.Location = New System.Drawing.Point(4, 22)
+        Me.TabPage2.Name = "TabPage2"
+        Me.TabPage2.Padding = New System.Windows.Forms.Padding(3)
+        Me.TabPage2.Size = New System.Drawing.Size(1233, 588)
+        Me.TabPage2.TabIndex = 1
+        Me.TabPage2.Text = "TabPage2"
+        Me.TabPage2.UseVisualStyleBackColor = True
+        '
+        'ReportViewer2
+        '
+        ReportDataSource6.Name = "tabla4"
+        ReportDataSource6.Value = Me.CreditosXRangoMontoBindingSource
+        Me.ReportViewer2.LocalReport.DataSources.Add(ReportDataSource6)
+        Me.ReportViewer2.LocalReport.ReportEmbeddedResource = "TP_PAV1.Report4.rdlc"
+        Me.ReportViewer2.Location = New System.Drawing.Point(0, 0)
+        Me.ReportViewer2.Name = "ReportViewer2"
+        Me.ReportViewer2.Size = New System.Drawing.Size(1231, 522)
+        Me.ReportViewer2.TabIndex = 5
+        '
+        'TabPage3
+        '
+        Me.TabPage3.Controls.Add(Me.ReportViewer3)
+        Me.TabPage3.Location = New System.Drawing.Point(4, 22)
+        Me.TabPage3.Name = "TabPage3"
+        Me.TabPage3.Size = New System.Drawing.Size(1233, 588)
+        Me.TabPage3.TabIndex = 2
+        Me.TabPage3.Text = "TabPage3"
+        Me.TabPage3.UseVisualStyleBackColor = True
+        '
+        'ReportViewer3
+        '
+        ReportDataSource7.Name = "tabla4"
+        ReportDataSource7.Value = Me.CreditosXRangoMontoBindingSource
+        Me.ReportViewer3.LocalReport.DataSources.Add(ReportDataSource7)
+        Me.ReportViewer3.LocalReport.ReportEmbeddedResource = "TP_PAV1.Report4.rdlc"
+        Me.ReportViewer3.Location = New System.Drawing.Point(0, 0)
+        Me.ReportViewer3.Name = "ReportViewer3"
+        Me.ReportViewer3.Size = New System.Drawing.Size(1231, 522)
+        Me.ReportViewer3.TabIndex = 5
+        '
+        'TabPage4
+        '
+        Me.TabPage4.Controls.Add(Me.ReportViewer4)
+        Me.TabPage4.Location = New System.Drawing.Point(4, 22)
+        Me.TabPage4.Name = "TabPage4"
+        Me.TabPage4.Size = New System.Drawing.Size(1233, 588)
+        Me.TabPage4.TabIndex = 3
+        Me.TabPage4.Text = "TabPage4"
+        Me.TabPage4.UseVisualStyleBackColor = True
+        '
+        'ReportViewer4
+        '
+        ReportDataSource8.Name = "tabla4"
+        ReportDataSource8.Value = Me.CreditosXRangoMontoBindingSource
+        Me.ReportViewer4.LocalReport.DataSources.Add(ReportDataSource8)
+        Me.ReportViewer4.LocalReport.ReportEmbeddedResource = "TP_PAV1.Report4.rdlc"
+        Me.ReportViewer4.Location = New System.Drawing.Point(0, 0)
+        Me.ReportViewer4.Name = "ReportViewer4"
+        Me.ReportViewer4.Size = New System.Drawing.Size(1231, 522)
+        Me.ReportViewer4.TabIndex = 5
         '
         'TipoDocumentoBindingSource1
         '
@@ -1533,11 +1608,6 @@ Partial Class frm_Menu
         'CargoTableAdapter
         '
         Me.CargoTableAdapter.ClearBeforeFill = True
-        '
-        'CreditosXRangoMontoBindingSource
-        '
-        Me.CreditosXRangoMontoBindingSource.DataMember = "CreditosXRangoMonto"
-        Me.CreditosXRangoMontoBindingSource.DataSource = Me.PAV1DataSet2
         '
         'frm_Menu
         '
@@ -1554,6 +1624,7 @@ Partial Class frm_Menu
         CType(Me.PAV1DataSet2, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.CreditosXSolicitanteBindingSource, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.CreditosXRangoFechasBindingSource, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.CreditosXRangoMontoBindingSource, System.ComponentModel.ISupportInitialize).EndInit()
         Me.tab_control.ResumeLayout(False)
         Me.tab_control_abogado.ResumeLayout(False)
         Me.tab_control_abogado.PerformLayout()
@@ -1577,8 +1648,6 @@ Partial Class frm_Menu
         CType(Me.grilla, System.ComponentModel.ISupportInitialize).EndInit()
         Me.grp_controles.ResumeLayout(False)
         Me.tab_menu.ResumeLayout(False)
-        Me.tab_menu_inicio.ResumeLayout(False)
-        Me.tab_menu_inicio.PerformLayout()
         Me.tab_menu_abm.ResumeLayout(False)
         Me.tab_menu_report.ResumeLayout(False)
         Me.tab_report.ResumeLayout(False)
@@ -1590,8 +1659,13 @@ Partial Class frm_Menu
         Me.tab_report_credxrango.PerformLayout()
         Me.tab_report_credxmonto.ResumeLayout(False)
         Me.tab_report_credxmonto.PerformLayout()
+        Me.tab_menu_est.ResumeLayout(False)
+        Me.tab_est.ResumeLayout(False)
+        Me.TabPage1.ResumeLayout(False)
+        Me.TabPage2.ResumeLayout(False)
+        Me.TabPage3.ResumeLayout(False)
+        Me.TabPage4.ResumeLayout(False)
         CType(Me.TipoDocumentoBindingSource1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.CreditosXRangoMontoBindingSource, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
     End Sub
@@ -1635,10 +1709,6 @@ Partial Class frm_Menu
     Friend WithEvents tab_menu As System.Windows.Forms.TabControl
     Friend WithEvents tab_menu_inicio As System.Windows.Forms.TabPage
     Friend WithEvents tab_menu_abm As System.Windows.Forms.TabPage
-    Friend WithEvents Label1 As System.Windows.Forms.Label
-    Friend WithEvents Label2 As System.Windows.Forms.Label
-    Friend WithEvents Label4 As System.Windows.Forms.Label
-    Friend WithEvents Label3 As System.Windows.Forms.Label
     Friend WithEvents TipoDocumentoBindingSource1 As System.Windows.Forms.BindingSource
     Friend WithEvents tab_control_empleado As System.Windows.Forms.TabPage
     Friend WithEvents lbl_empleado_legajo As System.Windows.Forms.Label
@@ -1740,4 +1810,13 @@ Partial Class frm_Menu
     Friend WithEvents btn_credxmonto As System.Windows.Forms.Button
     Friend WithEvents CreditosXRangoFechasBindingSource As System.Windows.Forms.BindingSource
     Friend WithEvents CreditosXRangoMontoBindingSource As System.Windows.Forms.BindingSource
+    Friend WithEvents tab_est As System.Windows.Forms.TabControl
+    Friend WithEvents TabPage1 As System.Windows.Forms.TabPage
+    Friend WithEvents TabPage2 As System.Windows.Forms.TabPage
+    Friend WithEvents TabPage3 As System.Windows.Forms.TabPage
+    Friend WithEvents TabPage4 As System.Windows.Forms.TabPage
+    Friend WithEvents ReportViewer1 As Microsoft.Reporting.WinForms.ReportViewer
+    Friend WithEvents ReportViewer2 As Microsoft.Reporting.WinForms.ReportViewer
+    Friend WithEvents ReportViewer3 As Microsoft.Reporting.WinForms.ReportViewer
+    Friend WithEvents ReportViewer4 As Microsoft.Reporting.WinForms.ReportViewer
 End Class

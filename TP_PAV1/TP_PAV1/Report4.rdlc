@@ -65,28 +65,31 @@
         <TablixBody>
           <TablixColumns>
             <TablixColumn>
-              <Width>1.33842in</Width>
+              <Width>1.32685in</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>1.60925in</Width>
+              <Width>1.59768in</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>0.98425in</Width>
+              <Width>0.97268in</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>0.98425in</Width>
+              <Width>0.97268in</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>1.203in</Width>
+              <Width>1.19143in</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>1.203in</Width>
+              <Width>1.19143in</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>1.08842in</Width>
+              <Width>1.07685in</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>1.18217in</Width>
+              <Width>1.08726in</Width>
+            </TablixColumn>
+            <TablixColumn>
+              <Width>1.41015in</Width>
             </TablixColumn>
           </TablixColumns>
           <TablixRows>
@@ -381,6 +384,42 @@
                     </Textbox>
                   </CellContents>
                 </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="Textbox1">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>Diferencia Objeto</Value>
+                              <Style>
+                                <Color>White</Color>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Center</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>Textbox1</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Color>LightGrey</Color>
+                          <Style>Solid</Style>
+                        </Border>
+                        <BackgroundColor>DimGray</BackgroundColor>
+                        <VerticalAlign>Middle</VerticalAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
               </TablixCells>
             </TablixRow>
             <TablixRow>
@@ -528,7 +567,9 @@
                           <TextRuns>
                             <TextRun>
                               <Value>=Fields!MontoCredito.Value</Value>
-                              <Style />
+                              <Style>
+                                <Format>'$'0.00;('$'0.00)</Format>
+                              </Style>
                             </TextRun>
                           </TextRuns>
                           <Style>
@@ -547,6 +588,7 @@
                         <PaddingRight>2pt</PaddingRight>
                         <PaddingTop>2pt</PaddingTop>
                         <PaddingBottom>2pt</PaddingBottom>
+                        <rd:FormatSymbolCulture>es-AR</rd:FormatSymbolCulture>
                       </Style>
                     </Textbox>
                   </CellContents>
@@ -627,7 +669,9 @@
                           <TextRuns>
                             <TextRun>
                               <Value>=Fields!MontoObjeto.Value</Value>
-                              <Style />
+                              <Style>
+                                <Format>'$'0.00;('$'0.00)</Format>
+                              </Style>
                             </TextRun>
                           </TextRuns>
                           <Style>
@@ -646,6 +690,43 @@
                         <PaddingRight>2pt</PaddingRight>
                         <PaddingTop>2pt</PaddingTop>
                         <PaddingBottom>2pt</PaddingBottom>
+                        <rd:FormatSymbolCulture>es-AR</rd:FormatSymbolCulture>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="Textbox2">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=Fields!MontoCredito.Value-Fields!MontoObjeto.Value</Value>
+                              <Style>
+                                <Format>'$'0.00;('$'0.00)</Format>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Center</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>Textbox2</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Color>LightGrey</Color>
+                          <Style>Solid</Style>
+                        </Border>
+                        <VerticalAlign>Middle</VerticalAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                        <rd:FormatSymbolCulture>es-AR</rd:FormatSymbolCulture>
                       </Style>
                     </Textbox>
                   </CellContents>
@@ -656,6 +737,7 @@
         </TablixBody>
         <TablixColumnHierarchy>
           <TablixMembers>
+            <TablixMember />
             <TablixMember />
             <TablixMember />
             <TablixMember />
@@ -678,9 +760,9 @@
         </TablixRowHierarchy>
         <DataSetName>tabla4</DataSetName>
         <Top>3.11362cm</Top>
-        <Left>1.36737cm</Left>
+        <Left>0.36195cm</Left>
         <Height>1.2cm</Height>
-        <Width>24.36563cm</Width>
+        <Width>27.50061cm</Width>
         <Style>
           <Border>
             <Style>None</Style>
@@ -722,10 +804,10 @@
         </Style>
       </Textbox>
     </ReportItems>
-    <Height>4.58333in</Height>
+    <Height>5.77004in</Height>
     <Style />
   </Body>
-  <Width>10.65751in</Width>
+  <Width>10.96951in</Width>
   <Page>
     <PageHeight>29.7cm</PageHeight>
     <PageWidth>21cm</PageWidth>

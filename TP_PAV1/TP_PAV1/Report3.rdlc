@@ -604,7 +604,9 @@
                           <TextRuns>
                             <TextRun>
                               <Value>=Fields!MontoCredito.Value</Value>
-                              <Style />
+                              <Style>
+                                <Format>'$'0.00;('$'0.00)</Format>
+                              </Style>
                             </TextRun>
                           </TextRuns>
                           <Style>
@@ -623,6 +625,7 @@
                         <PaddingRight>2pt</PaddingRight>
                         <PaddingTop>2pt</PaddingTop>
                         <PaddingBottom>2pt</PaddingBottom>
+                        <rd:FormatSymbolCulture>es-AR</rd:FormatSymbolCulture>
                       </Style>
                     </Textbox>
                   </CellContents>
@@ -736,7 +739,9 @@
                           <TextRuns>
                             <TextRun>
                               <Value>=Fields!ValorObjeto.Value</Value>
-                              <Style />
+                              <Style>
+                                <Format>'$'0.00;('$'0.00)</Format>
+                              </Style>
                             </TextRun>
                           </TextRuns>
                           <Style>
@@ -755,8 +760,10 @@
                         <PaddingRight>2pt</PaddingRight>
                         <PaddingTop>2pt</PaddingTop>
                         <PaddingBottom>2pt</PaddingBottom>
+                        <rd:FormatSymbolCulture>es-AR</rd:FormatSymbolCulture>
                       </Style>
                     </Textbox>
+                    <rd:Selected>true</rd:Selected>
                   </CellContents>
                 </TablixCell>
               </TablixCells>
@@ -790,7 +797,7 @@
         <Top>2.31987cm</Top>
         <Left>0.28258cm</Left>
         <Height>1.2cm</Height>
-        <Width>28.6819cm</Width>
+        <Width>28.68191cm</Width>
         <ZIndex>1</ZIndex>
         <Style>
           <Border>
