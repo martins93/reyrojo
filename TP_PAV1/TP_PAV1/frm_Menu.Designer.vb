@@ -23,13 +23,6 @@ Partial Class frm_Menu
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
-        Dim ReportDataSource1 As Microsoft.Reporting.WinForms.ReportDataSource = New Microsoft.Reporting.WinForms.ReportDataSource()
-        Dim ReportDataSource2 As Microsoft.Reporting.WinForms.ReportDataSource = New Microsoft.Reporting.WinForms.ReportDataSource()
-        Dim ReportDataSource3 As Microsoft.Reporting.WinForms.ReportDataSource = New Microsoft.Reporting.WinForms.ReportDataSource()
-        Dim ReportDataSource4 As Microsoft.Reporting.WinForms.ReportDataSource = New Microsoft.Reporting.WinForms.ReportDataSource()
-        Me.CreditosXEmpleadoBindingSource = New System.Windows.Forms.BindingSource(Me.components)
-        Me.PAV1DataSet2 = New TP_PAV1.PAV1DataSet2()
-        Me.CreditosXSolicitanteBindingSource = New System.Windows.Forms.BindingSource(Me.components)
         Me.tab_control = New System.Windows.Forms.TabControl()
         Me.tab_control_abogado = New System.Windows.Forms.TabPage()
         Me.mtxt_abogado_telefono = New System.Windows.Forms.MaskedTextBox()
@@ -140,39 +133,8 @@ Partial Class frm_Menu
         Me.Label2 = New System.Windows.Forms.Label()
         Me.Label1 = New System.Windows.Forms.Label()
         Me.tab_menu_abm = New System.Windows.Forms.TabPage()
-        Me.tab_menu_report = New System.Windows.Forms.TabPage()
-        Me.tab_report = New System.Windows.Forms.TabControl()
-        Me.tab_report_credxemp = New System.Windows.Forms.TabPage()
-        Me.Label8 = New System.Windows.Forms.Label()
-        Me.txt_cantxemp_leg = New System.Windows.Forms.TextBox()
-        Me.report_credxemp = New Microsoft.Reporting.WinForms.ReportViewer()
-        Me.btn_cantxemp = New System.Windows.Forms.Button()
-        Me.tab_report_credxsol = New System.Windows.Forms.TabPage()
-        Me.cmb_credxsol = New System.Windows.Forms.ComboBox()
-        Me.Label9 = New System.Windows.Forms.Label()
-        Me.txt_cantxsol_doc = New System.Windows.Forms.TextBox()
-        Me.btn_cantxsol = New System.Windows.Forms.Button()
-        Me.report_credxsol = New Microsoft.Reporting.WinForms.ReportViewer()
-        Me.tab_menu_est = New System.Windows.Forms.TabPage()
         Me.TipoDocumentoBindingSource1 = New System.Windows.Forms.BindingSource(Me.components)
         Me.CargoTableAdapter = New TP_PAV1.PAV1DataSetTableAdapters.CargoTableAdapter()
-        Me.tab_report_credxrango = New System.Windows.Forms.TabPage()
-        Me.tab_report_credxmonto = New System.Windows.Forms.TabPage()
-        Me.report_credxfecha = New Microsoft.Reporting.WinForms.ReportViewer()
-        Me.report_credxmonto = New Microsoft.Reporting.WinForms.ReportViewer()
-        Me.txt_credxrango_desde = New System.Windows.Forms.MaskedTextBox()
-        Me.txt_credxrango_hasta = New System.Windows.Forms.MaskedTextBox()
-        Me.btn_credxrango = New System.Windows.Forms.Button()
-        Me.Label10 = New System.Windows.Forms.Label()
-        Me.Label11 = New System.Windows.Forms.Label()
-        Me.Label12 = New System.Windows.Forms.Label()
-        Me.Label13 = New System.Windows.Forms.Label()
-        Me.btn_credxmonto = New System.Windows.Forms.Button()
-        Me.txt_credxmonto_desde = New System.Windows.Forms.TextBox()
-        Me.txt_credxmonto_hasta = New System.Windows.Forms.TextBox()
-        CType(Me.CreditosXEmpleadoBindingSource, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.PAV1DataSet2, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.CreditosXSolicitanteBindingSource, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.tab_control.SuspendLayout()
         Me.tab_control_abogado.SuspendLayout()
         Me.tab_control_solicitante.SuspendLayout()
@@ -190,29 +152,8 @@ Partial Class frm_Menu
         Me.tab_menu.SuspendLayout()
         Me.tab_menu_inicio.SuspendLayout()
         Me.tab_menu_abm.SuspendLayout()
-        Me.tab_menu_report.SuspendLayout()
-        Me.tab_report.SuspendLayout()
-        Me.tab_report_credxemp.SuspendLayout()
-        Me.tab_report_credxsol.SuspendLayout()
         CType(Me.TipoDocumentoBindingSource1, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.tab_report_credxrango.SuspendLayout()
-        Me.tab_report_credxmonto.SuspendLayout()
         Me.SuspendLayout()
-        '
-        'CreditosXEmpleadoBindingSource
-        '
-        Me.CreditosXEmpleadoBindingSource.DataMember = "CreditosXEmpleado"
-        Me.CreditosXEmpleadoBindingSource.DataSource = Me.PAV1DataSet2
-        '
-        'PAV1DataSet2
-        '
-        Me.PAV1DataSet2.DataSetName = "PAV1DataSet2"
-        Me.PAV1DataSet2.SchemaSerializationMode = System.Data.SchemaSerializationMode.IncludeSchema
-        '
-        'CreditosXSolicitanteBindingSource
-        '
-        Me.CreditosXSolicitanteBindingSource.DataMember = "CreditosXSolicitante"
-        Me.CreditosXSolicitanteBindingSource.DataSource = Me.PAV1DataSet2
         '
         'tab_control
         '
@@ -1164,9 +1105,7 @@ Partial Class frm_Menu
         '
         Me.tab_menu.Controls.Add(Me.tab_menu_inicio)
         Me.tab_menu.Controls.Add(Me.tab_menu_abm)
-        Me.tab_menu.Controls.Add(Me.tab_menu_report)
-        Me.tab_menu.Controls.Add(Me.tab_menu_est)
-        Me.tab_menu.Location = New System.Drawing.Point(8, 2)
+        Me.tab_menu.Location = New System.Drawing.Point(2, 2)
         Me.tab_menu.Name = "tab_menu"
         Me.tab_menu.SelectedIndex = 0
         Me.tab_menu.Size = New System.Drawing.Size(439, 679)
@@ -1222,7 +1161,7 @@ Partial Class frm_Menu
         '
         Me.Label1.Font = New System.Drawing.Font("Bell MT", 20.25!, CType((System.Drawing.FontStyle.Italic Or System.Drawing.FontStyle.Underline), System.Drawing.FontStyle), System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label1.ForeColor = System.Drawing.SystemColors.HotTrack
-        Me.Label1.Location = New System.Drawing.Point(102, 26)
+        Me.Label1.Location = New System.Drawing.Point(125, 26)
         Me.Label1.Name = "Label1"
         Me.Label1.Size = New System.Drawing.Size(235, 125)
         Me.Label1.TabIndex = 1
@@ -1239,147 +1178,6 @@ Partial Class frm_Menu
         Me.tab_menu_abm.Text = "Carga de Datos"
         Me.tab_menu_abm.UseVisualStyleBackColor = True
         '
-        'tab_menu_report
-        '
-        Me.tab_menu_report.Controls.Add(Me.tab_report)
-        Me.tab_menu_report.Location = New System.Drawing.Point(4, 22)
-        Me.tab_menu_report.Name = "tab_menu_report"
-        Me.tab_menu_report.Padding = New System.Windows.Forms.Padding(3)
-        Me.tab_menu_report.Size = New System.Drawing.Size(431, 653)
-        Me.tab_menu_report.TabIndex = 2
-        Me.tab_menu_report.Text = "Reportes"
-        Me.tab_menu_report.UseVisualStyleBackColor = True
-        '
-        'tab_report
-        '
-        Me.tab_report.Controls.Add(Me.tab_report_credxemp)
-        Me.tab_report.Controls.Add(Me.tab_report_credxsol)
-        Me.tab_report.Controls.Add(Me.tab_report_credxrango)
-        Me.tab_report.Controls.Add(Me.tab_report_credxmonto)
-        Me.tab_report.Location = New System.Drawing.Point(0, 8)
-        Me.tab_report.Name = "tab_report"
-        Me.tab_report.SelectedIndex = 0
-        Me.tab_report.Size = New System.Drawing.Size(1241, 614)
-        Me.tab_report.TabIndex = 0
-        '
-        'tab_report_credxemp
-        '
-        Me.tab_report_credxemp.Controls.Add(Me.Label8)
-        Me.tab_report_credxemp.Controls.Add(Me.txt_cantxemp_leg)
-        Me.tab_report_credxemp.Controls.Add(Me.report_credxemp)
-        Me.tab_report_credxemp.Controls.Add(Me.btn_cantxemp)
-        Me.tab_report_credxemp.Location = New System.Drawing.Point(4, 22)
-        Me.tab_report_credxemp.Name = "tab_report_credxemp"
-        Me.tab_report_credxemp.Padding = New System.Windows.Forms.Padding(3)
-        Me.tab_report_credxemp.Size = New System.Drawing.Size(1233, 588)
-        Me.tab_report_credxemp.TabIndex = 0
-        Me.tab_report_credxemp.Text = "Creditos Por Empleado"
-        Me.tab_report_credxemp.UseVisualStyleBackColor = True
-        '
-        'Label8
-        '
-        Me.Label8.AutoSize = True
-        Me.Label8.Location = New System.Drawing.Point(18, 552)
-        Me.Label8.Name = "Label8"
-        Me.Label8.Size = New System.Drawing.Size(89, 13)
-        Me.Label8.TabIndex = 3
-        Me.Label8.Text = "Legajo Empleado"
-        '
-        'txt_cantxemp_leg
-        '
-        Me.txt_cantxemp_leg.Location = New System.Drawing.Point(130, 549)
-        Me.txt_cantxemp_leg.Name = "txt_cantxemp_leg"
-        Me.txt_cantxemp_leg.Size = New System.Drawing.Size(117, 20)
-        Me.txt_cantxemp_leg.TabIndex = 2
-        '
-        'report_credxemp
-        '
-        ReportDataSource1.Name = "tabla_credxemp"
-        ReportDataSource1.Value = Me.CreditosXEmpleadoBindingSource
-        Me.report_credxemp.LocalReport.DataSources.Add(ReportDataSource1)
-        Me.report_credxemp.LocalReport.ReportEmbeddedResource = "TP_PAV1.Report1.rdlc"
-        Me.report_credxemp.Location = New System.Drawing.Point(3, 6)
-        Me.report_credxemp.Name = "report_credxemp"
-        Me.report_credxemp.Size = New System.Drawing.Size(1231, 522)
-        Me.report_credxemp.TabIndex = 1
-        '
-        'btn_cantxemp
-        '
-        Me.btn_cantxemp.Location = New System.Drawing.Point(263, 544)
-        Me.btn_cantxemp.Name = "btn_cantxemp"
-        Me.btn_cantxemp.Size = New System.Drawing.Size(82, 28)
-        Me.btn_cantxemp.TabIndex = 0
-        Me.btn_cantxemp.Text = "Mostrar"
-        Me.btn_cantxemp.UseVisualStyleBackColor = True
-        '
-        'tab_report_credxsol
-        '
-        Me.tab_report_credxsol.Controls.Add(Me.cmb_credxsol)
-        Me.tab_report_credxsol.Controls.Add(Me.Label9)
-        Me.tab_report_credxsol.Controls.Add(Me.txt_cantxsol_doc)
-        Me.tab_report_credxsol.Controls.Add(Me.btn_cantxsol)
-        Me.tab_report_credxsol.Controls.Add(Me.report_credxsol)
-        Me.tab_report_credxsol.Location = New System.Drawing.Point(4, 22)
-        Me.tab_report_credxsol.Name = "tab_report_credxsol"
-        Me.tab_report_credxsol.Padding = New System.Windows.Forms.Padding(3)
-        Me.tab_report_credxsol.Size = New System.Drawing.Size(1233, 588)
-        Me.tab_report_credxsol.TabIndex = 1
-        Me.tab_report_credxsol.Text = "Creditos Por Solicitante"
-        Me.tab_report_credxsol.UseVisualStyleBackColor = True
-        '
-        'cmb_credxsol
-        '
-        Me.cmb_credxsol.FormattingEnabled = True
-        Me.cmb_credxsol.Location = New System.Drawing.Point(222, 548)
-        Me.cmb_credxsol.Name = "cmb_credxsol"
-        Me.cmb_credxsol.Size = New System.Drawing.Size(99, 21)
-        Me.cmb_credxsol.TabIndex = 7
-        '
-        'Label9
-        '
-        Me.Label9.AutoSize = True
-        Me.Label9.Location = New System.Drawing.Point(17, 552)
-        Me.Label9.Name = "Label9"
-        Me.Label9.Size = New System.Drawing.Size(92, 13)
-        Me.Label9.TabIndex = 6
-        Me.Label9.Text = "Codigo Solicitante"
-        '
-        'txt_cantxsol_doc
-        '
-        Me.txt_cantxsol_doc.Location = New System.Drawing.Point(129, 549)
-        Me.txt_cantxsol_doc.Name = "txt_cantxsol_doc"
-        Me.txt_cantxsol_doc.Size = New System.Drawing.Size(77, 20)
-        Me.txt_cantxsol_doc.TabIndex = 5
-        '
-        'btn_cantxsol
-        '
-        Me.btn_cantxsol.Location = New System.Drawing.Point(339, 544)
-        Me.btn_cantxsol.Name = "btn_cantxsol"
-        Me.btn_cantxsol.Size = New System.Drawing.Size(82, 28)
-        Me.btn_cantxsol.TabIndex = 4
-        Me.btn_cantxsol.Text = "Mostrar"
-        Me.btn_cantxsol.UseVisualStyleBackColor = True
-        '
-        'report_credxsol
-        '
-        ReportDataSource2.Name = "tabla2"
-        ReportDataSource2.Value = Me.CreditosXSolicitanteBindingSource
-        Me.report_credxsol.LocalReport.DataSources.Add(ReportDataSource2)
-        Me.report_credxsol.LocalReport.ReportEmbeddedResource = "TP_PAV1.Report2.rdlc"
-        Me.report_credxsol.Location = New System.Drawing.Point(0, 3)
-        Me.report_credxsol.Name = "report_credxsol"
-        Me.report_credxsol.Size = New System.Drawing.Size(1231, 522)
-        Me.report_credxsol.TabIndex = 2
-        '
-        'tab_menu_est
-        '
-        Me.tab_menu_est.Location = New System.Drawing.Point(4, 22)
-        Me.tab_menu_est.Name = "tab_menu_est"
-        Me.tab_menu_est.Size = New System.Drawing.Size(431, 653)
-        Me.tab_menu_est.TabIndex = 3
-        Me.tab_menu_est.Text = "Estadisticas"
-        Me.tab_menu_est.UseVisualStyleBackColor = True
-        '
         'TipoDocumentoBindingSource1
         '
         Me.TipoDocumentoBindingSource1.DataMember = "tipo_Documento"
@@ -1388,144 +1186,6 @@ Partial Class frm_Menu
         'CargoTableAdapter
         '
         Me.CargoTableAdapter.ClearBeforeFill = True
-        '
-        'tab_report_credxrango
-        '
-        Me.tab_report_credxrango.Controls.Add(Me.Label11)
-        Me.tab_report_credxrango.Controls.Add(Me.Label10)
-        Me.tab_report_credxrango.Controls.Add(Me.btn_credxrango)
-        Me.tab_report_credxrango.Controls.Add(Me.txt_credxrango_hasta)
-        Me.tab_report_credxrango.Controls.Add(Me.txt_credxrango_desde)
-        Me.tab_report_credxrango.Controls.Add(Me.report_credxfecha)
-        Me.tab_report_credxrango.Location = New System.Drawing.Point(4, 22)
-        Me.tab_report_credxrango.Name = "tab_report_credxrango"
-        Me.tab_report_credxrango.Size = New System.Drawing.Size(1233, 588)
-        Me.tab_report_credxrango.TabIndex = 2
-        Me.tab_report_credxrango.Text = "Creditos por Rango Fechas"
-        Me.tab_report_credxrango.UseVisualStyleBackColor = True
-        '
-        'tab_report_credxmonto
-        '
-        Me.tab_report_credxmonto.Controls.Add(Me.txt_credxmonto_hasta)
-        Me.tab_report_credxmonto.Controls.Add(Me.txt_credxmonto_desde)
-        Me.tab_report_credxmonto.Controls.Add(Me.Label12)
-        Me.tab_report_credxmonto.Controls.Add(Me.Label13)
-        Me.tab_report_credxmonto.Controls.Add(Me.btn_credxmonto)
-        Me.tab_report_credxmonto.Controls.Add(Me.report_credxmonto)
-        Me.tab_report_credxmonto.Location = New System.Drawing.Point(4, 22)
-        Me.tab_report_credxmonto.Name = "tab_report_credxmonto"
-        Me.tab_report_credxmonto.Size = New System.Drawing.Size(1233, 588)
-        Me.tab_report_credxmonto.TabIndex = 3
-        Me.tab_report_credxmonto.Text = "Creditos por Rango Monto"
-        Me.tab_report_credxmonto.UseVisualStyleBackColor = True
-        '
-        'report_credxfecha
-        '
-        ReportDataSource3.Name = "tabla2"
-        ReportDataSource3.Value = Me.CreditosXSolicitanteBindingSource
-        Me.report_credxfecha.LocalReport.DataSources.Add(ReportDataSource3)
-        Me.report_credxfecha.LocalReport.ReportEmbeddedResource = "TP_PAV1.Report2.rdlc"
-        Me.report_credxfecha.Location = New System.Drawing.Point(0, 3)
-        Me.report_credxfecha.Name = "report_credxfecha"
-        Me.report_credxfecha.Size = New System.Drawing.Size(1231, 522)
-        Me.report_credxfecha.TabIndex = 3
-        '
-        'report_credxmonto
-        '
-        ReportDataSource4.Name = "tabla2"
-        ReportDataSource4.Value = Me.CreditosXSolicitanteBindingSource
-        Me.report_credxmonto.LocalReport.DataSources.Add(ReportDataSource4)
-        Me.report_credxmonto.LocalReport.ReportEmbeddedResource = "TP_PAV1.Report2.rdlc"
-        Me.report_credxmonto.Location = New System.Drawing.Point(2, 3)
-        Me.report_credxmonto.Name = "report_credxmonto"
-        Me.report_credxmonto.Size = New System.Drawing.Size(1231, 522)
-        Me.report_credxmonto.TabIndex = 3
-        '
-        'txt_credxrango_desde
-        '
-        Me.txt_credxrango_desde.Enabled = False
-        Me.txt_credxrango_desde.Location = New System.Drawing.Point(73, 545)
-        Me.txt_credxrango_desde.Mask = "00-00-0000"
-        Me.txt_credxrango_desde.Name = "txt_credxrango_desde"
-        Me.txt_credxrango_desde.Size = New System.Drawing.Size(66, 20)
-        Me.txt_credxrango_desde.TabIndex = 4
-        '
-        'txt_credxrango_hasta
-        '
-        Me.txt_credxrango_hasta.Enabled = False
-        Me.txt_credxrango_hasta.Location = New System.Drawing.Point(219, 545)
-        Me.txt_credxrango_hasta.Mask = "00-00-0000"
-        Me.txt_credxrango_hasta.Name = "txt_credxrango_hasta"
-        Me.txt_credxrango_hasta.Size = New System.Drawing.Size(60, 20)
-        Me.txt_credxrango_hasta.TabIndex = 5
-        '
-        'btn_credxrango
-        '
-        Me.btn_credxrango.Location = New System.Drawing.Point(302, 540)
-        Me.btn_credxrango.Name = "btn_credxrango"
-        Me.btn_credxrango.Size = New System.Drawing.Size(82, 28)
-        Me.btn_credxrango.TabIndex = 6
-        Me.btn_credxrango.Text = "Mostrar"
-        Me.btn_credxrango.UseVisualStyleBackColor = True
-        '
-        'Label10
-        '
-        Me.Label10.AutoSize = True
-        Me.Label10.Location = New System.Drawing.Point(11, 548)
-        Me.Label10.Name = "Label10"
-        Me.Label10.Size = New System.Drawing.Size(38, 13)
-        Me.Label10.TabIndex = 7
-        Me.Label10.Text = "Desde"
-        '
-        'Label11
-        '
-        Me.Label11.AutoSize = True
-        Me.Label11.Location = New System.Drawing.Point(163, 548)
-        Me.Label11.Name = "Label11"
-        Me.Label11.Size = New System.Drawing.Size(35, 13)
-        Me.Label11.TabIndex = 8
-        Me.Label11.Text = "Hasta"
-        '
-        'Label12
-        '
-        Me.Label12.AutoSize = True
-        Me.Label12.Location = New System.Drawing.Point(180, 552)
-        Me.Label12.Name = "Label12"
-        Me.Label12.Size = New System.Drawing.Size(35, 13)
-        Me.Label12.TabIndex = 13
-        Me.Label12.Text = "Hasta"
-        '
-        'Label13
-        '
-        Me.Label13.AutoSize = True
-        Me.Label13.Location = New System.Drawing.Point(28, 552)
-        Me.Label13.Name = "Label13"
-        Me.Label13.Size = New System.Drawing.Size(38, 13)
-        Me.Label13.TabIndex = 12
-        Me.Label13.Text = "Desde"
-        '
-        'btn_credxmonto
-        '
-        Me.btn_credxmonto.Location = New System.Drawing.Point(319, 544)
-        Me.btn_credxmonto.Name = "btn_credxmonto"
-        Me.btn_credxmonto.Size = New System.Drawing.Size(82, 28)
-        Me.btn_credxmonto.TabIndex = 11
-        Me.btn_credxmonto.Text = "Mostrar"
-        Me.btn_credxmonto.UseVisualStyleBackColor = True
-        '
-        'txt_credxmonto_desde
-        '
-        Me.txt_credxmonto_desde.Location = New System.Drawing.Point(86, 549)
-        Me.txt_credxmonto_desde.Name = "txt_credxmonto_desde"
-        Me.txt_credxmonto_desde.Size = New System.Drawing.Size(74, 20)
-        Me.txt_credxmonto_desde.TabIndex = 14
-        '
-        'txt_credxmonto_hasta
-        '
-        Me.txt_credxmonto_hasta.Location = New System.Drawing.Point(221, 549)
-        Me.txt_credxmonto_hasta.Name = "txt_credxmonto_hasta"
-        Me.txt_credxmonto_hasta.Size = New System.Drawing.Size(74, 20)
-        Me.txt_credxmonto_hasta.TabIndex = 15
         '
         'frm_Menu
         '
@@ -1538,9 +1198,6 @@ Partial Class frm_Menu
         Me.Controls.Add(Me.tab_menu)
         Me.Name = "frm_Menu"
         Me.Text = "Creditos CreCOR"
-        CType(Me.CreditosXEmpleadoBindingSource, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.PAV1DataSet2, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.CreditosXSolicitanteBindingSource, System.ComponentModel.ISupportInitialize).EndInit()
         Me.tab_control.ResumeLayout(False)
         Me.tab_control_abogado.ResumeLayout(False)
         Me.tab_control_abogado.PerformLayout()
@@ -1567,17 +1224,7 @@ Partial Class frm_Menu
         Me.tab_menu_inicio.ResumeLayout(False)
         Me.tab_menu_inicio.PerformLayout()
         Me.tab_menu_abm.ResumeLayout(False)
-        Me.tab_menu_report.ResumeLayout(False)
-        Me.tab_report.ResumeLayout(False)
-        Me.tab_report_credxemp.ResumeLayout(False)
-        Me.tab_report_credxemp.PerformLayout()
-        Me.tab_report_credxsol.ResumeLayout(False)
-        Me.tab_report_credxsol.PerformLayout()
         CType(Me.TipoDocumentoBindingSource1, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.tab_report_credxrango.ResumeLayout(False)
-        Me.tab_report_credxrango.PerformLayout()
-        Me.tab_report_credxmonto.ResumeLayout(False)
-        Me.tab_report_credxmonto.PerformLayout()
         Me.ResumeLayout(False)
 
     End Sub
@@ -1693,35 +1340,4 @@ Partial Class frm_Menu
     Friend WithEvents Label6 As System.Windows.Forms.Label
     Friend WithEvents txt_pago_codCred As System.Windows.Forms.TextBox
     Friend WithEvents Label5 As System.Windows.Forms.Label
-    Friend WithEvents tab_menu_report As System.Windows.Forms.TabPage
-    Friend WithEvents tab_report As System.Windows.Forms.TabControl
-    Friend WithEvents tab_report_credxemp As System.Windows.Forms.TabPage
-    Friend WithEvents tab_report_credxsol As System.Windows.Forms.TabPage
-    Friend WithEvents btn_cantxemp As System.Windows.Forms.Button
-    Friend WithEvents report_credxemp As Microsoft.Reporting.WinForms.ReportViewer
-    Friend WithEvents report_credxsol As Microsoft.Reporting.WinForms.ReportViewer
-    Friend WithEvents txt_cantxemp_leg As System.Windows.Forms.TextBox
-    Friend WithEvents Label8 As System.Windows.Forms.Label
-    Friend WithEvents CreditosXEmpleadoBindingSource As System.Windows.Forms.BindingSource
-    Friend WithEvents PAV1DataSet2 As TP_PAV1.PAV1DataSet2
-    Friend WithEvents tab_menu_est As System.Windows.Forms.TabPage
-    Friend WithEvents Label9 As System.Windows.Forms.Label
-    Friend WithEvents txt_cantxsol_doc As System.Windows.Forms.TextBox
-    Friend WithEvents btn_cantxsol As System.Windows.Forms.Button
-    Friend WithEvents CreditosXSolicitanteBindingSource As System.Windows.Forms.BindingSource
-    Friend WithEvents cmb_credxsol As System.Windows.Forms.ComboBox
-    Friend WithEvents tab_report_credxrango As System.Windows.Forms.TabPage
-    Friend WithEvents report_credxfecha As Microsoft.Reporting.WinForms.ReportViewer
-    Friend WithEvents tab_report_credxmonto As System.Windows.Forms.TabPage
-    Friend WithEvents report_credxmonto As Microsoft.Reporting.WinForms.ReportViewer
-    Friend WithEvents Label11 As System.Windows.Forms.Label
-    Friend WithEvents Label10 As System.Windows.Forms.Label
-    Friend WithEvents btn_credxrango As System.Windows.Forms.Button
-    Friend WithEvents txt_credxrango_hasta As System.Windows.Forms.MaskedTextBox
-    Friend WithEvents txt_credxrango_desde As System.Windows.Forms.MaskedTextBox
-    Friend WithEvents txt_credxmonto_hasta As System.Windows.Forms.TextBox
-    Friend WithEvents txt_credxmonto_desde As System.Windows.Forms.TextBox
-    Friend WithEvents Label12 As System.Windows.Forms.Label
-    Friend WithEvents Label13 As System.Windows.Forms.Label
-    Friend WithEvents btn_credxmonto As System.Windows.Forms.Button
 End Class
