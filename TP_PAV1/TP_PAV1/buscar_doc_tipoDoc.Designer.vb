@@ -24,16 +24,16 @@ Partial Class buscar_doc_tipoDoc
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
         Me.cmb_tdoc = New System.Windows.Forms.ComboBox()
+        Me.TipoDocumentoBindingSource = New System.Windows.Forms.BindingSource(Me.components)
+        Me.PAV1DataSet = New TP_PAV1.PAV1DataSet()
         Me.txt_dni = New System.Windows.Forms.MaskedTextBox()
         Me.cmd_cancelar = New System.Windows.Forms.Button()
         Me.cmd_ok = New System.Windows.Forms.Button()
         Me.lbl_tdoc = New System.Windows.Forms.Label()
         Me.lbl_dni = New System.Windows.Forms.Label()
-        Me.PAV1DataSet = New TP_PAV1.PAV1DataSet()
-        Me.TipoDocumentoBindingSource = New System.Windows.Forms.BindingSource(Me.components)
         Me.Tipo_DocumentoTableAdapter = New TP_PAV1.PAV1DataSetTableAdapters.tipo_DocumentoTableAdapter()
-        CType(Me.PAV1DataSet, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.TipoDocumentoBindingSource, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.PAV1DataSet, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'cmb_tdoc
@@ -46,6 +46,16 @@ Partial Class buscar_doc_tipoDoc
         Me.cmb_tdoc.Size = New System.Drawing.Size(146, 21)
         Me.cmb_tdoc.TabIndex = 12
         Me.cmb_tdoc.ValueMember = "id_tipo_documento"
+        '
+        'TipoDocumentoBindingSource
+        '
+        Me.TipoDocumentoBindingSource.DataMember = "tipo_Documento"
+        Me.TipoDocumentoBindingSource.DataSource = Me.PAV1DataSet
+        '
+        'PAV1DataSet
+        '
+        Me.PAV1DataSet.DataSetName = "PAV1DataSet"
+        Me.PAV1DataSet.SchemaSerializationMode = System.Data.SchemaSerializationMode.IncludeSchema
         '
         'txt_dni
         '
@@ -93,24 +103,16 @@ Partial Class buscar_doc_tipoDoc
         Me.lbl_dni.TabIndex = 8
         Me.lbl_dni.Text = "Documento"
         '
-        'PAV1DataSet
-        '
-        Me.PAV1DataSet.DataSetName = "PAV1DataSet"
-        Me.PAV1DataSet.SchemaSerializationMode = System.Data.SchemaSerializationMode.IncludeSchema
-        '
-        'TipoDocumentoBindingSource
-        '
-        Me.TipoDocumentoBindingSource.DataMember = "tipo_Documento"
-        Me.TipoDocumentoBindingSource.DataSource = Me.PAV1DataSet
-        '
         'Tipo_DocumentoTableAdapter
         '
         Me.Tipo_DocumentoTableAdapter.ClearBeforeFill = True
         '
         'buscar_doc_tipoDoc
         '
+        Me.AcceptButton = Me.cmd_ok
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
+        Me.CancelButton = Me.cmd_cancelar
         Me.ClientSize = New System.Drawing.Size(284, 153)
         Me.Controls.Add(Me.cmb_tdoc)
         Me.Controls.Add(Me.txt_dni)
@@ -119,9 +121,9 @@ Partial Class buscar_doc_tipoDoc
         Me.Controls.Add(Me.lbl_tdoc)
         Me.Controls.Add(Me.lbl_dni)
         Me.Name = "buscar_doc_tipoDoc"
-        Me.Text = "buscar_doc_tipoDoc"
-        CType(Me.PAV1DataSet, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.Text = "Buscar Documento y Tipo"
         CType(Me.TipoDocumentoBindingSource, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.PAV1DataSet, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
 

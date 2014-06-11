@@ -93,7 +93,7 @@ Partial Class frm_documentacion
         Me.Controls.Add(Me.lbl_documentacion_ubicacion)
         Me.Controls.Add(Me.lbl_documentacion_descripcion)
         Me.Name = "frm_documentacion"
-        Me.Text = "frm_documentacion"
+        Me.Text = "Cargar Documentacion"
         Me.ResumeLayout(False)
         Me.PerformLayout()
 

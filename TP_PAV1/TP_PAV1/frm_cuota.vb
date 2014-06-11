@@ -19,6 +19,7 @@
         Me.txt_cuota_montoCuota.ResetText()
 
         Me.txt_cuota_montoTotal.Text = monto_credito
+        Me.txt_cuota_montoTotal.Enabled = False
 
     End Sub
 
@@ -106,7 +107,7 @@
 
         Next
 
-        update_txt = "UPDATE Creditos SET Estado_Credito_idEstado_Credito =" & 1 & ", fechaAprobacion =convert(date, '" & fecha_aprobacion & "', 103)   WHERE idCreditos =" & id_credito
+        update_txt = "UPDATE Creditos SET Estado_Credito_idEstado_Credito =" & 1 & ", fechaAprobacion=convert(date, '" & fecha_aprobacion & "', 103)   WHERE idCreditos =" & id_credito
 
         Me.conexion._modificar(update_txt)
 
@@ -134,5 +135,18 @@
 
     Private Sub btn_cuota_cancelar_Click(sender As System.Object, e As System.EventArgs) Handles btn_cuota_cancelar.Click
         Me.Close()
+    End Sub
+
+    Private Sub txt_cuota_interes_TextChanged(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyPressEventArgs) Handles txt_cuota_interes.KeyPress
+        'Permitimos teclas de desplazamiento en el textbox, entre otras'
+        Select Case Asc(e.KeyChar)
+            Case 4, 24, 19, 127, 13, 9, 15, 14, 8
+                Exit Sub
+        End Select
+        'Validacion de caracteres'
+        If IsNumeric(e.KeyChar) = False Then
+            MsgBox("No se pueden ingresar letras", vbCritical, "Importante")
+            e.KeyChar = ""
+        End If
     End Sub
 End Class

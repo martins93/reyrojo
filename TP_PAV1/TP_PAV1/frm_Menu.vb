@@ -1,6 +1,6 @@
 ﻿Public Class frm_Menu
 
-    Public cadena_Conexion As String = "Data Source=MARTIN-PC;Initial Catalog=PAV1;Integrated Security=True"
+    Public cadena_Conexion As String = "Data Source=SALVADOR-PC\PAV1;Initial Catalog=PAV1;Integrated Security=True"
     Dim conexion As New Conexion(cadena_Conexion, conexion.motores.sqlserver)
 
     'Ambos id no son txt asi que necesito variables globales.
@@ -33,9 +33,6 @@
     'Cuando se carga el formulario principal
     Private Sub frm_Menu_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         Me.tab_menu.Width = 1260  'Esto despues se borra, es para no tener la pestaña gigante por debajo de los controles en el diseñador
-
-        Me.report_credxemp.RefreshReport()
-        Me.ReportViewer1.RefreshReport()
     End Sub
 
     'Boton borrar de los ABM
@@ -283,8 +280,8 @@
                     '  MsgBox(texto)
                     conexion._modificar(texto)          'conexion._modificar() ejecuta SQL por nonquery.
                 Case 4
-                    If validacion._validar_expediente(objeto) Then
-                        texto += "observacion='" & Me.txt_expediente_observacion.Text & "', abogado_matricula=" & Me.txt_expediente_matAbCre.Text & ", abogado_matriculaSol=" & Me.txt_expediente_matAbSol.Text
+                    If Me.txt_expediente_observacion.Text <> "" And txt_expediente_matAbCre.Text <> "" And txt_expediente_matAbSol.Text <> "" Then
+                        texto += "observacion='" & Me.txt_expediente_observacion.Text & "', abogado_matriculaSol=" & Me.txt_expediente_matAbCre.Text & ", abogado_matricula=" & Me.txt_expediente_matAbSol.Text
                         texto += " WHERE idExpediente=" & Me.txt_expediente_numeroExp.Text
                         conexion._modificar(texto)
                     End If
@@ -312,16 +309,14 @@
         validacion.oper = validacion.OPERACION.INSERTAR
         conexion.cambiar_Tabla(Me.nombre_tabla_pestana) 'Defino a que tabla me voy a conectar segun la pestaña, ES NECESARIO?
 
-
         'DEJAR DE USAR INSERT DEL PROFE, HACER INSERT PROPIO
         If validacion._validar_campos_vacios() Then
-
             Select Case pestaña
                 Case 0
                     objeto = cargar_struct()
                     If validacion._validar_abogado(objeto) Then
 
-                        texto = "matricula=" & Me.txt_abogado_matricula.Text & ", nombre=" & Me.txt_abogado_nombre.Text & ", apellido=" & Me.txt_abogado_apellido.Text & ", telefono= " & Me.mtxt_abogado_telefono.Text & ", domicilio= " & Me.txt_abogado_domicilio.Text
+                        texto = "matricula=" & Me.txt_abogado_matricula.Text & ", nombre=" & Me.txt_abogado_nombre.Text & ", apellido=" & Me.txt_abogado_apellido.Text & ", telefono=" & Me.mtxt_abogado_telefono.Text & ", domicilio=" & Me.txt_abogado_domicilio.Text
                         conexion._insertar(texto, True)
                         limpiar_tab()
                     End If
@@ -345,7 +340,6 @@
 
                     End If
                 Case 3
-
                     If Me.cmb_creditos_estadoCredito.SelectedIndex = 0 Then
                         objeto = cargar_struct()
                         If validacion._validar_credito(objeto) Then
@@ -400,12 +394,9 @@
                     Else
                         MsgBox("Se produjo error en la grabación", MsgBoxStyle.Information, "Importante")
                     End If
-
             End Select
         End If
         cargar_Grilla()
-
-
     End Sub
 
     'Boton nuevo cargo de pestaña empleado
@@ -585,7 +576,7 @@
     End Function
 
     'No permito ingresar letras en el textbox.
-    Private Sub numero_KeyPress(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyPressEventArgs) Handles txt_abogado_matricula.KeyPress, txt_empleado_legajo.KeyPress, txt_empleado_legSup.KeyPress, txt_creditos_idSolicitante.KeyPress, txt_creditos_legajo.KeyPress, txt_creditos_monto.KeyPress, txt_pago_codCred.KeyPress, txt_expediente_codCred.KeyPress, txt_garantia_idCredito.KeyPress, txt_garantia_monto.KeyPress
+    Private Sub numero_KeyPress(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyPressEventArgs) Handles txt_abogado_matricula.KeyPress, txt_empleado_legajo.KeyPress, txt_empleado_legSup.KeyPress, txt_creditos_idSolicitante.KeyPress, txt_creditos_legajo.KeyPress, txt_creditos_monto.KeyPress, txt_pago_codCred.KeyPress, txt_expediente_codCred.KeyPress, txt_garantia_idCredito.KeyPress, txt_garantia_monto.KeyPress, txt_expediente_numeroExp.KeyPress, txt_expediente_matAbCre.KeyPress, txt_expediente_matAbSol.KeyPress
         'Permitimos teclas de desplazamiento en el textbox, entre otras'
         Select Case Asc(e.KeyChar)
             Case 4, 24, 19, 127, 13, 9, 15, 14, 8
@@ -842,14 +833,14 @@
                 consulta += "SELECT Empleado.legajo AS [Legajo Empleado], Empleado.nombres AS [Nombres], Empleado.apellido AS [Apellido], Empleado.fecha_Alta AS [Fecha Alta], Empleado.Empleado_legajo AS [Legajo Superior], Cargo.nombre AS [Cargo] "
                 consulta += "FROM Empleado INNER JOIN Cargo ON Empleado.Cargo_idCargo = Cargo.idCargo"
             Case 3
-                consulta += "SELECT Creditos.idCreditos AS [Codigo Credito], Creditos.monto AS [Monto], Creditos.fechaSolicitud AS [Fecha Solicitud], Creditos.fechaAprobacion AS [Fecha Aprobacion], Solicitante.nombre AS [Nombre Solicitante], Solicitante.apellido AS [Apellido Solicitante], tipo_Documento.nombre AS [Tipo Documento], Solicitante.numeroDocumento AS [Documento], Estado_Credito.nombre AS [ESTADO], Objeto.descripcion AS [Objeto], Empleado.legajo AS [Legajo Empleado], Empleado.nombres AS [Nombre Empleado], Empleado.apellido AS [Apellido Empleado] "
+                consulta += "SELECT Creditos.idCreditos AS [Codigo Credito], Creditos.monto AS [Monto], Creditos.fechaSolicitud AS [Fecha Solicitud], Estado_Credito.nombre AS [Estado], Solicitante.nombre AS [Nombre Solicitante], Solicitante.apellido AS [Apellido Solicitante], tipo_Documento.nombre AS [Tipo Documento], Solicitante.numeroDocumento AS [Documento], Creditos.fechaAprobacion AS [Fecha Aprobacion], Objeto.descripcion AS [Objeto], Empleado.legajo AS [Legajo Empleado], Empleado.nombres AS [Nombre Empleado], Empleado.apellido AS [Apellido Empleado] "
                 consulta += "FROM Creditos INNER JOIN Solicitante ON Creditos.Solicitante_idSolicitante = Solicitante.idSolicitante "
                 consulta += "INNER JOIN Objeto ON Creditos.Objeto_idObjeto = Objeto.idObjeto "
                 consulta += "INNER JOIN Estado_Credito ON Creditos.Estado_Credito_idEstado_Credito = Estado_Credito.idEstado_Credito "
                 consulta += "INNER JOIN tipo_Documento ON Solicitante.tipo_Documento_idTipo_Documento = tipo_Documento.idTipo_Documento "
                 consulta += "INNER JOIN Empleado ON Creditos.Empleado_legajo = Empleado.legajo "
             Case 4
-                consulta += "SELECT Expediente.idExpediente AS [Número Expediente], Creditos.idCreditos AS [Credito Asociado], Expediente.fechaInicio AS [Fecha Inicio], Expediente.fechaEntrega AS [Fecha Entrega], Expediente.fechaDevolucion AS [Fecha Devolucion], Estado_Credito.nombre AS [Estado Crédito], Abogado.matricula AS [Matricula Abogado], Abogado.nombre AS [Nombre Abogado], Abogado.apellido AS [Apellido Abogado], Ab2.matricula AS [Matricula Abogado Solicitante], Ab2.nombre AS [Nombre Abogado Solicitante], Ab2.apellido AS [Apellido Abogado Solicitante], Expediente.observacion AS [OBSERVACIONES] "
+                consulta += "SELECT Expediente.idExpediente AS [Número Expediente], Creditos.idCreditos AS [Credito Asociado], Expediente.fechaInicio AS [Fecha Inicio], Estado_Credito.nombre AS [Estado Crédito], Abogado.matricula AS [Matricula Abogado], Abogado.nombre AS [Nombre Abogado], Abogado.apellido AS [Apellido Abogado], Ab2.matricula AS [Matricula Abogado Solicitante], Ab2.nombre AS [Nombre Abogado Solicitante], Ab2.apellido AS [Apellido Abogado Solicitante], Expediente.observacion AS [OBSERVACIONES] "
                 consulta += "FROM Expediente INNER JOIN"
                 consulta += " Estado_Credito ON Expediente.Estado_Credito_idEstado_Credito = Estado_Credito.idEstado_Credito INNER JOIN"
                 consulta += " Abogado ON Expediente.abogado_matricula = Abogado.matricula "
@@ -861,7 +852,8 @@
                 consulta += "SELECT Garantia.idGarantia as [Codigo de Garantia], Solicitante.nombre AS [Nombre Solicitante], Solicitante.apellido AS [Apellido Solicitante], Solicitante.idSolicitante AS [Codigo Solicitante], Garantia.descripcion AS [Descripcion Garantia], Garantia.valorMonetario AS [Valor Monetario], Garantia.Creditos_idCreditos AS [Codigo Credito], Documentacion.lugarAlmacenamiento AS [UBICACION], Documentacion.descripcion AS [Descripcion Documentacion] "
                 consulta += "FROM Documentacion INNER JOIN Documentacion_x_Garantia ON Documentacion.idDocumentacion = Documentacion_x_Garantia.Documentacion_idDocumentacion INNER JOIN Garantia ON Documentacion_x_Garantia.Garantia_idGarantia = Garantia.idGarantia INNER JOIN Creditos ON Garantia.Creditos_idCreditos = Creditos.idCreditos INNER JOIN Solicitante ON Creditos.Solicitante_idSolicitante = Solicitante.idSolicitante"
             Case 6
-                consulta += "SELECT Creditos_idCreditos, Cuota_idCuota, Estado_Cuota.nombre FROM Creditos_x_Cuota INNER JOIN Estado_Cuota ON Creditos_x_Cuota.Estado_Cuota_idEstado_Cuota = Estado_Cuota.idEstado_Cuota"
+                consulta += "SELECT Creditos_idCreditos, Cuota_idCuota, Estado_Cuota.nombre FROM Creditos_x_Cuota INNER JOIN Estado_Cuota ON Creditos_x_Cuota.Estado_Cuota_idEstado_Cuota = Estado_Cuota.idEstado_Cuota "
+                consulta += "WHERE Creditos_idCreditos=" & Me.txt_pago_codCred.Text
         End Select
         Me.grilla.DataSource = conexion._consulta(consulta)
 
@@ -910,6 +902,7 @@
                 Me.txt_empleado_nombre.Text = tabla.Rows(0)("nombres")
                 Me.txt_empleado_fecha.Text = tabla.Rows(0)("fecha_Alta")
                 Me.txt_empleado_ape.Text = tabla.Rows(0)("apellido")
+                Me.cmb_empleado_cargo.SelectedIndex = tabla.Rows(0)("Cargo_idCargo") - 1
                 '  Me.txt_empleado_legajo.Enabled = False
             Case 3
                 Dim tabla As New Data.DataTable
@@ -921,11 +914,13 @@
                 Me.txt_creditos_idSolicitante.Text = tabla.Rows(0)("Solicitante_idSolicitante")                Me.txt_creditos_legajo.Text = tabla.Rows(0)("Empleado_legajo")
                 Me.txt_creditos_monto.Text = grilla.Rows(fila).Cells(1).Value
                 Me.txt_creditos_objeto.Text = grilla.Rows(fila).Cells(9).Value
-
-                If IsDBNull(grilla.Rows(fila).Cells(3).Value) = False Then
-                    Me.mtxt_creditos_fAprobacion.Text = grilla.Rows(fila).Cells(3).Value
-                End If
                 Me.cmb_creditos_estadoCredito.SelectedIndex = tabla.Rows(0)("Estado_Credito_idEstado_Credito")
+                If tabla.Rows(0)("fechaAprobacion").ToString <> "" Then
+                    Me.mtxt_creditos_fAprobacion.Text = grilla.Rows(fila).Cells(3).Value
+                    Me.mtxt_creditos_fAprobacion.Enabled = False
+                    Me.btn_credito_cuotas.Enabled = False
+                End If
+
             Case 4
                 Dim tabla As New Data.DataTable
                 Me.idExpediente = grilla.Rows(fila).Cells(0).Value
@@ -967,7 +962,6 @@
     Private Function nombre_tabla_pestana() As String
         Dim nom_Tabla As String = ""
         Dim pestaña As Integer = Me.tab_control.SelectedIndex
-
         Select Case pestaña
             Case 0
                 nom_Tabla = "abogado"
@@ -984,7 +978,6 @@
             Case Else
                 nom_Tabla = "ERROR"
         End Select
-
         Return nom_Tabla
     End Function
 
@@ -993,7 +986,6 @@
         Dim pestaña_menu As Integer = Me.tab_menu.SelectedIndex
         Dim pestaña_abm As Integer = Me.tab_control.SelectedIndex
         Dim pestaña_report As Integer = Me.tab_report.SelectedIndex
-
         Select Case pestaña_menu
             Case 0
                 Me.mostrar_Interfaz(False) 'Escondo grilla y botones.
@@ -1019,7 +1011,7 @@
                         Me._combo.cargar(Me.cmb_empleado_cargo, Me.conexion.leo_tabla())
                         conexion.cambiar_Tabla(Me.nombre_tabla_pestana)
                         Me.cargar_Grilla()
-                        txt_empleado_fecha.Text = DateTime.Now().ToString("dd-MM-yyyy")   'ANTES ERA ("dd-MM-yyyy"), VER TIPO DATE SQLSERVER.
+                        txt_empleado_fecha.Text = DateTime.Now().ToString("dd-MM-yyyy") 'ANTES ERA ("dd-MM-yyyy"), VER TIPO DATE SQLSERVER.
                         Me.txt_empleado_legajo.Enabled = True
                     Case 3
                         Me.limpiar_tab()
@@ -1027,8 +1019,7 @@
                         Me._combo.cargar(Me.cmb_creditos_estadoCredito, Me.conexion.leo_tabla())
                         conexion.cambiar_Tabla(Me.nombre_tabla_pestana)
                         Me.cargar_Grilla()
-                        txt_creditos_fSolicitud.Text = DateTime.Now().ToString("dd-MM-yyyy")    'ANTES ERA ("dd-MM-yyyy"), VER TIPO DATE SQLSERVER.
-
+                        txt_creditos_fSolicitud.Text = DateTime.Now().ToString("dd-MM-yyyy") 'ANTES ERA ("dd-MM-yyyy"), VER TIPO DATE SQLSERVER.
                         'Campos visibles/accesibles al cargar la pestaña
                         txt_creditos_fSolicitud.Enabled = False
                         txt_creditos_idObjeto.Visible = False
@@ -1069,20 +1060,14 @@
                 End Select
             Case 3
                 Me.mostrar_Interfaz(False)
-
             Case Else
                 Exit Sub
-
-
         End Select
     End Sub
 
     'Evento al hacer doble click en una celda en la grilla.
     Private Sub grilla_CellDoubleClick(ByVal sender As System.Object, ByVal e As System.Windows.Forms.DataGridViewCellEventArgs) Handles grilla.CellDoubleClick
         Me.llenar_tab_segunGrilla(e.RowIndex)
-        'If Me.mtxt_creditos_fAprobacion.Enabled = False Then
-        '    Me.btn_credito_cuotas.Enabled = False
-        'End If
     End Sub
 
     'Abro formulario de ingreso de objetos al llegar al TextBox objeto en creditos.
@@ -1171,23 +1156,15 @@
 
     'Habilito/Deshabilito campos segun seleccion del Combo Estado credito en creditos.
     Private Sub cmb_creditos_estadoCredito_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmb_creditos_estadoCredito.SelectedIndexChanged
-
-        If Me.cmb_creditos_estadoCredito.SelectedIndex = 1 Then
+        If Me.cmb_creditos_estadoCredito.SelectedIndex = 1 Then 'Aprobado
             Me.mtxt_creditos_fAprobacion.Enabled = True
             Me.txt_creditos_objeto.Enabled = False
             Me.txt_creditos_legajo.Enabled = False
             Me.txt_creditos_idSolicitante.Enabled = False
-            If Me.mtxt_creditos_fAprobacion.MaskCompleted = True Then
-                Me.btn_credito_cuotas.Enabled = True
 
-            End If
-
-            
-
-
-
-
-
+            'If Me.mtxt_creditos_fAprobacion.MaskCompleted = True Then
+            '    Me.btn_credito_cuotas.Enabled = True
+            'End If
 
             '    Me.txt_creditos_monto.Enabled = False
             'Me.txt_creditos_objeto.Text = ""
@@ -1195,7 +1172,7 @@
             'Me.txt_creditos_idSolicitante.Text = ""
             '' Me.txt_creditos_monto.Text = ""
         End If
-        If Me.cmb_creditos_estadoCredito.SelectedIndex = 0 Then
+        If Me.cmb_creditos_estadoCredito.SelectedIndex = 0 Then 'Pendiente
             Me.mtxt_creditos_fAprobacion.Enabled = False
             Me.mtxt_creditos_fAprobacion.Clear()
             Me.txt_creditos_objeto.Enabled = True
@@ -1203,7 +1180,7 @@
             Me.txt_creditos_idSolicitante.Enabled = True
             Me.txt_creditos_monto.Enabled = True
         End If
-        If Me.cmb_creditos_estadoCredito.SelectedIndex = 2 Or Me.cmb_creditos_estadoCredito.SelectedIndex = 3 Then
+        If Me.cmb_creditos_estadoCredito.SelectedIndex = 2 Or Me.cmb_creditos_estadoCredito.SelectedIndex = 3 Then 'Rechazado/Deuda
             Me.mtxt_creditos_fAprobacion.Enabled = False
             Me.mtxt_creditos_fAprobacion.Clear()
             Me.txt_creditos_objeto.Enabled = False
@@ -1231,19 +1208,6 @@
 
         Me.grilla.DataSource = conexion._consulta(consulta_garantia)
     End Sub
-
-    'Private Function crear_credito() As Validacion.credito
-    '    Dim credito As New Validacion.credito
-    '    credito.monto = Me.txt_creditos_monto.Text
-    '    credito.fecha_solicitud = Me.txt_creditos_fSolicitud.Text
-    '    credito.fecha_aprobacion = Me.mtxt_creditos_fAprobacion.Text
-    '    credito.idSolicitante = Me.txt_creditos_idSolicitante.Text
-    '    credito.legajo = Me.txt_creditos_legajo.Text
-    '    credito.estado = Me.cmb_creditos_estadoCredito.SelectedIndex + 1
-    '    credito.idObjeto = Me.txt_creditos_idObjeto.Text
-    '    credito.objeto_nombre = Me.txt_creditos_objeto.Text
-    '    Return credito
-    'End Function
 
     'Lleno los valores de la Struct correspondiente a la pestaña en la que estoy
     Private Function cargar_struct() As Object
@@ -1309,18 +1273,7 @@
         Return vbObject
     End Function
 
-
-
-
-    '"convert(date, fecha, 103)" 
-    'Cuando queiro borrar un solicitante/empleado choca contra los creditos que tienen el mismo idSolicitante/empleado como foranea
-    'Cuando quiero borrar un credito choca contra expediente por foranea
-    'Atrapamos la excepcion, revisar si podemos arreglarlo desde bd
-    'SET DEFAULT (Para el delete donde chocan foraneas)
-    'no esconder campos, me fuerza a cambiar de pestaña
-    'traer bien telefonos
-
-    Private Sub txt_pago_codCred_TextChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles txt_pago_codCred.Enter
+    Private Sub txt_pago_codCred_Enter(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles txt_pago_codCred.Enter
         Dim consulta As String = ""
         consulta += "SELECT Creditos.idCreditos AS [Codigo Credito], Creditos.monto AS [Monto], Creditos.fechaSolicitud AS [Fecha Solicitud], Creditos.fechaAprobacion AS [Fecha Aprobacion], Solicitante.nombre AS [Nombre Solicitante], Solicitante.apellido AS [Apellido Solicitante], tipo_Documento.nombre AS [Tipo Documento], Solicitante.numeroDocumento AS [Documento], Estado_Credito.nombre AS [ESTADO], Objeto.descripcion AS [Objeto], Empleado.legajo AS [Legajo Empleado], Empleado.nombres AS [Nombre Empleado], Empleado.apellido AS [Apellido Empleado] "
         consulta += "FROM Creditos INNER JOIN Solicitante ON Creditos.Solicitante_idSolicitante = Solicitante.idSolicitante "
@@ -1328,6 +1281,7 @@
         consulta += "INNER JOIN Estado_Credito ON Creditos.Estado_Credito_idEstado_Credito = Estado_Credito.idEstado_Credito "
         consulta += "INNER JOIN tipo_Documento ON Solicitante.tipo_Documento_idTipo_Documento = tipo_Documento.idTipo_Documento "
         consulta += "INNER JOIN Empleado ON Creditos.Empleado_legajo = Empleado.legajo "
+        consulta += "WHERE Creditos.Estado_Credito_idEstado_Credito = 2 OR Creditos.Estado_Credito_idEstado_Credito = 1"
         Me.grilla.DataSource = conexion._consulta(consulta)
     End Sub
 
@@ -1340,6 +1294,7 @@
                 consulta = "SELECT * FROM Creditos WHERE idCreditos=" & Me.txt_pago_codCred.Text
                 tabla = conexion._consulta(consulta)
                 If tabla.Rows.Count = 1 Then
+                    'grilla.DataSource = tabla
                     cargar_Grilla()
                 End If
 
@@ -1373,15 +1328,11 @@
         credito = Me.crear_credito
         frm_cuota = New frm_cuota(idCredito, credito.monto, credito.fecha_aprobacion)
         Dim result As DialogResult = frm_cuota.ShowDialog(Me)
-
-        Me.cargar_Grilla()
+        cargar_Grilla()
     End Sub
 
-    Private Sub mtxt_creditos_fAprobacion_TextChanged(sender As Object, e As System.EventArgs) Handles mtxt_creditos_fAprobacion.TextChanged
-
-        If Me.mtxt_creditos_fAprobacion.Enabled = False Then
-            Me.btn_credito_cuotas.Enabled = False
-        Else
+    Private Sub mtxt_creditos_fAprobacion_TextChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mtxt_creditos_fAprobacion.TextChanged
+        If mtxt_creditos_fAprobacion.MaskCompleted = True Then
             Me.btn_credito_cuotas.Enabled = True
         End If
     End Sub
@@ -1398,7 +1349,6 @@
         report_credxemp.RefreshReport()
     End Sub
 
-  
     Private Sub btn_cantxsol_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btn_cantxsol.Click
         Dim sql As String = ""
 
@@ -1454,6 +1404,30 @@
         report_credxmonto.RefreshReport()
 
     End Sub
+
+
+
+    '"convert(date, fecha, 103)" 
+    'Cuando queiro borrar un solicitante/empleado choca contra los creditos que tienen el mismo idSolicitante/empleado como foranea
+    'Cuando quiero borrar un credito choca contra expediente por foranea
+    'Atrapamos la excepcion, revisar si podemos arreglarlo desde bd
+    'SET DEFAULT (Para el delete donde chocan foraneas)
+    'no esconder campos, me fuerza a cambiar de pestaña
+    'traer bien telefonos
+    'Private Function crear_credito() As Validacion.credito
+    '    Dim credito As New Validacion.credito
+    '    credito.monto = Me.txt_creditos_monto.Text
+    '    credito.fecha_solicitud = Me.txt_creditos_fSolicitud.Text
+    '    credito.fecha_aprobacion = Me.mtxt_creditos_fAprobacion.Text
+    '    credito.idSolicitante = Me.txt_creditos_idSolicitante.Text
+    '    credito.legajo = Me.txt_creditos_legajo.Text
+    '    credito.estado = Me.cmb_creditos_estadoCredito.SelectedIndex + 1
+    '    credito.idObjeto = Me.txt_creditos_idObjeto.Text
+    '    credito.objeto_nombre = Me.txt_creditos_objeto.Text
+    '    Return credito
+    'End Function
+
+
 End Class
 
 'Private Sub fecha_Validated(ByVal sender As Object, ByVal e As System.EventArgs) Handles mtxt_solicitante_fechaNacimiento.Validated
