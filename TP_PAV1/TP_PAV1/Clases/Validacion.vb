@@ -347,35 +347,35 @@ Public Class Validacion
     End Function
 
     Public Function _validar_expediente(ByVal exp As expediente) As Boolean 'Validar que matriculas y codcred ya existan, metodo _validar_existente(nombre de campo a consultar)?
-        If _validar_campos_vacios() Then
-            If _validar_numero_positivo(exp.numero) Then
-                If _validar_numero_positivo(exp.codCred) And _validar_existente("Creditos", "idCreditos", exp.codCred) And Not _validar_existente("Expediente", "Creditos_idCreditos", exp.codCred) Then
-                    If exp.estado_credito = 2 Then
-                        If _validar_fecha(exp.fecha_inicio) Then
-                            If _validar_numero_positivo(exp.matricula_crecor) And _validar_existente("Abogado", "matricula", exp.matricula_crecor) Then
-                                If _validar_numero_positivo(exp.matricula_solicitante) And _validar_existente("Abogado", "matricula", exp.matricula_solicitante) Then
-                                    Return True
-                                    Exit Function
+            If _validar_campos_vacios() Then
+                If _validar_numero_positivo(exp.numero) Then
+                    If _validar_numero_positivo(exp.codCred) And _validar_existente("Creditos", "idCreditos", exp.codCred) And Not _validar_existente("Expediente", "Creditos_idCreditos", exp.codCred) Then
+                        If exp.estado_credito = 2 Then
+                            If _validar_fecha(exp.fecha_inicio) Then
+                                If _validar_numero_positivo(exp.matricula_crecor) And _validar_existente("Abogado", "matricula", exp.matricula_crecor) Then
+                                    If _validar_numero_positivo(exp.matricula_solicitante) And _validar_existente("Abogado", "matricula", exp.matricula_solicitante) Then
+                                        Return True
+                                        Exit Function
+                                    Else
+                                        MsgBox(ERROR_MATRICULA, vbOKOnly + vbCritical, "Importante")
+                                    End If
                                 Else
                                     MsgBox(ERROR_MATRICULA, vbOKOnly + vbCritical, "Importante")
                                 End If
                             Else
-                                MsgBox(ERROR_MATRICULA, vbOKOnly + vbCritical, "Importante")
+                                MsgBox(ERROR_FECHA, vbOKOnly + vbCritical, "Importante")
                             End If
                         Else
-                            MsgBox(ERROR_FECHA, vbOKOnly + vbCritical, "Importante")
+                            MsgBox(ERROR_ESTADO_CREDITO & "deuda.", vbOKOnly + vbCritical, "Importante")
                         End If
                     Else
-                        MsgBox(ERROR_ESTADO_CREDITO & "deuda.", vbOKOnly + vbCritical, "Importante")
+                        MsgBox(ERROR_CODCRED, vbOKOnly + vbCritical, "Importante")
                     End If
                 Else
-                    MsgBox(ERROR_CODCRED, vbOKOnly + vbCritical, "Importante")
+                    MsgBox(ERROR_EXPEDIENTE, vbOKOnly + vbCritical, "Importante")
                 End If
-            Else
-                MsgBox(ERROR_EXPEDIENTE, vbOKOnly + vbCritical, "Importante")
             End If
-        End If
-        Return False
+            Return False
     End Function
 
     Public Function _validar_garantia(ByVal gar As garantia) As Boolean

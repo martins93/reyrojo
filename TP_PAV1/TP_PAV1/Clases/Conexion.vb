@@ -387,7 +387,7 @@
         txt_Insert = Me.armo_insert(conid)
         txt_Insert += Me.asigno_valores_insert(valores, conid)
 
-        MsgBox(txt_Insert)
+        '   MsgBox(txt_Insert)
 
         Dim estado As String = Me._ejecutar(txt_Insert)
         If Me.configurar_conexion = tipo_conexion.transaccion Then
@@ -409,7 +409,7 @@
         'txt_Insert = 
         'txt_Insert += Me.asigno_valores_insert(valores, conid)
 
-        MsgBox(txt_Insert)
+        ' MsgBox(txt_Insert)
 
         Dim estado As String = Me._ejecutar(txt_Insert)
         If Me.configurar_conexion = tipo_conexion.transaccion Then
@@ -429,7 +429,7 @@
         Dim txt_Insert As String = ""
         txt_Insert = Me.armo_insert(conid)
         txt_Insert += Me.asigno_valores_insert(valores, conid)
-        MsgBox(txt_Insert)
+        ' MsgBox(txt_Insert)
 
         Me._conectar()
         Me.cmd.CommandText = txt_Insert

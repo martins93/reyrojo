@@ -28,7 +28,7 @@
     End Property
 
     Private Sub texto_insert()
-        Dim texto As String = "descripcion = " & Me.txt_objeto_descripcion.Text & ", valorMonetario = " & Me.txt_objeto_valorMonetario.Text
+        Dim texto As String = "descripcion=" & Me.txt_objeto_descripcion.Text & ", valorMonetario=" & Me.txt_objeto_valorMonetario.Text
 
         conexion._insertar(texto, False)
 
