@@ -33,6 +33,9 @@
     'Cuando se carga el formulario principal
     Private Sub frm_Menu_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         Me.tab_menu.Width = 1260  'Esto despues se borra, es para no tener la pestaña gigante por debajo de los controles en el diseñador
+
+        Me.report_credxemp.RefreshReport()
+        Me.CreditosXEmpleadoAgrupado.RefreshReport()
     End Sub
 
     'Boton borrar de los ABM
@@ -1166,6 +1169,13 @@
             '    Me.btn_credito_cuotas.Enabled = True
             'End If
 
+
+
+
+
+
+
+
             '    Me.txt_creditos_monto.Enabled = False
             'Me.txt_creditos_objeto.Text = ""
             'Me.txt_creditos_legajo.Text = ""
@@ -1340,6 +1350,8 @@
     Private Sub btn_cantxemp_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btn_cantxemp.Click
         Dim sql As String = ""
 
+        Dim sqlMax As String = ""
+
         If Me.txt_cantxemp_leg.Text = "" Then
             sql = "SELECT Empleado.legajo AS Legajo, Empleado.nombres AS Nombre, Empleado.apellido AS Apellido, Creditos.idCreditos AS CodigoCredito, Creditos.monto AS Monto FROM Creditos INNER JOIN Empleado ON Creditos.Empleado_legajo = Empleado.legajo"
         Else
@@ -1348,6 +1360,7 @@
         CreditosXEmpleadoBindingSource.DataSource = conexion._consulta(sql)
         report_credxemp.RefreshReport()
     End Sub
+
 
     Private Sub btn_cantxsol_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btn_cantxsol.Click
         Dim sql As String = ""
@@ -1406,28 +1419,14 @@
     End Sub
 
 
+    Private Sub ReportViewer1_Load(sender As System.Object, e As System.EventArgs) Handles CreditosXEmpleadoAgrupado.Load
 
-    '"convert(date, fecha, 103)" 
-    'Cuando queiro borrar un solicitante/empleado choca contra los creditos que tienen el mismo idSolicitante/empleado como foranea
-    'Cuando quiero borrar un credito choca contra expediente por foranea
-    'Atrapamos la excepcion, revisar si podemos arreglarlo desde bd
-    'SET DEFAULT (Para el delete donde chocan foraneas)
-    'no esconder campos, me fuerza a cambiar de pestaña
-    'traer bien telefonos
-    'Private Function crear_credito() As Validacion.credito
-    '    Dim credito As New Validacion.credito
-    '    credito.monto = Me.txt_creditos_monto.Text
-    '    credito.fecha_solicitud = Me.txt_creditos_fSolicitud.Text
-    '    credito.fecha_aprobacion = Me.mtxt_creditos_fAprobacion.Text
-    '    credito.idSolicitante = Me.txt_creditos_idSolicitante.Text
-    '    credito.legajo = Me.txt_creditos_legajo.Text
-    '    credito.estado = Me.cmb_creditos_estadoCredito.SelectedIndex + 1
-    '    credito.idObjeto = Me.txt_creditos_idObjeto.Text
-    '    credito.objeto_nombre = Me.txt_creditos_objeto.Text
-    '    Return credito
-    'End Function
+        Dim sql As String = "SELECT Emp.legajo AS Legajo, Emp.apellido AS Apellido, COUNT(*) AS CantidadCreditos FROM Empleado Emp INNER JOIN Creditos Cred ON Cred.Empleado_legajo=Emp.legajo GROUP BY Emp.legajo, Emp.apellido"
 
+        CreditosXEmpleadoAgrupadoBindingSource.DataSource = conexion._consulta(sql)
+        CreditosXEmpleadoAgrupado.RefreshReport()
 
+    End Sub
 End Class
 
 'Private Sub fecha_Validated(ByVal sender As Object, ByVal e As System.EventArgs) Handles mtxt_solicitante_fechaNacimiento.Validated

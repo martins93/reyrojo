@@ -68,7 +68,7 @@
               <Width>1.32685in</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>1.59768in</Width>
+              <Width>1.32685in</Width>
             </TablixColumn>
             <TablixColumn>
               <Width>0.97268in</Width>
@@ -418,6 +418,7 @@
                         <PaddingBottom>2pt</PaddingBottom>
                       </Style>
                     </Textbox>
+                    <rd:Selected>true</rd:Selected>
                   </CellContents>
                 </TablixCell>
               </TablixCells>
@@ -759,10 +760,10 @@
           </TablixMembers>
         </TablixRowHierarchy>
         <DataSetName>tabla4</DataSetName>
-        <Top>3.11362cm</Top>
-        <Left>0.36195cm</Left>
+        <Top>2.31987cm</Top>
+        <Left>0.28258cm</Left>
         <Height>1.2cm</Height>
-        <Width>27.50061cm</Width>
+        <Width>26.8127cm</Width>
         <Style>
           <Border>
             <Style>None</Style>
@@ -788,8 +789,8 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox15</rd:DefaultName>
-        <Top>1.82989cm</Top>
-        <Left>6.13347cm</Left>
+        <Top>0.71864cm</Top>
+        <Left>6.72718cm</Left>
         <Height>0.73229cm</Height>
         <Width>14.80313cm</Width>
         <ZIndex>1</ZIndex>
