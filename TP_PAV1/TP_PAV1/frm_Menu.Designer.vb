@@ -180,7 +180,7 @@ Partial Class frm_Menu
         Me.ReportViewer2 = New Microsoft.Reporting.WinForms.ReportViewer()
         Me.TabPage3 = New System.Windows.Forms.TabPage()
         Me.cmb_cantXRango_est = New System.Windows.Forms.ComboBox()
-        Me.Label1 = New System.Windows.Forms.Label()
+        Me.lbl_año_estadistica1 = New System.Windows.Forms.Label()
         Me.txt_cantXRango_año = New System.Windows.Forms.TextBox()
         Me.btn_cantCredXRang = New System.Windows.Forms.Button()
         Me.CreditosXRangoEstadistica = New Microsoft.Reporting.WinForms.ReportViewer()
@@ -1579,7 +1579,7 @@ Partial Class frm_Menu
         'TabPage3
         '
         Me.TabPage3.Controls.Add(Me.cmb_cantXRango_est)
-        Me.TabPage3.Controls.Add(Me.Label1)
+        Me.TabPage3.Controls.Add(Me.lbl_año_estadistica1)
         Me.TabPage3.Controls.Add(Me.txt_cantXRango_año)
         Me.TabPage3.Controls.Add(Me.btn_cantCredXRang)
         Me.TabPage3.Controls.Add(Me.CreditosXRangoEstadistica)
@@ -1599,14 +1599,14 @@ Partial Class frm_Menu
         Me.cmb_cantXRango_est.Size = New System.Drawing.Size(99, 21)
         Me.cmb_cantXRango_est.TabIndex = 10
         '
-        'Label1
+        'lbl_año_estadistica1
         '
-        Me.Label1.AutoSize = True
-        Me.Label1.Location = New System.Drawing.Point(50, 552)
-        Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(26, 13)
-        Me.Label1.TabIndex = 9
-        Me.Label1.Text = "Año"
+        Me.lbl_año_estadistica1.AutoSize = True
+        Me.lbl_año_estadistica1.Location = New System.Drawing.Point(50, 552)
+        Me.lbl_año_estadistica1.Name = "lbl_año_estadistica1"
+        Me.lbl_año_estadistica1.Size = New System.Drawing.Size(26, 13)
+        Me.lbl_año_estadistica1.TabIndex = 9
+        Me.lbl_año_estadistica1.Text = "Año"
         '
         'txt_cantXRango_año
         '
@@ -1881,7 +1881,7 @@ Partial Class frm_Menu
     Friend WithEvents CreditosXEmpleadoAgrupadoBindingSource As System.Windows.Forms.BindingSource
     Friend WithEvents btn_cantCredXRang As System.Windows.Forms.Button
     Friend WithEvents cmb_cantXRango_est As System.Windows.Forms.ComboBox
-    Friend WithEvents Label1 As System.Windows.Forms.Label
+    Friend WithEvents lbl_año_estadistica1 As System.Windows.Forms.Label
     Friend WithEvents txt_cantXRango_año As System.Windows.Forms.TextBox
     Friend WithEvents CreditosXRangoEstadisticaBindingSource As System.Windows.Forms.BindingSource
 End Class

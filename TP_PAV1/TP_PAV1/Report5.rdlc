@@ -593,7 +593,9 @@
                           <TextRuns>
                             <TextRun>
                               <Value>=Fields!CantidadCreditos.Value/Sum(Fields!CantidadCreditos.Value, "CantidadCreditosXEmpleadoAgrupado")</Value>
-                              <Style />
+                              <Style>
+                                <Format>0.00%</Format>
+                              </Style>
                             </TextRun>
                           </TextRuns>
                           <Style>
@@ -642,7 +644,7 @@
         <Top>8.06132cm</Top>
         <Left>2.61091cm</Left>
         <Height>1.2cm</Height>
-        <Width>15.51687cm</Width>
+        <Width>15.51686cm</Width>
         <ZIndex>1</ZIndex>
         <Style>
           <Border>
