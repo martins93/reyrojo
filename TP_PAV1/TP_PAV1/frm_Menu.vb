@@ -981,6 +981,7 @@
         Dim pestaña_menu As Integer = Me.tab_menu.SelectedIndex
         Dim pestaña_abm As Integer = Me.tab_control.SelectedIndex
         Dim pestaña_report As Integer = Me.tab_report.SelectedIndex
+        Dim pestaña_estadistica As Integer = Me.tab_est.SelectedIndex
 
         Select Case pestaña_menu
             Case 0
@@ -1057,6 +1058,14 @@
                 End Select
             Case 3
                 Me.mostrar_Interfaz(False)
+                Select Case pestaña_estadistica
+                    Case 0
+                    Case 1
+
+                    Case 2
+                        Me.limpiar_tab()
+                        Me.cmb_cantXRango_est.SelectedIndex = 0
+                End Select
 
             Case Else
                 Exit Sub
@@ -1452,6 +1461,63 @@
 
         CreditosXEmpleadoAgrupadoBindingSource.DataSource = conexion._consulta(sql)
         CreditosXEmpleadoAgrupado.RefreshReport()
+
+    End Sub
+
+
+    Private Sub btn_cantCredXRang_Click(sender As System.Object, e As System.EventArgs) Handles btn_cantCredXRang.Click
+
+        Dim sql As String = ""
+
+        If Me.txt_cantXRango_año.Text <> "" Then
+            If Me.txt_cantXRango_año.Text > 0 And Me.txt_cantXRango_año.Text < DateTime.Now.Year Then
+                Select Case Me.cmb_cantXRango_est.SelectedIndex
+                    Case 0
+                        sql = "SELECT 'Mes ' + CAST(DATEPART(MONTH, cre.fechaSolicitud) AS varchar) AS Rango, COUNT(*) AS CantidadCreditos "
+                        sql += "FROM Creditos cre WHERE cre.fechaSolicitud BETWEEN CONVERT(DATE, '01/01/" & Me.txt_cantXRango_año.Text & "', 103) AND CONVERT(DATE, '31/12/" & Me.txt_cantXRango_año.Text & "', 103) "
+                        sql += "GROUP BY DATEPART(MONTH, cre.fechaSolicitud)"
+
+                        CreditosXRangoEstadisticaBindingSource.DataSource = conexion._consulta(sql)
+                        CreditosXRangoEstadistica.RefreshReport()
+                    Case 1
+                        sql = "SELECT 'Bimestre ' + CAST((((DATEPART(MONTH, cre.fechaSolicitud)/2)-1))+2 AS varchar) AS Rango, COUNT(*) AS CantidadCreditos "
+                        sql += "FROM Creditos cre WHERE cre.fechaSolicitud BETWEEN CONVERT(DATE, '01/01/" & Me.txt_cantXRango_año.Text & "', 103) AND CONVERT(DATE, '31/12/" & Me.txt_cantXRango_año.Text & "', 103) "
+                        sql += "GROUP BY ((DATEPART(MONTH, cre.fechaSolicitud)/2)-1)"
+
+                        CreditosXRangoEstadisticaBindingSource.DataSource = conexion._consulta(sql)
+                        CreditosXRangoEstadistica.RefreshReport()
+                    Case 2
+                        sql = "SELECT 'Trimestre ' + CAST(DATEPART(QUARTER, cre.fechaSolicitud) AS varchar) AS Rango, COUNT(*) AS CantidadCreditos "
+                        sql += "FROM Creditos cre WHERE cre.fechaSolicitud BETWEEN CONVERT(DATE, '01/01/" & Me.txt_cantXRango_año.Text & "', 103) AND CONVERT(DATE, '31/12/" & Me.txt_cantXRango_año.Text & "', 103) "
+                        sql += "GROUP BY DATEPART(QUARTER, cre.fechaSolicitud)"
+
+                        CreditosXRangoEstadisticaBindingSource.DataSource = conexion._consulta(sql)
+                        CreditosXRangoEstadistica.RefreshReport()
+                    Case 3
+                        sql = "SELECT 'Cuatrimestre ' + CAST((((DATEPART(QUARTER, cre.fechaSolicitud)/2)-1))+2 AS varchar) AS Rango, COUNT(*) AS CantidadCreditos "
+                        sql += "FROM Creditos cre WHERE cre.fechaSolicitud BETWEEN CONVERT(DATE, '01/01/" & Me.txt_cantXRango_año.Text & "', 103) AND CONVERT(DATE, '31/12/" & Me.txt_cantXRango_año.Text & "', 103) "
+                        sql += "GROUP BY ((DATEPART(QUARTER, cre.fechaSolicitud)/2)-1)"
+
+                        CreditosXRangoEstadisticaBindingSource.DataSource = conexion._consulta(sql)
+                        CreditosXRangoEstadistica.RefreshReport()
+                    Case 4
+                        sql = "SELECT 'Semestre ' + CAST(((DATEPART(QUARTER, cre.fechaSolicitud)/3)+1) AS varchar) AS Rango, COUNT(*) AS CantidadCreditos "
+                        sql += "FROM Creditos cre WHERE cre.fechaSolicitud BETWEEN CONVERT(DATE, '01/01/" & Me.txt_cantXRango_año.Text & "', 103) AND CONVERT(DATE, '31/12/" & Me.txt_cantXRango_año.Text & "', 103) "
+                        sql += "GROUP BY ((DATEPART(QUARTER, cre.fechaSolicitud)/3)+1)"
+
+                        CreditosXRangoEstadisticaBindingSource.DataSource = conexion._consulta(sql)
+                        CreditosXRangoEstadistica.RefreshReport()
+
+                End Select
+            Else
+                MessageBox.Show("Debe ingresar un año valido", "Importante", MessageBoxButtons.OK, MessageBoxIcon.Information)
+                Me.txt_cantXRango_año.Focus()
+            End If
+        Else
+            MessageBox.Show("Debe ingresar un año", "Importante", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            Me.txt_cantXRango_año.Focus()
+        End If
+
 
     End Sub
 End Class

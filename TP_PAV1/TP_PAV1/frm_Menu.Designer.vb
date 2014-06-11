@@ -38,6 +38,7 @@ Partial Class frm_Menu
         Me.CreditosXRangoFechasBindingSource = New System.Windows.Forms.BindingSource(Me.components)
         Me.CreditosXRangoMontoBindingSource = New System.Windows.Forms.BindingSource(Me.components)
         Me.CreditosXEmpleadoAgrupadoBindingSource = New System.Windows.Forms.BindingSource(Me.components)
+        Me.CreditosXRangoEstadisticaBindingSource = New System.Windows.Forms.BindingSource(Me.components)
         Me.tab_control = New System.Windows.Forms.TabControl()
         Me.tab_control_abogado = New System.Windows.Forms.TabPage()
         Me.mtxt_abogado_telefono = New System.Windows.Forms.MaskedTextBox()
@@ -178,7 +179,11 @@ Partial Class frm_Menu
         Me.TabPage2 = New System.Windows.Forms.TabPage()
         Me.ReportViewer2 = New Microsoft.Reporting.WinForms.ReportViewer()
         Me.TabPage3 = New System.Windows.Forms.TabPage()
-        Me.ReportViewer3 = New Microsoft.Reporting.WinForms.ReportViewer()
+        Me.cmb_cantXRango_est = New System.Windows.Forms.ComboBox()
+        Me.Label1 = New System.Windows.Forms.Label()
+        Me.txt_cantXRango_año = New System.Windows.Forms.TextBox()
+        Me.btn_cantCredXRang = New System.Windows.Forms.Button()
+        Me.CreditosXRangoEstadistica = New Microsoft.Reporting.WinForms.ReportViewer()
         Me.TabPage4 = New System.Windows.Forms.TabPage()
         Me.ReportViewer4 = New Microsoft.Reporting.WinForms.ReportViewer()
         Me.TipoDocumentoBindingSource1 = New System.Windows.Forms.BindingSource(Me.components)
@@ -189,6 +194,7 @@ Partial Class frm_Menu
         CType(Me.CreditosXRangoFechasBindingSource, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.CreditosXRangoMontoBindingSource, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.CreditosXEmpleadoAgrupadoBindingSource, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.CreditosXRangoEstadisticaBindingSource, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.tab_control.SuspendLayout()
         Me.tab_control_abogado.SuspendLayout()
         Me.tab_control_solicitante.SuspendLayout()
@@ -249,6 +255,11 @@ Partial Class frm_Menu
         '
         Me.CreditosXEmpleadoAgrupadoBindingSource.DataMember = "CreditosXEmpleadoAgrupado"
         Me.CreditosXEmpleadoAgrupadoBindingSource.DataSource = Me.PAV1DataSet2
+        '
+        'CreditosXRangoEstadisticaBindingSource
+        '
+        Me.CreditosXRangoEstadisticaBindingSource.DataMember = "CreditosXRangoEstadistica"
+        Me.CreditosXRangoEstadisticaBindingSource.DataSource = Me.PAV1DataSet2
         '
         'tab_control
         '
@@ -1567,24 +1578,62 @@ Partial Class frm_Menu
         '
         'TabPage3
         '
-        Me.TabPage3.Controls.Add(Me.ReportViewer3)
+        Me.TabPage3.Controls.Add(Me.cmb_cantXRango_est)
+        Me.TabPage3.Controls.Add(Me.Label1)
+        Me.TabPage3.Controls.Add(Me.txt_cantXRango_año)
+        Me.TabPage3.Controls.Add(Me.btn_cantCredXRang)
+        Me.TabPage3.Controls.Add(Me.CreditosXRangoEstadistica)
         Me.TabPage3.Location = New System.Drawing.Point(4, 22)
         Me.TabPage3.Name = "TabPage3"
         Me.TabPage3.Size = New System.Drawing.Size(1233, 588)
         Me.TabPage3.TabIndex = 2
-        Me.TabPage3.Text = "TabPage3"
+        Me.TabPage3.Text = "Creditos Por Rango"
         Me.TabPage3.UseVisualStyleBackColor = True
         '
-        'ReportViewer3
+        'cmb_cantXRango_est
         '
-        ReportDataSource7.Name = "tabla4"
-        ReportDataSource7.Value = Me.CreditosXRangoMontoBindingSource
-        Me.ReportViewer3.LocalReport.DataSources.Add(ReportDataSource7)
-        Me.ReportViewer3.LocalReport.ReportEmbeddedResource = "TP_PAV1.Report4.rdlc"
-        Me.ReportViewer3.Location = New System.Drawing.Point(0, 3)
-        Me.ReportViewer3.Name = "ReportViewer3"
-        Me.ReportViewer3.Size = New System.Drawing.Size(1161, 522)
-        Me.ReportViewer3.TabIndex = 5
+        Me.cmb_cantXRango_est.FormattingEnabled = True
+        Me.cmb_cantXRango_est.Items.AddRange(New Object() {"MENSUAL", "BIMESTRAL", "TRIMESTRAL", "CUATRIMESTRAL", "SEMESTRAL"})
+        Me.cmb_cantXRango_est.Location = New System.Drawing.Point(199, 549)
+        Me.cmb_cantXRango_est.Name = "cmb_cantXRango_est"
+        Me.cmb_cantXRango_est.Size = New System.Drawing.Size(99, 21)
+        Me.cmb_cantXRango_est.TabIndex = 10
+        '
+        'Label1
+        '
+        Me.Label1.AutoSize = True
+        Me.Label1.Location = New System.Drawing.Point(50, 552)
+        Me.Label1.Name = "Label1"
+        Me.Label1.Size = New System.Drawing.Size(26, 13)
+        Me.Label1.TabIndex = 9
+        Me.Label1.Text = "Año"
+        '
+        'txt_cantXRango_año
+        '
+        Me.txt_cantXRango_año.Location = New System.Drawing.Point(104, 549)
+        Me.txt_cantXRango_año.Name = "txt_cantXRango_año"
+        Me.txt_cantXRango_año.Size = New System.Drawing.Size(77, 20)
+        Me.txt_cantXRango_año.TabIndex = 8
+        '
+        'btn_cantCredXRang
+        '
+        Me.btn_cantCredXRang.Location = New System.Drawing.Point(319, 544)
+        Me.btn_cantCredXRang.Name = "btn_cantCredXRang"
+        Me.btn_cantCredXRang.Size = New System.Drawing.Size(82, 28)
+        Me.btn_cantCredXRang.TabIndex = 6
+        Me.btn_cantCredXRang.Text = "Mostrar"
+        Me.btn_cantCredXRang.UseVisualStyleBackColor = True
+        '
+        'CreditosXRangoEstadistica
+        '
+        ReportDataSource7.Name = "CreditosXRangoEstadistica"
+        ReportDataSource7.Value = Me.CreditosXRangoEstadisticaBindingSource
+        Me.CreditosXRangoEstadistica.LocalReport.DataSources.Add(ReportDataSource7)
+        Me.CreditosXRangoEstadistica.LocalReport.ReportEmbeddedResource = "TP_PAV1.Report7.rdlc"
+        Me.CreditosXRangoEstadistica.Location = New System.Drawing.Point(0, 3)
+        Me.CreditosXRangoEstadistica.Name = "CreditosXRangoEstadistica"
+        Me.CreditosXRangoEstadistica.Size = New System.Drawing.Size(1161, 522)
+        Me.CreditosXRangoEstadistica.TabIndex = 5
         '
         'TabPage4
         '
@@ -1633,6 +1682,7 @@ Partial Class frm_Menu
         CType(Me.CreditosXRangoFechasBindingSource, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.CreditosXRangoMontoBindingSource, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.CreditosXEmpleadoAgrupadoBindingSource, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.CreditosXRangoEstadisticaBindingSource, System.ComponentModel.ISupportInitialize).EndInit()
         Me.tab_control.ResumeLayout(False)
         Me.tab_control_abogado.ResumeLayout(False)
         Me.tab_control_abogado.PerformLayout()
@@ -1672,6 +1722,7 @@ Partial Class frm_Menu
         Me.TabPage1.ResumeLayout(False)
         Me.TabPage2.ResumeLayout(False)
         Me.TabPage3.ResumeLayout(False)
+        Me.TabPage3.PerformLayout()
         Me.TabPage4.ResumeLayout(False)
         CType(Me.TipoDocumentoBindingSource1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
@@ -1825,7 +1876,12 @@ Partial Class frm_Menu
     Friend WithEvents TabPage4 As System.Windows.Forms.TabPage
     Friend WithEvents CreditosXEmpleadoAgrupado As Microsoft.Reporting.WinForms.ReportViewer
     Friend WithEvents ReportViewer2 As Microsoft.Reporting.WinForms.ReportViewer
-    Friend WithEvents ReportViewer3 As Microsoft.Reporting.WinForms.ReportViewer
+    Friend WithEvents CreditosXRangoEstadistica As Microsoft.Reporting.WinForms.ReportViewer
     Friend WithEvents ReportViewer4 As Microsoft.Reporting.WinForms.ReportViewer
     Friend WithEvents CreditosXEmpleadoAgrupadoBindingSource As System.Windows.Forms.BindingSource
+    Friend WithEvents btn_cantCredXRang As System.Windows.Forms.Button
+    Friend WithEvents cmb_cantXRango_est As System.Windows.Forms.ComboBox
+    Friend WithEvents Label1 As System.Windows.Forms.Label
+    Friend WithEvents txt_cantXRango_año As System.Windows.Forms.TextBox
+    Friend WithEvents CreditosXRangoEstadisticaBindingSource As System.Windows.Forms.BindingSource
 End Class
