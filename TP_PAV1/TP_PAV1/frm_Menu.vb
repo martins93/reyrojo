@@ -288,10 +288,16 @@
                         texto += " WHERE idExpediente=" & Me.txt_expediente_numeroExp.Text
                         conexion._modificar(texto)
                     End If
+                Case 6
+                    If Me.cmb_pago_estado.SelectedIndex = 1 Then
+                        texto += "Estado_Cuota_idEstado_Cuota =" & Me.cmb_pago_estado.SelectedIndex & " WHERE Cuota_idCuota = (SELECT MIN(Cuota.idCuota) AS Expr1 	FROM  Cuota INNER JOIN Creditos_x_Cuota ON Cuota.idCuota = Creditos_x_Cuota.Cuota_idCuota WHERE(Creditos_x_Cuota.Estado_Cuota_idEstado_Cuota = 0))"
+                        ' MsgBox(texto)
+                        conexion._modificar(texto)
+                    End If
             End Select
-
-            Me.limpiar_tab()
             Me.cargar_Grilla()
+            Me.limpiar_tab()
+
         End If
 
 
@@ -947,10 +953,11 @@
 
     'Muestro grilla y botones.
     Private Sub mostrar_Interfaz(ByVal valor As Boolean)
-        If valor = True Then
+        If valor Then
             Me.tab_control.Width = 421
             Me.tab_menu.Width = 430
             Me.grp_controles.Visible = True
+            btn_guardar.Enabled = True
         Else
             Me.grp_controles.Visible = False
             Me.tab_menu.Width = 1260
@@ -978,6 +985,8 @@
                 nom_Tabla = "expediente"
             Case 5
                 nom_Tabla = "garantia"
+            Case 6
+                nom_Tabla = "Creditos_x_Cuota"
             Case Else
                 nom_Tabla = "ERROR"
         End Select
@@ -996,6 +1005,7 @@
                 Me.mostrar_Interfaz(False) 'Escondo grilla y botones.
             Case 1
                 Me.mostrar_Interfaz(True) 'Muestro grilla y botones.
+
                 Select Case pestaña_abm
                     Case 0
                         conexion.cambiar_Tabla(Me.nombre_tabla_pestana)
@@ -1024,8 +1034,9 @@
                         Me._combo.cargar(Me.cmb_creditos_estadoCredito, Me.conexion.leo_tabla())
                         conexion.cambiar_Tabla(Me.nombre_tabla_pestana)
                         Me.cargar_Grilla()
+
                         txt_creditos_fSolicitud.Text = DateTime.Now().ToString("dd-MM-yyyy") 'ANTES ERA ("dd-MM-yyyy"), VER TIPO DATE SQLSERVER.
-                        'Campos visibles/accesibles al cargar la pestaña
+                        'Campos visibles/accesibles al cargar la pestaña 
                         txt_creditos_fSolicitud.Enabled = False
                         txt_creditos_idObjeto.Visible = False
                         mtxt_creditos_fAprobacion.Enabled = False
@@ -1048,6 +1059,9 @@
                         Me.grilla.DataSource = vbNull
                         Me.conexion._tabla = "Estado_Cuota"
                         Me._combo.cargar(Me.cmb_pago_estado, Me.conexion.leo_tabla())
+                        Me.txt_pago_fecha.Text = DateTime.Now().ToString("dd-MM-yyyy")
+                        Me.txt_pago_fecha.Enabled = False
+                        btn_guardar.Enabled = False
                 End Select
             Case 2
                 Me.mostrar_Interfaz(False)
@@ -1304,6 +1318,7 @@
         consulta += "INNER JOIN Empleado ON Creditos.Empleado_legajo = Empleado.legajo "
         consulta += "WHERE Creditos.Estado_Credito_idEstado_Credito = 2 OR Creditos.Estado_Credito_idEstado_Credito = 1"
         Me.grilla.DataSource = conexion._consulta(consulta)
+        Me.txt_pago_fecha.Text = DateTime.Now().ToString("dd-MM-yyyy")
     End Sub
 
     Private Sub txt_pago_codCred_TextChanged_1(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles txt_pago_codCred.Validated
@@ -1428,7 +1443,6 @@
         report_credxmonto.RefreshReport()
 
     End Sub
-
 
     Private Sub ReportViewer1_Load(sender As System.Object, e As System.EventArgs) Handles CreditosXEmpleadoAgrupado.Load
 
