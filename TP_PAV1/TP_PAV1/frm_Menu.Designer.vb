@@ -377,7 +377,7 @@ Partial Class frm_Menu
         Me.tab_control_solicitante.Controls.Add(Me.lbl_solicitante_nrodoc)
         Me.tab_control_solicitante.Location = New System.Drawing.Point(4, 22)
         Me.tab_control_solicitante.Name = "tab_control_solicitante"
-        Me.tab_control_solicitante.Size = New System.Drawing.Size(420, 618)
+        Me.tab_control_solicitante.Size = New System.Drawing.Size(499, 618)
         Me.tab_control_solicitante.TabIndex = 2
         Me.tab_control_solicitante.Text = "Solicitante"
         Me.tab_control_solicitante.UseVisualStyleBackColor = True
@@ -528,7 +528,7 @@ Partial Class frm_Menu
         Me.tab_control_empleado.Controls.Add(Me.txt_empleado_nombre)
         Me.tab_control_empleado.Location = New System.Drawing.Point(4, 22)
         Me.tab_control_empleado.Name = "tab_control_empleado"
-        Me.tab_control_empleado.Size = New System.Drawing.Size(420, 618)
+        Me.tab_control_empleado.Size = New System.Drawing.Size(499, 618)
         Me.tab_control_empleado.TabIndex = 3
         Me.tab_control_empleado.Text = "Empleado"
         Me.tab_control_empleado.UseVisualStyleBackColor = True
@@ -668,7 +668,7 @@ Partial Class frm_Menu
         Me.tab_control_credito.Controls.Add(Me.lbl_creditos_monto)
         Me.tab_control_credito.Location = New System.Drawing.Point(4, 22)
         Me.tab_control_credito.Name = "tab_control_credito"
-        Me.tab_control_credito.Size = New System.Drawing.Size(420, 618)
+        Me.tab_control_credito.Size = New System.Drawing.Size(499, 618)
         Me.tab_control_credito.TabIndex = 4
         Me.tab_control_credito.Text = "Creditos"
         Me.tab_control_credito.UseVisualStyleBackColor = True
@@ -825,7 +825,7 @@ Partial Class frm_Menu
         Me.tab_control_expediente.Controls.Add(Me.lbl_expediente_numeroExp)
         Me.tab_control_expediente.Location = New System.Drawing.Point(4, 22)
         Me.tab_control_expediente.Name = "tab_control_expediente"
-        Me.tab_control_expediente.Size = New System.Drawing.Size(420, 618)
+        Me.tab_control_expediente.Size = New System.Drawing.Size(499, 618)
         Me.tab_control_expediente.TabIndex = 5
         Me.tab_control_expediente.Text = "Expediente"
         Me.tab_control_expediente.UseVisualStyleBackColor = True
@@ -938,7 +938,7 @@ Partial Class frm_Menu
         Me.tab_control_garantia.Controls.Add(Me.lbl_garantia_codCredito)
         Me.tab_control_garantia.Location = New System.Drawing.Point(4, 22)
         Me.tab_control_garantia.Name = "tab_control_garantia"
-        Me.tab_control_garantia.Size = New System.Drawing.Size(420, 618)
+        Me.tab_control_garantia.Size = New System.Drawing.Size(499, 618)
         Me.tab_control_garantia.TabIndex = 6
         Me.tab_control_garantia.Text = "Garantias"
         Me.tab_control_garantia.UseVisualStyleBackColor = True
@@ -1059,7 +1059,7 @@ Partial Class frm_Menu
         Me.tab_control_pago.Controls.Add(Me.Label5)
         Me.tab_control_pago.Location = New System.Drawing.Point(4, 22)
         Me.tab_control_pago.Name = "tab_control_pago"
-        Me.tab_control_pago.Size = New System.Drawing.Size(420, 618)
+        Me.tab_control_pago.Size = New System.Drawing.Size(499, 618)
         Me.tab_control_pago.TabIndex = 7
         Me.tab_control_pago.Text = "Manejo Pago"
         Me.tab_control_pago.UseVisualStyleBackColor = True
@@ -1264,7 +1264,7 @@ Partial Class frm_Menu
         'Label8
         '
         Me.Label8.AutoSize = True
-        Me.Label8.Location = New System.Drawing.Point(18, 552)
+        Me.Label8.Location = New System.Drawing.Point(6, 552)
         Me.Label8.Name = "Label8"
         Me.Label8.Size = New System.Drawing.Size(89, 13)
         Me.Label8.TabIndex = 3
@@ -1272,7 +1272,7 @@ Partial Class frm_Menu
         '
         'txt_cantxemp_leg
         '
-        Me.txt_cantxemp_leg.Location = New System.Drawing.Point(130, 549)
+        Me.txt_cantxemp_leg.Location = New System.Drawing.Point(104, 549)
         Me.txt_cantxemp_leg.Name = "txt_cantxemp_leg"
         Me.txt_cantxemp_leg.Size = New System.Drawing.Size(117, 20)
         Me.txt_cantxemp_leg.TabIndex = 2
@@ -1283,14 +1283,14 @@ Partial Class frm_Menu
         ReportDataSource1.Value = Me.CreditosXEmpleadoBindingSource
         Me.report_credxemp.LocalReport.DataSources.Add(ReportDataSource1)
         Me.report_credxemp.LocalReport.ReportEmbeddedResource = "TP_PAV1.Report1.rdlc"
-        Me.report_credxemp.Location = New System.Drawing.Point(3, 6)
+        Me.report_credxemp.Location = New System.Drawing.Point(0, 3)
         Me.report_credxemp.Name = "report_credxemp"
-        Me.report_credxemp.Size = New System.Drawing.Size(1231, 522)
+        Me.report_credxemp.Size = New System.Drawing.Size(1161, 522)
         Me.report_credxemp.TabIndex = 1
         '
         'btn_cantxemp
         '
-        Me.btn_cantxemp.Location = New System.Drawing.Point(263, 544)
+        Me.btn_cantxemp.Location = New System.Drawing.Point(319, 544)
         Me.btn_cantxemp.Name = "btn_cantxemp"
         Me.btn_cantxemp.Size = New System.Drawing.Size(82, 28)
         Me.btn_cantxemp.TabIndex = 0
@@ -1315,7 +1315,7 @@ Partial Class frm_Menu
         'cmb_credxsol
         '
         Me.cmb_credxsol.FormattingEnabled = True
-        Me.cmb_credxsol.Location = New System.Drawing.Point(222, 548)
+        Me.cmb_credxsol.Location = New System.Drawing.Point(199, 549)
         Me.cmb_credxsol.Name = "cmb_credxsol"
         Me.cmb_credxsol.Size = New System.Drawing.Size(99, 21)
         Me.cmb_credxsol.TabIndex = 7
@@ -1323,7 +1323,7 @@ Partial Class frm_Menu
         'Label9
         '
         Me.Label9.AutoSize = True
-        Me.Label9.Location = New System.Drawing.Point(17, 552)
+        Me.Label9.Location = New System.Drawing.Point(6, 552)
         Me.Label9.Name = "Label9"
         Me.Label9.Size = New System.Drawing.Size(92, 13)
         Me.Label9.TabIndex = 6
@@ -1331,14 +1331,14 @@ Partial Class frm_Menu
         '
         'txt_cantxsol_doc
         '
-        Me.txt_cantxsol_doc.Location = New System.Drawing.Point(129, 549)
+        Me.txt_cantxsol_doc.Location = New System.Drawing.Point(104, 549)
         Me.txt_cantxsol_doc.Name = "txt_cantxsol_doc"
         Me.txt_cantxsol_doc.Size = New System.Drawing.Size(77, 20)
         Me.txt_cantxsol_doc.TabIndex = 5
         '
         'btn_cantxsol
         '
-        Me.btn_cantxsol.Location = New System.Drawing.Point(339, 544)
+        Me.btn_cantxsol.Location = New System.Drawing.Point(319, 544)
         Me.btn_cantxsol.Name = "btn_cantxsol"
         Me.btn_cantxsol.Size = New System.Drawing.Size(82, 28)
         Me.btn_cantxsol.TabIndex = 4
@@ -1353,7 +1353,7 @@ Partial Class frm_Menu
         Me.report_credxsol.LocalReport.ReportEmbeddedResource = "TP_PAV1.Report2.rdlc"
         Me.report_credxsol.Location = New System.Drawing.Point(0, 3)
         Me.report_credxsol.Name = "report_credxsol"
-        Me.report_credxsol.Size = New System.Drawing.Size(1231, 522)
+        Me.report_credxsol.Size = New System.Drawing.Size(1161, 522)
         Me.report_credxsol.TabIndex = 2
         '
         'tab_report_credxrango
@@ -1374,7 +1374,7 @@ Partial Class frm_Menu
         'Label11
         '
         Me.Label11.AutoSize = True
-        Me.Label11.Location = New System.Drawing.Point(163, 548)
+        Me.Label11.Location = New System.Drawing.Point(180, 552)
         Me.Label11.Name = "Label11"
         Me.Label11.Size = New System.Drawing.Size(35, 13)
         Me.Label11.TabIndex = 8
@@ -1383,7 +1383,7 @@ Partial Class frm_Menu
         'Label10
         '
         Me.Label10.AutoSize = True
-        Me.Label10.Location = New System.Drawing.Point(11, 548)
+        Me.Label10.Location = New System.Drawing.Point(28, 552)
         Me.Label10.Name = "Label10"
         Me.Label10.Size = New System.Drawing.Size(38, 13)
         Me.Label10.TabIndex = 7
@@ -1391,7 +1391,7 @@ Partial Class frm_Menu
         '
         'btn_credxrango
         '
-        Me.btn_credxrango.Location = New System.Drawing.Point(302, 540)
+        Me.btn_credxrango.Location = New System.Drawing.Point(319, 544)
         Me.btn_credxrango.Name = "btn_credxrango"
         Me.btn_credxrango.Size = New System.Drawing.Size(82, 28)
         Me.btn_credxrango.TabIndex = 6
@@ -1400,7 +1400,7 @@ Partial Class frm_Menu
         '
         'txt_credxrango_hasta
         '
-        Me.txt_credxrango_hasta.Location = New System.Drawing.Point(219, 545)
+        Me.txt_credxrango_hasta.Location = New System.Drawing.Point(221, 549)
         Me.txt_credxrango_hasta.Mask = "00-00-0000"
         Me.txt_credxrango_hasta.Name = "txt_credxrango_hasta"
         Me.txt_credxrango_hasta.Size = New System.Drawing.Size(60, 20)
@@ -1408,7 +1408,7 @@ Partial Class frm_Menu
         '
         'txt_credxrango_desde
         '
-        Me.txt_credxrango_desde.Location = New System.Drawing.Point(73, 545)
+        Me.txt_credxrango_desde.Location = New System.Drawing.Point(86, 549)
         Me.txt_credxrango_desde.Mask = "00-00-0000"
         Me.txt_credxrango_desde.Name = "txt_credxrango_desde"
         Me.txt_credxrango_desde.Size = New System.Drawing.Size(66, 20)
@@ -1422,7 +1422,7 @@ Partial Class frm_Menu
         Me.report_credxfecha.LocalReport.ReportEmbeddedResource = "TP_PAV1.Report3.rdlc"
         Me.report_credxfecha.Location = New System.Drawing.Point(0, 3)
         Me.report_credxfecha.Name = "report_credxfecha"
-        Me.report_credxfecha.Size = New System.Drawing.Size(1231, 522)
+        Me.report_credxfecha.Size = New System.Drawing.Size(1161, 522)
         Me.report_credxfecha.TabIndex = 3
         '
         'tab_report_credxmonto
@@ -1487,9 +1487,9 @@ Partial Class frm_Menu
         ReportDataSource4.Value = Me.CreditosXRangoMontoBindingSource
         Me.report_credxmonto.LocalReport.DataSources.Add(ReportDataSource4)
         Me.report_credxmonto.LocalReport.ReportEmbeddedResource = "TP_PAV1.Report4.rdlc"
-        Me.report_credxmonto.Location = New System.Drawing.Point(2, 3)
+        Me.report_credxmonto.Location = New System.Drawing.Point(0, 3)
         Me.report_credxmonto.Name = "report_credxmonto"
-        Me.report_credxmonto.Size = New System.Drawing.Size(1231, 522)
+        Me.report_credxmonto.Size = New System.Drawing.Size(1161, 522)
         Me.report_credxmonto.TabIndex = 3
         '
         'tab_menu_est
@@ -1508,7 +1508,7 @@ Partial Class frm_Menu
         Me.tab_est.Controls.Add(Me.TabPage2)
         Me.tab_est.Controls.Add(Me.TabPage3)
         Me.tab_est.Controls.Add(Me.TabPage4)
-        Me.tab_est.Location = New System.Drawing.Point(3, 8)
+        Me.tab_est.Location = New System.Drawing.Point(0, 8)
         Me.tab_est.Name = "tab_est"
         Me.tab_est.SelectedIndex = 0
         Me.tab_est.Size = New System.Drawing.Size(1241, 614)
@@ -1531,9 +1531,9 @@ Partial Class frm_Menu
         ReportDataSource5.Value = Me.CreditosXRangoMontoBindingSource
         Me.ReportViewer1.LocalReport.DataSources.Add(ReportDataSource5)
         Me.ReportViewer1.LocalReport.ReportEmbeddedResource = "TP_PAV1.Report4.rdlc"
-        Me.ReportViewer1.Location = New System.Drawing.Point(0, 0)
+        Me.ReportViewer1.Location = New System.Drawing.Point(0, 3)
         Me.ReportViewer1.Name = "ReportViewer1"
-        Me.ReportViewer1.Size = New System.Drawing.Size(1231, 522)
+        Me.ReportViewer1.Size = New System.Drawing.Size(1161, 522)
         Me.ReportViewer1.TabIndex = 4
         '
         'TabPage2
@@ -1553,9 +1553,9 @@ Partial Class frm_Menu
         ReportDataSource6.Value = Me.CreditosXRangoMontoBindingSource
         Me.ReportViewer2.LocalReport.DataSources.Add(ReportDataSource6)
         Me.ReportViewer2.LocalReport.ReportEmbeddedResource = "TP_PAV1.Report4.rdlc"
-        Me.ReportViewer2.Location = New System.Drawing.Point(0, 0)
+        Me.ReportViewer2.Location = New System.Drawing.Point(0, 3)
         Me.ReportViewer2.Name = "ReportViewer2"
-        Me.ReportViewer2.Size = New System.Drawing.Size(1231, 522)
+        Me.ReportViewer2.Size = New System.Drawing.Size(1161, 522)
         Me.ReportViewer2.TabIndex = 5
         '
         'TabPage3
@@ -1574,9 +1574,9 @@ Partial Class frm_Menu
         ReportDataSource7.Value = Me.CreditosXRangoMontoBindingSource
         Me.ReportViewer3.LocalReport.DataSources.Add(ReportDataSource7)
         Me.ReportViewer3.LocalReport.ReportEmbeddedResource = "TP_PAV1.Report4.rdlc"
-        Me.ReportViewer3.Location = New System.Drawing.Point(0, 0)
+        Me.ReportViewer3.Location = New System.Drawing.Point(0, 3)
         Me.ReportViewer3.Name = "ReportViewer3"
-        Me.ReportViewer3.Size = New System.Drawing.Size(1231, 522)
+        Me.ReportViewer3.Size = New System.Drawing.Size(1161, 522)
         Me.ReportViewer3.TabIndex = 5
         '
         'TabPage4
@@ -1595,9 +1595,9 @@ Partial Class frm_Menu
         ReportDataSource8.Value = Me.CreditosXRangoMontoBindingSource
         Me.ReportViewer4.LocalReport.DataSources.Add(ReportDataSource8)
         Me.ReportViewer4.LocalReport.ReportEmbeddedResource = "TP_PAV1.Report4.rdlc"
-        Me.ReportViewer4.Location = New System.Drawing.Point(0, 0)
+        Me.ReportViewer4.Location = New System.Drawing.Point(0, 3)
         Me.ReportViewer4.Name = "ReportViewer4"
-        Me.ReportViewer4.Size = New System.Drawing.Size(1231, 522)
+        Me.ReportViewer4.Size = New System.Drawing.Size(1161, 522)
         Me.ReportViewer4.TabIndex = 5
         '
         'TipoDocumentoBindingSource1
@@ -1615,7 +1615,7 @@ Partial Class frm_Menu
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink
         Me.CancelButton = Me.btn_salir
-        Me.ClientSize = New System.Drawing.Size(1264, 682)
+        Me.ClientSize = New System.Drawing.Size(1172, 682)
         Me.Controls.Add(Me.grp_controles)
         Me.Controls.Add(Me.tab_menu)
         Me.Name = "frm_Menu"

@@ -1442,6 +1442,7 @@
         report_credxmonto.RefreshReport()
 
     End Sub
+
 End Class
 
 'Private Sub fecha_Validated(ByVal sender As Object, ByVal e As System.EventArgs) Handles mtxt_solicitante_fechaNacimiento.Validated
