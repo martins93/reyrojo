@@ -14,7 +14,7 @@
       <Fields>
         <Field Name="Legajo">
           <DataField>Legajo</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
+          <rd:TypeName>System.Int32</rd:TypeName>
         </Field>
         <Field Name="Nombre">
           <DataField>Nombre</DataField>
@@ -26,11 +26,43 @@
         </Field>
         <Field Name="CodigoCredito">
           <DataField>CodigoCredito</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
+          <rd:TypeName>System.Int32</rd:TypeName>
         </Field>
         <Field Name="Monto">
           <DataField>Monto</DataField>
+          <rd:TypeName>System.Double</rd:TypeName>
+        </Field>
+        <Field Name="LegajoGraf1">
+          <DataField>LegajoGraf1</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="NombreGraf1">
+          <DataField>NombreGraf1</DataField>
           <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="ApellidoGraf1">
+          <DataField>ApellidoGraf1</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="CantidadMaximaCredito">
+          <DataField>CantidadMaximaCredito</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="LegajoGraf2">
+          <DataField>LegajoGraf2</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="NombreGraf2">
+          <DataField>NombreGraf2</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="ApellidoGraf2">
+          <DataField>ApellidoGraf2</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="CantidadMinimaCredito">
+          <DataField>CantidadMinimaCredito</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
         </Field>
       </Fields>
       <Query>
@@ -39,7 +71,7 @@
       </Query>
       <rd:DataSetInfo>
         <rd:DataSetName>PAV1DataSet2</rd:DataSetName>
-        <rd:SchemaPath>E:\Facultad\3º\PAV1\TrabajoPractico-PAV1\TP_PAV1\TP_PAV1\PAV1DataSet2.xsd</rd:SchemaPath>
+        <rd:SchemaPath>E:\PAV\TP_PAV1\TP_PAV1\PAV1DataSet2.xsd</rd:SchemaPath>
         <rd:TableName>CreditosXEmpleado</rd:TableName>
         <rd:TableAdapterFillMethod />
         <rd:TableAdapterGetDataMethod />
@@ -489,33 +521,66 @@
           <PaddingBottom>2pt</PaddingBottom>
         </Style>
       </Textbox>
-      <Chart Name="Chart3">
+      <Chart Name="Chart1">
         <ChartCategoryHierarchy>
           <ChartMembers>
             <ChartMember>
-              <Label>Nombre</Label>
+              <Group Name="Chart1_CategoryGroup1">
+                <GroupExpressions>
+                  <GroupExpression>=Fields!LegajoGraf1.Value</GroupExpression>
+                </GroupExpressions>
+              </Group>
+              <ChartMembers>
+                <ChartMember>
+                  <Group Name="Chart1_CategoryGroup2">
+                    <GroupExpressions>
+                      <GroupExpression>=Fields!ApellidoGraf1.Value</GroupExpression>
+                    </GroupExpressions>
+                  </Group>
+                  <ChartMembers>
+                    <ChartMember>
+                      <Group Name="Chart1_CategoryGroup3">
+                        <GroupExpressions>
+                          <GroupExpression>=Fields!LegajoGraf2.Value</GroupExpression>
+                        </GroupExpressions>
+                      </Group>
+                      <ChartMembers>
+                        <ChartMember>
+                          <Group Name="Chart1_CategoryGroup4">
+                            <GroupExpressions>
+                              <GroupExpression>=Fields!ApellidoGraf2.Value</GroupExpression>
+                            </GroupExpressions>
+                          </Group>
+                          <Label>=Fields!ApellidoGraf2.Value</Label>
+                        </ChartMember>
+                      </ChartMembers>
+                      <Label>=Fields!LegajoGraf2.Value</Label>
+                    </ChartMember>
+                  </ChartMembers>
+                  <Label>=Fields!ApellidoGraf1.Value</Label>
+                </ChartMember>
+              </ChartMembers>
+              <Label>=Fields!LegajoGraf1.Value</Label>
             </ChartMember>
           </ChartMembers>
         </ChartCategoryHierarchy>
         <ChartSeriesHierarchy>
           <ChartMembers>
             <ChartMember>
-              <Group Name="Chart3_SeriesGroup2">
-                <GroupExpressions>
-                  <GroupExpression>=Fields!CodigoCredito.Value</GroupExpression>
-                </GroupExpressions>
-              </Group>
-              <Label>=Fields!CodigoCredito.Value</Label>
+              <Label>Cantidad Maxima Credito</Label>
+            </ChartMember>
+            <ChartMember>
+              <Label>Cantidad Minima Credito</Label>
             </ChartMember>
           </ChartMembers>
         </ChartSeriesHierarchy>
         <ChartData>
           <ChartSeriesCollection>
-            <ChartSeries Name="Nombre">
+            <ChartSeries Name="CantidadMaximaCredito">
               <ChartDataPoints>
                 <ChartDataPoint>
                   <ChartDataPointValues>
-                    <Y>=Count(Fields!Nombre.Value)</Y>
+                    <Y>=Sum(Fields!CantidadMaximaCredito.Value)</Y>
                   </ChartDataPointValues>
                   <ChartDataLabel>
                     <Style />
@@ -528,7 +593,40 @@
                 </ChartDataPoint>
               </ChartDataPoints>
               <Type>Shape</Type>
-              <Subtype>Doughnut</Subtype>
+              <Style />
+              <ChartEmptyPoints>
+                <Style />
+                <ChartMarker>
+                  <Style />
+                </ChartMarker>
+                <ChartDataLabel>
+                  <Style />
+                </ChartDataLabel>
+              </ChartEmptyPoints>
+              <ValueAxisName>Primary</ValueAxisName>
+              <CategoryAxisName>Primary</CategoryAxisName>
+              <ChartSmartLabel>
+                <CalloutLineColor>Black</CalloutLineColor>
+                <MinMovingDistance>0pt</MinMovingDistance>
+              </ChartSmartLabel>
+            </ChartSeries>
+            <ChartSeries Name="CantidadMinimaCredito">
+              <ChartDataPoints>
+                <ChartDataPoint>
+                  <ChartDataPointValues>
+                    <Y>=Sum(Fields!CantidadMinimaCredito.Value)</Y>
+                  </ChartDataPointValues>
+                  <ChartDataLabel>
+                    <Style />
+                  </ChartDataLabel>
+                  <Style />
+                  <ChartMarker>
+                    <Style />
+                  </ChartMarker>
+                  <DataElementOutput>Output</DataElementOutput>
+                </ChartDataPoint>
+              </ChartDataPoints>
+              <Type>Shape</Type>
               <Style />
               <ChartEmptyPoints>
                 <Style />
@@ -737,8 +835,8 @@
           </Style>
         </ChartNoDataMessage>
         <DataSetName>tabla_credxemp</DataSetName>
-        <Top>4.62174cm</Top>
-        <Left>9.14612cm</Left>
+        <Top>4.3307cm</Top>
+        <Left>10.41612cm</Left>
         <Height>5cm</Height>
         <Width>7.5cm</Width>
         <ZIndex>2</ZIndex>

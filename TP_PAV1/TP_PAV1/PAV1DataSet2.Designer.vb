@@ -398,6 +398,22 @@ Partial Public Class PAV1DataSet2
         
         Private columnMonto As Global.System.Data.DataColumn
         
+        Private columnLegajoGraf1 As Global.System.Data.DataColumn
+        
+        Private columnNombreGraf1 As Global.System.Data.DataColumn
+        
+        Private columnApellidoGraf1 As Global.System.Data.DataColumn
+        
+        Private columnCantidadMaximaCredito As Global.System.Data.DataColumn
+        
+        Private columnLegajoGraf2 As Global.System.Data.DataColumn
+        
+        Private columnNombreGraf2 As Global.System.Data.DataColumn
+        
+        Private columnApellidoGraf2 As Global.System.Data.DataColumn
+        
+        Private columnCantidadMinimaCredito As Global.System.Data.DataColumn
+        
         <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
         Public Sub New()
@@ -474,6 +490,70 @@ Partial Public Class PAV1DataSet2
         End Property
         
         <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public ReadOnly Property LegajoGraf1Column() As Global.System.Data.DataColumn
+            Get
+                Return Me.columnLegajoGraf1
+            End Get
+        End Property
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public ReadOnly Property NombreGraf1Column() As Global.System.Data.DataColumn
+            Get
+                Return Me.columnNombreGraf1
+            End Get
+        End Property
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public ReadOnly Property ApellidoGraf1Column() As Global.System.Data.DataColumn
+            Get
+                Return Me.columnApellidoGraf1
+            End Get
+        End Property
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public ReadOnly Property CantidadMaximaCreditoColumn() As Global.System.Data.DataColumn
+            Get
+                Return Me.columnCantidadMaximaCredito
+            End Get
+        End Property
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public ReadOnly Property LegajoGraf2Column() As Global.System.Data.DataColumn
+            Get
+                Return Me.columnLegajoGraf2
+            End Get
+        End Property
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public ReadOnly Property NombreGraf2Column() As Global.System.Data.DataColumn
+            Get
+                Return Me.columnNombreGraf2
+            End Get
+        End Property
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public ReadOnly Property ApellidoGraf2Column() As Global.System.Data.DataColumn
+            Get
+                Return Me.columnApellidoGraf2
+            End Get
+        End Property
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public ReadOnly Property CantidadMinimaCreditoColumn() As Global.System.Data.DataColumn
+            Get
+                Return Me.columnCantidadMinimaCredito
+            End Get
+        End Property
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0"),  _
          Global.System.ComponentModel.Browsable(false)>  _
         Public ReadOnly Property Count() As Integer
@@ -510,9 +590,9 @@ Partial Public Class PAV1DataSet2
         
         <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
-        Public Overloads Function AddCreditosXEmpleadoRow(ByVal Legajo As Integer, ByVal Nombre As String, ByVal Apellido As String, ByVal CodigoCredito As Integer, ByVal Monto As Double) As CreditosXEmpleadoRow
+        Public Overloads Function AddCreditosXEmpleadoRow(ByVal Legajo As Integer, ByVal Nombre As String, ByVal Apellido As String, ByVal CodigoCredito As Integer, ByVal Monto As Double, ByVal LegajoGraf1 As Integer, ByVal NombreGraf1 As String, ByVal ApellidoGraf1 As String, ByVal CantidadMaximaCredito As Integer, ByVal LegajoGraf2 As Integer, ByVal NombreGraf2 As String, ByVal ApellidoGraf2 As String, ByVal CantidadMinimaCredito As Integer) As CreditosXEmpleadoRow
             Dim rowCreditosXEmpleadoRow As CreditosXEmpleadoRow = CType(Me.NewRow,CreditosXEmpleadoRow)
-            Dim columnValuesArray() As Object = New Object() {Legajo, Nombre, Apellido, CodigoCredito, Monto}
+            Dim columnValuesArray() As Object = New Object() {Legajo, Nombre, Apellido, CodigoCredito, Monto, LegajoGraf1, NombreGraf1, ApellidoGraf1, CantidadMaximaCredito, LegajoGraf2, NombreGraf2, ApellidoGraf2, CantidadMinimaCredito}
             rowCreditosXEmpleadoRow.ItemArray = columnValuesArray
             Me.Rows.Add(rowCreditosXEmpleadoRow)
             Return rowCreditosXEmpleadoRow
@@ -540,6 +620,14 @@ Partial Public Class PAV1DataSet2
             Me.columnApellido = MyBase.Columns("Apellido")
             Me.columnCodigoCredito = MyBase.Columns("CodigoCredito")
             Me.columnMonto = MyBase.Columns("Monto")
+            Me.columnLegajoGraf1 = MyBase.Columns("LegajoGraf1")
+            Me.columnNombreGraf1 = MyBase.Columns("NombreGraf1")
+            Me.columnApellidoGraf1 = MyBase.Columns("ApellidoGraf1")
+            Me.columnCantidadMaximaCredito = MyBase.Columns("CantidadMaximaCredito")
+            Me.columnLegajoGraf2 = MyBase.Columns("LegajoGraf2")
+            Me.columnNombreGraf2 = MyBase.Columns("NombreGraf2")
+            Me.columnApellidoGraf2 = MyBase.Columns("ApellidoGraf2")
+            Me.columnCantidadMinimaCredito = MyBase.Columns("CantidadMinimaCredito")
         End Sub
         
         <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
@@ -555,6 +643,22 @@ Partial Public Class PAV1DataSet2
             MyBase.Columns.Add(Me.columnCodigoCredito)
             Me.columnMonto = New Global.System.Data.DataColumn("Monto", GetType(Double), Nothing, Global.System.Data.MappingType.Element)
             MyBase.Columns.Add(Me.columnMonto)
+            Me.columnLegajoGraf1 = New Global.System.Data.DataColumn("LegajoGraf1", GetType(Integer), Nothing, Global.System.Data.MappingType.Element)
+            MyBase.Columns.Add(Me.columnLegajoGraf1)
+            Me.columnNombreGraf1 = New Global.System.Data.DataColumn("NombreGraf1", GetType(String), Nothing, Global.System.Data.MappingType.Element)
+            MyBase.Columns.Add(Me.columnNombreGraf1)
+            Me.columnApellidoGraf1 = New Global.System.Data.DataColumn("ApellidoGraf1", GetType(String), Nothing, Global.System.Data.MappingType.Element)
+            MyBase.Columns.Add(Me.columnApellidoGraf1)
+            Me.columnCantidadMaximaCredito = New Global.System.Data.DataColumn("CantidadMaximaCredito", GetType(Integer), Nothing, Global.System.Data.MappingType.Element)
+            MyBase.Columns.Add(Me.columnCantidadMaximaCredito)
+            Me.columnLegajoGraf2 = New Global.System.Data.DataColumn("LegajoGraf2", GetType(Integer), Nothing, Global.System.Data.MappingType.Element)
+            MyBase.Columns.Add(Me.columnLegajoGraf2)
+            Me.columnNombreGraf2 = New Global.System.Data.DataColumn("NombreGraf2", GetType(String), Nothing, Global.System.Data.MappingType.Element)
+            MyBase.Columns.Add(Me.columnNombreGraf2)
+            Me.columnApellidoGraf2 = New Global.System.Data.DataColumn("ApellidoGraf2", GetType(String), Nothing, Global.System.Data.MappingType.Element)
+            MyBase.Columns.Add(Me.columnApellidoGraf2)
+            Me.columnCantidadMinimaCredito = New Global.System.Data.DataColumn("CantidadMinimaCredito", GetType(Integer), Nothing, Global.System.Data.MappingType.Element)
+            MyBase.Columns.Add(Me.columnCantidadMinimaCredito)
         End Sub
         
         <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
@@ -1807,6 +1911,130 @@ Partial Public Class PAV1DataSet2
         
         <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public Property LegajoGraf1() As Integer
+            Get
+                Try 
+                    Return CType(Me(Me.tableCreditosXEmpleado.LegajoGraf1Column),Integer)
+                Catch e As Global.System.InvalidCastException
+                    Throw New Global.System.Data.StrongTypingException("El valor de la columna 'LegajoGraf1' de la tabla 'CreditosXEmpleado' es DBNull.", e)
+                End Try
+            End Get
+            Set
+                Me(Me.tableCreditosXEmpleado.LegajoGraf1Column) = value
+            End Set
+        End Property
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public Property NombreGraf1() As String
+            Get
+                Try 
+                    Return CType(Me(Me.tableCreditosXEmpleado.NombreGraf1Column),String)
+                Catch e As Global.System.InvalidCastException
+                    Throw New Global.System.Data.StrongTypingException("El valor de la columna 'NombreGraf1' de la tabla 'CreditosXEmpleado' es DBNull.", e)
+                End Try
+            End Get
+            Set
+                Me(Me.tableCreditosXEmpleado.NombreGraf1Column) = value
+            End Set
+        End Property
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public Property ApellidoGraf1() As String
+            Get
+                Try 
+                    Return CType(Me(Me.tableCreditosXEmpleado.ApellidoGraf1Column),String)
+                Catch e As Global.System.InvalidCastException
+                    Throw New Global.System.Data.StrongTypingException("El valor de la columna 'ApellidoGraf1' de la tabla 'CreditosXEmpleado' es DBNull."& _ 
+                            "", e)
+                End Try
+            End Get
+            Set
+                Me(Me.tableCreditosXEmpleado.ApellidoGraf1Column) = value
+            End Set
+        End Property
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public Property CantidadMaximaCredito() As Integer
+            Get
+                Try 
+                    Return CType(Me(Me.tableCreditosXEmpleado.CantidadMaximaCreditoColumn),Integer)
+                Catch e As Global.System.InvalidCastException
+                    Throw New Global.System.Data.StrongTypingException("El valor de la columna 'CantidadMaximaCredito' de la tabla 'CreditosXEmpleado' es"& _ 
+                            " DBNull.", e)
+                End Try
+            End Get
+            Set
+                Me(Me.tableCreditosXEmpleado.CantidadMaximaCreditoColumn) = value
+            End Set
+        End Property
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public Property LegajoGraf2() As Integer
+            Get
+                Try 
+                    Return CType(Me(Me.tableCreditosXEmpleado.LegajoGraf2Column),Integer)
+                Catch e As Global.System.InvalidCastException
+                    Throw New Global.System.Data.StrongTypingException("El valor de la columna 'LegajoGraf2' de la tabla 'CreditosXEmpleado' es DBNull.", e)
+                End Try
+            End Get
+            Set
+                Me(Me.tableCreditosXEmpleado.LegajoGraf2Column) = value
+            End Set
+        End Property
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public Property NombreGraf2() As String
+            Get
+                Try 
+                    Return CType(Me(Me.tableCreditosXEmpleado.NombreGraf2Column),String)
+                Catch e As Global.System.InvalidCastException
+                    Throw New Global.System.Data.StrongTypingException("El valor de la columna 'NombreGraf2' de la tabla 'CreditosXEmpleado' es DBNull.", e)
+                End Try
+            End Get
+            Set
+                Me(Me.tableCreditosXEmpleado.NombreGraf2Column) = value
+            End Set
+        End Property
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public Property ApellidoGraf2() As String
+            Get
+                Try 
+                    Return CType(Me(Me.tableCreditosXEmpleado.ApellidoGraf2Column),String)
+                Catch e As Global.System.InvalidCastException
+                    Throw New Global.System.Data.StrongTypingException("El valor de la columna 'ApellidoGraf2' de la tabla 'CreditosXEmpleado' es DBNull."& _ 
+                            "", e)
+                End Try
+            End Get
+            Set
+                Me(Me.tableCreditosXEmpleado.ApellidoGraf2Column) = value
+            End Set
+        End Property
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public Property CantidadMinimaCredito() As Integer
+            Get
+                Try 
+                    Return CType(Me(Me.tableCreditosXEmpleado.CantidadMinimaCreditoColumn),Integer)
+                Catch e As Global.System.InvalidCastException
+                    Throw New Global.System.Data.StrongTypingException("El valor de la columna 'CantidadMinimaCredito' de la tabla 'CreditosXEmpleado' es"& _ 
+                            " DBNull.", e)
+                End Try
+            End Get
+            Set
+                Me(Me.tableCreditosXEmpleado.CantidadMinimaCreditoColumn) = value
+            End Set
+        End Property
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
         Public Function IsLegajoNull() As Boolean
             Return Me.IsNull(Me.tableCreditosXEmpleado.LegajoColumn)
         End Function
@@ -1863,6 +2091,102 @@ Partial Public Class PAV1DataSet2
          Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
         Public Sub SetMontoNull()
             Me(Me.tableCreditosXEmpleado.MontoColumn) = Global.System.Convert.DBNull
+        End Sub
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public Function IsLegajoGraf1Null() As Boolean
+            Return Me.IsNull(Me.tableCreditosXEmpleado.LegajoGraf1Column)
+        End Function
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public Sub SetLegajoGraf1Null()
+            Me(Me.tableCreditosXEmpleado.LegajoGraf1Column) = Global.System.Convert.DBNull
+        End Sub
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public Function IsNombreGraf1Null() As Boolean
+            Return Me.IsNull(Me.tableCreditosXEmpleado.NombreGraf1Column)
+        End Function
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public Sub SetNombreGraf1Null()
+            Me(Me.tableCreditosXEmpleado.NombreGraf1Column) = Global.System.Convert.DBNull
+        End Sub
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public Function IsApellidoGraf1Null() As Boolean
+            Return Me.IsNull(Me.tableCreditosXEmpleado.ApellidoGraf1Column)
+        End Function
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public Sub SetApellidoGraf1Null()
+            Me(Me.tableCreditosXEmpleado.ApellidoGraf1Column) = Global.System.Convert.DBNull
+        End Sub
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public Function IsCantidadMaximaCreditoNull() As Boolean
+            Return Me.IsNull(Me.tableCreditosXEmpleado.CantidadMaximaCreditoColumn)
+        End Function
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public Sub SetCantidadMaximaCreditoNull()
+            Me(Me.tableCreditosXEmpleado.CantidadMaximaCreditoColumn) = Global.System.Convert.DBNull
+        End Sub
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public Function IsLegajoGraf2Null() As Boolean
+            Return Me.IsNull(Me.tableCreditosXEmpleado.LegajoGraf2Column)
+        End Function
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public Sub SetLegajoGraf2Null()
+            Me(Me.tableCreditosXEmpleado.LegajoGraf2Column) = Global.System.Convert.DBNull
+        End Sub
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public Function IsNombreGraf2Null() As Boolean
+            Return Me.IsNull(Me.tableCreditosXEmpleado.NombreGraf2Column)
+        End Function
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public Sub SetNombreGraf2Null()
+            Me(Me.tableCreditosXEmpleado.NombreGraf2Column) = Global.System.Convert.DBNull
+        End Sub
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public Function IsApellidoGraf2Null() As Boolean
+            Return Me.IsNull(Me.tableCreditosXEmpleado.ApellidoGraf2Column)
+        End Function
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public Sub SetApellidoGraf2Null()
+            Me(Me.tableCreditosXEmpleado.ApellidoGraf2Column) = Global.System.Convert.DBNull
+        End Sub
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public Function IsCantidadMinimaCreditoNull() As Boolean
+            Return Me.IsNull(Me.tableCreditosXEmpleado.CantidadMinimaCreditoColumn)
+        End Function
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public Sub SetCantidadMinimaCreditoNull()
+            Me(Me.tableCreditosXEmpleado.CantidadMinimaCreditoColumn) = Global.System.Convert.DBNull
         End Sub
     End Class
     

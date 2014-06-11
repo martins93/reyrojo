@@ -1377,6 +1377,8 @@
     Private Sub btn_cantxemp_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btn_cantxemp.Click
         Dim sql As String = ""
 
+        Dim sqlMax As String = ""
+
         If Me.txt_cantxemp_leg.Text = "" Then
             sql = "SELECT Empleado.legajo AS Legajo, Empleado.nombres AS Nombre, Empleado.apellido AS Apellido, Creditos.idCreditos AS CodigoCredito, Creditos.monto AS Monto FROM Creditos INNER JOIN Empleado ON Creditos.Empleado_legajo = Empleado.legajo"
         Else
@@ -1442,6 +1444,8 @@
         report_credxmonto.RefreshReport()
 
     End Sub
+
+    
 End Class
 
 'Private Sub fecha_Validated(ByVal sender As Object, ByVal e As System.EventArgs) Handles mtxt_solicitante_fechaNacimiento.Validated
