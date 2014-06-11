@@ -35,7 +35,7 @@
         Me.tab_menu.Width = 1260  'Esto despues se borra, es para no tener la pestaña gigante por debajo de los controles en el diseñador
 
         Me.report_credxemp.RefreshReport()
-        Me.ReportViewer1.RefreshReport()
+        Me.CreditosXEmpleadoAgrupado.RefreshReport()
     End Sub
 
     'Boton borrar de los ABM
@@ -1170,7 +1170,7 @@
 
             End If
 
-            
+
 
 
 
@@ -1388,7 +1388,7 @@
         report_credxemp.RefreshReport()
     End Sub
 
-  
+
     Private Sub btn_cantxsol_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btn_cantxsol.Click
         Dim sql As String = ""
 
@@ -1445,7 +1445,15 @@
 
     End Sub
 
-    
+
+    Private Sub ReportViewer1_Load(sender As System.Object, e As System.EventArgs) Handles CreditosXEmpleadoAgrupado.Load
+
+        Dim sql As String = "SELECT Emp.legajo AS Legajo, Emp.apellido AS Apellido, COUNT(*) AS CantidadCreditos FROM Empleado Emp INNER JOIN Creditos Cred ON Cred.Empleado_legajo=Emp.legajo GROUP BY Emp.legajo, Emp.apellido"
+
+        CreditosXEmpleadoAgrupadoBindingSource.DataSource = conexion._consulta(sql)
+        CreditosXEmpleadoAgrupado.RefreshReport()
+
+    End Sub
 End Class
 
 'Private Sub fecha_Validated(ByVal sender As Object, ByVal e As System.EventArgs) Handles mtxt_solicitante_fechaNacimiento.Validated
