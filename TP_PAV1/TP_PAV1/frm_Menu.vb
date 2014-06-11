@@ -312,9 +312,10 @@
 
         'DEJAR DE USAR INSERT DEL PROFE, HACER INSERT PROPIO
         If validacion._validar_campos_vacios() Then
-            objeto = cargar_struct()
+
             Select Case pestaña
                 Case 0
+                    objeto = cargar_struct()
                     If validacion._validar_abogado(objeto) Then
 
                         texto = "matricula=" & Me.txt_abogado_matricula.Text & ", nombre=" & Me.txt_abogado_nombre.Text & ", apellido=" & Me.txt_abogado_apellido.Text & ", telefono= " & Me.mtxt_abogado_telefono.Text & ", domicilio= " & Me.txt_abogado_domicilio.Text
@@ -322,6 +323,7 @@
                         limpiar_tab()
                     End If
                 Case 1
+                    objeto = cargar_struct()
                     If validacion._validar_solicitante(objeto) Then
                         '   texto = "numeroDocumento=" & Me.mtxt_solicitante_nrodoc.Text & ", apellido=" & Me.txt_solicitante_apellido.Text & ", nombre=" & Me.txt_solicitante_nombre.Text & ", telefono= " & Me.mtxt_solicitante_telefono.Text & ", domicilio= " & Me.txt_solicitante_domicilio.Text & ", tipo_Documento_idTipo_Documento= " & Me.cmb_solicitante_tipodoc.SelectedValue & ", fechaNacimiento=" & Me.mtxt_solicitante_fechaNacimiento.Text
                         texto = "INSERT INTO solicitante (numeroDocumento, apellido, nombre, telefono, domicilio, tipo_Documento_idTipo_Documento, fechaNacimiento) VALUES ("
@@ -330,6 +332,7 @@
                         limpiar_tab()
                     End If
                 Case 2
+                    objeto = cargar_struct()
                     If validacion._validar_empleado(objeto) Then
                         'texto = "INSERT INTO empleado (                                                             "
                         texto = "legajo=" & Me.txt_empleado_legajo.Text & ", Empleado_legajo=" & Me.txt_empleado_legSup.Text & ", Cargo_idCargo=" & Me.cmb_empleado_cargo.SelectedIndex + 1 & ", nombres=" & Me.txt_empleado_nombre.Text & ", apellido=" & Me.txt_empleado_ape.Text & ", fecha_Alta=" & Me.txt_empleado_fecha.Text
@@ -339,14 +342,22 @@
 
                     End If
                 Case 3
-                    If validacion._validar_credito(objeto) Then
-                        texto = "INSERT INTO creditos (monto, fechaSolicitud, Solicitante_idSolicitante, Estado_Credito_idEstado_Credito, Empleado_legajo, Objeto_idObjeto) VALUES ("
-                        texto += Me.txt_creditos_monto.Text & ", " & "convert(date, '" & Me.txt_creditos_fSolicitud.Text & "', 103)" & ", " & Me.txt_creditos_idSolicitante.Text & ", " & Me.cmb_creditos_estadoCredito.SelectedIndex & ", " & Me.txt_creditos_legajo.Text & ", " & Me.txt_creditos_idObjeto.Text & ")"
-                        conexion._modificar(texto)
-                        limpiar_tab()
-                        Me.txt_creditos_objeto.Enabled = True
+
+                    If Me.cmb_creditos_estadoCredito.SelectedIndex = 0 Then
+                        objeto = cargar_struct()
+                        If validacion._validar_credito(objeto) Then
+                            texto = "INSERT INTO creditos (monto, fechaSolicitud, Solicitante_idSolicitante, Estado_Credito_idEstado_Credito, Empleado_legajo, Objeto_idObjeto) VALUES ("
+                            texto += Me.txt_creditos_monto.Text & ", " & "convert(date, '" & Me.txt_creditos_fSolicitud.Text & "', 103)" & ", " & Me.txt_creditos_idSolicitante.Text & ", " & Me.cmb_creditos_estadoCredito.SelectedIndex & ", " & Me.txt_creditos_legajo.Text & ", " & Me.txt_creditos_idObjeto.Text & ")"
+                            conexion._modificar(texto)
+                            limpiar_tab()
+                            Me.txt_creditos_objeto.Enabled = True
+                        End If
+                    Else
+                        MsgBox("Creditos nuevos solo pueden ser pendientes", vbOKOnly + vbCritical, "Importante")
                     End If
+
                 Case 4
+                    objeto = cargar_struct()
                     If validacion._validar_expediente(objeto) Then
                         Dim valor As Integer
                         valor = obtener_estado_credito(Me.txt_expediente_codCred.Text)
@@ -362,6 +373,7 @@
                     '    conexion._modificar(texto)
                     '    limpiar_tab()
                     'End If
+                    objeto = cargar_struct()
                     Dim tabla As New Data.DataTable
                     Dim insert_garantia As String = ""
 
