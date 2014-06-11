@@ -1032,7 +1032,7 @@
                         Me._combo.cargar(Me.cmb_creditos_estadoCredito, Me.conexion.leo_tabla())
                         conexion.cambiar_Tabla(Me.nombre_tabla_pestana)
                         Me.cargar_Grilla()
-                        DateTime.Now.Year()
+
                         txt_creditos_fSolicitud.Text = DateTime.Now().ToString("dd-MM-yyyy") 'ANTES ERA ("dd-MM-yyyy"), VER TIPO DATE SQLSERVER.
                         'Campos visibles/accesibles al cargar la pestaña 
                         txt_creditos_fSolicitud.Enabled = False
