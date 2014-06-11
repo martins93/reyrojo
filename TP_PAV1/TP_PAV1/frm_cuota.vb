@@ -78,6 +78,7 @@
         Dim tabla As New Data.DataTable
         Dim insert_couta As String = ""
         Dim insert_txt As String = ""
+        Dim update_txt As String = ""
 
 
 
@@ -89,7 +90,7 @@
 
             insert_couta = "INSERT INTO Cuota (monto, interes, fechaVencimiento, fechaPago) VALUES ("
             insert_couta += Me.txt_cuota_montoCuota.Text & ", " & Me.txt_cuota_interes.Text & ", DATEADD(month, " & c & ", convert(date, '" & fecha_aprobacion & "', 103)), null)"
-            ' MsgBox(insert_couta)
+
 
             Me.conexion._tabla = "Cuota"
             Me.conexion._modificar(insert_couta)
@@ -104,6 +105,10 @@
             Me.conexion._modificar(insert_txt)
 
         Next
+
+        update_txt = "UPDATE Creditos SET Estado_Credito_idEstado_Credito =" & 1 & ", fechaAprobacion =convert(date, '" & fecha_aprobacion & "', 103)   WHERE idCreditos =" & id_credito
+
+        Me.conexion._modificar(update_txt)
 
         Me.Close()
         'Dim estado As Object
