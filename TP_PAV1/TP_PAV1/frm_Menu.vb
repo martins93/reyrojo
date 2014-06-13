@@ -291,8 +291,10 @@
                 Case 6
                     If Me.cmb_pago_estado.SelectedIndex = 1 Then
                         texto += "Estado_Cuota_idEstado_Cuota =" & Me.cmb_pago_estado.SelectedIndex & " WHERE Cuota_idCuota = (SELECT MIN(Cuota.idCuota) AS Expr1 	FROM  Cuota INNER JOIN Creditos_x_Cuota ON Cuota.idCuota = Creditos_x_Cuota.Cuota_idCuota WHERE(Creditos_x_Cuota.Estado_Cuota_idEstado_Cuota = 0))"
-                        ' MsgBox(texto)
+                        ' En texto hay que relacionar el idCredito con la cuota, para que no modifique solo el estado de las cuotas del credito 1 (txt_pago_codCred)
+                        Dim sql As String = "UPDATE Cuota SET fechaPago=CONVERT(DATE, '" & Me.txt_pago_fecha.Text & "', 103) WHERE idCuota = (SELECT MIN(Cuota.idCuota) AS Expr1 	FROM  Cuota INNER JOIN Creditos_x_Cuota ON Cuota.idCuota = Creditos_x_Cuota.Cuota_idCuota WHERE(Creditos_x_Cuota.Estado_Cuota_idEstado_Cuota = 0))"
                         conexion._modificar(texto)
+                        conexion._consulta(sql)
                     End If
             End Select
             Me.cargar_Grilla()
@@ -1081,11 +1083,13 @@
                 Me.mostrar_Interfaz(False)
                 Select Case pestaña_estadistica
                     Case 0
-                    Case 1
 
+                    Case 1
+                        report_gxm.RefreshReport()
                     Case 2
                         Me.limpiar_tab()
                         Me.cmb_cantXRango_est.SelectedIndex = 0
+
                 End Select
 
             Case Else
@@ -1508,6 +1512,32 @@
         End If
 
 
+    End Sub
+
+    Private Sub btn_gxm_Click(sender As System.Object, e As System.EventArgs) Handles btn_gxm.Click
+
+        Dim sql As String = ""
+
+
+        If Me.txt_gxm_desde.Text = "" Or Me.txt_gxmhasta.Text = "" Then
+            MessageBox.Show("Alguno de los parametros de busqueda esta VACIO", "Atencion", MessageBoxButtons.OK)
+        ElseIf (Convert.ToDouble(Me.txt_gxm_desde.Text) > 12 Or Convert.ToDouble(Me.txt_gxm_desde.Text) < 1) Then
+            MessageBox.Show("El rango de mes no puede ser mayor a 12 ni menor a 1", "Atencion", MessageBoxButtons.OK)
+        ElseIf (Convert.ToDouble(Me.txt_gxmhasta.Text) > 12 Or Convert.ToDouble(Me.txt_gxmhasta.Text) < 1) Then
+            MessageBox.Show("El rango de mes no puede ser mayor a 12 ni menor a 1", "Atencion", MessageBoxButtons.OK)
+        ElseIf Convert.ToDouble(Me.txt_gxm_desde.Text) > Convert.ToDouble(Me.txt_gxmhasta.Text) Then
+            MessageBox.Show("El parametro 'DESDE' es mayor al parametro 'HASTA'", "Atencion", MessageBoxButtons.OK)
+        Else
+
+            sql = "SELECT Cre.idCreditos AS CodigoCredito, C.monto AS Monto, COUNT(cxc.Creditos_idCreditos) AS Cantidad, (C.interes/100) AS Interes,SUM(C.monto - (C.monto/(1+(C.interes/100)))) AS Ganancia "
+            sql += "FROM Cuota C INNER JOIN Creditos_x_Cuota cxc ON C.idCuota = CXC.Cuota_idCuota INNER JOIN Creditos Cre ON Cre.idCreditos = cxc.Creditos_idCreditos "
+            sql += "INNER JOIN Estado_Cuota ec ON cxc.Estado_Cuota_idEstado_Cuota = ec.idEstado_Cuota "
+            sql += "WHERE ec.nombre = 'PAGADO' AND MONTH(C.fechaPago) BETWEEN " & Me.txt_gxm_desde.Text & " AND " & Me.txt_gxmhasta.Text & " GROUP BY C.monto, C.interes, Cre.idCreditos"
+
+
+            GananciaXRangoMesBindingSource.DataSource = conexion._consulta(sql)
+            report_gxm.RefreshReport()
+        End If
     End Sub
 End Class
 
