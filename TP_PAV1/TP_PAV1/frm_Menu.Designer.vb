@@ -31,7 +31,6 @@ Partial Class frm_Menu
         Dim ReportDataSource5 As Microsoft.Reporting.WinForms.ReportDataSource = New Microsoft.Reporting.WinForms.ReportDataSource()
         Dim ReportDataSource6 As Microsoft.Reporting.WinForms.ReportDataSource = New Microsoft.Reporting.WinForms.ReportDataSource()
         Dim ReportDataSource7 As Microsoft.Reporting.WinForms.ReportDataSource = New Microsoft.Reporting.WinForms.ReportDataSource()
-        Dim ReportDataSource8 As Microsoft.Reporting.WinForms.ReportDataSource = New Microsoft.Reporting.WinForms.ReportDataSource()
         Me.CreditosXEmpleadoBindingSource = New System.Windows.Forms.BindingSource(Me.components)
         Me.PAV1DataSet2 = New TP_PAV1.PAV1DataSet2()
         Me.CreditosXSolicitanteBindingSource = New System.Windows.Forms.BindingSource(Me.components)
@@ -177,17 +176,21 @@ Partial Class frm_Menu
         Me.TabPage1 = New System.Windows.Forms.TabPage()
         Me.CreditosXEmpleadoAgrupado = New Microsoft.Reporting.WinForms.ReportViewer()
         Me.TabPage2 = New System.Windows.Forms.TabPage()
-        Me.ReportViewer2 = New Microsoft.Reporting.WinForms.ReportViewer()
+        Me.Label1 = New System.Windows.Forms.Label()
+        Me.Label2 = New System.Windows.Forms.Label()
+        Me.btn_gxm = New System.Windows.Forms.Button()
+        Me.txt_gxmhasta = New System.Windows.Forms.MaskedTextBox()
+        Me.txt_gxm_desde = New System.Windows.Forms.MaskedTextBox()
+        Me.report_gxm = New Microsoft.Reporting.WinForms.ReportViewer()
         Me.TabPage3 = New System.Windows.Forms.TabPage()
         Me.cmb_cantXRango_est = New System.Windows.Forms.ComboBox()
         Me.lbl_año_estadistica1 = New System.Windows.Forms.Label()
         Me.txt_cantXRango_año = New System.Windows.Forms.TextBox()
         Me.btn_cantCredXRang = New System.Windows.Forms.Button()
         Me.CreditosXRangoEstadistica = New Microsoft.Reporting.WinForms.ReportViewer()
-        Me.TabPage4 = New System.Windows.Forms.TabPage()
-        Me.ReportViewer4 = New Microsoft.Reporting.WinForms.ReportViewer()
         Me.TipoDocumentoBindingSource1 = New System.Windows.Forms.BindingSource(Me.components)
         Me.CargoTableAdapter = New TP_PAV1.PAV1DataSetTableAdapters.CargoTableAdapter()
+        Me.GananciaXRangoMesBindingSource = New System.Windows.Forms.BindingSource(Me.components)
         CType(Me.CreditosXEmpleadoBindingSource, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.PAV1DataSet2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.CreditosXSolicitanteBindingSource, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -222,8 +225,8 @@ Partial Class frm_Menu
         Me.TabPage1.SuspendLayout()
         Me.TabPage2.SuspendLayout()
         Me.TabPage3.SuspendLayout()
-        Me.TabPage4.SuspendLayout()
         CType(Me.TipoDocumentoBindingSource1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.GananciaXRangoMesBindingSource, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'CreditosXEmpleadoBindingSource
@@ -1525,7 +1528,6 @@ Partial Class frm_Menu
         Me.tab_est.Controls.Add(Me.TabPage1)
         Me.tab_est.Controls.Add(Me.TabPage2)
         Me.tab_est.Controls.Add(Me.TabPage3)
-        Me.tab_est.Controls.Add(Me.TabPage4)
         Me.tab_est.Location = New System.Drawing.Point(0, 8)
         Me.tab_est.Name = "tab_est"
         Me.tab_est.SelectedIndex = 0
@@ -1556,25 +1558,73 @@ Partial Class frm_Menu
         '
         'TabPage2
         '
-        Me.TabPage2.Controls.Add(Me.ReportViewer2)
+        Me.TabPage2.Controls.Add(Me.Label1)
+        Me.TabPage2.Controls.Add(Me.Label2)
+        Me.TabPage2.Controls.Add(Me.btn_gxm)
+        Me.TabPage2.Controls.Add(Me.txt_gxmhasta)
+        Me.TabPage2.Controls.Add(Me.txt_gxm_desde)
+        Me.TabPage2.Controls.Add(Me.report_gxm)
         Me.TabPage2.Location = New System.Drawing.Point(4, 22)
         Me.TabPage2.Name = "TabPage2"
         Me.TabPage2.Padding = New System.Windows.Forms.Padding(3)
         Me.TabPage2.Size = New System.Drawing.Size(1233, 588)
         Me.TabPage2.TabIndex = 1
-        Me.TabPage2.Text = "TabPage2"
+        Me.TabPage2.Text = "Ganancias Por Periodo"
         Me.TabPage2.UseVisualStyleBackColor = True
         '
-        'ReportViewer2
+        'Label1
         '
-        ReportDataSource6.Name = "tabla4"
-        ReportDataSource6.Value = Me.CreditosXRangoMontoBindingSource
-        Me.ReportViewer2.LocalReport.DataSources.Add(ReportDataSource6)
-        Me.ReportViewer2.LocalReport.ReportEmbeddedResource = "TP_PAV1.Report4.rdlc"
-        Me.ReportViewer2.Location = New System.Drawing.Point(0, 3)
-        Me.ReportViewer2.Name = "ReportViewer2"
-        Me.ReportViewer2.Size = New System.Drawing.Size(1161, 522)
-        Me.ReportViewer2.TabIndex = 5
+        Me.Label1.AutoSize = True
+        Me.Label1.Location = New System.Drawing.Point(208, 543)
+        Me.Label1.Name = "Label1"
+        Me.Label1.Size = New System.Drawing.Size(35, 13)
+        Me.Label1.TabIndex = 13
+        Me.Label1.Text = "Hasta"
+        '
+        'Label2
+        '
+        Me.Label2.AutoSize = True
+        Me.Label2.Location = New System.Drawing.Point(111, 543)
+        Me.Label2.Name = "Label2"
+        Me.Label2.Size = New System.Drawing.Size(38, 13)
+        Me.Label2.TabIndex = 12
+        Me.Label2.Text = "Desde"
+        '
+        'btn_gxm
+        '
+        Me.btn_gxm.Location = New System.Drawing.Point(320, 535)
+        Me.btn_gxm.Name = "btn_gxm"
+        Me.btn_gxm.Size = New System.Drawing.Size(82, 28)
+        Me.btn_gxm.TabIndex = 11
+        Me.btn_gxm.Text = "Mostrar"
+        Me.btn_gxm.UseVisualStyleBackColor = True
+        '
+        'txt_gxmhasta
+        '
+        Me.txt_gxmhasta.Location = New System.Drawing.Point(262, 540)
+        Me.txt_gxmhasta.Mask = "00"
+        Me.txt_gxmhasta.Name = "txt_gxmhasta"
+        Me.txt_gxmhasta.Size = New System.Drawing.Size(20, 20)
+        Me.txt_gxmhasta.TabIndex = 10
+        '
+        'txt_gxm_desde
+        '
+        Me.txt_gxm_desde.Location = New System.Drawing.Point(167, 540)
+        Me.txt_gxm_desde.Mask = "00"
+        Me.txt_gxm_desde.Name = "txt_gxm_desde"
+        Me.txt_gxm_desde.Size = New System.Drawing.Size(20, 20)
+        Me.txt_gxm_desde.TabIndex = 9
+        '
+        'report_gxm
+        '
+        ReportDataSource6.Name = "tabla_ganancia"
+        ReportDataSource6.Value = Me.GananciaXRangoMesBindingSource
+        Me.report_gxm.LocalReport.DataSources.Add(ReportDataSource6)
+        Me.report_gxm.LocalReport.ReportEmbeddedResource = "TP_PAV1.Report6.rdlc"
+        Me.report_gxm.Location = New System.Drawing.Point(0, 3)
+        Me.report_gxm.Name = "report_gxm"
+        Me.report_gxm.Size = New System.Drawing.Size(1161, 522)
+        Me.report_gxm.TabIndex = 5
         '
         'TabPage3
         '
@@ -1635,27 +1685,6 @@ Partial Class frm_Menu
         Me.CreditosXRangoEstadistica.Size = New System.Drawing.Size(1161, 522)
         Me.CreditosXRangoEstadistica.TabIndex = 5
         '
-        'TabPage4
-        '
-        Me.TabPage4.Controls.Add(Me.ReportViewer4)
-        Me.TabPage4.Location = New System.Drawing.Point(4, 22)
-        Me.TabPage4.Name = "TabPage4"
-        Me.TabPage4.Size = New System.Drawing.Size(1233, 588)
-        Me.TabPage4.TabIndex = 3
-        Me.TabPage4.Text = "TabPage4"
-        Me.TabPage4.UseVisualStyleBackColor = True
-        '
-        'ReportViewer4
-        '
-        ReportDataSource8.Name = "tabla4"
-        ReportDataSource8.Value = Me.CreditosXRangoMontoBindingSource
-        Me.ReportViewer4.LocalReport.DataSources.Add(ReportDataSource8)
-        Me.ReportViewer4.LocalReport.ReportEmbeddedResource = "TP_PAV1.Report4.rdlc"
-        Me.ReportViewer4.Location = New System.Drawing.Point(0, 3)
-        Me.ReportViewer4.Name = "ReportViewer4"
-        Me.ReportViewer4.Size = New System.Drawing.Size(1161, 522)
-        Me.ReportViewer4.TabIndex = 5
-        '
         'TipoDocumentoBindingSource1
         '
         Me.TipoDocumentoBindingSource1.DataMember = "tipo_Documento"
@@ -1664,6 +1693,11 @@ Partial Class frm_Menu
         'CargoTableAdapter
         '
         Me.CargoTableAdapter.ClearBeforeFill = True
+        '
+        'GananciaXRangoMesBindingSource
+        '
+        Me.GananciaXRangoMesBindingSource.DataMember = "GananciaXRangoMes"
+        Me.GananciaXRangoMesBindingSource.DataSource = Me.PAV1DataSet2
         '
         'frm_Menu
         '
@@ -1721,10 +1755,11 @@ Partial Class frm_Menu
         Me.tab_est.ResumeLayout(False)
         Me.TabPage1.ResumeLayout(False)
         Me.TabPage2.ResumeLayout(False)
+        Me.TabPage2.PerformLayout()
         Me.TabPage3.ResumeLayout(False)
         Me.TabPage3.PerformLayout()
-        Me.TabPage4.ResumeLayout(False)
         CType(Me.TipoDocumentoBindingSource1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.GananciaXRangoMesBindingSource, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
     End Sub
@@ -1873,15 +1908,19 @@ Partial Class frm_Menu
     Friend WithEvents TabPage1 As System.Windows.Forms.TabPage
     Friend WithEvents TabPage2 As System.Windows.Forms.TabPage
     Friend WithEvents TabPage3 As System.Windows.Forms.TabPage
-    Friend WithEvents TabPage4 As System.Windows.Forms.TabPage
     Friend WithEvents CreditosXEmpleadoAgrupado As Microsoft.Reporting.WinForms.ReportViewer
-    Friend WithEvents ReportViewer2 As Microsoft.Reporting.WinForms.ReportViewer
+    Friend WithEvents report_gxm As Microsoft.Reporting.WinForms.ReportViewer
     Friend WithEvents CreditosXRangoEstadistica As Microsoft.Reporting.WinForms.ReportViewer
-    Friend WithEvents ReportViewer4 As Microsoft.Reporting.WinForms.ReportViewer
     Friend WithEvents CreditosXEmpleadoAgrupadoBindingSource As System.Windows.Forms.BindingSource
     Friend WithEvents btn_cantCredXRang As System.Windows.Forms.Button
     Friend WithEvents cmb_cantXRango_est As System.Windows.Forms.ComboBox
     Friend WithEvents lbl_año_estadistica1 As System.Windows.Forms.Label
     Friend WithEvents txt_cantXRango_año As System.Windows.Forms.TextBox
     Friend WithEvents CreditosXRangoEstadisticaBindingSource As System.Windows.Forms.BindingSource
+    Friend WithEvents Label1 As System.Windows.Forms.Label
+    Friend WithEvents Label2 As System.Windows.Forms.Label
+    Friend WithEvents btn_gxm As System.Windows.Forms.Button
+    Friend WithEvents txt_gxmhasta As System.Windows.Forms.MaskedTextBox
+    Friend WithEvents txt_gxm_desde As System.Windows.Forms.MaskedTextBox
+    Friend WithEvents GananciaXRangoMesBindingSource As System.Windows.Forms.BindingSource
 End Class
