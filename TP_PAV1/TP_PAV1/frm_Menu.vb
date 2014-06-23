@@ -295,6 +295,8 @@
                         Dim sql As String = "UPDATE Cuota SET fechaPago=CONVERT(DATE, '" & Me.txt_pago_fecha.Text & "', 103) WHERE idCuota = (SELECT MIN(Cuota.idCuota) AS Expr1 	FROM  Cuota INNER JOIN Creditos_x_Cuota ON Cuota.idCuota = Creditos_x_Cuota.Cuota_idCuota WHERE(Creditos_x_Cuota.Estado_Cuota_idEstado_Cuota = 0))"
                         conexion._modificar(texto)
                         conexion._consulta(sql)
+                    ElseIf Me.cmb_pago_estado.SelectedIndex = 2 Then
+                        MsgBox("El vencimiento se determina automaticamente", vbOKOnly + vbCritical, "Importante")
                     End If
             End Select
             Me.cargar_Grilla()
