@@ -80,8 +80,7 @@
         Dim insert_couta As String = ""
         Dim insert_txt As String = ""
         Dim update_txt As String = ""
-
-
+        Dim id_cuota As New Integer
 
 
         'Me.conexion._iniciar_conexion_con_transaccion()
@@ -94,12 +93,11 @@
 
 
             Me.conexion._tabla = "Cuota"
-            Me.conexion._modificar(insert_couta)
-            tabla = conexion._consulta("SELECT MAX(idCuota) FROM Cuota")
+            id_cuota = Me.conexion._insertar_con_detalle(insert_couta, "Cuota")
 
 
             insert_txt = "INSERT INTO Creditos_x_Cuota (Creditos_idCreditos, Cuota_idCuota, Estado_Cuota_idEstado_Cuota) VALUES ("
-            insert_txt += Me.id_credito & ", " & tabla.Rows(0)(0) & ", " & 0 & ")"
+            insert_txt += Me.id_credito & ", " & id_cuota & ", " & 0 & ")"
 
             Me.conexion._tabla = "Creditos_x_Cuota"
 
@@ -112,14 +110,6 @@
         Me.conexion._modificar(update_txt)
 
         Me.Close()
-        'Dim estado As Object
-        'estado = Me.conexion._finalizar_conexio_con_transaccion()
-
-        'If estado.ToString = "_ok" Then
-        '    MsgBox("Se grabó exitosamente", MsgBoxStyle.Information, "Importante")
-        'Else
-        '    MsgBox("Se produjo error en la grabación", MsgBoxStyle.Information, "Importante")
-        'End If
 
     End Sub
 
