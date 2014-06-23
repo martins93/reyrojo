@@ -425,6 +425,37 @@
 
     End Function
 
+    Public Function _insertar_con_detalle(ByVal text As String, ByVal nomTabla As String) As Integer
+        Dim id As Integer = -1
+
+
+
+        Me._conectar()
+
+        Dim txt_Insert As String = ""
+        txt_Insert = text
+        Dim tabla As New DataTable
+        Me.cmd.CommandText = txt_Insert
+        Try
+
+            Me.cmd.executeNonQuery()
+            Me.cmd.CommandText = "SELECT IDENT_CURRENT('" & nomTabla & "')"
+            tabla.Load(Me.cmd.ExecuteReader())
+            id = tabla.Rows(0)(0)
+        Catch ex As Exception
+            If Me.configurar_conexion = tipo_conexion.transaccion Then
+                Me.control_transaccion = estado_transaccion._error
+            End If
+            MessageBox.Show("Error al insertar " & ex.Message & "Insertanto Records")
+
+        End Try
+
+        If Me.configurar_conexion = tipo_conexion.simple Then
+            Me.conexion.Close()
+        End If
+        Return id
+    End Function
+
     Public Sub _insertar(ByVal valores As String, ByVal conid As Boolean) 'usar true si tabla no tiene id; usar false si la tabla tiene id
         Dim txt_Insert As String = ""
         txt_Insert = Me.armo_insert(conid)

@@ -297,8 +297,6 @@
                         conexion._consulta(sql)
                     ElseIf Me.cmb_pago_estado.SelectedIndex = 2 Then
                         MsgBox("El vencimiento se determina automaticamente", vbOKOnly + vbCritical, "Importante")
-
-
                     End If
 
             End Select
