@@ -1095,6 +1095,7 @@
                     Case 2
                         Me.limpiar_tab()
                         Me.cmb_cantXRango_est.SelectedIndex = 0
+                    Case 3
 
                 End Select
 
@@ -1572,6 +1573,25 @@
 
         ExpedientesXAbogadoBindingSource.DataSource = conexion._consulta(sql)
         report_expxabg.RefreshReport()
+
+    End Sub
+
+
+    
+    Private Sub report_estadoC_Load(sender As System.Object, e As System.EventArgs) Handles report_estadoC.Load
+
+        Dim sql As String = "SELECT EC.nombre AS EstadoCuota, COUNT(CC.Estado_Cuota_idEstado_Cuota) AS Cantidad FROM Estado_Cuota EC INNER JOIN Creditos_x_Cuota CC ON CC.Estado_Cuota_idEstado_Cuota = EC.idEstado_Cuota GROUP BY EC.nombre"
+
+        EstadoXCuotaBindingSource.DataSource = conexion._consulta(Sql)
+        report_estadoC.RefreshReport()
+    End Sub
+
+    Private Sub report_estadoCred_Load(sender As System.Object, e As System.EventArgs) Handles report_estadoCred.Load
+
+        Dim sql As String = "SELECT EC.nombre AS EstadoCredito, COUNT(CC.Estado_Credito_idEstado_Credito) AS Cantidad FROM Estado_Credito EC INNER JOIN Creditos CC ON CC.Estado_Credito_idEstado_Credito = EC.idEstado_Credito GROUP BY EC.nombre"
+
+        EstadoXCreditoBindingSource.DataSource = conexion._consulta(sql)
+        report_estadoCred.RefreshReport()
 
     End Sub
 End Class

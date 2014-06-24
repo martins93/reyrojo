@@ -32,14 +32,18 @@ Partial Class frm_Menu
         Dim ReportDataSource6 As Microsoft.Reporting.WinForms.ReportDataSource = New Microsoft.Reporting.WinForms.ReportDataSource()
         Dim ReportDataSource7 As Microsoft.Reporting.WinForms.ReportDataSource = New Microsoft.Reporting.WinForms.ReportDataSource()
         Dim ReportDataSource8 As Microsoft.Reporting.WinForms.ReportDataSource = New Microsoft.Reporting.WinForms.ReportDataSource()
+        Dim ReportDataSource9 As Microsoft.Reporting.WinForms.ReportDataSource = New Microsoft.Reporting.WinForms.ReportDataSource()
+        Dim ReportDataSource10 As Microsoft.Reporting.WinForms.ReportDataSource = New Microsoft.Reporting.WinForms.ReportDataSource()
         Me.CreditosXEmpleadoBindingSource = New System.Windows.Forms.BindingSource(Me.components)
         Me.PAV1DataSet2 = New TP_PAV1.PAV1DataSet2()
         Me.CreditosXSolicitanteBindingSource = New System.Windows.Forms.BindingSource(Me.components)
         Me.CreditosXRangoFechasBindingSource = New System.Windows.Forms.BindingSource(Me.components)
         Me.CreditosXRangoMontoBindingSource = New System.Windows.Forms.BindingSource(Me.components)
+        Me.ExpedientesXAbogadoBindingSource = New System.Windows.Forms.BindingSource(Me.components)
         Me.CreditosXEmpleadoAgrupadoBindingSource = New System.Windows.Forms.BindingSource(Me.components)
         Me.GananciaXRangoMesBindingSource = New System.Windows.Forms.BindingSource(Me.components)
         Me.CreditosXRangoEstadisticaBindingSource = New System.Windows.Forms.BindingSource(Me.components)
+        Me.EstadoXCuotaBindingSource = New System.Windows.Forms.BindingSource(Me.components)
         Me.tab_control = New System.Windows.Forms.TabControl()
         Me.tab_control_abogado = New System.Windows.Forms.TabPage()
         Me.mtxt_abogado_telefono = New System.Windows.Forms.MaskedTextBox()
@@ -195,17 +199,23 @@ Partial Class frm_Menu
         Me.txt_cantXRango_año = New System.Windows.Forms.TextBox()
         Me.btn_cantCredXRang = New System.Windows.Forms.Button()
         Me.CreditosXRangoEstadistica = New Microsoft.Reporting.WinForms.ReportViewer()
+        Me.TabPage4 = New System.Windows.Forms.TabPage()
+        Me.report_estadoC = New Microsoft.Reporting.WinForms.ReportViewer()
+        Me.TabPage5 = New System.Windows.Forms.TabPage()
+        Me.report_estadoCred = New Microsoft.Reporting.WinForms.ReportViewer()
         Me.TipoDocumentoBindingSource1 = New System.Windows.Forms.BindingSource(Me.components)
         Me.CargoTableAdapter = New TP_PAV1.PAV1DataSetTableAdapters.CargoTableAdapter()
-        Me.ExpedientesXAbogadoBindingSource = New System.Windows.Forms.BindingSource(Me.components)
+        Me.EstadoXCreditoBindingSource = New System.Windows.Forms.BindingSource(Me.components)
         CType(Me.CreditosXEmpleadoBindingSource, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.PAV1DataSet2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.CreditosXSolicitanteBindingSource, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.CreditosXRangoFechasBindingSource, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.CreditosXRangoMontoBindingSource, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.ExpedientesXAbogadoBindingSource, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.CreditosXEmpleadoAgrupadoBindingSource, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.GananciaXRangoMesBindingSource, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.CreditosXRangoEstadisticaBindingSource, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.EstadoXCuotaBindingSource, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.tab_control.SuspendLayout()
         Me.tab_control_abogado.SuspendLayout()
         Me.tab_control_solicitante.SuspendLayout()
@@ -234,8 +244,10 @@ Partial Class frm_Menu
         Me.TabPage1.SuspendLayout()
         Me.TabPage2.SuspendLayout()
         Me.TabPage3.SuspendLayout()
+        Me.TabPage4.SuspendLayout()
+        Me.TabPage5.SuspendLayout()
         CType(Me.TipoDocumentoBindingSource1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.ExpedientesXAbogadoBindingSource, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.EstadoXCreditoBindingSource, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'CreditosXEmpleadoBindingSource
@@ -263,6 +275,11 @@ Partial Class frm_Menu
         Me.CreditosXRangoMontoBindingSource.DataMember = "CreditosXRangoMonto"
         Me.CreditosXRangoMontoBindingSource.DataSource = Me.PAV1DataSet2
         '
+        'ExpedientesXAbogadoBindingSource
+        '
+        Me.ExpedientesXAbogadoBindingSource.DataMember = "ExpedientesXAbogado"
+        Me.ExpedientesXAbogadoBindingSource.DataSource = Me.PAV1DataSet2
+        '
         'CreditosXEmpleadoAgrupadoBindingSource
         '
         Me.CreditosXEmpleadoAgrupadoBindingSource.DataMember = "CreditosXEmpleadoAgrupado"
@@ -277,6 +294,11 @@ Partial Class frm_Menu
         '
         Me.CreditosXRangoEstadisticaBindingSource.DataMember = "CreditosXRangoEstadistica"
         Me.CreditosXRangoEstadisticaBindingSource.DataSource = Me.PAV1DataSet2
+        '
+        'EstadoXCuotaBindingSource
+        '
+        Me.EstadoXCuotaBindingSource.DataMember = "EstadoXCuota"
+        Me.EstadoXCuotaBindingSource.DataSource = Me.PAV1DataSet2
         '
         'tab_control
         '
@@ -1592,6 +1614,8 @@ Partial Class frm_Menu
         Me.tab_est.Controls.Add(Me.TabPage1)
         Me.tab_est.Controls.Add(Me.TabPage2)
         Me.tab_est.Controls.Add(Me.TabPage3)
+        Me.tab_est.Controls.Add(Me.TabPage4)
+        Me.tab_est.Controls.Add(Me.TabPage5)
         Me.tab_est.Location = New System.Drawing.Point(0, 8)
         Me.tab_est.Name = "tab_est"
         Me.tab_est.SelectedIndex = 0
@@ -1639,7 +1663,7 @@ Partial Class frm_Menu
         'Label1
         '
         Me.Label1.AutoSize = True
-        Me.Label1.Location = New System.Drawing.Point(208, 543)
+        Me.Label1.Location = New System.Drawing.Point(150, 552)
         Me.Label1.Name = "Label1"
         Me.Label1.Size = New System.Drawing.Size(35, 13)
         Me.Label1.TabIndex = 13
@@ -1648,7 +1672,7 @@ Partial Class frm_Menu
         'Label2
         '
         Me.Label2.AutoSize = True
-        Me.Label2.Location = New System.Drawing.Point(111, 543)
+        Me.Label2.Location = New System.Drawing.Point(50, 552)
         Me.Label2.Name = "Label2"
         Me.Label2.Size = New System.Drawing.Size(38, 13)
         Me.Label2.TabIndex = 12
@@ -1656,7 +1680,7 @@ Partial Class frm_Menu
         '
         'btn_gxm
         '
-        Me.btn_gxm.Location = New System.Drawing.Point(320, 535)
+        Me.btn_gxm.Location = New System.Drawing.Point(319, 544)
         Me.btn_gxm.Name = "btn_gxm"
         Me.btn_gxm.Size = New System.Drawing.Size(82, 28)
         Me.btn_gxm.TabIndex = 11
@@ -1665,7 +1689,7 @@ Partial Class frm_Menu
         '
         'txt_gxmhasta
         '
-        Me.txt_gxmhasta.Location = New System.Drawing.Point(262, 540)
+        Me.txt_gxmhasta.Location = New System.Drawing.Point(204, 549)
         Me.txt_gxmhasta.Mask = "00"
         Me.txt_gxmhasta.Name = "txt_gxmhasta"
         Me.txt_gxmhasta.Size = New System.Drawing.Size(20, 20)
@@ -1673,7 +1697,7 @@ Partial Class frm_Menu
         '
         'txt_gxm_desde
         '
-        Me.txt_gxm_desde.Location = New System.Drawing.Point(167, 540)
+        Me.txt_gxm_desde.Location = New System.Drawing.Point(104, 549)
         Me.txt_gxm_desde.Mask = "00"
         Me.txt_gxm_desde.Name = "txt_gxm_desde"
         Me.txt_gxm_desde.Size = New System.Drawing.Size(20, 20)
@@ -1749,6 +1773,48 @@ Partial Class frm_Menu
         Me.CreditosXRangoEstadistica.Size = New System.Drawing.Size(1161, 522)
         Me.CreditosXRangoEstadistica.TabIndex = 5
         '
+        'TabPage4
+        '
+        Me.TabPage4.Controls.Add(Me.report_estadoC)
+        Me.TabPage4.Location = New System.Drawing.Point(4, 22)
+        Me.TabPage4.Name = "TabPage4"
+        Me.TabPage4.Size = New System.Drawing.Size(1233, 588)
+        Me.TabPage4.TabIndex = 3
+        Me.TabPage4.Text = "Estado Cuotas"
+        Me.TabPage4.UseVisualStyleBackColor = True
+        '
+        'report_estadoC
+        '
+        ReportDataSource9.Name = "graficoEstadoXCuota"
+        ReportDataSource9.Value = Me.EstadoXCuotaBindingSource
+        Me.report_estadoC.LocalReport.DataSources.Add(ReportDataSource9)
+        Me.report_estadoC.LocalReport.ReportEmbeddedResource = "TP_PAV1.Report9.rdlc"
+        Me.report_estadoC.Location = New System.Drawing.Point(0, 3)
+        Me.report_estadoC.Name = "report_estadoC"
+        Me.report_estadoC.Size = New System.Drawing.Size(1161, 522)
+        Me.report_estadoC.TabIndex = 6
+        '
+        'TabPage5
+        '
+        Me.TabPage5.Controls.Add(Me.report_estadoCred)
+        Me.TabPage5.Location = New System.Drawing.Point(4, 22)
+        Me.TabPage5.Name = "TabPage5"
+        Me.TabPage5.Size = New System.Drawing.Size(1233, 588)
+        Me.TabPage5.TabIndex = 4
+        Me.TabPage5.Text = "Estado Creditos"
+        Me.TabPage5.UseVisualStyleBackColor = True
+        '
+        'report_estadoCred
+        '
+        ReportDataSource10.Name = "grafico_estadoCredito"
+        ReportDataSource10.Value = Me.EstadoXCreditoBindingSource
+        Me.report_estadoCred.LocalReport.DataSources.Add(ReportDataSource10)
+        Me.report_estadoCred.LocalReport.ReportEmbeddedResource = "TP_PAV1.Report10.rdlc"
+        Me.report_estadoCred.Location = New System.Drawing.Point(0, 3)
+        Me.report_estadoCred.Name = "report_estadoCred"
+        Me.report_estadoCred.Size = New System.Drawing.Size(1161, 522)
+        Me.report_estadoCred.TabIndex = 5
+        '
         'TipoDocumentoBindingSource1
         '
         Me.TipoDocumentoBindingSource1.DataMember = "tipo_Documento"
@@ -1758,10 +1824,10 @@ Partial Class frm_Menu
         '
         Me.CargoTableAdapter.ClearBeforeFill = True
         '
-        'ExpedientesXAbogadoBindingSource
+        'EstadoXCreditoBindingSource
         '
-        Me.ExpedientesXAbogadoBindingSource.DataMember = "ExpedientesXAbogado"
-        Me.ExpedientesXAbogadoBindingSource.DataSource = Me.PAV1DataSet2
+        Me.EstadoXCreditoBindingSource.DataMember = "EstadoXCredito"
+        Me.EstadoXCreditoBindingSource.DataSource = Me.PAV1DataSet2
         '
         'frm_Menu
         '
@@ -1779,9 +1845,11 @@ Partial Class frm_Menu
         CType(Me.CreditosXSolicitanteBindingSource, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.CreditosXRangoFechasBindingSource, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.CreditosXRangoMontoBindingSource, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.ExpedientesXAbogadoBindingSource, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.CreditosXEmpleadoAgrupadoBindingSource, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.GananciaXRangoMesBindingSource, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.CreditosXRangoEstadisticaBindingSource, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.EstadoXCuotaBindingSource, System.ComponentModel.ISupportInitialize).EndInit()
         Me.tab_control.ResumeLayout(False)
         Me.tab_control_abogado.ResumeLayout(False)
         Me.tab_control_abogado.PerformLayout()
@@ -1825,8 +1893,10 @@ Partial Class frm_Menu
         Me.TabPage2.PerformLayout()
         Me.TabPage3.ResumeLayout(False)
         Me.TabPage3.PerformLayout()
+        Me.TabPage4.ResumeLayout(False)
+        Me.TabPage5.ResumeLayout(False)
         CType(Me.TipoDocumentoBindingSource1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.ExpedientesXAbogadoBindingSource, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.EstadoXCreditoBindingSource, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
     End Sub
@@ -1996,4 +2066,10 @@ Partial Class frm_Menu
     Friend WithEvents btn_expxabg As System.Windows.Forms.Button
     Friend WithEvents report_expxabg As Microsoft.Reporting.WinForms.ReportViewer
     Friend WithEvents ExpedientesXAbogadoBindingSource As System.Windows.Forms.BindingSource
+    Friend WithEvents TabPage4 As System.Windows.Forms.TabPage
+    Friend WithEvents report_estadoC As Microsoft.Reporting.WinForms.ReportViewer
+    Friend WithEvents EstadoXCuotaBindingSource As System.Windows.Forms.BindingSource
+    Friend WithEvents TabPage5 As System.Windows.Forms.TabPage
+    Friend WithEvents report_estadoCred As Microsoft.Reporting.WinForms.ReportViewer
+    Friend WithEvents EstadoXCreditoBindingSource As System.Windows.Forms.BindingSource
 End Class
