@@ -294,11 +294,12 @@
                     '    End If
                 Case 6
                     If Me.cmb_pago_estado.SelectedIndex = 1 Then
-                        texto += "Estado_Cuota_idEstado_Cuota =" & Me.cmb_pago_estado.SelectedIndex & " WHERE Cuota_idCuota = (SELECT MIN(Cuota.idCuota) AS Expr1 	FROM  Cuota INNER JOIN Creditos_x_Cuota ON Cuota.idCuota = Creditos_x_Cuota.Cuota_idCuota WHERE(Creditos_x_Cuota.Estado_Cuota_idEstado_Cuota = 0))"
+                        texto += "Estado_Cuota_idEstado_Cuota =" & Me.cmb_pago_estado.SelectedIndex & " WHERE Cuota_idCuota = (SELECT MIN(Creditos_x_Cuota.Cuota_idCuota) AS Expr1 FROM  Cuota INNER JOIN Creditos_x_Cuota ON Cuota.idCuota = Creditos_x_Cuota.Cuota_idCuota WHERE(Creditos_x_Cuota.Estado_Cuota_idEstado_Cuota = 0) AND (Creditos_x_Cuota.Creditos_idCreditos = " & Me.txt_pago_codCred.Text & "))"
                         ' En texto hay que relacionar el idCredito con la cuota, para que no modifique solo el estado de las cuotas del credito 1 (txt_pago_codCred)
-                        Dim sql As String = "UPDATE Cuota SET fechaPago=CONVERT(DATE, '" & Me.txt_pago_fecha.Text & "', 103) WHERE idCuota = (SELECT MIN(Cuota.idCuota) AS Expr1 	FROM  Cuota INNER JOIN Creditos_x_Cuota ON Cuota.idCuota = Creditos_x_Cuota.Cuota_idCuota WHERE(Creditos_x_Cuota.Estado_Cuota_idEstado_Cuota = 0))"
+                        Dim sql As String = "UPDATE Cuota SET fechaPago=CONVERT(DATE, '" & Me.txt_pago_fecha.Text & "', 103) WHERE idCuota = (SELECT MAX(Creditos_x_Cuota.Cuota_idCuota) AS Expr1 FROM Cuota C INNER JOIN Creditos_x_Cuota ON C.idCuota = Creditos_x_Cuota.Cuota_idCuota WHERE(Creditos_x_Cuota.Estado_Cuota_idEstado_Cuota = 1) AND (Creditos_x_Cuota.Creditos_idCreditos = " & Me.txt_pago_codCred.Text & "))"
                         conexion._modificar(texto)
-                        conexion._consulta(sql)
+                        conexion._modificar(sql)
+
                     ElseIf Me.cmb_pago_estado.SelectedIndex = 2 Then
                         MsgBox("El vencimiento se determina automaticamente", vbOKOnly + vbCritical, "Importante")
                     End If
@@ -874,8 +875,9 @@
                 consulta += "SELECT Garantia.idGarantia as [Codigo de Garantia], Solicitante.nombre AS [Nombre Solicitante], Solicitante.apellido AS [Apellido Solicitante], Solicitante.idSolicitante AS [Codigo Solicitante], Garantia.descripcion AS [Descripcion Garantia], Garantia.valorMonetario AS [Valor Monetario], Garantia.Creditos_idCreditos AS [Codigo Credito], Documentacion.lugarAlmacenamiento AS [UBICACION], Documentacion.descripcion AS [Descripcion Documentacion] "
                 consulta += "FROM Documentacion INNER JOIN Documentacion_x_Garantia ON Documentacion.idDocumentacion = Documentacion_x_Garantia.Documentacion_idDocumentacion INNER JOIN Garantia ON Documentacion_x_Garantia.Garantia_idGarantia = Garantia.idGarantia INNER JOIN Creditos ON Garantia.Creditos_idCreditos = Creditos.idCreditos INNER JOIN Solicitante ON Creditos.Solicitante_idSolicitante = Solicitante.idSolicitante"
             Case 6
-                consulta += "SELECT Creditos_idCreditos, Cuota_idCuota, Estado_Cuota.nombre FROM Creditos_x_Cuota INNER JOIN Estado_Cuota ON Creditos_x_Cuota.Estado_Cuota_idEstado_Cuota = Estado_Cuota.idEstado_Cuota "
-                consulta += "WHERE Creditos_idCreditos=" & Me.txt_pago_codCred.Text
+                consulta += "SELECT Creditos_idCreditos AS 'Codigo Credito', Cuota_idCuota AS 'Codigo Cuota', Estado_Cuota.nombre AS 'Estado Cuota', Cuota.fechaPago AS 'Fecha Pago' FROM Creditos_x_Cuota INNER JOIN Estado_Cuota ON Creditos_x_Cuota.Estado_Cuota_idEstado_Cuota = Estado_Cuota.idEstado_Cuota INNER JOIN Cuota ON Creditos_x_Cuota.Cuota_idCuota = Cuota.idCuota"
+                consulta += " WHERE Creditos_x_Cuota.Creditos_idCreditos=" & Me.txt_pago_codCred.Text
+
         End Select
         Me.grilla.DataSource = conexion._consulta(consulta)
 
@@ -1090,6 +1092,8 @@
                         report_credxfecha.RefreshReport()
                     Case 3
                         report_credxmonto.RefreshReport()
+                    Case 4
+                        report_expxabg.RefreshReport()
                 End Select
             Case 3
                 Me.mostrar_Interfaz(False)
@@ -1101,6 +1105,7 @@
                     Case 2
                         Me.limpiar_tab()
                         Me.cmb_cantXRango_est.SelectedIndex = 0
+                    Case 3
 
                 End Select
 
@@ -1362,11 +1367,12 @@
     End Sub
 
     Private Function crear_credito() As Validacion.credito
+        'con esta funcion obtenemos los valores de monto y de fecha_aprobacion para cargar las cuotas de credito
         Dim credito As New Validacion.credito
         credito.monto = Me.txt_creditos_monto.Text
 
         credito.fecha_aprobacion = Me.mtxt_creditos_fAprobacion.Text
-
+        'despues de obtener los valores de monto y fecha_aprobacion para pasarlos como parametro, seteamos a 0 el resto de los atributos
         credito.fecha_solicitud = 0
         credito.estado = 0
         credito.idObjeto = 0
@@ -1378,10 +1384,16 @@
     End Function
 
     Private Sub btn_credito_cuotas_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btn_credito_cuotas.Click
-        Dim credito As Validacion.credito
-        credito = Me.crear_credito
-        frm_cuota = New frm_cuota(idCredito, credito.monto, credito.fecha_aprobacion)
-        Dim result As DialogResult = frm_cuota.ShowDialog(Me)
+        If Me.mtxt_creditos_fAprobacion.Text <= DateTime.Now().ToString("dd-mm-yyyy") Then
+            Dim credito As Validacion.credito
+            credito = Me.crear_credito
+            frm_cuota = New frm_cuota(idCredito, credito.monto, credito.fecha_aprobacion)
+            Dim result As DialogResult = frm_cuota.ShowDialog(Me)
+        Else
+            MessageBox.Show("La fecha de aprobacion ingresada es invalida", "Importante", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            Me.mtxt_creditos_fAprobacion.Focus()
+        End If
+
         cargar_Grilla()
     End Sub
 
@@ -1427,20 +1439,22 @@
 
         Dim sql As String = ""
 
-        If Me.txt_credxrango_desde.MaskCompleted = False And txt_credxrango_hasta.MaskCompleted = False Then
-            sql = "SELECT Cre.idCreditos AS CodigoCredito, Cre.monto AS MontoCredito, tipo_Documento.nombre AS TipoDocumento, Solicitante.nombre AS Nombre, Solicitante.apellido AS Apellido, Solicitante.numeroDocumento AS NumeroDocumento, Objeto.descripcion AS Objeto, Objeto.valorMonetario AS ValorObjeto, CONVERT(varchar, Cre.fechaAprobacion, 103) AS FechaAprobacion FROM Creditos AS Cre "
-            sql += "INNER JOIN Solicitante ON Cre.Solicitante_idSolicitante = Solicitante.idSolicitante INNER JOIN tipo_Documento ON Solicitante.tipo_Documento_idTipo_Documento = tipo_Documento.idTipo_Documento INNER JOIN Objeto ON Cre.Objeto_idObjeto = Objeto.idObjeto INNER JOIN Estado_Credito EC ON EC.idEstado_Credito = Cre.Estado_Credito_idEstado_Credito "
-            sql += "WHERE EC.nombre = 'APROBADO'"
+        If Me.datetime_credxrango_desde.Value.ToShortDateString() > Me.datetime_credxrango_hasta.Value.ToShortDateString() Then
+
+
+            MsgBox("El rango Desde es mayor al rango Hasta, no es posible mostrar datos", vbOKOnly + vbCritical, "Importante")
+
+
         Else
             sql = "SELECT Cre.idCreditos AS CodigoCredito, Cre.monto AS MontoCredito, tipo_Documento.nombre AS TipoDocumento, Solicitante.nombre AS Nombre, Solicitante.apellido AS Apellido, Solicitante.numeroDocumento AS NumeroDocumento, Objeto.descripcion AS Objeto, Objeto.valorMonetario AS ValorObjeto, CONVERT(varchar, Cre.fechaAprobacion, 103) AS FechaAprobacion FROM Creditos AS Cre "
             sql += "INNER JOIN Solicitante ON Cre.Solicitante_idSolicitante = Solicitante.idSolicitante INNER JOIN tipo_Documento ON Solicitante.tipo_Documento_idTipo_Documento = tipo_Documento.idTipo_Documento INNER JOIN Objeto ON Cre.Objeto_idObjeto = Objeto.idObjeto "
-            sql += "WHERE Cre.fechaAprobacion >= (CONVERT(DATE, '" & Me.txt_credxrango_desde.Text & "', 103)) AND Cre.fechaAprobacion <= (CONVERT(DATE, '" & Me.txt_credxrango_hasta.Text & "', 103))"
+            sql += "WHERE Cre.fechaAprobacion >= (CONVERT(DATE, '" & Me.datetime_credxrango_desde.Value.ToShortDateString() & "', 103)) AND Cre.fechaAprobacion <= (CONVERT(DATE, '" & Me.datetime_credxrango_hasta.Value.ToShortDateString & "', 103))"
+            CreditosXRangoFechasBindingSource.DataSource = conexion._consulta(sql)
+            report_credxfecha.RefreshReport()
 
         End If
 
-        CreditosXRangoFechasBindingSource.DataSource = conexion._consulta(sql)
-        report_credxfecha.RefreshReport()
-
+    
     End Sub
 
     Private Sub btn_credxmonto_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btn_credxmonto.Click
@@ -1552,6 +1566,45 @@
             GananciaXRangoMesBindingSource.DataSource = conexion._consulta(sql)
             report_gxm.RefreshReport()
         End If
+    End Sub
+
+    Private Sub btn_expxabg_Click(sender As System.Object, e As System.EventArgs) Handles btn_expxabg.Click
+        Dim sql As String = ""
+
+        If Me.txt_expxabg_leg.Text = "" Then
+
+            sql = "SELECT Expediente.idExpediente AS CodigoExpediente, Cre.nombre AS Nombre, Cre.Apellido AS Apellido, Expediente.Creditos_idCreditos AS CodigoCredito, CONVERT(varchar, Expediente.fechaInicio, 103) AS FechaInicio, Expediente.observacion AS Observacion, Creditos.monto AS Monto, Def.nombre AS NombreADefensor, Def.apellido AS ApellidoADefensor "
+            sql += "FROM Expediente INNER JOIN Creditos ON Expediente.Creditos_idCreditos = Creditos.idCreditos INNER JOIN Abogado Cre ON Expediente.abogado_matricula = Cre.matricula INNER JOIN Abogado Def ON Expediente.abogado_matriculaSol = Def.matricula"
+
+        Else
+            sql = "SELECT Expediente.idExpediente AS CodigoExpediente, Cre.nombre AS Nombre, Cre.Apellido AS Apellido, Expediente.Creditos_idCreditos AS CodigoCredito, CONVERT(varchar, Expediente.fechaInicio, 103) AS FechaInicio, Expediente.observacion AS Observacion, Creditos.monto AS Monto, Def.nombre AS NombreADefensor, Def.apellido AS ApellidoADefensor "
+            sql += "FROM Expediente INNER JOIN Creditos ON Expediente.Creditos_idCreditos = Creditos.idCreditos INNER JOIN Abogado Cre ON Expediente.abogado_matricula = Cre.matricula INNER JOIN Abogado Def ON Expediente.abogado_matriculaSol = Def.matricula "
+            sql += "WHERE Expediente.abogado_matricula=" & Me.txt_expxabg_leg.Text
+
+        End If
+
+        ExpedientesXAbogadoBindingSource.DataSource = conexion._consulta(sql)
+        report_expxabg.RefreshReport()
+
+    End Sub
+
+
+    
+    Private Sub report_estadoC_Load(sender As System.Object, e As System.EventArgs) Handles report_estadoC.Load
+
+        Dim sql As String = "SELECT EC.nombre AS EstadoCuota, COUNT(CC.Estado_Cuota_idEstado_Cuota) AS Cantidad FROM Estado_Cuota EC INNER JOIN Creditos_x_Cuota CC ON CC.Estado_Cuota_idEstado_Cuota = EC.idEstado_Cuota GROUP BY EC.nombre"
+
+        EstadoXCuotaBindingSource.DataSource = conexion._consulta(Sql)
+        report_estadoC.RefreshReport()
+    End Sub
+
+    Private Sub report_estadoCred_Load(sender As System.Object, e As System.EventArgs) Handles report_estadoCred.Load
+
+        Dim sql As String = "SELECT EC.nombre AS EstadoCredito, COUNT(CC.Estado_Credito_idEstado_Credito) AS Cantidad FROM Estado_Credito EC INNER JOIN Creditos CC ON CC.Estado_Credito_idEstado_Credito = EC.idEstado_Credito GROUP BY EC.nombre"
+
+        EstadoXCreditoBindingSource.DataSource = conexion._consulta(sql)
+        report_estadoCred.RefreshReport()
+
     End Sub
 End Class
 
