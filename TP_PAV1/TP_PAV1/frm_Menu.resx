@@ -135,6 +135,9 @@
   <metadata name="CreditosXEmpleadoAgrupadoBindingSource.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>17, 95</value>
   </metadata>
+  <metadata name="GananciaXRangoMesBindingSource.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>584, 95</value>
+  </metadata>
   <metadata name="CreditosXRangoEstadisticaBindingSource.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>309, 95</value>
   </metadata>
@@ -9262,8 +9265,8 @@
         cGIQYvBgFatEyynTsLcqGVvktNK/+d5aZZVVVvk7IDT9P+HrFd3fPzgmAAAAAElFTkSuQmCC
 </value>
   </data>
-  <metadata name="GananciaXRangoMesBindingSource.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>584, 95</value>
+  <metadata name="ExpedientesXAbogadoBindingSource.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>830, 95</value>
   </metadata>
   <metadata name="TipoDocumentoBindingSource1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>577, 17</value>

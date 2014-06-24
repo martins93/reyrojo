@@ -168,6 +168,7 @@
     <EmbeddedResource Include="Report5.rdlc" />
     <EmbeddedResource Include="Report6.rdlc" />
     <EmbeddedResource Include="Report7.rdlc" />
+    <EmbeddedResource Include="Report8.rdlc" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

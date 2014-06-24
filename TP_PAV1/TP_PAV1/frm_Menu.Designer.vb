@@ -31,12 +31,14 @@ Partial Class frm_Menu
         Dim ReportDataSource5 As Microsoft.Reporting.WinForms.ReportDataSource = New Microsoft.Reporting.WinForms.ReportDataSource()
         Dim ReportDataSource6 As Microsoft.Reporting.WinForms.ReportDataSource = New Microsoft.Reporting.WinForms.ReportDataSource()
         Dim ReportDataSource7 As Microsoft.Reporting.WinForms.ReportDataSource = New Microsoft.Reporting.WinForms.ReportDataSource()
+        Dim ReportDataSource8 As Microsoft.Reporting.WinForms.ReportDataSource = New Microsoft.Reporting.WinForms.ReportDataSource()
         Me.CreditosXEmpleadoBindingSource = New System.Windows.Forms.BindingSource(Me.components)
         Me.PAV1DataSet2 = New TP_PAV1.PAV1DataSet2()
         Me.CreditosXSolicitanteBindingSource = New System.Windows.Forms.BindingSource(Me.components)
         Me.CreditosXRangoFechasBindingSource = New System.Windows.Forms.BindingSource(Me.components)
         Me.CreditosXRangoMontoBindingSource = New System.Windows.Forms.BindingSource(Me.components)
         Me.CreditosXEmpleadoAgrupadoBindingSource = New System.Windows.Forms.BindingSource(Me.components)
+        Me.GananciaXRangoMesBindingSource = New System.Windows.Forms.BindingSource(Me.components)
         Me.CreditosXRangoEstadisticaBindingSource = New System.Windows.Forms.BindingSource(Me.components)
         Me.tab_control = New System.Windows.Forms.TabControl()
         Me.tab_control_abogado = New System.Windows.Forms.TabPage()
@@ -158,11 +160,11 @@ Partial Class frm_Menu
         Me.btn_cantxsol = New System.Windows.Forms.Button()
         Me.report_credxsol = New Microsoft.Reporting.WinForms.ReportViewer()
         Me.tab_report_credxrango = New System.Windows.Forms.TabPage()
+        Me.datetime_credxrango_hasta = New System.Windows.Forms.DateTimePicker()
+        Me.datetime_credxrango_desde = New System.Windows.Forms.DateTimePicker()
         Me.Label11 = New System.Windows.Forms.Label()
         Me.Label10 = New System.Windows.Forms.Label()
         Me.btn_credxrango = New System.Windows.Forms.Button()
-        Me.txt_credxrango_hasta = New System.Windows.Forms.MaskedTextBox()
-        Me.txt_credxrango_desde = New System.Windows.Forms.MaskedTextBox()
         Me.report_credxfecha = New Microsoft.Reporting.WinForms.ReportViewer()
         Me.tab_report_credxmonto = New System.Windows.Forms.TabPage()
         Me.txt_credxmonto_hasta = New System.Windows.Forms.TextBox()
@@ -171,6 +173,11 @@ Partial Class frm_Menu
         Me.Label13 = New System.Windows.Forms.Label()
         Me.btn_credxmonto = New System.Windows.Forms.Button()
         Me.report_credxmonto = New Microsoft.Reporting.WinForms.ReportViewer()
+        Me.tab_report_expxabg = New System.Windows.Forms.TabPage()
+        Me.Label3 = New System.Windows.Forms.Label()
+        Me.txt_expxabg_leg = New System.Windows.Forms.TextBox()
+        Me.btn_expxabg = New System.Windows.Forms.Button()
+        Me.report_expxabg = New Microsoft.Reporting.WinForms.ReportViewer()
         Me.tab_menu_est = New System.Windows.Forms.TabPage()
         Me.tab_est = New System.Windows.Forms.TabControl()
         Me.TabPage1 = New System.Windows.Forms.TabPage()
@@ -190,13 +197,14 @@ Partial Class frm_Menu
         Me.CreditosXRangoEstadistica = New Microsoft.Reporting.WinForms.ReportViewer()
         Me.TipoDocumentoBindingSource1 = New System.Windows.Forms.BindingSource(Me.components)
         Me.CargoTableAdapter = New TP_PAV1.PAV1DataSetTableAdapters.CargoTableAdapter()
-        Me.GananciaXRangoMesBindingSource = New System.Windows.Forms.BindingSource(Me.components)
+        Me.ExpedientesXAbogadoBindingSource = New System.Windows.Forms.BindingSource(Me.components)
         CType(Me.CreditosXEmpleadoBindingSource, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.PAV1DataSet2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.CreditosXSolicitanteBindingSource, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.CreditosXRangoFechasBindingSource, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.CreditosXRangoMontoBindingSource, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.CreditosXEmpleadoAgrupadoBindingSource, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.GananciaXRangoMesBindingSource, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.CreditosXRangoEstadisticaBindingSource, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.tab_control.SuspendLayout()
         Me.tab_control_abogado.SuspendLayout()
@@ -220,13 +228,14 @@ Partial Class frm_Menu
         Me.tab_report_credxsol.SuspendLayout()
         Me.tab_report_credxrango.SuspendLayout()
         Me.tab_report_credxmonto.SuspendLayout()
+        Me.tab_report_expxabg.SuspendLayout()
         Me.tab_menu_est.SuspendLayout()
         Me.tab_est.SuspendLayout()
         Me.TabPage1.SuspendLayout()
         Me.TabPage2.SuspendLayout()
         Me.TabPage3.SuspendLayout()
         CType(Me.TipoDocumentoBindingSource1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.GananciaXRangoMesBindingSource, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.ExpedientesXAbogadoBindingSource, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'CreditosXEmpleadoBindingSource
@@ -258,6 +267,11 @@ Partial Class frm_Menu
         '
         Me.CreditosXEmpleadoAgrupadoBindingSource.DataMember = "CreditosXEmpleadoAgrupado"
         Me.CreditosXEmpleadoAgrupadoBindingSource.DataSource = Me.PAV1DataSet2
+        '
+        'GananciaXRangoMesBindingSource
+        '
+        Me.GananciaXRangoMesBindingSource.DataMember = "GananciaXRangoMes"
+        Me.GananciaXRangoMesBindingSource.DataSource = Me.PAV1DataSet2
         '
         'CreditosXRangoEstadisticaBindingSource
         '
@@ -1262,6 +1276,7 @@ Partial Class frm_Menu
         Me.tab_report.Controls.Add(Me.tab_report_credxsol)
         Me.tab_report.Controls.Add(Me.tab_report_credxrango)
         Me.tab_report.Controls.Add(Me.tab_report_credxmonto)
+        Me.tab_report.Controls.Add(Me.tab_report_expxabg)
         Me.tab_report.Location = New System.Drawing.Point(0, 8)
         Me.tab_report.Name = "tab_report"
         Me.tab_report.SelectedIndex = 0
@@ -1379,11 +1394,11 @@ Partial Class frm_Menu
         '
         'tab_report_credxrango
         '
+        Me.tab_report_credxrango.Controls.Add(Me.datetime_credxrango_hasta)
+        Me.tab_report_credxrango.Controls.Add(Me.datetime_credxrango_desde)
         Me.tab_report_credxrango.Controls.Add(Me.Label11)
         Me.tab_report_credxrango.Controls.Add(Me.Label10)
         Me.tab_report_credxrango.Controls.Add(Me.btn_credxrango)
-        Me.tab_report_credxrango.Controls.Add(Me.txt_credxrango_hasta)
-        Me.tab_report_credxrango.Controls.Add(Me.txt_credxrango_desde)
         Me.tab_report_credxrango.Controls.Add(Me.report_credxfecha)
         Me.tab_report_credxrango.Location = New System.Drawing.Point(4, 22)
         Me.tab_report_credxrango.Name = "tab_report_credxrango"
@@ -1392,10 +1407,26 @@ Partial Class frm_Menu
         Me.tab_report_credxrango.Text = "Creditos por Rango Fechas"
         Me.tab_report_credxrango.UseVisualStyleBackColor = True
         '
+        'datetime_credxrango_hasta
+        '
+        Me.datetime_credxrango_hasta.Format = System.Windows.Forms.DateTimePickerFormat.[Short]
+        Me.datetime_credxrango_hasta.Location = New System.Drawing.Point(216, 549)
+        Me.datetime_credxrango_hasta.Name = "datetime_credxrango_hasta"
+        Me.datetime_credxrango_hasta.Size = New System.Drawing.Size(97, 20)
+        Me.datetime_credxrango_hasta.TabIndex = 10
+        '
+        'datetime_credxrango_desde
+        '
+        Me.datetime_credxrango_desde.Format = System.Windows.Forms.DateTimePickerFormat.[Short]
+        Me.datetime_credxrango_desde.Location = New System.Drawing.Point(77, 549)
+        Me.datetime_credxrango_desde.Name = "datetime_credxrango_desde"
+        Me.datetime_credxrango_desde.Size = New System.Drawing.Size(97, 20)
+        Me.datetime_credxrango_desde.TabIndex = 9
+        '
         'Label11
         '
         Me.Label11.AutoSize = True
-        Me.Label11.Location = New System.Drawing.Point(180, 552)
+        Me.Label11.Location = New System.Drawing.Point(177, 552)
         Me.Label11.Name = "Label11"
         Me.Label11.Size = New System.Drawing.Size(35, 13)
         Me.Label11.TabIndex = 8
@@ -1404,7 +1435,7 @@ Partial Class frm_Menu
         'Label10
         '
         Me.Label10.AutoSize = True
-        Me.Label10.Location = New System.Drawing.Point(28, 552)
+        Me.Label10.Location = New System.Drawing.Point(35, 552)
         Me.Label10.Name = "Label10"
         Me.Label10.Size = New System.Drawing.Size(38, 13)
         Me.Label10.TabIndex = 7
@@ -1418,22 +1449,6 @@ Partial Class frm_Menu
         Me.btn_credxrango.TabIndex = 6
         Me.btn_credxrango.Text = "Mostrar"
         Me.btn_credxrango.UseVisualStyleBackColor = True
-        '
-        'txt_credxrango_hasta
-        '
-        Me.txt_credxrango_hasta.Location = New System.Drawing.Point(221, 549)
-        Me.txt_credxrango_hasta.Mask = "00-00-0000"
-        Me.txt_credxrango_hasta.Name = "txt_credxrango_hasta"
-        Me.txt_credxrango_hasta.Size = New System.Drawing.Size(60, 20)
-        Me.txt_credxrango_hasta.TabIndex = 5
-        '
-        'txt_credxrango_desde
-        '
-        Me.txt_credxrango_desde.Location = New System.Drawing.Point(86, 549)
-        Me.txt_credxrango_desde.Mask = "00-00-0000"
-        Me.txt_credxrango_desde.Name = "txt_credxrango_desde"
-        Me.txt_credxrango_desde.Size = New System.Drawing.Size(66, 20)
-        Me.txt_credxrango_desde.TabIndex = 4
         '
         'report_credxfecha
         '
@@ -1478,7 +1493,7 @@ Partial Class frm_Menu
         'Label12
         '
         Me.Label12.AutoSize = True
-        Me.Label12.Location = New System.Drawing.Point(180, 552)
+        Me.Label12.Location = New System.Drawing.Point(177, 552)
         Me.Label12.Name = "Label12"
         Me.Label12.Size = New System.Drawing.Size(35, 13)
         Me.Label12.TabIndex = 13
@@ -1487,7 +1502,7 @@ Partial Class frm_Menu
         'Label13
         '
         Me.Label13.AutoSize = True
-        Me.Label13.Location = New System.Drawing.Point(28, 552)
+        Me.Label13.Location = New System.Drawing.Point(35, 552)
         Me.Label13.Name = "Label13"
         Me.Label13.Size = New System.Drawing.Size(38, 13)
         Me.Label13.TabIndex = 12
@@ -1512,6 +1527,55 @@ Partial Class frm_Menu
         Me.report_credxmonto.Name = "report_credxmonto"
         Me.report_credxmonto.Size = New System.Drawing.Size(1161, 522)
         Me.report_credxmonto.TabIndex = 3
+        '
+        'tab_report_expxabg
+        '
+        Me.tab_report_expxabg.Controls.Add(Me.Label3)
+        Me.tab_report_expxabg.Controls.Add(Me.txt_expxabg_leg)
+        Me.tab_report_expxabg.Controls.Add(Me.btn_expxabg)
+        Me.tab_report_expxabg.Controls.Add(Me.report_expxabg)
+        Me.tab_report_expxabg.Location = New System.Drawing.Point(4, 22)
+        Me.tab_report_expxabg.Name = "tab_report_expxabg"
+        Me.tab_report_expxabg.Size = New System.Drawing.Size(1233, 588)
+        Me.tab_report_expxabg.TabIndex = 4
+        Me.tab_report_expxabg.Text = "Expediente por Abogado"
+        Me.tab_report_expxabg.UseVisualStyleBackColor = True
+        '
+        'Label3
+        '
+        Me.Label3.AutoSize = True
+        Me.Label3.Location = New System.Drawing.Point(6, 552)
+        Me.Label3.Name = "Label3"
+        Me.Label3.Size = New System.Drawing.Size(85, 13)
+        Me.Label3.TabIndex = 6
+        Me.Label3.Text = "Legajo Abogado"
+        '
+        'txt_expxabg_leg
+        '
+        Me.txt_expxabg_leg.Location = New System.Drawing.Point(104, 549)
+        Me.txt_expxabg_leg.Name = "txt_expxabg_leg"
+        Me.txt_expxabg_leg.Size = New System.Drawing.Size(117, 20)
+        Me.txt_expxabg_leg.TabIndex = 5
+        '
+        'btn_expxabg
+        '
+        Me.btn_expxabg.Location = New System.Drawing.Point(319, 544)
+        Me.btn_expxabg.Name = "btn_expxabg"
+        Me.btn_expxabg.Size = New System.Drawing.Size(82, 28)
+        Me.btn_expxabg.TabIndex = 4
+        Me.btn_expxabg.Text = "Mostrar"
+        Me.btn_expxabg.UseVisualStyleBackColor = True
+        '
+        'report_expxabg
+        '
+        ReportDataSource5.Name = "tabla_expediente"
+        ReportDataSource5.Value = Me.ExpedientesXAbogadoBindingSource
+        Me.report_expxabg.LocalReport.DataSources.Add(ReportDataSource5)
+        Me.report_expxabg.LocalReport.ReportEmbeddedResource = "TP_PAV1.Report8.rdlc"
+        Me.report_expxabg.Location = New System.Drawing.Point(0, 3)
+        Me.report_expxabg.Name = "report_expxabg"
+        Me.report_expxabg.Size = New System.Drawing.Size(1161, 522)
+        Me.report_expxabg.TabIndex = 2
         '
         'tab_menu_est
         '
@@ -1547,9 +1611,9 @@ Partial Class frm_Menu
         '
         'CreditosXEmpleadoAgrupado
         '
-        ReportDataSource5.Name = "CantidadCreditosXEmpleadoAgrupado"
-        ReportDataSource5.Value = Me.CreditosXEmpleadoAgrupadoBindingSource
-        Me.CreditosXEmpleadoAgrupado.LocalReport.DataSources.Add(ReportDataSource5)
+        ReportDataSource6.Name = "CantidadCreditosXEmpleadoAgrupado"
+        ReportDataSource6.Value = Me.CreditosXEmpleadoAgrupadoBindingSource
+        Me.CreditosXEmpleadoAgrupado.LocalReport.DataSources.Add(ReportDataSource6)
         Me.CreditosXEmpleadoAgrupado.LocalReport.ReportEmbeddedResource = "TP_PAV1.Report5.rdlc"
         Me.CreditosXEmpleadoAgrupado.Location = New System.Drawing.Point(0, 3)
         Me.CreditosXEmpleadoAgrupado.Name = "CreditosXEmpleadoAgrupado"
@@ -1617,9 +1681,9 @@ Partial Class frm_Menu
         '
         'report_gxm
         '
-        ReportDataSource6.Name = "tabla_ganancia"
-        ReportDataSource6.Value = Me.GananciaXRangoMesBindingSource
-        Me.report_gxm.LocalReport.DataSources.Add(ReportDataSource6)
+        ReportDataSource7.Name = "tabla_ganancia"
+        ReportDataSource7.Value = Me.GananciaXRangoMesBindingSource
+        Me.report_gxm.LocalReport.DataSources.Add(ReportDataSource7)
         Me.report_gxm.LocalReport.ReportEmbeddedResource = "TP_PAV1.Report6.rdlc"
         Me.report_gxm.Location = New System.Drawing.Point(0, 3)
         Me.report_gxm.Name = "report_gxm"
@@ -1676,9 +1740,9 @@ Partial Class frm_Menu
         '
         'CreditosXRangoEstadistica
         '
-        ReportDataSource7.Name = "CreditosXRangoEstadistica"
-        ReportDataSource7.Value = Me.CreditosXRangoEstadisticaBindingSource
-        Me.CreditosXRangoEstadistica.LocalReport.DataSources.Add(ReportDataSource7)
+        ReportDataSource8.Name = "CreditosXRangoEstadistica"
+        ReportDataSource8.Value = Me.CreditosXRangoEstadisticaBindingSource
+        Me.CreditosXRangoEstadistica.LocalReport.DataSources.Add(ReportDataSource8)
         Me.CreditosXRangoEstadistica.LocalReport.ReportEmbeddedResource = "TP_PAV1.Report7.rdlc"
         Me.CreditosXRangoEstadistica.Location = New System.Drawing.Point(0, 3)
         Me.CreditosXRangoEstadistica.Name = "CreditosXRangoEstadistica"
@@ -1694,10 +1758,10 @@ Partial Class frm_Menu
         '
         Me.CargoTableAdapter.ClearBeforeFill = True
         '
-        'GananciaXRangoMesBindingSource
+        'ExpedientesXAbogadoBindingSource
         '
-        Me.GananciaXRangoMesBindingSource.DataMember = "GananciaXRangoMes"
-        Me.GananciaXRangoMesBindingSource.DataSource = Me.PAV1DataSet2
+        Me.ExpedientesXAbogadoBindingSource.DataMember = "ExpedientesXAbogado"
+        Me.ExpedientesXAbogadoBindingSource.DataSource = Me.PAV1DataSet2
         '
         'frm_Menu
         '
@@ -1716,6 +1780,7 @@ Partial Class frm_Menu
         CType(Me.CreditosXRangoFechasBindingSource, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.CreditosXRangoMontoBindingSource, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.CreditosXEmpleadoAgrupadoBindingSource, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.GananciaXRangoMesBindingSource, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.CreditosXRangoEstadisticaBindingSource, System.ComponentModel.ISupportInitialize).EndInit()
         Me.tab_control.ResumeLayout(False)
         Me.tab_control_abogado.ResumeLayout(False)
@@ -1751,6 +1816,8 @@ Partial Class frm_Menu
         Me.tab_report_credxrango.PerformLayout()
         Me.tab_report_credxmonto.ResumeLayout(False)
         Me.tab_report_credxmonto.PerformLayout()
+        Me.tab_report_expxabg.ResumeLayout(False)
+        Me.tab_report_expxabg.PerformLayout()
         Me.tab_menu_est.ResumeLayout(False)
         Me.tab_est.ResumeLayout(False)
         Me.TabPage1.ResumeLayout(False)
@@ -1759,7 +1826,7 @@ Partial Class frm_Menu
         Me.TabPage3.ResumeLayout(False)
         Me.TabPage3.PerformLayout()
         CType(Me.TipoDocumentoBindingSource1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.GananciaXRangoMesBindingSource, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.ExpedientesXAbogadoBindingSource, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
     End Sub
@@ -1895,10 +1962,6 @@ Partial Class frm_Menu
     Friend WithEvents Label11 As System.Windows.Forms.Label
     Friend WithEvents Label10 As System.Windows.Forms.Label
     Friend WithEvents btn_credxrango As System.Windows.Forms.Button
-    Friend WithEvents txt_credxrango_hasta As System.Windows.Forms.MaskedTextBox
-    Friend WithEvents txt_credxrango_desde As System.Windows.Forms.MaskedTextBox
-    Friend WithEvents txt_credxmonto_hasta As System.Windows.Forms.TextBox
-    Friend WithEvents txt_credxmonto_desde As System.Windows.Forms.TextBox
     Friend WithEvents Label12 As System.Windows.Forms.Label
     Friend WithEvents Label13 As System.Windows.Forms.Label
     Friend WithEvents btn_credxmonto As System.Windows.Forms.Button
@@ -1923,4 +1986,14 @@ Partial Class frm_Menu
     Friend WithEvents txt_gxmhasta As System.Windows.Forms.MaskedTextBox
     Friend WithEvents txt_gxm_desde As System.Windows.Forms.MaskedTextBox
     Friend WithEvents GananciaXRangoMesBindingSource As System.Windows.Forms.BindingSource
+    Friend WithEvents datetime_credxrango_desde As System.Windows.Forms.DateTimePicker
+    Friend WithEvents datetime_credxrango_hasta As System.Windows.Forms.DateTimePicker
+    Friend WithEvents txt_credxmonto_hasta As System.Windows.Forms.TextBox
+    Friend WithEvents txt_credxmonto_desde As System.Windows.Forms.TextBox
+    Friend WithEvents tab_report_expxabg As System.Windows.Forms.TabPage
+    Friend WithEvents Label3 As System.Windows.Forms.Label
+    Friend WithEvents txt_expxabg_leg As System.Windows.Forms.TextBox
+    Friend WithEvents btn_expxabg As System.Windows.Forms.Button
+    Friend WithEvents report_expxabg As Microsoft.Reporting.WinForms.ReportViewer
+    Friend WithEvents ExpedientesXAbogadoBindingSource As System.Windows.Forms.BindingSource
 End Class
