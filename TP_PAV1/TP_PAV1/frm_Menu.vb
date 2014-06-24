@@ -290,11 +290,11 @@
                     End If
                 Case 6
                     If Me.cmb_pago_estado.SelectedIndex = 1 Then
-                        texto += "Estado_Cuota_idEstado_Cuota =" & Me.cmb_pago_estado.SelectedIndex & " WHERE Cuota_idCuota = (SELECT MIN(Cuota.idCuota) AS Expr1 	FROM  Cuota INNER JOIN Creditos_x_Cuota ON Cuota.idCuota = Creditos_x_Cuota.Cuota_idCuota WHERE(Creditos_x_Cuota.Estado_Cuota_idEstado_Cuota = 0))"
+                        texto += "Estado_Cuota_idEstado_Cuota =" & Me.cmb_pago_estado.SelectedIndex & " WHERE Cuota_idCuota = (SELECT MIN(Creditos_x_Cuota.Cuota_idCuota) AS Expr1 FROM Cuota INNER JOIN Creditos_x_Cuota ON Cuota.idCuota = Creditos_x_Cuota.Cuota_idCuota WHERE(Creditos_x_Cuota.Estado_Cuota_idEstado_Cuota = 0) AND (Creditos_x_Cuota.Creditos_idCreditos = " & Me.txt_pago_codCred.Text & "))"
                         ' En texto hay que relacionar el idCredito con la cuota, para que no modifique solo el estado de las cuotas del credito 1 (txt_pago_codCred)
-                        Dim sql As String = "UPDATE Cuota SET fechaPago=CONVERT(DATE, '" & Me.txt_pago_fecha.Text & "', 103) WHERE idCuota = (SELECT MIN(Cuota.idCuota) AS Expr1 	FROM  Cuota INNER JOIN Creditos_x_Cuota ON Cuota.idCuota = Creditos_x_Cuota.Cuota_idCuota WHERE(Creditos_x_Cuota.Estado_Cuota_idEstado_Cuota = 0))"
+                        Dim sql As String = "UPDATE Cuota SET fechaPago=CONVERT(DATE, '" & Me.txt_pago_fecha.Text & "', 103) WHERE idCuota = (SELECT MAX(Creditos_x_Cuota.Cuota_idCuota) AS Expr1 FROM Cuota C INNER JOIN Creditos_x_Cuota ON C.idCuota = Creditos_x_Cuota.Cuota_idCuota WHERE(Creditos_x_Cuota.Estado_Cuota_idEstado_Cuota = 1) AND (Creditos_x_Cuota.Creditos_idCreditos = " & Me.txt_pago_codCred.Text & "))"
                         conexion._modificar(texto)
-                        conexion._consulta(sql)
+                        conexion._modificar(sql)
                     ElseIf Me.cmb_pago_estado.SelectedIndex = 2 Then
                         MsgBox("El vencimiento se determina automaticamente", vbOKOnly + vbCritical, "Importante")
                     End If
@@ -1350,11 +1350,12 @@
     End Sub
 
     Private Function crear_credito() As Validacion.credito
+        'con esta funcion obtenemos los valores de monto y de fecha_aprobacion para cargar las cuotas de credito
         Dim credito As New Validacion.credito
         credito.monto = Me.txt_creditos_monto.Text
 
         credito.fecha_aprobacion = Me.mtxt_creditos_fAprobacion.Text
-
+        'despues de obtener los valores de monto y fecha_aprobacion para pasarlos como parametro, seteamos a 0 el resto de los atributos
         credito.fecha_solicitud = 0
         credito.estado = 0
         credito.idObjeto = 0
@@ -1366,10 +1367,16 @@
     End Function
 
     Private Sub btn_credito_cuotas_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btn_credito_cuotas.Click
-        Dim credito As Validacion.credito
-        credito = Me.crear_credito
-        frm_cuota = New frm_cuota(idCredito, credito.monto, credito.fecha_aprobacion)
-        Dim result As DialogResult = frm_cuota.ShowDialog(Me)
+        If Me.mtxt_creditos_fAprobacion.Text <= DateTime.Now().ToString("dd-mm-yyyy") Then
+            Dim credito As Validacion.credito
+            credito = Me.crear_credito
+            frm_cuota = New frm_cuota(idCredito, credito.monto, credito.fecha_aprobacion)
+            Dim result As DialogResult = frm_cuota.ShowDialog(Me)
+        Else
+            MessageBox.Show("La fecha de aprobacion ingresada es invalida", "Importante", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            Me.mtxt_creditos_fAprobacion.Focus()
+        End If
+
         cargar_Grilla()
     End Sub
 
