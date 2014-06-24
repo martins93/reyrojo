@@ -235,7 +235,7 @@
     Public Sub _modificar(ByVal comando As String)
         Me._conectar()
         Me.cmd.CommandText = comando
-        '  MsgBox(comando)
+        '   MsgBox(comando)
         cmd.ExecuteNonQuery()
         Me.conexion.Close() ' FALTA VERIFICAR SI ES CONEXION SIMPLE O TRANSACCION
     End Sub
