@@ -35,21 +35,22 @@
     End Sub
 
     Public Function pasar_descripcion_obj() As String
-
-        Return txt_objeto_descripcion.Text
-
+        If validar_objeto() Then
+            Return txt_objeto_descripcion.Text
+        End If
     End Function
 
     Public Function traer_id_objeto() As Data.DataTable
+        If validar_objeto() Then
+            Dim consulta_sql As String = "SELECT MAX(idObjeto) FROM Objeto"
+            Dim id_obj As Integer = 0
+            Dim tabla As New Data.DataTable
+            Dim cmd As New Data.OleDb.OleDbCommand
 
-        Dim consulta_sql As String = "SELECT MAX(idObjeto) FROM Objeto"
-        Dim id_obj As Integer = 0
-        Dim tabla As New Data.DataTable
-        Dim cmd As New Data.OleDb.OleDbCommand
+            tabla = conexion._consulta(consulta_sql)
 
-        tabla = conexion._consulta(consulta_sql)
-
-        Return tabla
+            Return tabla
+        End If
 
     End Function
 
@@ -70,11 +71,13 @@
 
     Private Function validar_objeto() As Boolean
         If Me.txt_objeto_descripcion.Text <> "" Then
-            If IsNumeric(Me.txt_objeto_valorMonetario.Text) And Me.txt_objeto_valorMonetario.Text > 0 Then
-                Return True
-                Exit Function
-            Else
-                MsgBox("El monto debe ser mayor a 0", vbOKOnly + vbCritical, "Importante")
+            If IsNumeric(Me.txt_objeto_valorMonetario.Text) Then
+                If Me.txt_objeto_valorMonetario.Text > 0 Then
+                    Return True
+                    Exit Function
+                Else
+                    MsgBox("El monto debe ser mayor a 0", vbOKOnly + vbCritical, "Importante")
+                End If
             End If
         Else
             MsgBox("Se debe llenar la descripcion", vbOKOnly + vbCritical, "Importante")

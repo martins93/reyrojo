@@ -244,50 +244,54 @@
                     'SE PUEDE CONOCER EL ESTADO DEL CREDITO DE OTRA FORMA?
                     Dim estado_credito As Integer = obtener_estado_credito(id_clave)
                     Dim estado_credito_seleccionado As Integer = Me.cmb_creditos_estadoCredito.SelectedIndex
+                    If validacion._validar_credito(objeto) Then
 
-                    If estado_credito = 2 Then  'Si credito=deuda solo puedo volver a aprobado (pago deuda), ninguna otra operacion
-                        If estado_credito_seleccionado = 1 Then
-                            texto += "Estado_Credito_idEstado_Credito=" & Me.cmb_creditos_estadoCredito.SelectedIndex
-                        Else
-                            MsgBox("Creditos en deuda solo pueden volver a aprobados")
-                            Exit Sub
-                        End If
-                    ElseIf estado_credito = 3 Then    'Si credito=rechazado no puedo hacer nada
-                        MsgBox("No se pueden modificar creditos rechazados")
-                        Exit Sub
-                    ElseIf estado_credito = 1 Then    'Si credito=aprobado solo puedo pasar a deuda
-                        If estado_credito_seleccionado = 2 Then
-                            texto += "Estado_Credito_idEstado_Credito=" & Me.cmb_creditos_estadoCredito.SelectedIndex
-                        Else
-                            MsgBox("Creditos aprobados solo pueden pasar a estado de Deuda")
-                            Exit Sub
-                        End If
-                    Else 'FALTA HACER PASAR DE PENDIENTE A PENDIENTE CON DATOS CAMBIADOS
-                        If estado_credito_seleccionado = 1 Then 'Si credito=pendiente y quiero pasar a aprobado
-                            If Me.mtxt_creditos_fAprobacion.MaskCompleted = True Then   'Si hay fecha de aprobacion ya se que paso a aprobado
-                                'aca va cuotas y transaccion
-                                texto += "monto= " & Me.txt_creditos_monto.Text & ", fechaAprobacion=" & "convert(date, '" & Me.mtxt_creditos_fAprobacion.Text & "', 103)" & ", Estado_Credito_idEstado_Credito=" & Me.cmb_creditos_estadoCredito.SelectedIndex
+                        If estado_credito = 2 Then  'Si credito=deuda solo puedo volver a aprobado (pago deuda), ninguna otra operacion
+                            If estado_credito_seleccionado = 1 Then
+                                texto += "Estado_Credito_idEstado_Credito=" & Me.cmb_creditos_estadoCredito.SelectedIndex
                             Else
-                                MsgBox("Se debe llenar la fecha de aprobacion")
+                                MsgBox("Creditos en deuda solo pueden volver a aprobados")
                                 Exit Sub
                             End If
-                        ElseIf estado_credito_seleccionado = 3 Then  'Quiero pasar a rechazado
-                            texto += "Estado_Credito_idEstado_Credito=" & Me.cmb_creditos_estadoCredito.SelectedIndex
-                        Else 'No puedo pasar a deuda desde pendiente
-                            MsgBox("Creditos pendientes solo se puede actualizar a Aprobados o Rechazados")
+                        ElseIf estado_credito = 3 Then    'Si credito=rechazado no puedo hacer nada
+                            MsgBox("No se pueden modificar creditos rechazados")
                             Exit Sub
-                        End If
+                        ElseIf estado_credito = 1 Then    'Si credito=aprobado solo puedo pasar a deuda
+                            If estado_credito_seleccionado = 2 Then
+                                texto += "Estado_Credito_idEstado_Credito=" & Me.cmb_creditos_estadoCredito.SelectedIndex
+                            Else
+                                MsgBox("Creditos aprobados solo pueden pasar a estado de Deuda")
+                                Exit Sub
+                            End If
+                        Else 'FALTA HACER PASAR DE PENDIENTE A PENDIENTE CON DATOS CAMBIADOS
+                            If estado_credito_seleccionado = 0 Then
+                                texto += "monto=" & Me.txt_creditos_monto.Text & " ,Solicitante_idSolicitante=" & Me.txt_creditos_idSolicitante.Text & " ,Empleado_legajo=" & Me.txt_creditos_legajo.Text
+                            ElseIf estado_credito_seleccionado = 1 Then 'Si credito=pendiente y quiero pasar a aprobado
+                                If Me.mtxt_creditos_fAprobacion.MaskCompleted = True Then   'Si hay fecha de aprobacion ya se que paso a aprobado
+                                    MsgBox("Los creditos pasan a aprobados cuando se cargan las cuotas")
+                                Else
+                                    MsgBox("Se debe llenar la fecha de aprobacion")
+                                    Exit Sub
+                                End If
+                            ElseIf estado_credito_seleccionado = 3 Then  'Quiero pasar a rechazado
+                                texto += "Estado_Credito_idEstado_Credito=" & Me.cmb_creditos_estadoCredito.SelectedIndex
+                            Else 'No puedo pasar a deuda desde pendiente
+                                MsgBox("Creditos pendientes solo se puede actualizar a Aprobados o Rechazados")
+                                Exit Sub
+                            End If
 
+                        End If
+                        texto += " WHERE idCreditos=" & id_clave
+                        '  MsgBox(texto)
+                        conexion._modificar(texto)          'conexion._modificar() ejecuta SQL por nonquery.
                     End If
-                    texto += " WHERE idCreditos=" & id_clave
-                    '  MsgBox(texto)
-                    conexion._modificar(texto)          'conexion._modificar() ejecuta SQL por nonquery.
-                Case 4
-                    If Me.txt_expediente_observacion.Text <> "" And txt_expediente_matAbCre.Text <> "" And txt_expediente_matAbSol.Text <> "" Then
-                        texto += "observacion='" & Me.txt_expediente_observacion.Text & "', abogado_matriculaSol=" & Me.txt_expediente_matAbCre.Text & ", abogado_matricula=" & Me.txt_expediente_matAbSol.Text
-                        texto += " WHERE idExpediente=" & Me.txt_expediente_numeroExp.Text
-                        conexion._modificar(texto)
-                    End If
+
+                    'Case 4    'NO SE PUEDE MODIFICAR MAS NADA EN EXPEDIENTE
+                    '    If Me.txt_expediente_observacion.Text <> "" And txt_expediente_matAbCre.Text <> "" And txt_expediente_matAbSol.Text <> "" Then
+                    '        texto += "observacion='" & Me.txt_expediente_observacion.Text & "', abogado_matriculaSol=" & Me.txt_expediente_matAbCre.Text & ", abogado_matricula=" & Me.txt_expediente_matAbSol.Text
+                    '        texto += " WHERE idExpediente=" & Me.txt_expediente_numeroExp.Text
+                    '        conexion._modificar(texto)
+                    '    End If
                 Case 6
                     If Me.cmb_pago_estado.SelectedIndex = 1 Then
                         texto += "Estado_Cuota_idEstado_Cuota =" & Me.cmb_pago_estado.SelectedIndex & " WHERE Cuota_idCuota = (SELECT MIN(Cuota.idCuota) AS Expr1 	FROM  Cuota INNER JOIN Creditos_x_Cuota ON Cuota.idCuota = Creditos_x_Cuota.Cuota_idCuota WHERE(Creditos_x_Cuota.Estado_Cuota_idEstado_Cuota = 0))"
@@ -361,7 +365,8 @@
                             texto += Me.txt_creditos_monto.Text & ", " & "convert(date, '" & Me.txt_creditos_fSolicitud.Text & "', 103)" & ", " & Me.txt_creditos_idSolicitante.Text & ", " & Me.cmb_creditos_estadoCredito.SelectedIndex & ", " & Me.txt_creditos_legajo.Text & ", " & Me.txt_creditos_idObjeto.Text & ")"
                             conexion._modificar(texto)
                             limpiar_tab()
-                            Me.txt_creditos_objeto.Enabled = True
+                            '  Me.txt_creditos_objeto.Enabled = True
+                            Me.txt_creditos_fSolicitud.Text = DateTime.Now().ToString("dd-MM-yyyy")
                         End If
                     Else
                         MsgBox("Creditos nuevos solo pueden ser pendientes", vbOKOnly + vbCritical, "Importante")
@@ -376,6 +381,7 @@
                         texto += Me.txt_expediente_numeroExp.Text & ", " & valor & ", " & Me.txt_expediente_matAbCre.Text & ", '" & Me.txt_expediente_observacion.Text & "', " & "convert(date, '" & Me.txt_expediente_fechaInicio.Text & "', 103)" & ", " & Me.txt_expediente_matAbSol.Text & ", " & Me.txt_expediente_codCred.Text & ")"
                         conexion._modificar(texto)          'conexion._modificar() ejecuta SQL por nonquery.
                         limpiar_tab()
+                        Me.txt_expediente_fechaInicio.Text = DateTime.Now().ToString("dd-MM-yyyy")
                     End If
                 Case 5
                     'If validacion._validar_garantia(objeto) Then
@@ -420,7 +426,9 @@
         texto = InputBox("Inserte un nuevo cargo", "Nuevo Cargo")   'Recibo nuevo cargo
         If texto <> "" Then
             conexion._consulta("INSERT INTO Cargo (nombre) VALUES ('" & texto & "')") 'Inserto nuevo cargo en BD
-            Me.CargoTableAdapter.Fill(Me.PAV1DataSet.Cargo) 'Recargo combo cargo.
+            Me.conexion._tabla = "cargo"
+            Me._combo.cargar(Me.cmb_empleado_cargo, Me.conexion.leo_tabla()) 'Recargo combo cargo.
+            conexion.cambiar_Tabla(Me.nombre_tabla_pestana)
         End If
 
     End Sub
@@ -1055,6 +1063,7 @@
                         Me.txt_expediente_fechaInicio.Enabled = False
                         Me.txt_expediente_fechaInicio.Text = DateTime.Now().ToString("dd-MM-yyyy")
                         Me.cargar_Grilla()
+                        Me.btn_modificar.Enabled = False
                     Case 5
                         conexion.cambiar_Tabla(Me.nombre_tabla_pestana)
                         Me.limpiar_tab()
@@ -1115,16 +1124,18 @@
         Dim result As DialogResult = frm_objeto.ShowDialog(Me)
 
         'Trae Descripcion_Objeto
-        Me.txt_creditos_objeto.Text = frm_objeto.pasar_descripcion_obj()
-        If txt_creditos_objeto.Text = "" Then
-        Else
-            txt_creditos_objeto.Enabled = False
+        If result = Windows.Forms.DialogResult.OK Then
+            Me.txt_creditos_objeto.Text = frm_objeto.pasar_descripcion_obj()
+            If txt_creditos_objeto.Text = "" Then
+            Else
+
+                txt_creditos_objeto.Enabled = False
+            End If
+
+            'Trae el ID_Objeto
+            tabla = frm_objeto.traer_id_objeto()
+            Me.txt_creditos_idObjeto.Text = tabla.Rows(0)(0)
         End If
-
-        'Trae el ID_Objeto
-        tabla = frm_objeto.traer_id_objeto()
-        Me.txt_creditos_idObjeto.Text = tabla.Rows(0)(0)
-
     End Sub
 
     'Abro formulario de ingreso de documentacion al llegar al TextBox descripcion_docum en garantias.

@@ -57,6 +57,7 @@ Partial Class frm_objeto
         '
         'cmd_objeto_ok
         '
+        Me.cmd_objeto_ok.DialogResult = System.Windows.Forms.DialogResult.OK
         Me.cmd_objeto_ok.Location = New System.Drawing.Point(63, 112)
         Me.cmd_objeto_ok.Name = "cmd_objeto_ok"
         Me.cmd_objeto_ok.Size = New System.Drawing.Size(75, 23)
