@@ -1062,6 +1062,7 @@ Partial Class frm_Menu
         Me.txt_garantias_idDocumentacion.Name = "txt_garantias_idDocumentacion"
         Me.txt_garantias_idDocumentacion.Size = New System.Drawing.Size(31, 20)
         Me.txt_garantias_idDocumentacion.TabIndex = 3
+        Me.txt_garantias_idDocumentacion.Visible = False
         '
         'txt_garantia_monto
         '

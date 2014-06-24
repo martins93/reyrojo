@@ -1,6 +1,6 @@
 ﻿Public Class frm_Menu
 
-    Public cadena_Conexion As String = "Data Source=SALVADOR-PC\PAV1;Initial Catalog=PAV1;Integrated Security=True"
+    Public cadena_Conexion As String = "Data Source=MARTIN-PC;Initial Catalog=PAV1;Integrated Security=True"
     Dim conexion As New Conexion(cadena_Conexion, conexion.motores.sqlserver)
 
     'Ambos id no son txt asi que necesito variables globales.
@@ -385,12 +385,7 @@
                         Me.txt_expediente_fechaInicio.Text = DateTime.Now().ToString("dd-MM-yyyy")
                     End If
                 Case 5
-                    'If validacion._validar_garantia(objeto) Then
-                    '    texto = "INSERT INTO garantia (descripcion, valorMonetario, Creditos_idCreditos) VALUES ('"
-                    '    texto += Me.txt_garantia_descripcion.Text & "', " & Me.txt_garantia_monto.Text & ", " & Me.txt_garantia_idCredito.Text & ")"
-                    '    conexion._modificar(texto)
-                    '    limpiar_tab()
-                    'End If
+                   
                     objeto = cargar_struct()
                     Dim tabla As New Data.DataTable
                     Dim insert_garantia As String = ""
@@ -1384,14 +1379,20 @@
     End Function
 
     Private Sub btn_credito_cuotas_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btn_credito_cuotas.Click
-        If Me.mtxt_creditos_fAprobacion.Text <= DateTime.Now().ToString("dd-mm-yyyy") Then
-            Dim credito As Validacion.credito
-            credito = Me.crear_credito
-            frm_cuota = New frm_cuota(idCredito, credito.monto, credito.fecha_aprobacion)
-            Dim result As DialogResult = frm_cuota.ShowDialog(Me)
+        Dim validacion As New Validacion
+        If validacion.credito_tiene_garantia(idCredito) = True Then
+            If Me.mtxt_creditos_fAprobacion.Text <= DateTime.Now().ToString("dd-mm-yyyy") Then
+                Dim credito As Validacion.credito
+                credito = Me.crear_credito
+                frm_cuota = New frm_cuota(idCredito, credito.monto, credito.fecha_aprobacion)
+                Dim result As DialogResult = frm_cuota.ShowDialog(Me)
+            Else
+                MessageBox.Show("La fecha de aprobacion ingresada es invalida", "Importante", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                Me.mtxt_creditos_fAprobacion.Focus()
+            End If
         Else
-            MessageBox.Show("La fecha de aprobacion ingresada es invalida", "Importante", MessageBoxButtons.OK, MessageBoxIcon.Error)
-            Me.mtxt_creditos_fAprobacion.Focus()
+            MessageBox.Show("El credito no tiene garantias", "Importante", MessageBoxButtons.OK, MessageBoxIcon.Error)
+
         End If
 
         cargar_Grilla()
@@ -1606,6 +1607,7 @@
         report_estadoCred.RefreshReport()
 
     End Sub
+
 End Class
 
 'Private Sub fecha_Validated(ByVal sender As Object, ByVal e As System.EventArgs) Handles mtxt_solicitante_fechaNacimiento.Validated
