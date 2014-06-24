@@ -380,7 +380,7 @@
     End Function
 
 
-    'Insert que maneja transacciones y inserciones simples
+    'Insert que maneja transacciones y inserciones simples/conid (mepa que no sirve)
     Public Function _insertar_transaccion(ByVal valores As String, ByVal conid As Boolean) As String
         Dim txt_Insert As String = ""
 
@@ -402,14 +402,9 @@
         End If
 
     End Function
-
+    'Insert con transaccion sin detalle
     Public Function _insertar_transaccion(ByVal valores As String) As String
         Dim txt_Insert As String = valores
-
-        'txt_Insert = 
-        'txt_Insert += Me.asigno_valores_insert(valores, conid)
-
-        ' MsgBox(txt_Insert)
 
         Dim estado As String = Me._ejecutar(txt_Insert)
         If Me.configurar_conexion = tipo_conexion.transaccion Then
@@ -424,11 +419,9 @@
         End If
 
     End Function
-
+    'Insert con transaccion, con detalle
     Public Function _insertar_con_detalle(ByVal text As String, ByVal nomTabla As String) As Integer
         Dim id As Integer = -1
-
-
 
         Me._conectar()
 

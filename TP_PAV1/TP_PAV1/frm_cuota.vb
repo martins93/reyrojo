@@ -3,6 +3,11 @@
     
     'CUOTAS: 6-12-18-24-36-60-84
 
+    Enum estado_transaccion 'para determinar resultado de transaccion
+        _ok
+        _error
+    End Enum
+
     Dim cadena_Conexion As String = frm_Menu.cadena_Conexion
     Dim conexion As New Conexion(cadena_Conexion, "Documentacion", conexion.motores.sqlserver)
 
@@ -83,7 +88,7 @@
         Dim id_cuota As New Integer
 
 
-        'Me.conexion._iniciar_conexion_con_transaccion()
+        Me.conexion._iniciar_conexion_con_transaccion()
 
         Dim c As Integer = -1
         For c = 1 To Me.cmb_cuota_cantidad.Text
@@ -101,13 +106,16 @@
 
             Me.conexion._tabla = "Creditos_x_Cuota"
 
-            Me.conexion._modificar(insert_txt)
-
+            Me.conexion._insertar_transaccion(insert_txt)
         Next
 
-        update_txt = "UPDATE Creditos SET Estado_Credito_idEstado_Credito =" & 1 & ", fechaAprobacion=convert(date, '" & fecha_aprobacion & "', 103)   WHERE idCreditos =" & id_credito
+        Dim estado As estado_transaccion = Me.conexion._finalizar_conexio_con_transaccion()
 
-        Me.conexion._modificar(update_txt)
+        If estado = estado_transaccion._ok Then
+            update_txt = "UPDATE Creditos SET Estado_Credito_idEstado_Credito =" & 1 & ", fechaAprobacion=convert(date, '" & fecha_aprobacion & "', 103)   WHERE idCreditos =" & id_credito
+
+            Me.conexion._modificar(update_txt)
+        End If
 
         Me.Close()
 

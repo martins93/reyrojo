@@ -1354,11 +1354,12 @@
     End Sub
 
     Private Function crear_credito() As Validacion.credito
+        'con esta funcion obtenemos los valores de monto y de fecha_aprobacion para cargar las cuotas de credito
         Dim credito As New Validacion.credito
         credito.monto = Me.txt_creditos_monto.Text
 
         credito.fecha_aprobacion = Me.mtxt_creditos_fAprobacion.Text
-
+        'despues de obtener los valores de monto y fecha_aprobacion para pasarlos como parametro, seteamos a 0 el resto de los atributos
         credito.fecha_solicitud = 0
         credito.estado = 0
         credito.idObjeto = 0
@@ -1370,10 +1371,16 @@
     End Function
 
     Private Sub btn_credito_cuotas_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btn_credito_cuotas.Click
-        Dim credito As Validacion.credito
-        credito = Me.crear_credito
-        frm_cuota = New frm_cuota(idCredito, credito.monto, credito.fecha_aprobacion)
-        Dim result As DialogResult = frm_cuota.ShowDialog(Me)
+        If Me.mtxt_creditos_fAprobacion.Text <= DateTime.Now().ToString("dd-mm-yyyy") Then
+            Dim credito As Validacion.credito
+            credito = Me.crear_credito
+            frm_cuota = New frm_cuota(idCredito, credito.monto, credito.fecha_aprobacion)
+            Dim result As DialogResult = frm_cuota.ShowDialog(Me)
+        Else
+            MessageBox.Show("La fecha de aprobacion ingresada es invalida", "Importante", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            Me.mtxt_creditos_fAprobacion.Focus()
+        End If
+
         cargar_Grilla()
     End Sub
 
