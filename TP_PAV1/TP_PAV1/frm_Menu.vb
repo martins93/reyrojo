@@ -1456,7 +1456,7 @@
         report_credxmonto.RefreshReport()
 
     End Sub
-
+    'CreditosXEmpleado Reporte, carga automaticamente
     Private Sub ReportViewer1_Load(sender As System.Object, e As System.EventArgs) Handles CreditosXEmpleadoAgrupado.Load
 
         Dim sql As String = "SELECT Emp.legajo AS Legajo, Emp.apellido AS Apellido, COUNT(*) AS CantidadCreditos FROM Empleado Emp INNER JOIN Creditos Cred ON Cred.Empleado_legajo=Emp.legajo GROUP BY Emp.legajo, Emp.apellido"
