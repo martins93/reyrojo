@@ -120,14 +120,13 @@ Partial Class frm_Menu
         Me.lbl_expediente_codCred = New System.Windows.Forms.Label()
         Me.lbl_expediente_numeroExp = New System.Windows.Forms.Label()
         Me.tab_control_garantia = New System.Windows.Forms.TabPage()
-        Me.lbl_documentacion = New System.Windows.Forms.Label()
-        Me.panel_documentacion = New System.Windows.Forms.Panel()
         Me.txt_garantias_ubicacion = New System.Windows.Forms.TextBox()
+        Me.lbl_documentacion = New System.Windows.Forms.Label()
         Me.txt_garantias_descripDocum = New System.Windows.Forms.TextBox()
         Me.lbl_descripcion_documentacion = New System.Windows.Forms.Label()
+        Me.txt_garantia_monto = New System.Windows.Forms.TextBox()
         Me.lbl_direccion_documentacion = New System.Windows.Forms.Label()
         Me.txt_garantias_idDocumentacion = New System.Windows.Forms.TextBox()
-        Me.txt_garantia_monto = New System.Windows.Forms.TextBox()
         Me.txt_garantia_descripcion = New System.Windows.Forms.TextBox()
         Me.txt_garantia_idCredito = New System.Windows.Forms.TextBox()
         Me.lbl_garantia_monto = New System.Windows.Forms.Label()
@@ -227,7 +226,6 @@ Partial Class frm_Menu
         Me.tab_control_credito.SuspendLayout()
         Me.tab_control_expediente.SuspendLayout()
         Me.tab_control_garantia.SuspendLayout()
-        Me.panel_documentacion.SuspendLayout()
         Me.tab_control_pago.SuspendLayout()
         CType(Me.grilla, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.grp_controles.SuspendLayout()
@@ -990,9 +988,13 @@ Partial Class frm_Menu
         '
         'tab_control_garantia
         '
+        Me.tab_control_garantia.Controls.Add(Me.txt_garantias_ubicacion)
         Me.tab_control_garantia.Controls.Add(Me.lbl_documentacion)
-        Me.tab_control_garantia.Controls.Add(Me.panel_documentacion)
+        Me.tab_control_garantia.Controls.Add(Me.txt_garantias_descripDocum)
+        Me.tab_control_garantia.Controls.Add(Me.lbl_descripcion_documentacion)
         Me.tab_control_garantia.Controls.Add(Me.txt_garantia_monto)
+        Me.tab_control_garantia.Controls.Add(Me.lbl_direccion_documentacion)
+        Me.tab_control_garantia.Controls.Add(Me.txt_garantias_idDocumentacion)
         Me.tab_control_garantia.Controls.Add(Me.txt_garantia_descripcion)
         Me.tab_control_garantia.Controls.Add(Me.txt_garantia_idCredito)
         Me.tab_control_garantia.Controls.Add(Me.lbl_garantia_monto)
@@ -1005,6 +1007,13 @@ Partial Class frm_Menu
         Me.tab_control_garantia.Text = "Garantias"
         Me.tab_control_garantia.UseVisualStyleBackColor = True
         '
+        'txt_garantias_ubicacion
+        '
+        Me.txt_garantias_ubicacion.Location = New System.Drawing.Point(147, 269)
+        Me.txt_garantias_ubicacion.Name = "txt_garantias_ubicacion"
+        Me.txt_garantias_ubicacion.Size = New System.Drawing.Size(236, 20)
+        Me.txt_garantias_ubicacion.TabIndex = 4
+        '
         'lbl_documentacion
         '
         Me.lbl_documentacion.Location = New System.Drawing.Point(31, 183)
@@ -1013,56 +1022,20 @@ Partial Class frm_Menu
         Me.lbl_documentacion.TabIndex = 5
         Me.lbl_documentacion.Text = "Documentacion de Garantía"
         '
-        'panel_documentacion
-        '
-        Me.panel_documentacion.Controls.Add(Me.txt_garantias_ubicacion)
-        Me.panel_documentacion.Controls.Add(Me.txt_garantias_descripDocum)
-        Me.panel_documentacion.Controls.Add(Me.lbl_descripcion_documentacion)
-        Me.panel_documentacion.Controls.Add(Me.lbl_direccion_documentacion)
-        Me.panel_documentacion.Controls.Add(Me.txt_garantias_idDocumentacion)
-        Me.panel_documentacion.Location = New System.Drawing.Point(34, 210)
-        Me.panel_documentacion.Name = "panel_documentacion"
-        Me.panel_documentacion.Size = New System.Drawing.Size(369, 131)
-        Me.panel_documentacion.TabIndex = 4
-        '
-        'txt_garantias_ubicacion
-        '
-        Me.txt_garantias_ubicacion.Location = New System.Drawing.Point(117, 80)
-        Me.txt_garantias_ubicacion.Name = "txt_garantias_ubicacion"
-        Me.txt_garantias_ubicacion.Size = New System.Drawing.Size(236, 20)
-        Me.txt_garantias_ubicacion.TabIndex = 4
-        '
         'txt_garantias_descripDocum
         '
-        Me.txt_garantias_descripDocum.Location = New System.Drawing.Point(117, 24)
+        Me.txt_garantias_descripDocum.Location = New System.Drawing.Point(147, 213)
         Me.txt_garantias_descripDocum.Name = "txt_garantias_descripDocum"
         Me.txt_garantias_descripDocum.Size = New System.Drawing.Size(236, 20)
         Me.txt_garantias_descripDocum.TabIndex = 3
         '
         'lbl_descripcion_documentacion
         '
-        Me.lbl_descripcion_documentacion.Location = New System.Drawing.Point(3, 27)
+        Me.lbl_descripcion_documentacion.Location = New System.Drawing.Point(33, 216)
         Me.lbl_descripcion_documentacion.Name = "lbl_descripcion_documentacion"
         Me.lbl_descripcion_documentacion.Size = New System.Drawing.Size(63, 23)
         Me.lbl_descripcion_documentacion.TabIndex = 0
         Me.lbl_descripcion_documentacion.Text = "Descripcion"
-        '
-        'lbl_direccion_documentacion
-        '
-        Me.lbl_direccion_documentacion.Location = New System.Drawing.Point(3, 83)
-        Me.lbl_direccion_documentacion.Name = "lbl_direccion_documentacion"
-        Me.lbl_direccion_documentacion.Size = New System.Drawing.Size(118, 13)
-        Me.lbl_direccion_documentacion.TabIndex = 1
-        Me.lbl_direccion_documentacion.Text = "Ubicación del Archivo"
-        '
-        'txt_garantias_idDocumentacion
-        '
-        Me.txt_garantias_idDocumentacion.Enabled = False
-        Me.txt_garantias_idDocumentacion.Location = New System.Drawing.Point(72, 24)
-        Me.txt_garantias_idDocumentacion.Name = "txt_garantias_idDocumentacion"
-        Me.txt_garantias_idDocumentacion.Size = New System.Drawing.Size(31, 20)
-        Me.txt_garantias_idDocumentacion.TabIndex = 3
-        Me.txt_garantias_idDocumentacion.Visible = False
         '
         'txt_garantia_monto
         '
@@ -1071,6 +1044,23 @@ Partial Class frm_Menu
         Me.txt_garantia_monto.Name = "txt_garantia_monto"
         Me.txt_garantia_monto.Size = New System.Drawing.Size(100, 20)
         Me.txt_garantia_monto.TabIndex = 2
+        '
+        'lbl_direccion_documentacion
+        '
+        Me.lbl_direccion_documentacion.Location = New System.Drawing.Point(33, 272)
+        Me.lbl_direccion_documentacion.Name = "lbl_direccion_documentacion"
+        Me.lbl_direccion_documentacion.Size = New System.Drawing.Size(118, 13)
+        Me.lbl_direccion_documentacion.TabIndex = 1
+        Me.lbl_direccion_documentacion.Text = "Ubicación del Archivo"
+        '
+        'txt_garantias_idDocumentacion
+        '
+        Me.txt_garantias_idDocumentacion.Enabled = False
+        Me.txt_garantias_idDocumentacion.Location = New System.Drawing.Point(102, 213)
+        Me.txt_garantias_idDocumentacion.Name = "txt_garantias_idDocumentacion"
+        Me.txt_garantias_idDocumentacion.Size = New System.Drawing.Size(31, 20)
+        Me.txt_garantias_idDocumentacion.TabIndex = 3
+        Me.txt_garantias_idDocumentacion.Visible = False
         '
         'txt_garantia_descripcion
         '
@@ -1389,9 +1379,9 @@ Partial Class frm_Menu
         Me.Label9.AutoSize = True
         Me.Label9.Location = New System.Drawing.Point(6, 552)
         Me.Label9.Name = "Label9"
-        Me.Label9.Size = New System.Drawing.Size(92, 13)
+        Me.Label9.Size = New System.Drawing.Size(79, 13)
         Me.Label9.TabIndex = 0
-        Me.Label9.Text = "Codigo Solicitante"
+        Me.Label9.Text = "Doc Solicitante"
         '
         'txt_cantxsol_doc
         '
@@ -1868,8 +1858,6 @@ Partial Class frm_Menu
         Me.tab_control_expediente.PerformLayout()
         Me.tab_control_garantia.ResumeLayout(False)
         Me.tab_control_garantia.PerformLayout()
-        Me.panel_documentacion.ResumeLayout(False)
-        Me.panel_documentacion.PerformLayout()
         Me.tab_control_pago.ResumeLayout(False)
         Me.tab_control_pago.PerformLayout()
         CType(Me.grilla, System.ComponentModel.ISupportInitialize).EndInit()
@@ -1995,7 +1983,6 @@ Partial Class frm_Menu
     Friend WithEvents lbl_garantia_descripcion As System.Windows.Forms.Label
     Friend WithEvents lbl_garantia_codCredito As System.Windows.Forms.Label
     Friend WithEvents lbl_documentacion As System.Windows.Forms.Label
-    Friend WithEvents panel_documentacion As System.Windows.Forms.Panel
     Friend WithEvents txt_garantias_ubicacion As System.Windows.Forms.TextBox
     Friend WithEvents txt_garantias_descripDocum As System.Windows.Forms.TextBox
     Friend WithEvents txt_garantias_idDocumentacion As System.Windows.Forms.TextBox

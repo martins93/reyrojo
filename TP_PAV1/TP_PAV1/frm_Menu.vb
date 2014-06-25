@@ -1,6 +1,6 @@
 ﻿Public Class frm_Menu
 
-    Public cadena_Conexion As String = "Data Source=MARTIN-PC;Initial Catalog=PAV1;Integrated Security=True"
+    Public cadena_Conexion As String = "Data Source=SALVADOR-PC\PAV1;Initial Catalog=PAV1;Integrated Security=True"
     Dim conexion As New Conexion(cadena_Conexion, conexion.motores.sqlserver)
 
     'Ambos id no son txt asi que necesito variables globales.
@@ -222,13 +222,13 @@
                         id_clave = Me.idSolicitante
                     End If
                     If validacion._validar_solicitante(objeto) Then
-                        texto += "numeroDocumento='" & Me.mtxt_solicitante_nrodoc.Text & "', apellido='" & Me.txt_solicitante_apellido.Text & "', nombre='" & Me.txt_solicitante_nombre.Text & "', telefono='" & Me.mtxt_solicitante_telefono.Text & "', domicilio='" & Me.txt_solicitante_domicilio.Text & "', tipo_Documento_idTipo_Documento='" & Me.cmb_solicitante_tipodoc.SelectedValue & "', fechaNacimiento='" & Me.mtxt_solicitante_fechaNacimiento.Text & "'"
+                        texto += "numeroDocumento='" & Me.mtxt_solicitante_nrodoc.Text & "', apellido='" & Me.txt_solicitante_apellido.Text & "', nombre='" & Me.txt_solicitante_nombre.Text & "', telefono='" & Me.mtxt_solicitante_telefono.Text & "', domicilio='" & Me.txt_solicitante_domicilio.Text & "', tipo_Documento_idTipo_Documento='" & Me.cmb_solicitante_tipodoc.SelectedValue & "', fechaNacimiento=CONVERT(DATE, '" & Me.mtxt_solicitante_fechaNacimiento.Text & "', 103)"
                         texto += " WHERE idSolicitante= " & id_clave
                         conexion._modificar(texto)
                     End If
                 Case 2
                     If validacion._validar_empleado(objeto) Then
-                        texto += "Empleado_legajo=" & Me.txt_empleado_legSup.Text & ", Cargo_idCargo=" & Me.cmb_empleado_cargo.SelectedIndex + 1 & ", nombres='" & Me.txt_empleado_nombre.Text & "', apellido='" & Me.txt_empleado_ape.Text & "', fecha_Alta='" & Me.txt_empleado_fecha.Text & "'"
+                        texto += "Empleado_legajo=" & Me.txt_empleado_legSup.Text & ", Cargo_idCargo=" & Me.cmb_empleado_cargo.SelectedIndex + 1 & ", nombres='" & Me.txt_empleado_nombre.Text & "', apellido='" & Me.txt_empleado_ape.Text & "', fecha_Alta=CONVERT(DATE, '" & Me.txt_empleado_fecha.Text & "', 103)"
                         texto += " WHERE legajo= " & Me.txt_empleado_legajo.Text
                         conexion._modificar(texto)
                     End If
@@ -385,7 +385,7 @@
                         Me.txt_expediente_fechaInicio.Text = DateTime.Now().ToString("dd-MM-yyyy")
                     End If
                 Case 5
-                   
+
                     objeto = cargar_struct()
                     Dim tabla As New Data.DataTable
                     Dim insert_garantia As String = ""
@@ -410,6 +410,7 @@
                     Else
                         MsgBox("Se produjo error en la grabación", MsgBoxStyle.Information, "Importante")
                     End If
+                    limpiar_tab()
             End Select
         End If
         cargar_Grilla()
@@ -968,6 +969,7 @@
             Me.tab_menu.Width = 430
             Me.grp_controles.Visible = True
             btn_guardar.Enabled = True
+            btn_modificar.Enabled = True
         Else
             Me.grp_controles.Visible = False
             Me.tab_menu.Width = 1260
@@ -1060,7 +1062,7 @@
                         Me.txt_expediente_fechaInicio.Enabled = False
                         Me.txt_expediente_fechaInicio.Text = DateTime.Now().ToString("dd-MM-yyyy")
                         Me.cargar_Grilla()
-                        Me.btn_modificar.Enabled = False
+                        btn_modificar.Enabled = False
                     Case 5
                         conexion.cambiar_Tabla(Me.nombre_tabla_pestana)
                         Me.limpiar_tab()
@@ -1108,6 +1110,8 @@
                 Exit Sub
         End Select
     End Sub
+
+
 
     'Evento al hacer doble click en una celda en la grilla.
     Private Sub grilla_CellDoubleClick(ByVal sender As System.Object, ByVal e As System.Windows.Forms.DataGridViewCellEventArgs) Handles grilla.CellDoubleClick
@@ -1418,7 +1422,6 @@
         report_credxemp.RefreshReport()
     End Sub
 
-
     Private Sub btn_cantxsol_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btn_cantxsol.Click
         Dim sql As String = ""
 
@@ -1455,7 +1458,7 @@
 
         End If
 
-    
+
     End Sub
 
     Private Sub btn_credxmonto_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btn_credxmonto.Click
@@ -1476,6 +1479,7 @@
         report_credxmonto.RefreshReport()
 
     End Sub
+
     'CreditosXEmpleado Reporte, carga automaticamente
     Private Sub ReportViewer1_Load(sender As System.Object, e As System.EventArgs) Handles CreditosXEmpleadoAgrupado.Load
 
@@ -1485,7 +1489,6 @@
         CreditosXEmpleadoAgrupado.RefreshReport()
 
     End Sub
-
 
     Private Sub btn_cantCredXRang_Click(sender As System.Object, e As System.EventArgs) Handles btn_cantCredXRang.Click
 
@@ -1561,7 +1564,7 @@
             sql = "SELECT Cre.idCreditos AS CodigoCredito, C.monto AS Monto, COUNT(cxc.Creditos_idCreditos) AS Cantidad, (C.interes/100) AS Interes,SUM(C.monto - (C.monto/(1+(C.interes/100)))) AS Ganancia "
             sql += "FROM Cuota C INNER JOIN Creditos_x_Cuota cxc ON C.idCuota = CXC.Cuota_idCuota INNER JOIN Creditos Cre ON Cre.idCreditos = cxc.Creditos_idCreditos "
             sql += "INNER JOIN Estado_Cuota ec ON cxc.Estado_Cuota_idEstado_Cuota = ec.idEstado_Cuota "
-            sql += "WHERE ec.nombre = 'PAGADO' AND MONTH(C.fechaPago) BETWEEN " & Me.txt_gxm_desde.Text & " AND " & Me.txt_gxmhasta.Text & " GROUP BY C.monto, C.interes, Cre.idCreditos"
+            sql += "WHERE ec.nombre = 'PAGA' AND MONTH(C.fechaPago) BETWEEN " & Me.txt_gxm_desde.Text & " AND " & Me.txt_gxmhasta.Text & " GROUP BY C.monto, C.interes, Cre.idCreditos"
 
 
             GananciaXRangoMesBindingSource.DataSource = conexion._consulta(sql)
@@ -1590,7 +1593,7 @@
     End Sub
 
 
-    
+
     Private Sub report_estadoC_Load(sender As System.Object, e As System.EventArgs) Handles report_estadoC.Load
 
         Dim sql As String = "SELECT EC.nombre AS EstadoCuota, COUNT(CC.Estado_Cuota_idEstado_Cuota) AS Cantidad FROM Estado_Cuota EC INNER JOIN Creditos_x_Cuota CC ON CC.Estado_Cuota_idEstado_Cuota = EC.idEstado_Cuota GROUP BY EC.nombre"
